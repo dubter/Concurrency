@@ -97,8 +97,10 @@ git submodule update --init --recursive
 Выполните:
 
 ```shell
-clippy cmake # генерируем файлы для сборки проекта курса
-clippy warmup # собираем общие библиотеки
+# Генерируем файлы для сборки проекта курса
+clippy cmake
+# Собираем общие библиотеки
+clippy warmup
 ```
 
 #### Работа с клиентом
