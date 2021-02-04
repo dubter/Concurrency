@@ -4,7 +4,9 @@
   "tidy_includes_path": "build/Debug/_deps",
   "tidy_common_includes": [
     "wheels-src",
-    "twist-src"
+    "context-src",
+    "twist-src",
+    "tinyfibers-src"
   ],
   "forbidden_patterns": [
     "Your code goes here"
