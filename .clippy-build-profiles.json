@@ -5,5 +5,21 @@
   ],
   "Release": [
     "CMAKE_BUILD_TYPE=Release"
+  ],
+  "FaultyThreadsASan": [
+    "CMAKE_BUILD_TYPE=Debug",
+    "TWIST_FAULTY=ON",
+    "ASAN=ON"
+  ],
+  "FaultyThreadsTSan": [
+    "CMAKE_BUILD_TYPE=Debug",
+    "TWIST_FAULTY=ON",
+    "TSAN=ON"
+  ],
+  "FaultyFibers": [
+    "CMAKE_BUILD_TYPE=Debug",
+    "TWIST_FAULTY=ON",
+    "TWIST_FIBERS=ON",
+    "TWIST_PRINT_STACKS=ON"
   ]
 }
