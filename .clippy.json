@@ -1,0 +1,10 @@
+{
+  "warmup_targets": ["wheels", "twist"],
+  "tidy_std": "c++20",
+  "tidy_includes_path": "build/Debug/_deps",
+  "tidy_common_includes": [
+    "wheels-src",
+    "twist-src"
+  ],
+  "forbidden_patterns": []
+}
