@@ -51,6 +51,14 @@
 
 ### Шаг 4
 
+Исключите директорию `build` из корня репозитория из синхронизации с контейнером:
+
+[Exclude a local folder from upload/download](https://www.jetbrains.com/help/clion/excluding-files-and-folders-from-deployment.html#exclude_by_name)
+
+`Preferences` > `Build, Execution, Deployment` > `Deployment` > выбрать настроенный на предыдущем шаге профиль > вкладка `Excluded Paths`
+
+### Шаг 5
+
 Готово! Теперь можно выбрать в IDE цель с задачей/тестами и запустить её!
 
 ## Полезные советы
