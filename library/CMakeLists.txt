@@ -32,3 +32,14 @@ FetchContent_Declare(
         GIT_TAG master
 )
 FetchContent_MakeAvailable(twist)
+
+# --------------------------------------------------------------------
+
+message(STATUS "FetchContent: tinyfibers")
+
+FetchContent_Declare(
+        tinyfibers
+        GIT_REPOSITORY https://gitlab.com/Lipovsky/tinyfibers.git
+        GIT_TAG tasks
+)
+FetchContent_MakeAvailable(tinyfibers)
