@@ -11,4 +11,4 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 
 - [Задачи](/tasks)
 - [Дедлайны](/deadlines)
-- [Manytask](https://en.wikipedia.org/wiki/HTTP_404)
+- [Manytask](http://84.252.128.234:5222/)
