@@ -7,6 +7,7 @@ include(cmake/Helpers.cmake)
 include(cmake/CheckCompiler.cmake)
 include(cmake/CompileOptions.cmake)
 include(cmake/Sanitize.cmake)
+include(cmake/Platform.cmake)
 
 add_subdirectory(library)
 
