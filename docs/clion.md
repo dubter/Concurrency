@@ -25,7 +25,7 @@
 | Поле | Значение |
 | - | - |
 | _Host_ | `127.0.0.1` |
-| _Port_ | `2222`
+| _Port_ | `3333`
 | _User name_ | `clion_user` |
 | _Password_ | `password` |
 

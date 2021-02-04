@@ -13,4 +13,4 @@ services:
     volumes:
       - $HOST_WORKSPACE_DIR:/workspace
     ports:
-      - "127.0.0.1:2222:22"
+      - "127.0.0.1:3333:22"
