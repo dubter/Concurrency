@@ -137,6 +137,7 @@ clippy config gitlab.token {gitlab-token}
 
 Задайте _assignee_ для ваших MR-ов:
 ```shell
+# Подставьте в команду логин своего семинариста на gitlab.com
 clippy config assignee Lipovsky
 ```
 
