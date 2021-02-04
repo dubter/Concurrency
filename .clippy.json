@@ -6,5 +6,7 @@
     "wheels-src",
     "twist-src"
   ],
-  "forbidden_patterns": []
+  "forbidden_patterns": [
+    "Your code goes here"
+  ]
 }
