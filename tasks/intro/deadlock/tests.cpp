@@ -10,8 +10,12 @@
 #include <wheels/support/quick_exit.hpp>
 #include <wheels/support/panic.hpp>
 
-// RunScheduler, Spawn, self::Yield, Mutex, WaitGroup, SetDeadlockHandler
-using namespace tinyfibers;
+using tinyfibers::RunScheduler;
+using tinyfibers::Spawn;
+using tinyfibers::Mutex;
+using tinyfibers::WaitGroup;
+using tinyfibers::SetDeadlockHandler;
+using tinyfibers::self::Yield;
 
 TEST_SUITE(Deadlock) {
   // Deadlock with one fiber and one mutex
@@ -45,7 +49,7 @@ TEST_SUITE(Deadlock) {
 
       auto first = [&]() {
         // Your code goes here
-        // Use self::Yield() to reschedule current fiber
+        // Use Yield() to reschedule current fiber
       };
 
       auto second = [&]() {
