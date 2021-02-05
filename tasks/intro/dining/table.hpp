@@ -1,8 +1,8 @@
 #pragma once
 
 #include <twist/stdlike/mutex.hpp>
+#include <twist/test/util/plate.hpp>
 
-#include <atomic>
 #include <vector>
 
 namespace dining {
@@ -14,7 +14,7 @@ class Plate {
   void Access();
 
  private:
-  std::atomic<bool> accessed_{false};
+  twist::test::util::Plate plate_;
 };
 
 class Table {
