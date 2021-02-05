@@ -1,11 +1,10 @@
 #include <wheels/test/test_framework.hpp>
-#include <tinyfibers/test/test.hpp>
 
 // https://gitlab.com/Lipovsky/tinyfibers
-#include <tinyfibers/runtime/api.hpp>
-#include <tinyfibers/runtime/deadlock.hpp>
+#include <tinyfibers/api.hpp>
 #include <tinyfibers/sync/mutex.hpp>
 #include <tinyfibers/sync/wait_group.hpp>
+#include <tinyfibers/runtime/deadlock.hpp>
 
 #include <wheels/support/quick_exit.hpp>
 #include <wheels/support/panic.hpp>
@@ -44,8 +43,12 @@ TEST_SUITE(Deadlock) {
   // Deadlock with two fibers
   TEST(TwoFibers, wheels::test::TestOptions().ForceFork()) {
     RunScheduler([]() {
+      // Mutexes
+
       Mutex a;
       Mutex b;
+
+      // Fiber routines
 
       auto first = [&]() {
         // Your code goes here
@@ -60,7 +63,7 @@ TEST_SUITE(Deadlock) {
 
       // No deadlock expected here
       // Run routine twice to check that
-      // routine leaves locks in unlocked state
+      // routine leaves mutexes in unlocked state
       Spawn(first).Join();
       Spawn(first).Join();
 
