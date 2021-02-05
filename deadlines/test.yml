@@ -4,3 +4,11 @@
   tasks:
     - task: intro/aplusb
       score: 0
+    - task: intro/deadlock
+      score: 100
+    - task: intro/dining
+      score: 100
+    - task: intro/jump
+      score: 100
+    - task: intro/guarded
+      score: 100
