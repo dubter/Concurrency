@@ -1,0 +1,14 @@
+- group:    Intro
+  start:    01-01-2021 00:00
+  deadline: 01-03-2021 00:00
+  tasks:
+    - task: intro/aplusb
+      score: 0
+    - task: intro/deadlock
+      score: 100
+    - task: intro/dining
+      score: 100
+    - task: intro/jump
+      score: 100
+    - task: intro/guarded
+      score: 100
