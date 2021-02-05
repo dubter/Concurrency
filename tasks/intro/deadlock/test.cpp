@@ -10,78 +10,77 @@
 #include <wheels/support/quick_exit.hpp>
 #include <wheels/support/panic.hpp>
 
+// RunScheduler, Spawn, self::Yield, Mutex, WaitGroup, SetDeadlockHandler
 using namespace tinyfibers;
 
 TEST_SUITE(Deadlock) {
+  // Deadlock with one fiber and one mutex
+  TEST(OneFiber, wheels::test::TestOptions().ForceFork()) {
+    RunScheduler([]() {
+      Mutex mutex;
 
-// Deadlock with one fiber and one mutex
-TEST(OneFiber, wheels::test::TestOptions().ForceFork()) {
-  RunScheduler([]() {
-    Mutex mutex;
+      auto locker = [&]() {
+        // Your code goes here
+        // use mutex.Lock() / mutex.Unlock() to lock/unlock mutex
+      };
 
-    auto locker = [&]() {
-      // Your code goes here
-      // use mutex.Lock() / mutex.Unlock() to lock/unlock mutex
-    };
+      SetDeadlockHandler([]() {
+        std::cout << "Fiber deadlocked!" << std::endl;
+        // World is broken, leave it
+        wheels::QuickExit(0);
+      });
 
-    SetDeadlockHandler([]() {
-      std::cout << "Fiber deadlocked!" << std::endl;
-      // World is broken, leave it
-      wheels::QuickExit(0);
+      Spawn(locker).Join();
+
+      // We do not expect to reach this line
+      WHEELS_PANIC("No deadlock =(");
     });
+  }
 
-    Spawn(locker).Join();
+  // Deadlock with two fibers
+  TEST(TwoFibers, wheels::test::TestOptions().ForceFork()) {
+    RunScheduler([]() {
+      Mutex a;
+      Mutex b;
 
-    // We do not expect to reach this line
-    WHEELS_PANIC("No deadlock =(");
-  });
-}
+      auto first = [&]() {
+        // Your code goes here
+        // Use self::Yield() to reschedule current fiber
+      };
 
-// Deadlock with two fibers
-TEST(TwoFibers, wheels::test::TestOptions().ForceFork()) {
-  RunScheduler([]() {
-    Mutex a;
-    Mutex b;
+      auto second = [&]() {
+        // Your code goes here
+      };
 
-    auto first = [&]() {
-      // Your code goes here
-      // Use Yield() to reschedule current fiber
-    };
+      // No deadlock with one fiber
 
-    auto second = [&]() {
-      // Your code goes here
-    };
+      // No deadlock expected here
+      // Run routine twice to check that
+      // routine leaves locks in unlocked state
+      Spawn(first).Join();
+      Spawn(first).Join();
 
-    // No deadlock with one fiber
+      // Same for `second`
+      Spawn(second).Join();
+      Spawn(second).Join();
 
-    // No deadlock expected here
-    // Run routine twice to check that
-    // routine leaves locks in unlocked state
-    Spawn(first).Join();
-    Spawn(first).Join();
+      // Deadlock with two fibers
 
-    // Same for `second`
-    Spawn(second).Join();
-    Spawn(second).Join();
+      SetDeadlockHandler([]() {
+        std::cout << "Fibers deadlocked!" << std::endl;
+        // World is broken, leave it
+        wheels::QuickExit(0);
+      });
 
-    // Deadlock with two fibers
+      WaitGroup wg;
+      wg.Spawn(first);
+      wg.Spawn(second);
+      wg.Wait();
 
-    SetDeadlockHandler([]() {
-      std::cout << "Fibers deadlocked!" << std::endl;
-      // World is broken, leave it
-      wheels::QuickExit(0);
+      // We do not expect to reach this line
+      WHEELS_PANIC("No deadlock =(");
     });
-
-    WaitGroup wg;
-    wg.Spawn(first);
-    wg.Spawn(second);
-    wg.Wait();
-
-    // We do not expect to reach this line
-    WHEELS_PANIC("No deadlock =(");
-  });
-}
-
+  }
 }
 
 RUN_ALL_TESTS()
