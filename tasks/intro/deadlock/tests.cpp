@@ -10,11 +10,11 @@
 #include <wheels/support/quick_exit.hpp>
 #include <wheels/support/panic.hpp>
 
-using tinyfibers::RunScheduler;
-using tinyfibers::Spawn;
 using tinyfibers::Mutex;
-using tinyfibers::WaitGroup;
+using tinyfibers::RunScheduler;
 using tinyfibers::SetDeadlockHandler;
+using tinyfibers::Spawn;
+using tinyfibers::WaitGroup;
 using tinyfibers::self::Yield;
 
 TEST_SUITE(Deadlock) {
