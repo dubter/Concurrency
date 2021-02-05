@@ -47,7 +47,7 @@ void Dining(size_t seats) {
     std::cout << "Meals: min = " << min_meals << ", max = " << max_meals
               << std::endl;
 
-    ASSERT_TRUE_M(min_meals * 5 > max_meals, "Starvation");
+    ASSERT_TRUE_M(min_meals * 10 > max_meals, "Starvation");
   }
 }
 
