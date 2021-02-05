@@ -26,7 +26,7 @@ TEST_SUITE(Deadlock) {
 
       SetDeadlockHandler([]() {
         std::cout << "Fiber deadlocked!" << std::endl;
-        // World is broken, leave it
+        // World is broken, leave it ASAP
         wheels::QuickExit(0);
       });
 
@@ -68,7 +68,7 @@ TEST_SUITE(Deadlock) {
 
       SetDeadlockHandler([]() {
         std::cout << "Fibers deadlocked!" << std::endl;
-        // World is broken, leave it
+        // World is broken, leave it ASAP
         wheels::QuickExit(0);
       });
 
