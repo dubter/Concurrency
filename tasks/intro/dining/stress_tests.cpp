@@ -44,30 +44,29 @@ void Dining(size_t seats) {
     size_t min_meals = *std::min_element(meals.begin(), meals.end());
     size_t max_meals = *std::max_element(meals.begin(), meals.end());
 
-    std::cout << "Meals: min = " << min_meals << ", max = " << max_meals << std::endl;
+    std::cout << "Meals: min = " << min_meals << ", max = " << max_meals
+              << std::endl;
 
     ASSERT_TRUE_M(min_meals * 5 > max_meals, "Starvation");
   }
 }
 
 TEST_SUITE(DiningPhilosophers) {
+  TWIST_TEST_TL(Stress1, 3s) {
+    Dining(/*seats=*/2);
+  }
 
-TWIST_TEST_TL(Stress1, 3s) {
-  Dining(/*seats=*/2);
-}
+  TWIST_TEST_TL(Stress2, 3s) {
+    Dining(/*seats=*/3);
+  }
 
-TWIST_TEST_TL(Stress2, 3s) {
-  Dining(/*seats=*/3);
-}
+  TWIST_TEST_TL(Stress3, 5s) {
+    Dining(/*seats=*/5);
+  }
 
-TWIST_TEST_TL(Stress3, 5s) {
-  Dining(/*seats=*/5);
-}
-
-TWIST_TEST_TL(Stress4, 10s) {
-  Dining(/*seats=*/10);
-}
-
+  TWIST_TEST_TL(Stress4, 10s) {
+    Dining(/*seats=*/10);
+  }
 }
 
 RUN_ALL_TESTS();
