@@ -15,6 +15,11 @@ sudo usermod -aG docker $USER
 
 После этого потребуется перезапустить текущую сессию (или просто перезагрузить машину).
 
+Убедитесь, что Докер успешно установился и работает:
+```shell
+docker run hello-world
+```
+
 ### OS X
 
 Скачайте, установите и запустите (в тулбаре появится значок с китом) [Docker Desktop](https://download.docker.com/mac/stable/Docker.dmg).
