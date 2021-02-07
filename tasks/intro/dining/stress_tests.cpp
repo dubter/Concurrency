@@ -24,9 +24,9 @@ void Dining(size_t seats) {
 
   for (size_t seat = 0; seat < seats; ++seat) {
     race.Add([&, seat]() {
-      auto& philosopher = philosophers_.at(seat);
+      auto& plato = philosophers_.at(seat);
       while (wheels::test::KeepRunning()) {
-        philosopher.EatThenThink();
+        plato.EatThenThink();
       }
     });
   }
@@ -37,8 +37,8 @@ void Dining(size_t seats) {
     // Check starvation
 
     std::vector<size_t> meals;
-    for (auto& philosopher : philosophers_) {
-      meals.push_back(philosopher.Meals());
+    for (auto& plato : philosophers_) {
+      meals.push_back(plato.Meals());
     }
 
     size_t min_meals = *std::min_element(meals.begin(), meals.end());
