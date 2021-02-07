@@ -40,6 +40,6 @@ message(STATUS "FetchContent: tinyfibers")
 FetchContent_Declare(
         tinyfibers
         GIT_REPOSITORY https://gitlab.com/Lipovsky/tinyfibers.git
-        GIT_TAG 97b27d7b57ea0442a77f038e29edd0f3e11e4a49
+        GIT_TAG f914a19536be91df0f3256d6c298a5b853fade37
 )
 FetchContent_MakeAvailable(tinyfibers)
