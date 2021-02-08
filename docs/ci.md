@@ -148,7 +148,7 @@ clippy config assignee Lipovsky
 ```shell
 # Теги перечисляются через запятую, без лишних пробелов
 # Вместо 123 подставьте номер вашей академической группы (если она у вас есть)
-clippy config tags "concurrency,123"
+clippy config tags 'concurrency,123'
 ```
 
 ## Работа с задачей / репозиторием решений
