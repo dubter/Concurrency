@@ -9,6 +9,9 @@
     "tinyfibers-src"
   ],
   "forbidden_patterns": [
-    "Your code goes here"
+    "Your code goes here",
+    "std::atomic",
+    "std::mutex",
+    "std::condition_variable"
   ]
 }
