@@ -33,7 +33,7 @@
 
 ## Deadlock prevention / avoidance
 
-Если в своем решении вы используете метод мьютекса `try_lock`, то вы реализовали _deadlock avoidance_, а не _deadlock prevention_.
+Если в своем решении вы используете метод мьютекса `try_lock`, то скорее всего вы реализовали _deadlock avoidance_, а не _deadlock prevention_.
 
 В решении с _deadlock prevention_ нужно использовать только методы `lock` и `unlock`.
 
