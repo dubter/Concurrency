@@ -36,7 +36,7 @@ docker run hello-world
 
 Запустите в хост-системе скрипт `login` из `docker/client/bin`.
 
-Вы успешно вошли в контейнер, если видно приветствие вида:
+Вы успешно вошли в контейнер, если видите приветствие:
 ```
 Hi, ${USERNAME}!
 Welcome to Docker container 'concurrency-course'!
