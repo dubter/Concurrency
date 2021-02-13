@@ -12,3 +12,16 @@
       score: 100
     - task: intro/guarded
       score: 100
+
+- group:    Mutual Exclusion
+  start:    01-01-2021 00:00
+  deadline: 01-01-2022 00:00
+  tasks:
+    - task: mutex/livelock
+      score: 200
+    - task: mutex/mutex
+      score: 200
+    - task: mutex/spinlock
+      score: 200
+    - task: mutex/try-lock
+      score: 200
