@@ -65,6 +65,10 @@ SIMPLE_TWIST_TEST(SequentialLockUnlock) {
   SIMPLE_TWIST_TEST(Blocking) {
     Mutex mutex;
 
+    // Warmup
+    mutex.Lock();
+    mutex.Unlock();
+
     thread sleeper([&]() {
       mutex.Lock();
       sleep_for(3s);
