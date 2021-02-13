@@ -1,4 +1,4 @@
-## Livelock
+# Livelock
 
 Изучите реализацию [`TrickyLock`](tricky_lock.hpp).
 

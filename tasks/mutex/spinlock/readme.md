@@ -1,4 +1,4 @@
-## SpinLock
+# SpinLock
 
 В этой задаче мы узнаем из чего сделаны [атомики](https://en.cppreference.com/w/cpp/atomic/atomic).
 

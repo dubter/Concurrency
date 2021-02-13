@@ -1,4 +1,4 @@
-## TryLock для TicketLock-а
+# TryLock для TicketLock-а
 
 Реализуйте метод `TryLock` для [`TicketLock`](ticket_lock.hpp).
 
