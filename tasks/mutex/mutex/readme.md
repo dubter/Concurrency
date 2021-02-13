@@ -18,7 +18,7 @@
 
 За блокировки в Linux отвечает _futex_ – ядерная очередь спящих потоков, которая привязана к ячейке памяти в адресном пространстве пользователя. 
 
-Пользователь работает с фьютексом через соответствующий системный вызов – [futex](http://man7.org/linux/man-pages/man2/futex.2.html). 
+Пользователь работает с фьютексом через одноименный системный вызов – [futex](http://man7.org/linux/man-pages/man2/futex.2.html).
 
 - http://man7.org/linux/man-pages/man2/futex.2.html
 - [Basics of Futexes](https://eli.thegreenplace.net/2018/basics-of-futexes/)
