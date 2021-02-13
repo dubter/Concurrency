@@ -40,6 +40,26 @@ SIMPLE_TWIST_TEST(SequentialLockUnlock) {
     mutex.Unlock();
   }
 
+  SIMPLE_TWIST_TEST(MutualExclusion) {
+    Mutex mutex;
+    bool cs = false;
+
+    thread locker([&]() {
+      mutex.Lock();
+      cs = true;
+      sleep_for(3s);
+      cs = false;
+      mutex.Unlock();
+    });
+
+    sleep_for(1s);
+    mutex.Lock();
+    ASSERT_FALSE(cs);
+    mutex.Unlock();
+
+    locker.join();
+  }
+
 #if !defined(TWIST_FIBER) && !defined(TWIST_FAULTY)
 
   SIMPLE_TWIST_TEST(Blocking) {
