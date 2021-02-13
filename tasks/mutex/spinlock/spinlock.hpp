@@ -2,9 +2,6 @@
 
 #include "atomics.hpp"
 
-#include <twist/strand/stdlike.hpp>
-#include <twist/strand/spin_wait.hpp>
-
 #include <wheels/support/cpu.hpp>
 
 namespace solutions {
