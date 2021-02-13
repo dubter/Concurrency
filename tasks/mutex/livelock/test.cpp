@@ -51,7 +51,7 @@ TEST_SUITE(TrickyLock) {
       wg.Spawn(contender).Spawn(contender).Wait();
     };
 
-    // Limit number of run loop iterations
+    // Limit number of scheduler run loop iterations
     scheduler.Run(test, /*fuel=*/123456);
 
     // World is broken, leave it ASAP
