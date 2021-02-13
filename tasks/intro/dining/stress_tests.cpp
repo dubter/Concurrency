@@ -31,7 +31,7 @@ void Dining(size_t seats) {
     });
   }
 
-  race.Start();
+  race.Run();
 
   if (!twist::test::FaultsEnabled()) {
     // Check starvation

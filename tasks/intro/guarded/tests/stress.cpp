@@ -22,7 +22,7 @@ TEST_SUITE(Guarded) {
       });
     }
 
-    race.Start();
+    race.Run();
   }
 }
 
