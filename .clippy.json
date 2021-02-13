@@ -10,6 +10,8 @@
   ],
   "forbidden_patterns": [
     "Your code goes here",
+    "Not implemented",
+    "To be implemented",
     "std::atomic",
     "std::mutex",
     "std::condition_variable"
