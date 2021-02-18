@@ -34,6 +34,11 @@
 
 При этом `wait` нельзя считать атомарным относительно вызова `store`!
 
+### Реализация в стандартной библиотеке:
+
+- [libc++](https://github.com/llvm/llvm-project/blob/main/libcxx/src/atomic.cpp)
+- [libstdc++](https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/bits/atomic_wait.h)
+
 ## Ограничения
 
 Фьютекс работает только с 32-битными словами в пространстве пользователя, так что используйте в реализации `atomic<uint32_t>`.
