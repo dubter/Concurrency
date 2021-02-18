@@ -34,7 +34,7 @@
 
 При этом `wait` нельзя считать атомарным относительно вызова `store`!
 
-### Реализация в стандартной библиотеке:
+### Реализация в стандартной библиотеке
 
 - [libc++](https://github.com/llvm/llvm-project/blob/main/libcxx/src/atomic.cpp)
 - [libstdc++](https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/bits/atomic_wait.h)
