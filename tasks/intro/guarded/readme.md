@@ -13,3 +13,9 @@ ints->push_back(42);
 Тип защищаемого объекта и набор методов `Guarded`-у заранее неизвестен, он должен уметь оборачивать произвольный класс.
 
 Изучите [Synchronized](https://github.com/facebook/folly/blob/master/folly/docs/Synchronized.md) из библиотеки folly.
+
+---
+
+В задаче запрещается вызывать методы `lock` и `unlock` у мьютекса голыми руками.
+
+Используйте [`std::lock_guard`](https://en.cppreference.com/w/cpp/thread/lock_guard).
