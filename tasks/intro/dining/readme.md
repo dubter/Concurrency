@@ -40,3 +40,13 @@
 ## Unlock
 
 Даже два мьютекса захватить непросто. А в каком порядке их нужно отпускать? [Отвечает](https://lkml.org/lkml/2008/10/8/150) Линус Торвальдс.
+
+## Thread Sanitizer
+
+Напишите дедлок и запустите стресс-тесты в сборке с [ThreadSanitizer](https://clang.llvm.org/docs/ThreadSanitizer.html) с помощью команды:
+
+```shell
+clippy target stress_tests -p FaultyThreadTSan
+```
+
+Что означает _lock-order-inversion_?
