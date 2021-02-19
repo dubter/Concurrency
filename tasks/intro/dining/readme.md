@@ -39,7 +39,7 @@
 
 ## Unlock
 
-Даже два мьютекса захватить непросто. А в каком порядке их нужно отпускать? [Отвечает](https://lkml.org/lkml/2008/10/8/150) Линус Торвальдс.
+Даже два мьютекса захватить непросто. А в каком порядке их нужно отпускать? [Отвечает](https://lkml.org/lkml/2008/10/8/150) Линус Торвальдс ([предупреждение: в ответе содержится ненормативная лексика!](https://www.newyorker.com/science/elements/after-years-of-abusive-e-mails-the-creator-of-linux-steps-aside)).
 
 ## Thread Sanitizer
 
