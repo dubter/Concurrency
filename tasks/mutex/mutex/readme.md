@@ -20,8 +20,8 @@
 
 Пользователь работает с фьютексом через одноименный системный вызов – [futex(2)](http://man7.org/linux/man-pages/man2/futex.2.html).
 
-- [futex(2)](http://man7.org/linux/man-pages/man2/futex.2.html)
 - [Basics of Futexes](https://eli.thegreenplace.net/2018/basics-of-futexes/)
+- [futex(2)](http://man7.org/linux/man-pages/man2/futex.2.html)
 - [kernel/futex.c](https://github.com/torvalds/linux/blob/master/kernel/futex.c)
 
 ## `atomic::wait`
@@ -30,9 +30,11 @@
 
 Изучите документацию этих методов!
 
-Можно считать, что вызовы `wait` и `notify_{one,all}` - атомарны относительно друг друга: в ядре при работе с фьютексом берется ядерный спинлок.
+### Атомарность
 
-При этом `wait` нельзя считать атомарным относительно вызова `store`!
+Конкурирующие вызовы `wait` и `notify_{one,all}` будут атомарны относительно друг друга: в ядре при работе с очередью фьютекса берется спинлок.
+
+При этом вызов `wait` нельзя считать атомарным относительно вызова `store`: запись может выполниться между проверкой условия и парковкой потока в `wait`.
 
 ### Реализация в стандартной библиотеке
 
@@ -47,4 +49,4 @@
 
 Может показаться, что аргумент `old` и проверка в [`atomic::wait`](https://en.cppreference.com/w/cpp/atomic/atomic/wait) – избыточны, и было бы достаточно иметь лаконичный `wait` без аргументов.
 
-Проведите эксперимент: решите задачу используя для блокирующего ожидания класс [`WaitQueue`](wait_queue.hpp) с методами `Park` и `WakeOne` / `WakeAll`. 
+Проведите эксперимент: решите задачу используя для блокирующего ожидания класс [`WaitQueue`](wait_queue.hpp) с методами `Park` и `WakeOne` / `WakeAll`.
