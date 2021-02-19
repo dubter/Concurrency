@@ -49,4 +49,4 @@
 clippy target stress_tests -p FaultyThreadTSan
 ```
 
-Что означает _lock-order-inversion_?
+Что означает предупреждение _lock-order-inversion_?
