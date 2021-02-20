@@ -85,7 +85,7 @@ TEST_SUITE(CondVar) {
 
   SIMPLE_TWIST_TEST(NotifyAll) {
     Latch latch;
-    size_t passed{0};
+    std::atomic<size_t> passed{0};
 
     auto wait_routine = [&]() {
       latch.Await();
@@ -104,7 +104,7 @@ TEST_SUITE(CondVar) {
     t1.join();
     t2.join();
 
-    ASSERT_EQ(passed, 2);
+    ASSERT_EQ(passed.load(), 2);
   }
 
   SIMPLE_TWIST_TEST(NotifyManyTimes) {
