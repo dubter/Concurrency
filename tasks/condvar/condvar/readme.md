@@ -35,7 +35,7 @@
 
 Изучите:
 * [`std::condition_variable`](https://en.cppreference.com/w/cpp/thread/condition_variable)
-* [Реализацию](https://gitlab.com/Lipovsky/tinyfiber/-/blob/master/tinyfiber/sync/condvar.hpp) условной переменной для файберов
+* [Реализацию](https://gitlab.com/Lipovsky/tinyfibers/-/blob/master/tinyfibers/sync/condvar.hpp) условной переменной для файберов
 
 ## Отошения с другими примитивами
 
