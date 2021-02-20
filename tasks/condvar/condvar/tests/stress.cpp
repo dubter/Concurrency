@@ -10,6 +10,7 @@
 
 #include <wheels/test/util.hpp>
 
+#include <iostream>
 #include <atomic>
 #include <deque>
 
@@ -93,10 +94,19 @@ TWIST_TEST_RUNS(RobotExt, robot::Test)->TimeLimit(10s)->Run(1000'000);
 namespace queue {
 
 template <typename T>
-class UnboundedBlockingQueue {
+class BlockingQueue {
  public:
+  BlockingQueue(size_t capacity)
+    : capacity_(capacity) {
+  }
+
   void Put(T value) {
     std::unique_lock lock(mutex_);
+
+    while (buffer_.size() == capacity_) {
+      not_full_.Wait(lock);
+    }
+
     buffer_.push_back(std::move(value));
 
     if (twist::test::Random2()) {
@@ -110,6 +120,7 @@ class UnboundedBlockingQueue {
     while (buffer_.empty()) {
       not_empty_.Wait(lock);
     }
+    not_full_.NotifyOne();
     return TakeLocked();
   }
 
@@ -122,12 +133,14 @@ class UnboundedBlockingQueue {
 
  private:
   std::deque<int> buffer_;
+  size_t capacity_;
   twist::stdlike::mutex mutex_;
   solutions::ConditionVariable not_empty_;
+  solutions::ConditionVariable not_full_;
 };
 
 void Test(size_t producers, size_t consumers) {
-  UnboundedBlockingQueue<int> queue_;
+  BlockingQueue<int> queue_{42};
 
   std::atomic<int> consumed{0};
   std::atomic<int> produced{0};
@@ -138,9 +151,9 @@ void Test(size_t producers, size_t consumers) {
 
   // Producers
 
-  for (size_t p = 0; p < producers; ++p) {
-    race.Add([&, p]() {
-      int value = p;
+  for (size_t i = 0; i < producers; ++i) {
+    race.Add([&, i]() {
+      int value = i;
       while (wheels::test::KeepRunning()) {
         queue_.Put(value);
         produced.fetch_add(value);
@@ -181,7 +194,6 @@ TWIST_TEST_RUNS(ProducersConsumers, queue::Test)
     ->TimeLimit(10s)
     ->Run(5, 1)
     ->Run(1, 5)
-    ->TimeLimit(20s)
     ->Run(5, 5)
     ->Run(10, 10);
 
