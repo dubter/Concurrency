@@ -1,5 +1,5 @@
 #include "../semaphore.hpp"
-#include "../channel.hpp"
+#include "../blocking_queue.hpp"
 
 #include <twist/test/test.hpp>
 #include <twist/test/runs.hpp>
@@ -55,7 +55,7 @@ void Test(size_t threads, size_t limit) {
 }  // namespace pool
 
 TWIST_TEST_RUNS(Pool, pool::Test)
-    ->TimeLimit(10s)
+    ->TimeLimit(7s)
     ->Run(5, 1)
     ->Run(5, 3)
     ->Run(10, 5)
@@ -139,7 +139,7 @@ TEST_SUITE(PingPong) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace channel {
+namespace queue {
 
 void Test(size_t producers, size_t consumers, size_t buffer_size) {
   static const std::string kPoisonPill = "";
@@ -193,9 +193,9 @@ void Test(size_t producers, size_t consumers, size_t buffer_size) {
   ASSERT_EQ(produced.load(), consumed.load());
 }
 
-}  // namespace channel
+}  // namespace queue
 
-TWIST_TEST_RUNS(Channel, channel::Test)
+TWIST_TEST_RUNS(BlockingQueue, queue::Test)
     ->TimeLimit(10s)
     ->Run(1, 1, 1)
     ->Run(5, 5, 16)

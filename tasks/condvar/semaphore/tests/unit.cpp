@@ -1,5 +1,5 @@
 #include "../semaphore.hpp"
-#include "../channel.hpp"
+#include "blocking_queue.hpp"
 
 #include <twist/test/test.hpp>
 #include <twist/test/random.hpp>
@@ -78,7 +78,7 @@ TEST_SUITE(Semaphore) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_SUITE(BufferedChannel) {
+TEST_SUITE(BlockingQueue) {
   SIMPLE_TWIST_TEST(PutThenTake) {
     solutions::BlockingQueue<int> queue{1};
     queue.Put(42);
@@ -189,7 +189,8 @@ TEST_SUITE(BufferedChannel) {
 
     for (size_t i = 0; i < kThreads; ++i) {
       threads.emplace_back([&]() {
-        sleep_for(std::chrono::milliseconds(twist::test::RandomUInteger(1000)));
+        sleep_for(std::chrono::milliseconds(
+            twist::test::RandomUInteger(1000)));
 
         ASSERT_EQ(queue.Take(), -1);
         queue.Put(-1);
