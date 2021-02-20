@@ -1,0 +1,120 @@
+#include "../condvar.hpp"
+
+#include <twist/test/test.hpp>
+
+#include <twist/test/util/cpu_timer.hpp>
+
+#include <twist/strand/stdlike.hpp>
+
+#include <atomic>
+#include <chrono>
+
+using namespace std::chrono_literals;
+
+using twist::strand::stdlike::thread;
+using twist::strand::stdlike::mutex;
+using twist::strand::stdlike::this_thread::sleep_for;
+
+TEST_SUITE(CondVar) {
+
+  class OneShotEvent {
+   public:
+    void Await() {
+      std::unique_lock lock(mutex_);
+
+      while (!set_) {
+        set_cond_.Wait(lock);
+      }
+    }
+
+    void Set() {
+      std::lock_guard guard(mutex_);
+      set_ = true;
+      set_cond_.NotifyOne();
+    }
+
+   private:
+    bool set_{false};
+    mutex mutex_;
+    solutions::ConditionVariable set_cond_;
+  };
+
+  SIMPLE_TWIST_TEST(NotifyOne) {
+    OneShotEvent pass;
+    bool passed{false};
+
+    thread waiter([&]() {
+      {
+        twist::test::util::CPUTimer cpu_timer;
+        pass.Await();
+        ASSERT_TRUE(cpu_timer.RunningTime() < 0.2);
+      }
+      passed = true;
+    });
+
+    sleep_for(1s);
+
+    ASSERT_FALSE(passed);
+
+    pass.Set();
+
+    waiter.join();
+    ASSERT_TRUE(passed);
+  }
+
+  class Latch {
+   public:
+    void Await() {
+      std::unique_lock lock(mutex_);
+      while (!released_) {
+        released_cond_.Wait(lock);
+      }
+    }
+
+    void Release() {
+      std::lock_guard guard(mutex_);
+      released_ = true;
+      released_cond_.NotifyAll();
+    }
+
+   private:
+    bool released_{false};
+    mutex mutex_;
+    solutions::ConditionVariable released_cond_;
+  };
+
+  SIMPLE_TWIST_TEST(NotifyAll) {
+    Latch latch;
+    size_t passed{0};
+
+    auto wait_routine = [&]() {
+      latch.Await();
+      ++passed;
+    };
+
+    thread t1(wait_routine);
+    thread t2(wait_routine);
+
+    sleep_for(1s);
+
+    ASSERT_EQ(passed, 0);
+
+    latch.Release();
+
+    t1.join();
+    t2.join();
+
+    ASSERT_EQ(passed, 2);
+  }
+
+  SIMPLE_TWIST_TEST(NotifyManyTimes) {
+    static const size_t kIterations = 1000'000;
+
+    solutions::ConditionVariable cv;
+    for (size_t i = 0; i < kIterations; ++i) {
+      cv.NotifyOne();
+    }
+  }
+}
+
+RUN_ALL_TESTS()
