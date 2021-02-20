@@ -4,6 +4,6 @@
   "lint_files": ["condvar.hpp"],
   "submit_files": ["condvar.hpp"],
   "forbidden_patterns": [
-    "atomic", "yield", "sleep_for", "SpinWait"
+    "condition_variable", "yield", "sleep_for", "SpinWait"
   ]
 }
