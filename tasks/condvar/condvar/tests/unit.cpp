@@ -17,11 +17,10 @@ using twist::strand::stdlike::this_thread::sleep_for;
 
 TEST_SUITE(CondVar) {
 
-  class OneShotEvent {
+  class Event {
    public:
     void Await() {
       std::unique_lock lock(mutex_);
-
       while (!set_) {
         set_cond_.Wait(lock);
       }
@@ -33,6 +32,11 @@ TEST_SUITE(CondVar) {
       set_cond_.NotifyOne();
     }
 
+    void Reset() {
+      std::lock_guard guard(mutex_);
+      set_ = false;
+    }
+
    private:
     bool set_{false};
     mutex mutex_;
@@ -40,26 +44,31 @@ TEST_SUITE(CondVar) {
   };
 
   SIMPLE_TWIST_TEST(NotifyOne) {
-    OneShotEvent pass;
-    bool passed{false};
+    Event pass;
 
-    thread waiter([&]() {
-      {
-        twist::test::util::CPUTimer cpu_timer;
-        pass.Await();
-        ASSERT_TRUE(cpu_timer.RunningTime() < 0.2);
-      }
-      passed = true;
-    });
+    for (size_t i = 0; i < 3; ++i) {
+      pass.Reset();
 
-    sleep_for(1s);
+      bool passed = false;
 
-    ASSERT_FALSE(passed);
+      thread waiter([&]() {
+          {
+            twist::test::util::CPUTimer cpu_timer;
+            pass.Await();
+            ASSERT_TRUE(cpu_timer.RunningTime() < 0.2);
+          }
+          passed = true;
+      });
 
-    pass.Set();
+      sleep_for(1s);
 
-    waiter.join();
-    ASSERT_TRUE(passed);
+      ASSERT_FALSE(passed);
+
+      pass.Set();
+      waiter.join();
+
+      ASSERT_TRUE(passed);
+    }
   }
 
   class Latch {
@@ -77,6 +86,11 @@ TEST_SUITE(CondVar) {
       released_cond_.NotifyAll();
     }
 
+    void Reset() {
+      std::lock_guard guard(mutex_);
+      released_ = false;
+    }
+
    private:
     bool released_{false};
     mutex mutex_;
@@ -85,26 +99,31 @@ TEST_SUITE(CondVar) {
 
   SIMPLE_TWIST_TEST(NotifyAll) {
     Latch latch;
-    std::atomic<size_t> passed{0};
 
-    auto wait_routine = [&]() {
-      latch.Await();
-      ++passed;
-    };
+    for (size_t i = 0; i < 3; ++i) {
+      latch.Reset();
 
-    thread t1(wait_routine);
-    thread t2(wait_routine);
+      std::atomic<size_t> passed{0};
 
-    sleep_for(1s);
+      auto wait_routine = [&]() {
+        latch.Await();
+        ++passed;
+      };
 
-    ASSERT_EQ(passed, 0);
+      thread t1(wait_routine);
+      thread t2(wait_routine);
 
-    latch.Release();
+      sleep_for(1s);
 
-    t1.join();
-    t2.join();
+      ASSERT_EQ(passed.load(), 0);
 
-    ASSERT_EQ(passed.load(), 2);
+      latch.Release();
+
+      t1.join();
+      t2.join();
+
+      ASSERT_EQ(passed.load(), 2);
+    }
   }
 
   SIMPLE_TWIST_TEST(NotifyManyTimes) {
