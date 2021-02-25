@@ -25,3 +25,14 @@
       score: 200
     - task: mutex/try-lock
       score: 200
+
+- group:    Condition Variables
+  start:    01-01-2021 00:00
+  deadline: 09-03-2021 23:59
+  tasks:
+    - task: condvar/barrier
+      score: 200
+    - task: condvar/condvar
+      score: 200
+    - task: condvar/semaphore
+      score: 200
