@@ -21,4 +21,4 @@ extern "C" void AtomicStore(AtomicInt64* address, Int64 value);
 
 // Atomically replaces content of memory location `address` with `value`,
 // returns content of the location before the call
-extern "C" int AtomicExchange(AtomicInt64* address, Int64 value);
+extern "C" Int64 AtomicExchange(AtomicInt64* address, Int64 value);
