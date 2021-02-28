@@ -71,7 +71,7 @@ function(add_task_library LIB_NAME)
     add_library(${LIB_TARGET} STATIC ${LIB_CXX_SOURCES} ${LIB_HEADERS})
 
     # Dependencies
-    target_link_libraries(${LIB_TARGET} ${ARGN})
+    target_link_libraries(${LIB_TARGET} ${LIBS_LIST} ${ARGN})
 
     # Append ${LIB_TARGET to LIBS_LIST
     list(APPEND LIBS_LIST ${LIB_TARGET})
@@ -94,7 +94,13 @@ function(add_task_test BINARY_NAME)
 endfunction()
 
 function(add_task_test_dir DIR_NAME)
-    set(BINARY_NAME ${DIR_NAME})
+    # Optional test target name (dir name by default)
+    if (${ARGC} GREATER 1)
+        set(BINARY_NAME ${ARGV1})
+    else()
+        set(BINARY_NAME ${DIR_NAME})
+    endif()
+
     get_task_target(TEST_NAME ${BINARY_NAME})
 
     set(TEST_DIR "${TASK_DIR}/${DIR_NAME}")
