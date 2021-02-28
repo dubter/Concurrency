@@ -78,15 +78,14 @@ SIMPLE_TWIST_TEST(SequentialLockUnlock) {
     thread waiter([&]() {
       sleep_for(1s);
 
-      twist::test::util::CPUTimer cpu_timer;
+      twist::test::util::ThreadCPUTimer cpu_timer;
 
       mutex.Lock();
       mutex.Unlock();
 
-      auto cpu_time = cpu_timer.RunningTime();
+      auto elapsed = cpu_timer.Elapsed();
 
-      std::cout << "Lock/Unlock cpu time in sleeper thread: " << cpu_time << " seconds\n";
-      ASSERT_TRUE(cpu_time < 0.2);
+      ASSERT_TRUE(elapsed < 200ms);
     });
 
     sleeper.join();

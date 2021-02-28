@@ -53,9 +53,9 @@ TEST_SUITE(CondVar) {
 
       thread waiter([&]() {
           {
-            twist::test::util::CPUTimer cpu_timer;
+            twist::test::util::ThreadCPUTimer cpu_timer;
             pass.Await();
-            ASSERT_TRUE(cpu_timer.RunningTime() < 0.2);
+            ASSERT_TRUE(cpu_timer.Elapsed() < 200ms);
           }
           passed = true;
       });
