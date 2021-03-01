@@ -15,60 +15,61 @@ using Queue = tp::UnboundedBlockingQueue<T>;
 
 TEST_SUITE(BlockingQueue) {
   SIMPLE_TEST(JustWorks) {
-    Queue<int> q;
+    Queue<int> queue;
 
-    q.Put(7);
-    auto value = q.Take();
+    ASSERT_TRUE(queue.Put(7));
+
+    auto value = queue.Take();
     ASSERT_TRUE(value);
     ASSERT_EQ(*value, 7);
 
-    q.Close();
-    ASSERT_FALSE(q.Take());
+    queue.Close();
+    ASSERT_FALSE(queue.Take());
   }
 
   SIMPLE_TEST(Fifo) {
-    Queue<int> q;
-    q.Put(1);
-    q.Put(2);
-    q.Put(3);
+    Queue<int> queue;
+    queue.Put(1);
+    queue.Put(2);
+    queue.Put(3);
 
-    ASSERT_EQ(*q.Take(), 1);
-    ASSERT_EQ(*q.Take(), 2);
-    ASSERT_EQ(*q.Take(), 3);
+    ASSERT_EQ(*queue.Take(), 1);
+    ASSERT_EQ(*queue.Take(), 2);
+    ASSERT_EQ(*queue.Take(), 3);
   }
 
   SIMPLE_TEST(Close) {
-    Queue<std::string> q;
+    Queue<std::string> queue;
 
-    q.Put("Hello");
-    q.Put(",");
-    q.Put("World");
+    queue.Put("Hello");
+    queue.Put(",");
+    queue.Put("World");
 
-    q.Close();
+    queue.Close();
 
-    ASSERT_FALSE(q.Put("!"));
+    ASSERT_FALSE(queue.Put("!"));
 
-    ASSERT_EQ(*q.Take(), "Hello");
-    ASSERT_EQ(*q.Take(), ",");
-    ASSERT_EQ(*q.Take(), "World");
-    ASSERT_FALSE(q.Take());
+    ASSERT_EQ(*queue.Take(), "Hello");
+    ASSERT_EQ(*queue.Take(), ",");
+    ASSERT_EQ(*queue.Take(), "World");
+    ASSERT_FALSE(queue.Take());
   }
 
   SIMPLE_TEST(Cancel) {
-    Queue<std::string> q;
+    Queue<std::string> queue;
 
-    q.Put("Hello");
-    q.Put(",");
-    q.Put("World");
+    queue.Put("Hello");
+    queue.Put(",");
+    queue.Put("World");
 
-    q.Close();
+    queue.Close();
 
-    ASSERT_FALSE(q.Put("!"));
+    ASSERT_FALSE(queue.Put("!"));
 
-    ASSERT_EQ(*q.Take(), "Hello");
-    ASSERT_EQ(*q.Take(), ",");
-    ASSERT_EQ(*q.Take(), "World");
-    ASSERT_FALSE(q.Take());
+    ASSERT_EQ(*queue.Take(), "Hello");
+    ASSERT_EQ(*queue.Take(), ",");
+    ASSERT_EQ(*queue.Take(), "World");
+    ASSERT_FALSE(queue.Take());
   }
 
   struct MoveOnly {
@@ -89,16 +90,16 @@ TEST_SUITE(BlockingQueue) {
   }
 
   SIMPLE_TEST(BlockingTake) {
-    Queue<int> q;
+    Queue<int> queue;
 
     std::thread producer([&]() {
       std::this_thread::sleep_for(1s);
-      q.Put(7);
+      queue.Put(7);
     });
 
     ThreadCPUTimer thread_cpu_timer;
 
-    auto value = q.Take();
+    auto value = queue.Take();
 
     auto elapsed = thread_cpu_timer.Elapsed();
 
@@ -109,29 +110,49 @@ TEST_SUITE(BlockingQueue) {
     producer.join();
   }
 
+  SIMPLE_TEST(BlockingTake2) {
+    Queue<int> queue;
+
+    std::thread producer([&]() {
+      std::this_thread::sleep_for(1s);
+      queue.Close();
+    });
+
+    ThreadCPUTimer thread_cpu_timer;
+
+    auto value = queue.Take();
+
+    auto elapsed = thread_cpu_timer.Elapsed();
+
+    ASSERT_FALSE(value);
+    ASSERT_TRUE(elapsed < 100ms);
+
+    producer.join();
+  }
+
   SIMPLE_TEST(ProducerConsumer) {
-    Queue<int> q;
+    Queue<int> queue;
 
     ProcessCPUTimer process_cpu_timer;
 
     std::thread producer([&]() {
       // Producer
       for (int i = 0; i < 10; ++i) {
-        q.Put(i);
+        queue.Put(i);
         std::this_thread::sleep_for(100ms);
       }
-      q.Close();
+      queue.Close();
     });
 
     // Consumer
 
     for (int i = 0; i < 10; ++i) {
-      auto value = q.Take();
+      auto value = queue.Take();
       ASSERT_TRUE(value);
       ASSERT_EQ(*value, i);
     }
 
-    ASSERT_FALSE(q.Take());
+    ASSERT_FALSE(queue.Take());
 
     producer.join();
 

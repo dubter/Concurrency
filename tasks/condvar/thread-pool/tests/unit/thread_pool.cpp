@@ -1,5 +1,4 @@
 #include <tp/static_thread_pool.hpp>
-#include <tp/thread_label.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
@@ -13,7 +12,7 @@ using namespace std::chrono_literals;
 
 TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(JustWorks) {
-    tp::StaticThreadPool pool{4, "test"};
+    tp::StaticThreadPool pool{4};
 
     pool.Submit([]() {
       std::cout << "Hello from thread pool!" << std::endl;
@@ -23,7 +22,7 @@ TEST_SUITE(ThreadPool) {
   }
 
   SIMPLE_TEST(Join) {
-    tp::StaticThreadPool pool{4, "test"};
+    tp::StaticThreadPool pool{4};
 
     bool done = false;
 
@@ -37,18 +36,8 @@ TEST_SUITE(ThreadPool) {
     ASSERT_TRUE(done);
   }
 
-  SIMPLE_TEST(Name) {
-    tp::StaticThreadPool pool{4, "test"};
-
-    pool.Submit([]() {
-      tp::ExpectThread("test");
-    });
-
-    pool.Join();
-  }
-
   SIMPLE_TEST(Exceptions) {
-    tp::StaticThreadPool pool{1, "test"};
+    tp::StaticThreadPool pool{1};
 
     pool.Submit([]() {
       throw std::runtime_error("Task failed");
@@ -58,7 +47,7 @@ TEST_SUITE(ThreadPool) {
   }
 
   SIMPLE_TEST(ManyTasks) {
-    tp::StaticThreadPool pool{4, "test"};
+    tp::StaticThreadPool pool{4};
 
     static const size_t kTasks = 17;
 
@@ -76,12 +65,11 @@ TEST_SUITE(ThreadPool) {
   }
 
   SIMPLE_TEST(Parallel) {
-    tp::StaticThreadPool pool{4, "test"};
+    tp::StaticThreadPool pool{4};
 
     std::atomic<size_t> tasks{0};
 
     pool.Submit([&]() {
-      tp::ExpectThread("test");
       std::this_thread::sleep_for(1s);
       ++tasks;
     });
@@ -100,19 +88,19 @@ TEST_SUITE(ThreadPool) {
   }
 
   SIMPLE_TEST(TwoPools) {
-    tp::StaticThreadPool pool1{1, "first"};
-    tp::StaticThreadPool pool2{1, "second"};
+    tp::StaticThreadPool pool1{1};
+    tp::StaticThreadPool pool2{1};
 
     std::atomic<size_t> tasks{0};
 
+    wheels::StopWatch stop_watch;
+
     pool1.Submit([&]() {
-      tp::ExpectThread("first");
       std::this_thread::sleep_for(1s);
       ++tasks;
     });
 
     pool2.Submit([&]() {
-      tp::ExpectThread("second");
       std::this_thread::sleep_for(1s);
       ++tasks;
     });
@@ -120,11 +108,12 @@ TEST_SUITE(ThreadPool) {
     pool2.Join();
     pool1.Join();
 
+    ASSERT_TRUE(stop_watch.Elapsed() < 1500ms);
     ASSERT_EQ(tasks.load(), 2);
   }
 
   SIMPLE_TEST(Shutdown) {
-    tp::StaticThreadPool pool{3, "test"};
+    tp::StaticThreadPool pool{3};
 
     for (size_t i = 0; i < 3; ++i) {
       pool.Submit([]() {
@@ -144,7 +133,7 @@ TEST_SUITE(ThreadPool) {
   }
 
   SIMPLE_TEST(DoNotBurnCPU) {
-    tp::StaticThreadPool pool{4, "test"};
+    tp::StaticThreadPool pool{4};
 
     // Warmup
     for (size_t i = 0; i < 4; ++i) {
@@ -163,7 +152,7 @@ TEST_SUITE(ThreadPool) {
   }
 
   SIMPLE_TEST(Current) {
-    tp::StaticThreadPool pool{1, "test"};
+    tp::StaticThreadPool pool{1};
 
     ASSERT_EQ(tp::Current(), nullptr);
 
@@ -175,7 +164,7 @@ TEST_SUITE(ThreadPool) {
   }
 
   SIMPLE_TEST(SubmitFromPool) {
-    tp::StaticThreadPool pool{4, "test"};
+    tp::StaticThreadPool pool{4};
 
     bool done = false;
 
@@ -193,7 +182,7 @@ TEST_SUITE(ThreadPool) {
   }
 
   TEST(UseThreads, wheels::test::TestOptions().TimeLimit(1s)) {
-    tp::StaticThreadPool pool{4, "test"};
+    tp::StaticThreadPool pool{4};
 
     std::atomic<size_t> tasks{0};
 
@@ -210,7 +199,7 @@ TEST_SUITE(ThreadPool) {
   }
 
   TEST(TooManyThreads, wheels::test::TestOptions().TimeLimit(2s)) {
-    tp::StaticThreadPool pool{3, "test"};
+    tp::StaticThreadPool pool{3};
 
     std::atomic<size_t> tasks{0};
 
@@ -238,7 +227,7 @@ TEST_SUITE(ThreadPool) {
   }
 
   TEST(KeepAlive, wheels::test::TestOptions().TimeLimit(4s)) {
-    tp::StaticThreadPool pool{3, "test"};
+    tp::StaticThreadPool pool{3};
 
     for (size_t i = 0; i < 5; ++i) {
       pool.Submit([]() {
@@ -254,7 +243,7 @@ TEST_SUITE(ThreadPool) {
   }
 
   SIMPLE_TEST(Racy) {
-    tp::StaticThreadPool pool{4, "test"};
+    tp::StaticThreadPool pool{4};
 
     std::atomic<int> shared_counter{0};
     std::atomic<int> tasks{0};
@@ -269,6 +258,8 @@ TEST_SUITE(ThreadPool) {
     }
 
     pool.Join();
+
+    std::cout << "Racy counter value: " << shared_counter << std::endl;
 
     ASSERT_EQ(tasks.load(), 100500);
     ASSERT_LE(shared_counter.load(), 100500);

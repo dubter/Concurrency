@@ -25,7 +25,7 @@ void Backoff() {
 }
 
 void Test(size_t threads, size_t clients, size_t limit) {
-  tp::StaticThreadPool pool{threads, "tasks"};
+  tp::StaticThreadPool pool{threads};
 
   pool.Submit([]() {
     KeepAlive();
@@ -78,7 +78,7 @@ TWIST_TEST_RUNS(Submits, tasks::Test)
 namespace join {
 
 void TestSequential() {
-  tp::StaticThreadPool pool{4, "test"};
+  tp::StaticThreadPool pool{4};
 
   std::atomic<size_t> tasks{0};
 
@@ -91,7 +91,7 @@ void TestSequential() {
 }
 
 void TestConcurrent() {
-  tp::StaticThreadPool pool{2, "test"};
+  tp::StaticThreadPool pool{2};
 
   std::atomic<size_t> tasks{0};
 
@@ -113,7 +113,7 @@ void TestConcurrent() {
 }
 
 void TestCurrent() {
-  tp::StaticThreadPool pool{2, "test"};
+  tp::StaticThreadPool pool{2};
 
   std::atomic<bool> done{false};
 
