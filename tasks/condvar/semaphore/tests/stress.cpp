@@ -7,6 +7,7 @@
 
 #include <twist/test/util/race.hpp>
 #include <twist/test/util/latch.hpp>
+#include <twist/test/util/barrier.hpp>
 
 #include <wheels/test/util.hpp>
 
