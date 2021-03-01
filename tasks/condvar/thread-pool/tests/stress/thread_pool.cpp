@@ -61,13 +61,13 @@ void Test(size_t threads, size_t clients, size_t limit) {
   std::cout << "Tasks completed: " << completed.load() << std::endl;
 
   ASSERT_EQ(queue.load(), 0);
-  ASSERT_GT(completed.load(), 100500);
+  ASSERT_GT(completed.load(), 16384);
 }
 
 }  // namespace tasks
 
 TWIST_TEST_RUNS(Submits, tasks::Test)
-  ->TimeLimit(3s)
+  ->TimeLimit(4s)
   ->Run(3, 5, 111)
   ->Run(4, 3, 13)
   ->Run(2, 4, 5)
