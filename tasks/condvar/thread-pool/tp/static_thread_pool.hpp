@@ -11,7 +11,7 @@ namespace tp {
 
 class StaticThreadPool {
  public:
-  StaticThreadPool(size_t workers, std::string name);
+  explicit StaticThreadPool(size_t workers);
   ~StaticThreadPool();
 
   // Non-copyable

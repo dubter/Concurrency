@@ -1,17 +1,18 @@
 #include <tp/static_thread_pool.hpp>
 
 #include <tp/helpers.hpp>
-#include <tp/thread_label.hpp>
 
 #include <twist/util/thread_local.hpp>
 
 namespace tp {
 
+////////////////////////////////////////////////////////////////////////////////
+
 static twist::util::ThreadLocal<StaticThreadPool*> pool{nullptr};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-StaticThreadPool::StaticThreadPool(size_t /*workers*/, std::string /*name*/) {
+StaticThreadPool::StaticThreadPool(size_t /*workers*/) {
   // Not implemented
 }
 
