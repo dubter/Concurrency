@@ -131,11 +131,11 @@ void TestCurrent() {
 
 TEST_SUITE(Join) {
   TWIST_ITERATE_TEST(Sequential, 5s) {
-  join::TestSequential();
+    join::TestSequential();
   }
 
   TWIST_ITERATE_TEST(Concurrent, 5s) {
-  join::TestConcurrent();
+    join::TestConcurrent();
   }
 
   TWIST_ITERATE_TEST(Current, 5s) {
