@@ -18,7 +18,7 @@ message(STATUS "FetchContent: wheels")
 FetchContent_Declare(
         wheels
         GIT_REPOSITORY https://gitlab.com/Lipovsky/wheels.git
-        GIT_TAG 8dd46e1f914323ba9267444fa1e01d00c819c09c
+        GIT_TAG 48ca0aea6e227bb2489c36cae9de1964dd35bce8
 )
 FetchContent_MakeAvailable(wheels)
 
@@ -29,7 +29,7 @@ message(STATUS "FetchContent: twist")
 FetchContent_Declare(
         twist
         GIT_REPOSITORY https://gitlab.com/Lipovsky/twist.git
-        GIT_TAG 61655ee46675b879d2dbfa568ee30747d4f8ad82
+        GIT_TAG 8058e1d966e8fe248f87fb30c9b0c771e92cf39b
 )
 FetchContent_MakeAvailable(twist)
 
