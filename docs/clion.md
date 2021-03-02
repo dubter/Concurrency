@@ -23,7 +23,7 @@
 Нажмите на шестеренку в поле `Credentials` и создайте `SSH Configuration`: 
 
 | Поле | Значение |
-| - | - |
+|---|---|
 | _Host_ | `127.0.0.1` |
 | _Port_ | `3333`
 | _User name_ | `clion_user` |
@@ -36,7 +36,7 @@
 Заполните поля:
 
 | Поле | Значение |
-| - | - |
+|---|---|
 | _Make_ | `/usr/bin/make` |
 | _C Compiler_ | `/usr/bin/clang-11`
 | _C++ Compiler_ | `/usr/bin/clang++-11` |
