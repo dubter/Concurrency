@@ -67,7 +67,7 @@ function(add_task_library LIB_NAME)
 
     # Library
     file(GLOB_RECURSE LIB_CXX_SOURCES ${LIB_DIR}/*.cpp)
-    file(GLOB_RECURSE LIB_HEADERS ${LIB_DIR}/*.hpp)
+    file(GLOB_RECURSE LIB_HEADERS ${LIB_DIR}/*.hpp ${LIB_DIR}/*.ipp)
     add_library(${LIB_TARGET} STATIC ${LIB_CXX_SOURCES} ${LIB_HEADERS})
 
     # Dependencies
