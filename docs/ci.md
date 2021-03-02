@@ -23,7 +23,7 @@
 ##### Форма регистрации
 
 | Поле | Значение |
-| - | - |
+|---|---|
 | _Gitlab Username_ | ваш логин на https://gitlab.com, например, `Lipovsky`. Логин – _case-sensitive_! |
 | _First Name_ | ваше имя латиницей (например, `Roman`) |
 | _Last Name_ | ваша фамилия латиницей (например, `Lipovsky`) |
