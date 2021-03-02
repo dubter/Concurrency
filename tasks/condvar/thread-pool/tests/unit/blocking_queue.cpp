@@ -59,16 +59,18 @@ TEST_SUITE(BlockingQueue) {
     Queue<std::string> queue;
 
     queue.Put("Hello");
+
+    auto value = queue.Take();
+    ASSERT_TRUE(value);
+    ASSERT_EQ(*value, "Hello");
+
     queue.Put(",");
     queue.Put("World");
 
-    queue.Close();
+    queue.Cancel();
 
     ASSERT_FALSE(queue.Put("!"));
 
-    ASSERT_EQ(*queue.Take(), "Hello");
-    ASSERT_EQ(*queue.Take(), ",");
-    ASSERT_EQ(*queue.Take(), "World");
     ASSERT_FALSE(queue.Take());
   }
 
