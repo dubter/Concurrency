@@ -6,7 +6,8 @@
     "wheels-src",
     "context-src",
     "twist-src",
-    "tinyfibers-src"
+    "tinyfibers-src",
+    "asio-src/asio/include"
   ],
   "forbidden_patterns": [
     "Your code goes here",
