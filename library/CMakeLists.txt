@@ -29,7 +29,7 @@ message(STATUS "FetchContent: twist")
 FetchContent_Declare(
         twist
         GIT_REPOSITORY https://gitlab.com/Lipovsky/twist.git
-        GIT_TAG e9b1e26f79cd7d780b05b1a02fd11debe9cf61e0
+        GIT_TAG b30fe449846f22cac6faf755068e24d1ccde0491
 )
 FetchContent_MakeAvailable(twist)
 
@@ -40,6 +40,20 @@ message(STATUS "FetchContent: tinyfibers")
 FetchContent_Declare(
         tinyfibers
         GIT_REPOSITORY https://gitlab.com/Lipovsky/tinyfibers.git
-        GIT_TAG ef636e6b440b9add342b59589cf003e6d2d51352
+        GIT_TAG e28ec9fe419a79f630fb1538b36afa26de88f8bd
 )
 FetchContent_MakeAvailable(tinyfibers)
+
+# --------------------------------------------------------------------
+
+message(STATUS "FetchContent: asio")
+
+FetchContent_Declare(
+        asio
+        GIT_REPOSITORY https://github.com/chriskohlhoff/asio.git
+        GIT_TAG asio-1-18-1
+)
+FetchContent_MakeAvailable(asio)
+
+add_library(asio INTERFACE)
+target_include_directories(asio INTERFACE ${asio_SOURCE_DIR}/asio/include)
