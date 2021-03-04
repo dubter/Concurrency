@@ -5,6 +5,9 @@
 using mtf::fibers::Spawn;
 
 TEST_SUITE(Stacks) {
+
+#if !__has_feature(thread_sanitizer)
+
   TEST(Pool, wheels::test::TestOptions().TimeLimit(5s).AdaptTLToSanitizer()) {
     mtf::tp::StaticThreadPool scheduler{1};
 
@@ -22,4 +25,7 @@ TEST_SUITE(Stacks) {
 
     ASSERT_EQ(counter, kFibers)
   }
+
+#endif
+
 }

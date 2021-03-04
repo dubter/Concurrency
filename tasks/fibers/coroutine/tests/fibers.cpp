@@ -153,7 +153,7 @@ TEST_SUITE(Fibers) {
     std::atomic<size_t> leafs_{0};
   };
 
-  SIMPLE_TEST(Forks) {
+  TEST(Forks, wheels::test::TestOptions().TimeLimit(10s).AdaptTLToSanitizer()) {
     ForkTester tester{4};
     ASSERT_EQ(tester.Explode(21), 10946);
   }
