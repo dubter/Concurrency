@@ -24,6 +24,17 @@ FetchContent_MakeAvailable(wheels)
 
 # --------------------------------------------------------------------
 
+message(STATUS "FetchContent: context")
+
+FetchContent_Declare(
+        context
+        GIT_REPOSITORY https://gitlab.com/Lipovsky/context.git
+        GIT_TAG eb8291b8d1a79274522eedbbc695eb4f4269161f
+)
+FetchContent_MakeAvailable(context)
+
+# --------------------------------------------------------------------
+
 message(STATUS "FetchContent: twist")
 
 FetchContent_Declare(
