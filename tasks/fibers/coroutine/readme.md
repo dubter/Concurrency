@@ -74,8 +74,6 @@ coroutine::Coroutine co(routine);
 
 ## Пул потоков
 
-[Реализация `StaticThreadPool`](mtf/thread_pool/static_thread_pool.hpp)
-
 Пул потоков ничего не знает про корутины или файберы, он исполняет _задачи_ (_tasks_) – `std::function<void()>`.
 
 ### Примеры
@@ -118,6 +116,8 @@ pool.Submit(parent);
 Пул останавливается с помощью метода `Join`. После вызова `Join` потоки-воркеры будут работать до тех пор, пока в пуле не закончатся задачи. Вызов `Join` вернет управление после завершения всех потоков пула.
 
 ### Реализация
+
+[`StaticThreadPool`](mtf/thread_pool/static_thread_pool.hpp)
 
 Пул потоков реализован с помощью библиотеки [`asio`](https://github.com/chriskohlhoff/asio).
 
