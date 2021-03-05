@@ -7,15 +7,16 @@ namespace solutions {
 class WaitQueue {
  public:
   void Park() {
-    queue_.wait(0);
+    // Direct futex syscall
+    queue_.FutexWait(0);
   }
 
   void WakeOne() {
-    queue_.notify_one();
+    queue_.FutexWakeOne();
   }
 
   void WakeAll() {
-    queue_.notify_all();
+    queue_.FutexWakeAll();
   }
 
  private:
