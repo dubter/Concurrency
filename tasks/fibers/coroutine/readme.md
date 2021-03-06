@@ -46,11 +46,11 @@ coroutine::Coroutine co(routine);
 
 ### Файберы
 
-Файберы – это кооперативная многозадачность: вычисления исполняются конкурентно, возможно синхронизируясь друг с другом.
+Файберы – это кооперативная многозадачность: вычисления исполняются конкурентно, синхронизируясь друг с другом.
 
 За исполнение файберов отвечает планировщик, его задача – распределять файберы между потоками (аналогично планировщику операционной системы, который распределяет потоки между ядрами процессора).
 
-Файберам нужны средства синхронизации: мьютексы, спинлоки, кондвары, каналы и т.д.
+Файберам нужны собственные средства синхронизации: мьютексы, спинлоки, кондвары, каналы и т.д.
 
 ### Корутины
 
@@ -74,7 +74,7 @@ coroutine::Coroutine co(routine);
 
 ## Пул потоков
 
-Пул потоков ничего не знает про корутины или файберы, он исполняет _задачи_ (_tasks_) – `std::function<void()>`.
+Пул потоков ничего не знает про корутины и файберы, он исполняет _задачи_ (_tasks_) – `std::function<void()>`.
 
 ### Примеры
 
@@ -92,7 +92,7 @@ pool.Submit([]() {
 Задачу в пул можно добавить не только снаружи, но и прямо из исполняемой задачи, т.е. из потока-воркера внутри пула:
 
 ```cpp
-auto parent = []() {
+auto task = []() {
   // Находим текущий пул и кладем в него задачу
   StaticThreadPool::Current()->Submit(
     []() {
@@ -102,7 +102,7 @@ auto parent = []() {
 };
 
 // Бросаем в пул внешнюю задачу
-pool.Submit(parent);
+pool.Submit(task);
 ```
 
 ### Continuations
@@ -127,18 +127,18 @@ pool.Submit(parent);
 // Создаем планировщик - пул потоков
 StaticThreadPool scheduler{/*threads=*/4};
 
-auto first = []() {
+auto child = []() {
   // Уступаем текущий поток пула другому файберу
   Yield();
 };
 
-auto second = []() {
+auto parent = []() {
   // Запускаем новый файбер внутри текущего пула
-  Spawn(first);
+  Spawn(child);
 };
 
 // Запускаем новый файбер в пуле `thread_pool`
-Spawn(first, scheduler);
+Spawn(parent, scheduler);
 
 // Дожидаемся завершения файберов и останавливаем пул
 scheduler.Join();
@@ -162,6 +162,7 @@ scheduler.Join();
 - [ForkJoinPool](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html) – планировщик
 
 ### Kotlin
+
 - [Kotlin Coroutines Proposal](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md)
 - [KotlinConf 2017 - Introduction to Coroutines by Roman Elizarov](https://www.youtube.com/watch?v=_hfBv0a09Jc)
 
