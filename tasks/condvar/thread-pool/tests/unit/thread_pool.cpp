@@ -164,7 +164,7 @@ TEST_SUITE(ThreadPool) {
     pool.Join();
   }
 
-  SIMPLE_TEST(SubmitFromPool) {
+  SIMPLE_TEST(SubmitAfterJoin) {
     tp::StaticThreadPool pool{4};
 
     bool done = false;
@@ -180,6 +180,24 @@ TEST_SUITE(ThreadPool) {
     pool.Join();
 
     ASSERT_TRUE(done);
+  }
+
+  SIMPLE_TEST(SubmitAfterShutdown) {
+    tp::StaticThreadPool pool{4};
+
+    bool done = false;
+
+    pool.Submit([&]() {
+      std::this_thread::sleep_for(500ms);
+      tp::Current()->Submit([&]() {
+        std::this_thread::sleep_for(500ms);
+        done = true;
+      });
+    });
+
+    pool.Shutdown();
+
+    ASSERT_FALSE(done);
   }
 
   TEST(UseThreads, wheels::test::TestOptions().TimeLimit(1s)) {
