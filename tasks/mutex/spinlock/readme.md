@@ -23,3 +23,16 @@
 - Возвращают результат (если он есть) через регистр `%rax`.
 
 Для справки по ассемблеру см. [Introduction to X86-64 Assembly for Compiler Writers](https://web.archive.org/web/20160714182232/https://www3.nd.edu/~dthain/courses/cse40243/fall2015/intel-intro.html)
+
+## `AtomicStore` против `atomic<T>::store`
+
+У методов атомиков в стандартной библиотеке есть дополнительный параметр: [`std::memory_order`](https://en.cppreference.com/w/cpp/atomic/memory_order).
+
+В `store` разумно передавать лишь некоторые из них: `relaxed`, `release` и `seq_cst`.
+
+Каждому из этих вариантов в общем случае соответствует своя реализация метода `store`.
+
+### Вопросы
+
+- Какую именно версию `store` вы написали в функции `AtomicStore`?
+- А какая версия нужна спинлоку?
