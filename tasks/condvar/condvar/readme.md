@@ -37,7 +37,7 @@
 * [`std::condition_variable`](https://en.cppreference.com/w/cpp/thread/condition_variable)
 * [Реализацию](https://gitlab.com/Lipovsky/tinyfibers/-/blob/master/tinyfibers/sync/condvar.hpp) условной переменной для файберов
 
-## Отошения с другими примитивами
+## Отношения с другими примитивами
 
 В промышленном коде кондвары не следует использовать напрямую. Это достаточно низкоуровневый инструмент, с помощью которого можно строить примитивы для конкретных сценариев синхронизации: [барьеры](https://en.cppreference.com/w/cpp/thread/barrier), [семафоры](https://en.cppreference.com/w/cpp/thread/counting_semaphore), [латчи](https://en.cppreference.com/w/cpp/thread/latch), каналы и т.п.
 
