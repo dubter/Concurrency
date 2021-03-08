@@ -2,7 +2,7 @@
   "tests": [
     {
       "targets": ["tests"],
-      "profiles": ["Debug", "FaultyFibers", "FaultyThreadsASan", "FaultyThreadsTSan"]
+      "profiles": ["Debug", "FaultyThreadsASan", "FaultyThreadsTSan"]
     }
   ],
   "lint_files": ["mtf"],
