@@ -24,9 +24,15 @@
 - [futex(2)](http://man7.org/linux/man-pages/man2/futex.2.html)
 - [kernel/futex.c](https://github.com/torvalds/linux/blob/master/kernel/futex.c)
 
+### `twist::stdlike`
+
+Наш атомик расширяет интерфейс атомика из `std` методами `FutexWait` и `FutexWakeOne` / `FutexWakeAll`, которые напрямую выполняют системный вызов `futex`.
+
 ## `atomic::wait`
 
-Начиная с С++20, с фьютексом можно работать через методы атомиков: [`wait`](https://en.cppreference.com/w/cpp/atomic/atomic/wait) + `notify_one` / `notify_all`
+Начиная с С++20, с фьютексом можно работать через методы атомиков: [`wait`](https://en.cppreference.com/w/cpp/atomic/atomic/wait) + `notify_one` / `notify_all`.
+
+Метод `wait` в цикле вызывает `futex` до тех пор, пока значение атомика не изменится. Реализация `wait` подвержена _A-B-A problem_.
 
 Изучите документацию этих методов!
 
