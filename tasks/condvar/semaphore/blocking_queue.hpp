@@ -14,7 +14,8 @@ class BlockingQueue {
   explicit BlockingQueue(size_t /*capacity*/) {
   }
 
-  // Inserts the specified element into this queue
+  // Inserts the specified element into this queue,
+  // waiting if necessary for space to become available.
   void Put(T /*value*/) {
     // Not implemented
   }
