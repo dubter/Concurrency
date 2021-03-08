@@ -18,7 +18,7 @@
 
 Заготовки для функций вы найдете в файле [atomics.S](atomics.S). 
 
-Вспомните _calling conventions_ – [System V AMD64 ABI](https://en.wikipedia.org/wiki/X86_calling_conventions#System_V_AMD64_ABI):
+Вспомните calling conventions – [System V AMD64 ABI](https://en.wikipedia.org/wiki/X86_calling_conventions#System_V_AMD64_ABI):
 - Функции получают первые два аргумента через регистры `%rdi` и `%rsi`.
 - Возвращают результат (если он есть) через регистр `%rax`.
 
@@ -36,3 +36,7 @@
 
 - Какую именно версию `store` вы написали в функции `AtomicStore`?
 - А какая версия нужна спинлоку?
+
+## Полезные ссылки
+
+- https://godbolt.org/, не забудьте установить флаг `-O2`.
