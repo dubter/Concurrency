@@ -61,7 +61,7 @@ void Test(size_t threads, size_t clients, size_t limit) {
   std::cout << "Tasks completed: " << completed.load() << std::endl;
 
   ASSERT_EQ(queue.load(), 0);
-  ASSERT_GT(completed.load(), 16384);
+  ASSERT_GT(completed.load(), 8888);
 }
 
 }  // namespace tasks
