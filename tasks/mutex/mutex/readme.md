@@ -32,7 +32,7 @@
 
 Начиная с С++20, с фьютексом можно работать через методы атомиков: [`wait`](https://en.cppreference.com/w/cpp/atomic/atomic/wait) + `notify_one` / `notify_all`.
 
-Метод `wait` в цикле вызывает `futex` до тех пор, пока значение атомика не изменится. Реализация `wait` подвержена _A-B-A problem_.
+Метод `wait` в цикле вызывает `futex` до тех пор, пока значение атомика не изменится. Реализация `wait` подвержена [A-B-A problem](https://en.wikipedia.org/wiki/ABA_problem).
 
 Изучите документацию этих методов!
 
