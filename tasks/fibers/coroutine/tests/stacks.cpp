@@ -5,7 +5,6 @@
 using mtf::fibers::Spawn;
 
 TEST_SUITE(Stacks) {
-
 #if !__has_feature(thread_sanitizer)
 
   TEST(Pool, wheels::test::TestOptions().TimeLimit(5s).AdaptTLToSanitizer()) {
@@ -15,11 +14,15 @@ TEST_SUITE(Stacks) {
 
     std::atomic<size_t> counter{0};
 
-    for (size_t i = 0; i < kFibers; ++i) {
-      Spawn([&]() {
-        ++counter;
-      }, scheduler);
-    }
+    auto spawner = [&]() {
+      for (size_t i = 0; i < kFibers; ++i) {
+        Spawn([&]() {
+          ++counter;
+        });
+      }
+    };
+
+    Spawn(spawner, scheduler);
 
     scheduler.Join();
 
@@ -27,5 +30,4 @@ TEST_SUITE(Stacks) {
   }
 
 #endif
-
 }
