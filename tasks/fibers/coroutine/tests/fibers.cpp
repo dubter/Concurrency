@@ -210,7 +210,7 @@ TEST_SUITE(Fibers) {
     std::atomic<size_t> value_{0};
   };
 
-  SIMPLE_TEST(RacyCounter) {
+  TEST(RacyCounter, wheels::test::TestOptions().TimeLimit(10s).AdaptTLToSanitizer()) {
     static const size_t kIncrements = 100'000;
     static const size_t kThreads = 4;
     static const size_t kFibers = 100;
