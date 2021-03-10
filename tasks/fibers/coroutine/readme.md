@@ -199,6 +199,10 @@ scheduler.Join();
 
 Для файберов потребуется более эффективный механизм. Реализуйте простой пул стеков, защищенный спинлоком. В будущем мы узнаем, как написать для пула _lock-free_ реализацию.
 
+#### Ленивая аллокация
+
+В какой момент лучше аллоцировать стек для файбера: в момент его создания или запуска?
+
 ### `Submit` / `SubmitContinuation`
 
 Используйте метод `SubmitContinuation` у `StaticThreadPool` только если вам недостаточно метода `Submit`.
@@ -206,6 +210,12 @@ scheduler.Join();
 ### Исключения
 
 Используйте [std::exception_ptr](https://en.cppreference.com/w/cpp/error/exception_ptr) для прокидывания исключения из корутины в caller-а.
+
+### `ExecutionContext`
+
+Финализируте с помощью вызова `AfterStart` первое переключение контекста, которое, в отличие от остальных, прыгает не из `SwitchTo` в другой `SwitchTo`, а в трамплин корутины.
+
+См. [Fiber::Trampoline](https://gitlab.com/Lipovsky/tinyfibers/-/blob/7e0397fe400f5b8f52eb805913a30764415c52f4/tinyfibers/runtime/fiber.cpp#L25) для примера.
 
 ### Misc
 
