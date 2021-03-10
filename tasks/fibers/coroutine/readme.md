@@ -213,7 +213,7 @@ scheduler.Join();
 
 ### `ExecutionContext`
 
-Финализируте с помощью вызова `AfterStart` первое переключение контекста, которое, в отличие от остальных, прыгает не из `SwitchTo` в другой `SwitchTo`, а в трамплин корутины.
+Финализируте с помощью вызова `AfterStart` первое переключение контекста, которое, в отличие от последующих, прыгает не из `SwitchTo` в другой `SwitchTo`, а в трамплин корутины.
 
 См. [Fiber::Trampoline](https://gitlab.com/Lipovsky/tinyfibers/-/blob/7e0397fe400f5b8f52eb805913a30764415c52f4/tinyfibers/runtime/fiber.cpp#L25) для примера.
 
