@@ -15,7 +15,8 @@ using wheels::make_result::ToStatus;
 
 namespace tinyfibers::net {
 
-Result<Socket> Socket::ConnectTo(const std::string& /*host*/, uint16_t /*port*/) {
+Result<Socket> Socket::ConnectTo(const std::string& /*host*/,
+                                 uint16_t /*port*/) {
   return NotSupported();  // Your code goes here
 }
 
