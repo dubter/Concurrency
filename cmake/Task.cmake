@@ -59,8 +59,15 @@ endmacro()
 
 # Libraries
 
-function(add_task_library LIB_NAME)
-    set(LIB_DIR ${TASK_DIR}/${LIB_NAME})
+function(add_task_library DIR_NAME)
+    # Optional lib target name (dir name by default)
+    if (${ARGC} GREATER 1)
+        set(LIB_NAME ${ARGV1})
+    else()
+        set(LIB_NAME ${DIR_NAME})
+    endif()
+
+    set(LIB_DIR ${TASK_DIR}/${DIR_NAME})
 
     get_task_target(LIB_TARGET ${LIB_NAME})
     message(STATUS "Add task library target = ${LIB_TARGET}")
@@ -70,8 +77,12 @@ function(add_task_library LIB_NAME)
     file(GLOB_RECURSE LIB_HEADERS ${LIB_DIR}/*.hpp ${LIB_DIR}/*.ipp)
     add_library(${LIB_TARGET} STATIC ${LIB_CXX_SOURCES} ${LIB_HEADERS})
 
+    # Include dir
+    get_filename_component(LIB_INCLUDE_DIR "${LIB_DIR}/.." ABSOLUTE)
+    target_include_directories(${LIB_TARGET} PUBLIC ${LIB_INCLUDE_DIR})
+
     # Dependencies
-    target_link_libraries(${LIB_TARGET} ${LIBS_LIST} ${ARGN})
+    target_link_libraries(${LIB_TARGET} ${LIBS_LIST})
 
     # Append ${LIB_TARGET to LIBS_LIST
     list(APPEND LIBS_LIST ${LIB_TARGET})
