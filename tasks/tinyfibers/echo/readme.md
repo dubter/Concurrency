@@ -50,10 +50,9 @@
 
 ### Общие замечания
 
-Используйте [`asio::ip::tcp::socket`](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/ip__tcp/socket.html) и [`asio::ip::tcp::acceptor`](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/ip__tcp/acceptor.html) в реализациях `Socket` и `Acceptor`. Работать с низкоуровневыми системными интерфейсами не нужно.
+Используйте [`asio::ip::tcp::socket`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/socket.html) и [`asio::ip::tcp::acceptor`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/acceptor.html) в реализациях `Socket` и `Acceptor`. Работать с низкоуровневыми системными интерфейсами не нужно.
 
-
-Методы `ReadSome` и `Write` у сокета реализуйте через [`async_read_some`](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/basic_stream_socket/async_read_some.html) и [`async_write`](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/async_write/overload1.html) соответственно.
+Методы `ReadSome` и `Write` у сокета реализуйте через [`async_read_some`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/basic_stream_socket/async_read_some.html) и [`async_write`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/async_write/overload1.html) соответственно.
 
 Метод `Read` реализуйте через `ReadSome`.
 
@@ -67,11 +66,11 @@
 
 ### Установка соединения
 
-Сначала вам потребуется транслировать `host` в IP-адреса, для этого используйте класс [`asio::ip::tcp::resolver`](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/ip__tcp/resolver.html).
+Сначала вам потребуется транслировать `host` в IP-адреса, для этого используйте класс [`asio::ip::tcp::resolver`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/resolver.html).
 
 Затем нужно проитерироваться по всем `endpoint`-ам и попробовать приконнектиться к каждому.
 
-Рекомендуем реализовать в сокете вспомогательный статический метод `Connect`, который получает [`asio::ip::tcp::endpoint`](http://think-async.com/Asio/asio-1.12.2/doc/asio/reference/ip__tcp/endpoint.html).
+Рекомендуем реализовать в сокете вспомогательный статический метод `Connect`, который получает [`asio::ip::tcp::endpoint`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/endpoint.html).
 
 Изучите пример [async_tcp_client](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp11/timeouts/async_tcp_client.cpp).
 
@@ -118,7 +117,7 @@ client_socket.Write(asio::buffer(read_buf, bytes_read)).ExpectOk();
 // Здесь за auto прячется `Result<Socket>`
 auto client_socket = acceptor.Accept();
 
-// Для более явной проверки можно использовать `IsOk` или `HasError`
+// Вместо `IsOk` можно использовать `HasError`
 if (!client_socket.IsOk()) {
   // Handle socket.Error()
 }
