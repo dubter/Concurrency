@@ -43,13 +43,14 @@ TEST_SUITE(Coroutine) {
   SIMPLE_TEST(JustWorks) {
 
     Coroutine foo([&]() {
-      // 1
+      std::cout << "1" << std::endl;
       Coroutine::Suspend();
-      // 2
+      std::cout << "3" << std::endl;
     });
 
     ASSERT_FALSE(foo.IsCompleted());
     foo.Resume();
+    std::cout << "2" << std::endl;
     foo.Resume();
     ASSERT_TRUE(foo.IsCompleted());
 
