@@ -16,7 +16,7 @@
 1) Задача [Echo](/tasks/asio/echo)
 2) Задача [SleepFor-Asio](/tasks/tinyfibers/sleep-asio)
 
-## Асинхронность и поток управления
+## [А]синхронность и поток управления
 
 ### Потоки
 
