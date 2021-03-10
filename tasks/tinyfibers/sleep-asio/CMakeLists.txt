@@ -1,0 +1,5 @@
+begin_task()
+task_link_libraries(asio)
+add_task_library(tinyfibers)
+add_task_test_dir(tests)
+end_task()

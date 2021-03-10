@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {
+      "targets": ["tests"],
+      "profiles": ["Debug", "FaultyThreadsASan"]
+    }
+  ],
+  "lint_files": ["tinyfibers"],
+  "submit_files": [
+    "tinyfibers/runtime"
+  ],
+  "forbidden_patterns": ["sleep_for"]
+}
