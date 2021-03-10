@@ -119,7 +119,7 @@ auto client_socket = acceptor.Accept();
 
 // Вместо `IsOk` можно использовать `HasError`
 if (!client_socket.IsOk()) {
-  // Handle socket.Error()
+  // Handle client_socket.Error()
 }
 
 // Теперь мы уверены, что ошибки нет
