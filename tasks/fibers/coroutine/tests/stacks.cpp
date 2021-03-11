@@ -3,6 +3,7 @@
 #include <wheels/test/test_framework.hpp>
 
 using mtf::fibers::Spawn;
+using mtf::fibers::Yield;
 
 TEST_SUITE(Stacks) {
 
@@ -26,22 +27,30 @@ TEST_SUITE(Stacks) {
     scheduler.Join();
   }
 
-  TEST(Pool, wheels::test::TestOptions().TimeLimit(5s).AdaptTLToSanitizer()) {
+#endif
+
+#if !__has_feature(thread_sanitizer) && !__has_feature(address_sanitizer)
+
+  TEST(Pool, wheels::test::TestOptions().TimeLimit(5s)) {
     mtf::tp::StaticThreadPool scheduler{1};
 
     static const size_t kFibers = 1'000'000;
 
     std::atomic<size_t> counter{0};
 
-    auto spawner = [&]() {
+    auto acceptor = [&]() {
       for (size_t i = 0; i < kFibers; ++i) {
+        // ~ Accept client
+        Yield();
+
+        // ~ Handle request
         Spawn([&]() {
           ++counter;
         });
       }
     };
 
-    Spawn(spawner, scheduler);
+    Spawn(acceptor, scheduler);
 
     scheduler.Join();
 
@@ -49,4 +58,5 @@ TEST_SUITE(Stacks) {
   }
 
 #endif
+
 }
