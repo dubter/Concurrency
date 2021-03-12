@@ -31,7 +31,7 @@ TEST_SUITE(Stacks) {
 
 #if !__has_feature(thread_sanitizer) && !__has_feature(address_sanitizer)
 
-  TEST(Pool, wheels::test::TestOptions().TimeLimit(5s)) {
+  TEST(Pool, wheels::test::TestOptions().TimeLimit(8s)) {
     mtf::tp::StaticThreadPool scheduler{1};
 
     static const size_t kFibers = 1'000'000;
