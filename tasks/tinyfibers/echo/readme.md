@@ -56,7 +56,7 @@
 
 Сокеты - низкий уровень абстракции, и ошибки на этом уровне не исключительны, а наоборот, ожидаемы.
 
-API сокетов построено на классах `Result<T>` и `Status` (синоним для `Result<void>`).
+API сокетов построено на классах [`Result<T>`](https://gitlab.com/Lipovsky/wheels/-/blob/master/wheels/support/result.hpp) и `Status` (синоним для `Result<void>`).
 
 Экземпляр `Result` гарантированно содержит _либо_ значение типа `T`, _либо_ код ошибки.
 
@@ -93,21 +93,22 @@ client_socket.Write(asio::buffer(read_buf, bytes_read)).ExpectOk();
 // Здесь за auto прячется `Result<Socket>`
 auto client_socket = acceptor.Accept();
 
-// Вместо `IsOk` можно использовать `HasError`
+// Вместо `IsOk` можно использовать противоположный
+// по смыслу метод `HasError`
 if (!client_socket.IsOk()) {
-  // Handle client_socket.Error()
+  // Пробросим ошибку выше
+  return PropagateError(client_socket);
 }
 
 // Теперь мы уверены, что ошибки нет
 // Операторы -> и * не выполняют проверок!
-auto bytes_read = client_socket->Read(asio::buffer(read_buf, kBufSize));
+auto bytes_read = client_socket->ReadSome(asio::buffer(read_buf, kBufSize));
 if (bytes_read.HasError()) {
-  // Handle bytes_read.Error()
+  return PropagateError(bytes_read);
 }
  
 // Метод `Write` возвращает `Status`, он же `Result<void>`
 Status ok = client_socket->Write(asio::buffer(read_buf, *bytes_read));
-
 ```
 
 #### Конструирование
