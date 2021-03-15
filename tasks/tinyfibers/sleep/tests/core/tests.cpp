@@ -17,7 +17,7 @@ using namespace tinyfibers;
 
 using namespace std::chrono_literals;
 
-TEST_SUITE(Fibers) {
+TEST_SUITE(Core) {
   SIMPLE_TEST(JustWorks) {
     RunScheduler([]() {
       self::Yield();
@@ -281,7 +281,19 @@ TEST_SUITE(Fibers) {
     wg.Wait();
   }
 
+  TINY_FIBERS_TEST(NonCopyable) {
+    static_assert(!std::is_copy_assignable<Mutex>::value, "Broken Mutex");
+    static_assert(!std::is_copy_constructible<Mutex>::value, "Broken Mutex");
 
+    static_assert(!std::is_copy_assignable<CondVar>::value, "Broken CondVar");
+    static_assert(!std::is_copy_constructible<CondVar>::value,
+                  "Broken CondVar");
+
+    static_assert(!std::is_copy_assignable<WaitQueue>::value,
+                  "Broken WaitQueue");
+    static_assert(!std::is_copy_constructible<WaitQueue>::value,
+                  "Broken WaitQueue");
+  }
 
   SIMPLE_TEST(NoLeaks) {
     auto strong_ref = std::make_shared<int>(42);
@@ -296,3 +308,5 @@ TEST_SUITE(Fibers) {
     ASSERT_FALSE(weak_ref.lock());
   }
 }
+
+RUN_ALL_TESTS()

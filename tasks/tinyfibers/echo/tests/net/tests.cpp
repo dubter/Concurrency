@@ -19,10 +19,10 @@ using namespace tests::support;
 
 TEST_SUITE(Sockets) {
   TINY_FIBERS_TEST(ChooseAvailablePort) {
-    net::Acceptor acceptor_1;
+    Acceptor acceptor_1;
     acceptor_1.BindTo(0).ExpectOk();
 
-    net::Acceptor acceptor_2;
+    Acceptor acceptor_2;
     acceptor_2.BindTo(0).ExpectOk();
 
     std::cout << "Available ports: " << acceptor_1.GetPort() << ", "
@@ -32,10 +32,10 @@ TEST_SUITE(Sockets) {
   }
 
   TINY_FIBERS_TEST(AddressAlreadyInUse) {
-    net::Acceptor acceptor_1;
+    Acceptor acceptor_1;
     acceptor_1.BindToAvailablePort().ThrowIfError();
 
-    net::Acceptor acceptor_2;
+    Acceptor acceptor_2;
     auto status = acceptor_2.BindTo(acceptor_1.GetPort());
     ASSERT_FALSE(status.IsOk());
   }
@@ -43,13 +43,13 @@ TEST_SUITE(Sockets) {
   TINY_FIBERS_TEST(FailToConnect) {
     return;  // Under investigation
 
-    net::Acceptor acceptor;
+    Acceptor acceptor;
     uint16_t port = acceptor.BindToAvailablePort();
 
     std::cout << "Bind acceptor to port " << port << std::endl;
 
     auto connect = [port]() {
-      auto socket = net::Socket::ConnectToLocal(port);
+      auto socket = Socket::ConnectToLocal(port);
       ASSERT_TRUE(socket.HasError());
 
       std::cout << "Cannot connect ot port " << port << ": "
@@ -61,64 +61,55 @@ TEST_SUITE(Sockets) {
     // Socket client_socket = acceptor.Accept();
   }
 
-  // Broke blocking accept
   TINY_FIBERS_TEST(Accept) {
-    net::Acceptor acceptor;
+    Acceptor acceptor;
     uint16_t port = acceptor.BindToAvailablePort();
     acceptor.Listen().ExpectOk();
 
     auto connect = [port]() {
-      net::Socket socket = net::Socket::ConnectToLocal(port);
+      Socket socket = Socket::ConnectToLocal(port);
     };
 
-    auto h = Spawn(connect);
+    Spawn(connect).Detach();
 
-    net::Socket client_socket = acceptor.Accept();
-
-    h.Join();
+    Socket client_socket = acceptor.Accept();
   }
 
-  // Broke blocking connect
   TINY_FIBERS_TEST(Connect) {
-    net::Acceptor acceptor;
+    Acceptor acceptor;
     uint16_t port = acceptor.BindToAvailablePort();
     acceptor.Listen().ExpectOk();
 
     auto accept = [&acceptor]() {
-      net::Socket socket = acceptor.Accept();
+      Socket socket = acceptor.Accept();
     };
 
-    auto h = Spawn(accept);
+    Spawn(accept).Detach();
 
-    auto socket = net::Socket::ConnectToLocal(port);
-    if (socket.HasError()) {
-      std::cout << socket.GetErrorCode().message() << std::endl;
-    }
-
-    h.Join();
+    Socket socket = Socket::ConnectToLocal(port);
   }
 
   TINY_FIBERS_TEST(Hello) {
     static const std::string kHelloMessage = "Hello, World!";
 
-    net::Acceptor acceptor;
+    Acceptor acceptor;
     uint16_t port = acceptor.BindToAvailablePort();
     acceptor.Listen().ExpectOk();
 
     auto client = [port]() {
-      net::Socket socket = net::Socket::ConnectToLocal(port);
+      Socket socket = Socket::ConnectToLocal(port);
       socket.Write(asio::buffer(kHelloMessage)).ExpectOk();
     };
 
-    auto h = Spawn(client);
+    Spawn(client).Detach();
 
     Socket socket = acceptor.Accept();
     std::string message = Read(socket, kHelloMessage.length());
+
     std::cout << "Message sent: '" << kHelloMessage << "'" << std::endl;
     std::cout << "Message received: " << message << "'" << std::endl;
-    ASSERT_EQ(message, kHelloMessage);
 
-    h.Join();
+    ASSERT_EQ(message, kHelloMessage);
   }
 
   TINY_FIBERS_TEST(ReadAll) {
@@ -134,14 +125,11 @@ TEST_SUITE(Sockets) {
       socket.ShutdownWrite().ExpectOk();
     };
 
-    auto h = Spawn(client);
+    Spawn(client).Detach();
 
     Socket socket = acceptor.Accept();
 
     std::string message = ReadAll(socket);
-
-    h.Join();
-
     ASSERT_EQ(message, kHelloMessage);
   }
 
@@ -163,7 +151,7 @@ TEST_SUITE(Sockets) {
       ASSERT_EQ(reply, kReplyMessage);
     };
 
-    auto h = Spawn(client);
+    Spawn(client).Detach();
 
     Socket client_socket = acceptor.Accept();
     std::string message = ReadAll(client_socket);
@@ -171,8 +159,6 @@ TEST_SUITE(Sockets) {
 
     client_socket.Write(asio::buffer(kReplyMessage)).ExpectOk();
     client_socket.ShutdownWrite().ExpectOk();
-
-    h.Join();
   }
 
   TINY_FIBERS_TEST(SocketStreamReads) {
@@ -201,7 +187,7 @@ TEST_SUITE(Sockets) {
       socket.ShutdownWrite().ExpectOk();
     };
 
-    auto h = Spawn(sender);
+    Spawn(sender).Detach();
 
     Socket socket = acceptor.Accept();
 
@@ -215,8 +201,6 @@ TEST_SUITE(Sockets) {
         break;
       }
     }
-
-    h.Join();
 
     ASSERT_EQ(sent.ToString(), received.ToString());
   }
@@ -245,7 +229,7 @@ TEST_SUITE(Sockets) {
       }
     };
 
-    auto h = Spawn(sender);
+    Spawn(sender).Detach();
 
     Socket socket = acceptor.Accept();
 
@@ -253,8 +237,6 @@ TEST_SUITE(Sockets) {
     read_buf.resize(kStreamLength);
 
     size_t bytes_read = socket.Read(asio::buffer(read_buf));
-
-    h.Join();
 
     ASSERT_EQ(bytes_read, kStreamLength);
     ASSERT_EQ(read_buf, sent.ToString());

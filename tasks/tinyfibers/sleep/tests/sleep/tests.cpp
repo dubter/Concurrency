@@ -137,3 +137,5 @@ TEST_SUITE(SleepFor) {
     ASSERT_EQ(counter, 2);
   }
 }
+
+RUN_ALL_TESTS()

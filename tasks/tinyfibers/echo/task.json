@@ -1,7 +1,7 @@
 {
   "tests": [
     {
-      "targets": ["core_tests", "net_tests"],
+      "targets": ["core_tests", "sleep_tests", "net_tests"],
       "profiles": ["Debug", "FaultyThreadsASan"]
     },
     {

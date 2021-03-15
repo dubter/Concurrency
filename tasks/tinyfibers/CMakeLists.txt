@@ -1,4 +1,4 @@
 # Tasks
 
-add_subdirectory(sleep-asio)
+add_subdirectory(sleep)
 add_subdirectory(echo)
