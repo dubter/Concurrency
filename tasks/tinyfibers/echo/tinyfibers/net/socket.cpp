@@ -40,4 +40,7 @@ Status Socket::ShutdownWrite() {
   return NotSupported();  // Your code goes here
 }
 
+Socket::Socket(asio::ip::tcp::socket&& impl): socket_(std::move(impl)) {
+}
+
 }  // namespace tinyfibers::net

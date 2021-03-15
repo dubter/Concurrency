@@ -48,8 +48,7 @@ class Socket {
   wheels::Status ShutdownWrite();
 
  private:
-  Socket(asio::ip::tcp::socket&& impl) : socket_(std::move(impl)) {
-  }
+  Socket(asio::ip::tcp::socket&& impl);
 
  private:
   asio::ip::tcp::socket socket_;
