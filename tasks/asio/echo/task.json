@@ -2,7 +2,7 @@
   "tests": [
     {
       "targets": ["tests"],
-      "profiles": ["Debug", "FaultyThreadsASan"]
+      "profiles": ["Debug"]
     }
   ],
   "lint_files": ["echo"],
