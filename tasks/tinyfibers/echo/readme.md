@@ -146,11 +146,11 @@ Status Socket::ShutdownWrite() {
 ###### `PropagateError`
 
 ```cpp
-auto result = socket.ReadSome(buf);
+auto result = socket.ReadSome(buffer);
 if (result.HasError()) {
   // Текущая функция может возвращать произвольный `Result<U>`,
   // не обязательно тот же `Result<size_t>`, что и `ReadSome`
-  return PropagateError(std::move(result));
+  return PropagateError(result);
 }
 ```
 
