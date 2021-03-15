@@ -33,7 +33,7 @@ void Scheduler::SleepFor(Duration delay) {
 
 Прочтите tutorial по таймерам:  [Using a timer asynchronously](http://think-async.com/Asio/asio-1.18.1/doc/asio/tutorial/tuttimer2.html).
 
-Используйте специализацию `WaitableTimer`, определенную в [timer.hpp](/tasks/tinyfibers/sleep/runtime/timer.hpp).
+Используйте специализацию `WaitableTimer`, определенную в [timer.hpp](tinyfibers/runtime/timer.hpp).
 
 Запрещается:
 - использовать функции [std::this_thread::sleep_for](https://en.cppreference.com/w/cpp/thread/sleep_for) и [sleep](http://man7.org/linux/man-pages/man3/sleep.3.html), т.е. явно ставить поток на паузу,
