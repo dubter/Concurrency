@@ -8,19 +8,23 @@
 Ваш эхо-сервер на файберах должен
 
 - выглядеть так же просто, как и [многопоточная реализация](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp14/echo/blocking_tcp_echo_server.cpp),
-- при этом исполняться так же эффективно, как и асинхронная однопоточная реализация.
+- при этом исполняться так же эффективно, как и [асинхронная однопоточная реализация](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp14/echo/async_tcp_echo_server.cpp).
 
 
 ## Пререквизиты
 
 1) Задача [Echo](/tasks/asio/echo)
-2) Задача [SleepFor-Asio](/tasks/tinyfibers/sleep-asio)
+2) Задача [SleepFor-Asio](/tasks/tinyfibers/sleep)
 
 ## [А]синхронность и поток управления
 
 ### Потоки
 
-Самый простой способ писать сетевой код – [потоки](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp11/echo/blocking_tcp_echo_server.cpp). Но если клиентов десятки тысяч, то по потоку на каждого из них не заведешь.
+Самый простой способ писать сетевой код - пользоваться [синхронным I/O](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp14/echo/blocking_tcp_echo_server.cpp). 
+
+Но синхронный I/O требует блокировки потока операционной системы, так что для конкурентного обслуживания клиентов на каждого из них придется завести отдельный поток.
+
+Такое решение не масштабируется – клиентов может быть гораздо больше, чем число потоков, которые может эффективно обслуживать операционная система.
 
 ### Коллбэки и цикл событий
 
@@ -36,51 +40,17 @@
 
 С помощью механизма переключения контекста можно склеить точки старта и завершения асинхронной операции и дать пользователю файберов видимость синхронного вызова. При этом под капотом будет крутиться тот же цикл событий с коллбэками.
 
+## Трансформация async → sync
+
+Файбер стартует асинхронную операцию (например, чтение из сокета), планирует свое возобновление в коллбеке, после чего уступает поток планировщика другому файберу.
+
 ## Кооперативность и I/O
 
 Вспомним о кооперативной природе файберов – они могут уступать поток планировщика только добровольно.
 
-Операции сетевого I/O - естественные точки для кооперативного переключения: файбер стартует асинхронную операцию (например, чтение из сокета), планирует свое возобновление в коллбеке, после чего уступает поток планировщика другому файберу.
+Операции сетевого I/O - естественные точки для кооперативного переключения файберов.
 
-## Заметки по реализации
-
-### Планировщик + Asio
-
-Вам потребуется интеграция планировщика файберов и цикла событий из Asio, эта часть уже должна быть готова после решения [SleepFor-Asio](/tasks/tinyfibers/sleep-asio). Если вы написали там хороший код, то в планировщик изменений вносить не потребуется.
-
-### Общие замечания
-
-Используйте [`asio::ip::tcp::socket`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/socket.html) и [`asio::ip::tcp::acceptor`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/acceptor.html) в реализациях `Socket` и `Acceptor`. Работать с низкоуровневыми системными интерфейсами не нужно.
-
-Методы `ReadSome` и `Write` у сокета реализуйте через [`async_read_some`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/basic_stream_socket/async_read_some.html) и [`async_write`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/async_write/overload1.html) соответственно.
-
-Метод `Read` реализуйте через `ReadSome`.
-
-Не делайте публичных конструкторов у `Socket`. Пользователи конструируют сокеты только с помощью
-- статических конструкторов `ConnectTo` / `ConnectToLocal`
-- `acceptor.Accept()`
-
-Метод `BindToAvailablePort` у `Acceptor` реализуйте через `BindTo(/*port=*/0)`, операционная система сама подберет свободный порт.
-
-Заголовочный файл `socket.hpp` – часть публичного API файберов, в нем не должно быть зависимостей от планировщика и т.п.
-
-### Установка соединения
-
-Сначала вам потребуется транслировать `host` в IP-адреса, для этого используйте класс [`asio::ip::tcp::resolver`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/resolver.html).
-
-Затем нужно проитерироваться по всем `endpoint`-ам и попробовать приконнектиться к каждому.
-
-Рекомендуем реализовать в сокете вспомогательный статический метод `Connect`, который получает [`asio::ip::tcp::endpoint`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/endpoint.html).
-
-Изучите пример [async_tcp_client](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp11/timeouts/async_tcp_client.cpp).
-
-### Асинхронный резолвинг адреса (дополнительно)
-
-По аналогии с `Acceptor` напишите класс `Resolver`, который использует `async_resolve`. Кто будет владеть `Resolver`-ом?
-
-### Неблокирующие операции (дополнительно)
-
-В реализации `ReadSome` попробуйте сначала оптимистично читать данные из сокета в неблокирующем режиме, и только в случае неудачи стартовать асинхронную операцию `async_read_some`.
+---
 
 ## Обработка ошибок
 
@@ -88,11 +58,15 @@
 
 API сокетов построено на классах `Result<T>` и `Status` (синоним для `Result<void>`).
 
-`Result` не навязывает конкретный способ обработки ошибок, вы можете использовать как обработку кодов, так и исключения.
-
 Экземпляр `Result` гарантированно содержит _либо_ значение типа `T`, _либо_ код ошибки.
 
-Тип `Result` аннотирован как [`[[nodiscard]]`](https://en.cppreference.com/w/cpp/language/attributes/nodiscard). Если вы проигнорируете проверку `Result`-а, который получили из вызова метода или функции, то компилятор сгенерирует предупреждение (а с флагом компиляции `-Werror` – ошибку).
+`Result` не навязывает конкретный способ обработки ошибок, вы можете использовать как обработку кодов, так и исключения.
+
+### `[[nodiscard]]`
+
+Главное правило работы с ошибками – ошибки нельзя игнорировать!
+
+Тип `Result` аннотирован как [`[[nodiscard]]`](https://en.cppreference.com/w/cpp/language/attributes/nodiscard). Если вы проигнорируете проверку `Result`-а, который получили из вызова метода или функции, то компилятор сгенерирует предупреждение. А с флагом компиляции `-Werror` это предупреждение превратится в ошибку.
 
 ### Примеры использования
 
@@ -186,7 +160,49 @@ if (result.HasError()) {
 - Rust: [Recoverable Errors with `Result`](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html)
 - C++: [Boost.Outcome](https://www.boost.org/doc/libs/1_72_0/libs/outcome/doc/html/index.html), [`ErrorOr<T>`](https://github.com/llvm-mirror/llvm/blob/master/include/llvm/Support/ErrorOr.h) в LLVM, [`Try<T>`](https://github.com/facebook/folly/blob/master/folly/Try.h) в Folly, [`expected`](https://github.com/TartanLlama/expected)
 
-## В ожидании асинхронного результата
+---
+
+## Заметки по реализации
+
+### Планировщик + Asio
+
+Вам потребуется интеграция планировщика файберов и цикла событий из Asio, эта часть уже должна быть готова после решения [SleepFor-Asio](/tasks/tinyfibers/sleep). Если вы написали там хороший код, то в планировщик изменений вносить не потребуется.
+
+### Сокеты
+
+Используйте [`asio::ip::tcp::socket`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/socket.html) и [`asio::ip::tcp::acceptor`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/acceptor.html) в реализациях `Socket` и `Acceptor`.
+
+Методы `ReadSome` и `Write` у сокета реализуйте через [`async_read_some`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/basic_stream_socket/async_read_some.html) и [`async_write`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/async_write/overload1.html) соответственно.
+
+Метод `Read` реализуйте через `ReadSome`.
+
+Не делайте публичных конструкторов у `Socket`. Пользователи конструируют сокеты только с помощью
+- статических конструкторов `ConnectTo` / `ConnectToLocal`
+- `acceptor.Accept()`
+
+Метод `BindToAvailablePort` у `Acceptor` реализуйте через `BindTo(/*port=*/0)`, операционная система сама подберет свободный порт.
+
+Заголовочные файлы `socket.hpp` и `acceptor.hpp` – часть публичного API файберов, в нем не должно быть зависимостей от планировщика и т.п.
+
+### Установка соединения
+
+Сначала вам потребуется транслировать `host` в IP-адреса, для этого используйте класс [`asio::ip::tcp::resolver`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/resolver.html).
+
+Затем нужно проитерироваться по всем `endpoint`-ам и попробовать приконнектиться к каждому.
+
+Рекомендуем реализовать в сокете вспомогательный статический метод `Connect`, который получает [`asio::ip::tcp::endpoint`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/endpoint.html).
+
+Изучите пример [async_tcp_client](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp11/timeouts/async_tcp_client.cpp).
+
+### Асинхронный резолвинг адреса (дополнительно)
+
+По аналогии с `Acceptor` напишите класс `Resolver`, который использует `async_resolve`.
+
+### Неблокирующие операции (дополнительно)
+
+В реализации `ReadSome` попробуйте сначала оптимистично читать данные из сокета в неблокирующем режиме, и только в случае неудачи стартовать асинхронную операцию `async_read_some`.
+
+### В ожидании асинхронного результата
 
 Скорее всего в вашей реализации сокетов будет много повторяющегося кода:
 
