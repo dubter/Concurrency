@@ -45,3 +45,19 @@
   tasks:
     - task: fibers/coroutine
       score: 500
+
+- group:    Asio
+  start:    01-01-2021 00:00
+  deadline: 22-03-2021 23:59
+  tasks:
+    - task: asio/echo
+      score: 200
+
+- group:    TinyFibers + Asio
+  start:    01-01-2021 00:00
+  deadline: 28-03-2021 23:59
+  tasks:
+    - task: tinyfibers/sleep
+      score: 300
+    - task: tinyfibers/echo
+      score: 500
