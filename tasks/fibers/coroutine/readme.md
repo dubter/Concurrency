@@ -177,7 +177,7 @@ scheduler.Join();
 
 ## Генераторы и итераторы
 
-Есть еще один зверь, похожий на корутины – [генераторы](https://jeffknupp.com/blog/2013/04/07/improve-your-python-yield-and-generators-explained/).
+Есть еще один зверь, похожий на корутины – [генераторы](http://www.dabeaz.com/generators/).
 
 Корутины / генераторы изменят ваш взгляд на реализацию итераторов: [Iteration Inside and Out](https://journal.stuffwithstuff.com/2013/01/13/iteration-inside-and-out/)
 
@@ -205,7 +205,7 @@ scheduler.Join();
 
 #### Спинлок
 
-Реализуйте `Test-and-TAS` спинлок, который учитывает когерентность кэшей. 
+Реализуйте _Test-and-TAS_ спинлок, который учитывает когерентность кэшей.
 
 Реализацию поместите в отдельный заголовочный файл.
 
