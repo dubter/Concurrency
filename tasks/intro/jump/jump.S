@@ -9,12 +9,12 @@
 .globl FUNCTION_NAME(JumpTo)
 
 # Solution starts here
-# You need just two instructions: 'movq' and 'ret'
+# You need just two instructions: 'movq' and 'retq'
 
 FUNCTION_NAME(Capture):
     # Your asm code goes here
-    ret
+    retq
 
 FUNCTION_NAME(JumpTo):
     # Your asm code goes here
-    ret
+    retq
