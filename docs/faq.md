@@ -101,3 +101,9 @@
 ### Утилита `clang-tidy` / команда `clippy tidy` генерирует тысячи ворнингов, так и должно быть?
 
 К сожалению, да.
+
+---
+
+### Как отключить проверку `clang-tidy` для конкретной строки кода?
+
+См. [Suppressing Undesired Diagnostics](https://clang.llvm.org/extra/clang-tidy/#suppressing-undesired-diagnostics).
