@@ -15,7 +15,7 @@ void Coroutine::Suspend() {
 }
 
 bool Coroutine::IsCompleted() const {
-  return false;  // Not implemented
+  return true;  // Not implemented
 }
 
 void Coroutine::Trampoline() {
