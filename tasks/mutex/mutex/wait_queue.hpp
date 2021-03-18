@@ -7,7 +7,7 @@ namespace solutions {
 class WaitQueue {
  public:
   void Park() {
-    // Direct futex syscall
+    // Direct futex syscall, nonstandard
     queue_.FutexWait(0);
   }
 
