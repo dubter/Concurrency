@@ -209,6 +209,8 @@ scheduler.Join();
 
 Реализацию поместите в отдельный заголовочный файл.
 
+Для совместимости с `std::lock_guard` в спинлоке потребуется написать методы с именами `lock` и `unlock`, что не укладывается в стайл-гайд. См. [Suppressing Undesired Diagnostics](https://clang.llvm.org/extra/clang-tidy/#suppressing-undesired-diagnostics) для подавления проверок `clang-tidy`.
+
 ### `Submit` / `SubmitContinuation`
 
 Используйте метод `SubmitContinuation` у `StaticThreadPool` только если вам недостаточно метода `Submit`.
