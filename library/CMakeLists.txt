@@ -29,7 +29,7 @@ message(STATUS "FetchContent: context")
 FetchContent_Declare(
         context
         GIT_REPOSITORY https://gitlab.com/Lipovsky/context.git
-        GIT_TAG eb8291b8d1a79274522eedbbc695eb4f4269161f
+        GIT_TAG 35b73b15738614d91f950a98f1c074ea2a48ee57
 )
 FetchContent_MakeAvailable(context)
 
