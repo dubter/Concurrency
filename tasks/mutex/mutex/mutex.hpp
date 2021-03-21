@@ -1,13 +1,10 @@
 #pragma once
 
 #include <twist/stdlike/atomic.hpp>
-#include <twist/util/spin_wait.hpp>
 
 #include <cstdlib>
 
 namespace solutions {
-
-using twist::util::SpinWait;
 
 class Mutex {
  public:
