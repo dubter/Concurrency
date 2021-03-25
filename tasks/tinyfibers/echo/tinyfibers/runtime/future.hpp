@@ -11,6 +11,7 @@ namespace tinyfibers {
 template <typename T>
 class Future {
  public:
+  // Blocks until the future is fulfilled
   wheels::Result<T> Get() {
     return wheels::make_result::NotSupported();
   }
