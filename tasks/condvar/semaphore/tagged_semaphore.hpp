@@ -14,6 +14,10 @@ class TaggedSemaphore {
     friend class TaggedSemaphore;
 
    public:
+    ~Token() {
+      assert(!valid_);
+    }
+
     // Non-copyable
     Token(const Token&) = delete;
     Token& operator=(const Token&) = delete;
