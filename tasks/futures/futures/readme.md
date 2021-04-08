@@ -116,7 +116,7 @@ Future<U> g = std::move(f).Then(Bar);
 
 #### Chaining
 
-С помощью `Then` [fluently](https://en.wikipedia.org/wiki/Fluent_interface) выстраивать цепочки продолжений произвольной длины:
+С помощью `Then` можно [fluently](https://en.wikipedia.org/wiki/Fluent_interface) выстраивать цепочки продолжений произвольной длины:
 
 ```cpp
 // Стартуем асинхронный пайплайн
