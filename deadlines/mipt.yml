@@ -61,3 +61,17 @@
       score: 300
     - task: tinyfibers/echo
       score: 500
+
+- group:    Executors
+  start:    01-01-2021 00:00
+  deadline: 20-04-2022 23:59
+  tasks:
+    - task: futures/executors
+      score: 500
+
+- group:    Futures
+  start:    01-01-2021 00:00
+  deadline: 27-04-2022 23:59
+  tasks:
+    - task: futures/futures
+      score: 500
