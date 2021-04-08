@@ -13,5 +13,5 @@
   ],
   "lint_files": ["await"],
   "submit_files": ["await"],
-  "forbidden_patterns": [""]
+  "forbidden_patterns": []
 }
