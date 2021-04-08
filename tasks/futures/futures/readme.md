@@ -83,13 +83,11 @@ std::cout << AsyncVia(tp, compute).GetValue() << std::endl;
 
 ## Абстракция и композиция
 
-Взгляд на `Future<T>` как на канал – слишком механический.
+Взгляд на `Future<T>` как на канал – слишком упрощенный.
 
 `Future<T>` – _представление будущего результата_ асинхронной операции, 
 
-Такой взгляд на фьючи открывает дорогу к функциональную композицию асинхронных вычислений.
-
-[Marius Eriksen – Your Server as a Function](https://monkey.org/~marius/funsrv.pdf)
+Такой взгляд на фьючи открывает дорогу к функциональной композиции асинхронных вычислений: [Marius Eriksen – Your Server as a Function](https://monkey.org/~marius/funsrv.pdf)
 
 ### `Then` (последовательная композиция)
 
