@@ -150,10 +150,10 @@ auto third = [](int value) {
 };
 
 AsyncVia(tp, crash)
-  .Then(second)  // не будет вызван
-  .Then(third)   // не будет вызван
+  .Then(second)  // Не будет вызван
+  .Then(third)   // Не будет вызван
   .Subscribe([](Result<int> result) {
-    // ...
+    // result.HasError() == true
   });
 ```
 
@@ -166,11 +166,12 @@ auto handle_error = [](Error /*error*/) -> int {
 };
 
 AsyncVia(tp, first)
-  .Then(second)  // не будет вызван
-  .Then(third)   // не будет вызван
-  .Recover(handle_error)
+  .Then(second)  // Не будет вызван
+  .Then(third)   // Не будет вызван
+  .Recover(handle_error)  // перехватит ошибку
   .Subscribe([](Result<int> result) {
-    // ...
+    // result.IsOk() == true
+    // *result == 42
   });
 ```
 
