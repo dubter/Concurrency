@@ -1,0 +1,18 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "executors_unit_tests",
+        "futures_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
+    }
+  ],
+  "lint_files": ["await"],
+  "submit_files": ["await"],
+  "forbidden_patterns": [""]
+}
