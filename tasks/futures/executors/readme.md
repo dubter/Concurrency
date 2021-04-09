@@ -187,7 +187,7 @@ class InlineExecutor : public IExecutor {
   void Execute(Task&& task) override {
     try {
       task();
-    } catch () {
+    } catch (...) {
       // Intentionally ignore exceptions
     }
   }
@@ -211,13 +211,13 @@ class InlineExecutor : public IExecutor {
 ```cpp
 auto tp = MakeStaticThreadPool(4, "tp");
 // Декорируем пул потоков
-auto priority = MakePriorityExecutor(tp);
+auto pq = MakePriorityExecutor(tp);
 
-priority->Execute(100, [](){
+pq->Execute(100, [](){
   // Очень важная задача, ее нужно выполнить в первую очередь
 });
 
-priority->Execute(-100, [](){
+pq->Execute(-100, [](){
   // Эта задача должна уступать дорогу более важным
 });
 ```
