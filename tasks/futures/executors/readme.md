@@ -110,7 +110,7 @@ auto tp = MakeStaticThreadPool(4, "tp")
 
 // Планируем задачу
 tp->Execute([]() {
-  ExpectThread("pool");  // Проверяем, что работаем в нужном пуле
+  ExpectThread("tp");  // Проверяем, что работаем в нужном пуле
   DoSomeWork();
 });
 ```
