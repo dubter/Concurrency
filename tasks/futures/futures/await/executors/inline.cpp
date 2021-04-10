@@ -27,7 +27,6 @@ class Instance {
   IExecutorPtr e_;
 };
 
-// NB: for deterministic simulation
 static Instance single;
 
 IExecutorPtr GetInlineExecutor() {
