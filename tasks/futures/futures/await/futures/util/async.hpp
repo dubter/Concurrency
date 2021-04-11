@@ -7,7 +7,7 @@
 
 namespace await::futures {
 
-// Execute callable object `f` via executor `e`
+// Execute callable object `target` via executor `e`
 // and return future
 //
 // Usage:
