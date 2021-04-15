@@ -95,7 +95,7 @@ TEST_SUITE(Priority) {
     tp->Join();
   }
 
-  SIMPLE_TEST(Concurrent) {
+  TEST(Concurrent, wheels::test::TestOptions().AdaptTLToSanitizer()) {
     auto tasks_tp = MakeStaticThreadPool(4, "tasks");
     auto pq = MakePriorityExecutor(tasks_tp);
 
@@ -118,8 +118,6 @@ TEST_SUITE(Priority) {
   SIMPLE_TEST(Mutex) {
     auto inlined = GetInlineExecutor();
     auto pq = MakePriorityExecutor(inlined);
-
-    auto tp = MakeStaticThreadPool(2, "test");
 
     auto submit_sleep = [pq]() {
       pq->Execute(1, []() {
