@@ -60,6 +60,32 @@ TEST_SUITE(Priority) {
     ASSERT_EQ(value, -1);
   }
 
+  SIMPLE_TEST(Lifetime1) {
+    auto manual = MakeManualExecutor();
+
+    bool done = false;
+
+    MakePriorityExecutor(manual)->Execute(1, [&]() {
+      done = true;
+    });
+
+    manual->Drain();
+    ASSERT_TRUE(done);
+  }
+
+  SIMPLE_TEST(Lifetime2) {
+    auto manual = MakeManualExecutor();
+
+    bool done = false;
+
+    MakePriorityExecutor(manual)->FixPriority(1)->Execute([&]() {
+      done = true;
+    });
+
+    manual->Drain();
+    ASSERT_TRUE(done);
+  }
+
   Task MakeLoop(std::weak_ptr<IPriorityExecutor> pq, int priority) {
     return [pq, priority]() {
       std::this_thread::sleep_for(100ms);
@@ -75,7 +101,7 @@ TEST_SUITE(Priority) {
 
     pq->Execute(100, MakeLoop(pq, 100));
     pq->Execute(-100, []() {
-        std::abort();
+      std::abort();
     });
 
     std::this_thread::sleep_for(3s);
@@ -123,7 +149,7 @@ TEST_SUITE(Priority) {
 
     for (size_t i = 0; i < kTasks; ++i) {
       clients_tp->Execute([pq]() {
-        pq->Execute(33, [](){});
+        pq->Execute(33, []() {});
       });
     }
 
