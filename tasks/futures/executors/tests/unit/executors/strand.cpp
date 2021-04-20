@@ -327,4 +327,30 @@ TEST_SUITE(Strand) {
 
     tp->Join();
   }
+
+  SIMPLE_TEST(DoNotBlockThreadPool) {
+    auto tp = MakeStaticThreadPool(2, "test");
+    auto strand = MakeStrand(tp);
+
+    strand->Execute([]() {
+      std::this_thread::sleep_for(1s);
+    });
+
+    std::this_thread::sleep_for(100ms);
+
+    strand->Execute([]() {
+      std::this_thread::sleep_for(1s);
+    });
+
+    std::atomic<bool> done{false};
+
+    tp->Execute([&done]() {
+      done.store(true);
+    });
+
+    std::this_thread::sleep_for(200ms);
+    ASSERT_TRUE(done.load());
+
+    tp->Join();
+  }
 }

@@ -95,6 +95,24 @@ TEST_SUITE(Priority) {
     tp->Join();
   }
 
+  SIMPLE_TEST(SamePriority) {
+    auto manual = MakeManualExecutor();
+    auto pq = MakePriorityExecutor(manual);
+
+    size_t task_count = 0;
+
+    pq->Execute(123, [&]() {
+      ++task_count;
+    });
+    pq->Execute(123, [&]() {
+      ++task_count;
+    });
+
+    manual->Drain();
+
+    ASSERT_EQ(task_count, 2);
+  }
+
   TEST(Concurrent, wheels::test::TestOptions().AdaptTLToSanitizer()) {
     auto tasks_tp = MakeStaticThreadPool(4, "tasks");
     auto pq = MakePriorityExecutor(tasks_tp);
