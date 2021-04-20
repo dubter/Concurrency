@@ -3,6 +3,10 @@
 
 namespace await::executors {
 
+class Strand : public IExecutor {
+  // Not implemented
+};
+
 IExecutorPtr MakeStrand(IExecutorPtr /*executor*/) {
   return nullptr;  // Not implemented
 }
