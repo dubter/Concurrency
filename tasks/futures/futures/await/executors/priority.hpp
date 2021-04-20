@@ -15,8 +15,6 @@ struct IPriorityExecutor {
 
 using IPriorityExecutorPtr = std::shared_ptr<IPriorityExecutor>;
 
-// Thread Pool: L H
-
 IPriorityExecutorPtr MakePriorityExecutor(IExecutorPtr executor);
 
 }  // namespace await::executors
