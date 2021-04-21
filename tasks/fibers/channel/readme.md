@@ -18,7 +18,7 @@ https://blog.golang.org/codelab-share
 
 [Go by Example: Select](https://gobyexample.com/select)
 
-Реализуйте функцию [`Select<X, Y>(xs, ys)`](mtf/fibers/sync/select.hpp), которая позволяет файберу заблокироваться до появления первого сообщения в одном из двух каналов `xs` / `ys`:
+Реализуйте функцию [`Select<X, Y>(xs, ys)`](mtf/fibers/sync/select.hpp), которая блокирует файбер до появления первого сообщения в одном из двух каналов `xs` / `ys`:
 
 ```cpp
  Channel<X> xs;
@@ -43,8 +43,3 @@ https://blog.golang.org/codelab-share
 ### Аллокации
 
 Реализация `Select` не должна выполнять дополнительных динамических аллокаций памяти.
-
-## Бонусные материалы
-
-- [Roman Elizarov — Lock-Free Algorithms for Kotlin Coroutines (Part 1)](https://www.youtube.com/watch?v=W2dOOBN1OQI), [Part 2](https://www.youtube.com/watch?v=iQsN_IDUTSc) – lock-free реализация с помощью [двусвязного списка (Sundell / Tsigas)](http://www.cse.chalmers.se/~tsigas/papers/Lock-Free-Deques-Doubly-Lists-JPDC.pdf) и [multi-word CAS](https://www.cl.cam.ac.uk/research/srg/netos/papers/2002-casn.pdf)  
-
