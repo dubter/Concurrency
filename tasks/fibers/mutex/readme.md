@@ -23,7 +23,7 @@
 Возможно, вам помогут идеи из корутин С++, концепт `Awaiter` и механика вокруг `await_suspend`. 
 См. [C++ Coroutines: Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await)
 
-Код, написанный вами в `mtf/fibers/core`, должен быть достаточно универсален и пережить без изменений реализацию канала.
+Код, написанный вами в [`fibers/core`](mtf/fibers/core), должен быть достаточно универсален и пережить без изменений реализацию канала.
 
 ### `SubmitContinuation`
 

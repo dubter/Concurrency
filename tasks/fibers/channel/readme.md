@@ -10,7 +10,7 @@ https://blog.golang.org/codelab-share
 
 Реализуйте [`Channel<T>`](mtf/fibers/sync/channel.hpp) – буферизированный канал, который позволяет отправлять данные из одного файбера в другой.
 
-Метод `Send` блокирует _файбер_ (не поток!) если канал заполнен, метод `Receive` – если пуст.
+Метод `Send` блокирует _файбер_ (не поток!) если буфер канала заполнен, метод `Receive` – если пуст.
 
 Для простоты мы обойдемся без `Close` и неблокирующих вариаций `TrySend` / `TryReceive`.
 
@@ -18,13 +18,14 @@ https://blog.golang.org/codelab-share
 
 [Go by Example: Select](https://gobyexample.com/select)
 
-Реализуйте функцию [`Select<X, Y>(xs, ys)`](mtf/fibers/sync/select.hpp), которая блокирует файбер до появления первого сообщения в одном из двух каналов `xs` / `ys`:
+Реализуйте функцию [`Select(xs, ys)`](mtf/fibers/sync/select.hpp), которая блокирует файбер до появления первого сообщения в одном из двух каналов `xs` / `ys`:
 
 ```cpp
  Channel<X> xs;
  Channel<Y> ys;
  
  // ...
+
  std::variant<X, Y> value = Select(xs, ys);
  switch (value.index()) {
    case 0:
