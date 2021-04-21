@@ -11,7 +11,6 @@ static Stack AllocateNewStack() {
   return Stack::AllocatePages(kStackPages);
 }
 
-
 Stack AllocateStack() {
   return AllocateNewStack();  // Your code goes here
 }
