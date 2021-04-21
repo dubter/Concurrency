@@ -70,3 +70,12 @@
       score: 500
     - task: futures/futures
       score: 500
+
+- group:    Multi-Threaded Fibers - Cont
+  start:    01-01-2021 00:00
+  deadline: 01-01-2022 00:00
+  tasks:
+    - task: fibers/mutex
+      score: 500
+    - task: fibers/channel
+      score: 500

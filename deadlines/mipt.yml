@@ -75,3 +75,17 @@
   tasks:
     - task: futures/futures
       score: 500
+
+- group:    Multi-Threaded Fibers - Mutex + Condvar
+  start:    01-01-2021 00:00
+  deadline: 03-05-2021 23:59
+  tasks:
+    - task: fibers/mutex
+      score: 500
+
+- group:    Multi-Threaded Fibers - Channels + Select
+  start:    01-01-2021 00:00
+  deadline: 10-05-2021 23:59
+  tasks:
+    - task: fibers/channel
+      score: 500
