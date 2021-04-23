@@ -24,7 +24,7 @@ std::move(promise).SetValue(42);
 
 // В потоке B:
 // "Распаковываем" фьючу, блокируем _поток_ до появления результата (значения / ошибки)
-Result<T> result = std::move(future).GetResult();
+Result<int> result = std::move(future).GetResult();
 // Можно использовать метод `GetValue()`, который сразу развернет полученный Result 
 // с помощью ValueOrThrow()
 ```
