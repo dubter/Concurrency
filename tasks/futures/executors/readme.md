@@ -70,9 +70,9 @@ _Файбер_ - это сумма следующих слагаемых:
 3) _Задача_, которая запускается в экзекуторе, резьюмит корутину и перепланирует себя в экзекутор после ее (корутины) остановки.
 
 ```cpp
-// Spawn(FiberRoutine body, IExecutorPtr executor);
+// Spawn(IExecutorPtr executor, FiberRoutine body);
 // Запускаем файбер в экзекуторе `thread_pool` с помощью
-Spawn(body, thread_pool);
+Spawn(thread_pool, body);
 
 // Где-то в теле файбера:
 
@@ -171,10 +171,10 @@ auto body = []() {
 };
 
 // "Запустили" файбер
-Spawn(body, manual);
+Spawn(manual, body);
 
 // Выполнили первый шаг файбера
-manual->RunAtMostOnce();
+manual->RunAtMostOne();
 ```
 
 ### Inline
@@ -287,7 +287,7 @@ auto high_priority = pq->FixPriority(100);
 auto low_pririoty = pq->FixPriority(0);
 
 // Запускаем высокоприоритетный файбер
-Spawn(body, high_priority);
+Spawn(high_priority, body);
 ```
 При этом в реализацию файберов изменения вносить не потребуется, как и в базовый планировщик!
 
