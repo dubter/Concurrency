@@ -353,4 +353,18 @@ TEST_SUITE(Strand) {
 
     tp->Join();
   }
+
+  SIMPLE_TEST(MemoryLeak) {
+    auto tp = MakeStaticThreadPool(1, "test");
+    auto strand = MakeStrand(tp);
+
+    tp->Execute([]() {
+      std::this_thread::sleep_for(1s);
+    });
+    strand->Execute([]() {
+      // No-op
+    });
+
+    tp->Shutdown();
+  }
 }

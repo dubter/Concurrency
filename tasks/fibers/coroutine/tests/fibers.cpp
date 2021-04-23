@@ -155,7 +155,9 @@ TEST_SUITE(Fibers) {
 
   TEST(Forks, wheels::test::TestOptions().TimeLimit(10s).AdaptTLToSanitizer()) {
     ForkTester tester{4};
-    ASSERT_EQ(tester.Explode(21), 10946);
+    // Respect ThreadSanitizer thread limit:
+    // Tid - 13 bits => 8192 threads
+    ASSERT_EQ(tester.Explode(20), 6765);
   }
 
   SIMPLE_TEST(TwoPools1) {
