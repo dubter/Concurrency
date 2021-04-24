@@ -165,7 +165,7 @@ auto handle_error = [](Error /*error*/) -> int {
   return 42;
 };
 
-AsyncVia(tp, first)
+AsyncVia(tp, crash)
   .Then(second)  // Не будет вызван
   .Then(third)   // Не будет вызван
   .Recover(handle_error)  // перехватит ошибку
