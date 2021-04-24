@@ -2,13 +2,11 @@
 
 namespace mtf::fibers {
 
-class Fiber;
-
 // Lightweight non-owning handle to the fiber object
 
 class FiberHandle {
  public:
-  explicit FiberHandle(Fiber* f) : f_(f) {
+  explicit FiberHandle(void* fiber) : fiber_(fiber) {
   }
 
   FiberHandle() : FiberHandle(nullptr) {
@@ -19,13 +17,13 @@ class FiberHandle {
   }
 
   bool IsValid() const {
-    return f_ != nullptr;
+    return fiber_ != nullptr;
   }
 
   void Resume();
 
  private:
-  Fiber* f_;
+  void* fiber_;
 };
 
 }  // namespace mtf::fibers

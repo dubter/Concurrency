@@ -24,7 +24,7 @@ std::move(promise).SetValue(42);
 
 // В потоке B:
 // "Распаковываем" фьючу, блокируем _поток_ до появления результата (значения / ошибки)
-Result<T> result = std::move(future).GetResult();
+Result<int> result = std::move(future).GetResult();
 // Можно использовать метод `GetValue()`, который сразу развернет полученный Result 
 // с помощью ValueOrThrow()
 ```
@@ -165,7 +165,7 @@ auto handle_error = [](Error /*error*/) -> int {
   return 42;
 };
 
-AsyncVia(tp, first)
+AsyncVia(tp, crash)
   .Then(second)  // Не будет вызван
   .Then(third)   // Не будет вызван
   .Recover(handle_error)  // перехватит ошибку
@@ -368,6 +368,8 @@ auto std::move(semi_future).Via(e).Then(ParseJson).Then(ProcessJson);
 Предпочитайте функцию `MakeContract` методу `MakeFuture`.
 
 Избегайте дублирования кода в комбинаторах: общую логику поместите в функцию [`Combine`](await/futures/combine/detail/combine.hpp), специфичную для комбинатора – в соответствующий класс-комбинатор.
+
+Не пишите в заголовочных файлах (не важно, `.hpp` или `.ipp`) `using`-и, иначе они попадут и пользователю.
 
 ### `GetResult`
 

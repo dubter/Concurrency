@@ -131,14 +131,18 @@ TEST_SUITE(Mutex) {
   }
 
   TWIST_TEST_TL(Stress1, 5s) {
-    MutexStressTest(/*threads=*/2, /*fibers=*/100);
+    MutexStressTest(/*threads=*/4, /*fibers=*/2);
   }
 
   TWIST_TEST_TL(Stress2, 5s) {
-    MutexStressTest(/*threads=*/4, /*fibers=*/10);
+    MutexStressTest(/*threads=*/2, /*fibers=*/100);
   }
 
   TWIST_TEST_TL(Stress3, 5s) {
+    MutexStressTest(/*threads=*/4, /*fibers=*/10);
+  }
+
+  TWIST_TEST_TL(Stress4, 5s) {
     MutexStressTest(/*threads=*/5, /*fibers=*/300);
   }
 
