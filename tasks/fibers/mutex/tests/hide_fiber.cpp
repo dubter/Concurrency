@@ -11,4 +11,4 @@ namespace mtf::fibers {
 
 static_assert(std::is_same_v<Fiber, NotFound>, "Fiber included =(");
 
-}  // namespace mtf::fiber
+}  // namespace mtf::fibers
