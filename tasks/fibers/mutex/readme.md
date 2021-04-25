@@ -1,5 +1,13 @@
 # Мьютекс
 
+## Пререквизиты
+
+- [fibers/coroutine](/tasks/fibers/coroutine)
+- [mutex/mutex](/tasks/mutex/mutex)
+- [condvar/condvar](/tasks/condvar/condvar)
+
+---
+
 Реализуйте мьютекс ([`Mutex`](mtf/fibers/sync/mutex.hpp)) и условную переменную ([`CondVar`](mtf/fibers/sync/condvar.hpp)) для файберов.
 
 Методы `Mutex::Lock` и `CondVar::Wait` должны блокировать только вызывающий их файбер, но не блокировать поток.
@@ -20,7 +28,7 @@
 
 Вы увидите, что для реализации многопоточных файберов недостаточно иметь "системный вызов" `Suspend()`, вам потребуется расширить его сигнатуру.
 
-Возможно, вам помогут идеи из корутин С++, концепт `Awaiter` и механика вокруг `await_suspend`. 
+Возможно, вам помогут идеи из корутин С++, концепт `Awaiter` с методом `await_suspend`. 
 См. [C++ Coroutines: Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await)
 
 Код, написанный вами в [`fibers/core`](mtf/fibers/core), должен быть достаточно универсален: в нем не должно быть знания про фьютексы и спинлоки, этот код должен пережить без изменений реализацию канала.
