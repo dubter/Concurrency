@@ -44,8 +44,7 @@ Future<T> AsyncValue(T value, wheels::Duration d) {
 
 TEST_SUITE(Futures) {
   SIMPLE_TEST(JustWorks) {
-    Promise<int> p;
-    auto f = p.MakeFuture();
+    auto [f, p] = MakeContract<int>();
 
     ASSERT_FALSE(f.IsReady());
     ASSERT_TRUE(f.IsValid());
@@ -572,11 +571,13 @@ TEST_SUITE(Futures) {
   // All
 
   SIMPLE_TEST(All) {
-    std::vector<Promise<int>> promises{3};
-
+    constexpr int kSize = 3;
+    std::vector<Promise<int>> promises;
     std::vector<Future<int>> futures;
-    for (auto& p : promises) {
-      futures.push_back(p.MakeFuture());
+    for (int i = 0; i < kSize; ++i) {
+      auto [f, p] = MakeContract<int>();
+      futures.push_back(std::move(f));
+      promises.push_back(std::move(p));
     }
 
     auto all = All(std::move(futures));
@@ -600,11 +601,13 @@ TEST_SUITE(Futures) {
   }
 
   SIMPLE_TEST(AllFails) {
-    std::vector<Promise<int>> promises{3};
-
+    constexpr int kSize = 3;
+    std::vector<Promise<int>> promises;
     std::vector<Future<int>> futures;
-    for (auto& p : promises) {
-      futures.push_back(p.MakeFuture());
+    for (int i = 0; i < kSize; ++i) {
+      auto [f, p] = MakeContract<int>();
+      futures.push_back(std::move(f));
+      promises.push_back(std::move(p));
     }
 
     auto all = All(std::move(futures));
