@@ -23,6 +23,7 @@ class Fiber {
   void Resume();
 
  private:
+  // ~ TinyFibers scheduler
   void Stop();
   void Step();
   void Schedule();
