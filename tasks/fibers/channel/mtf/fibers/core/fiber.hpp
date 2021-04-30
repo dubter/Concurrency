@@ -27,7 +27,7 @@ class Fiber {
   void Stop();
   void Step();
   void Schedule();
-  void Reschedule();
+  void Dispatch();
   void Destroy();
   void Await();
 

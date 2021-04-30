@@ -6,13 +6,27 @@
 namespace mtf::fibers {
 
 using coroutine::impl::Coroutine;
-using tp::StaticThreadPool;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 class Fiber {
  public:
-  Fiber(Routine /*routine*/, StaticThreadPool& /*scheduler*/) {
+  Fiber(Routine /*routine*/, Scheduler& /*scheduler*/) {
+  }
+
+ private:
+  // Similar to those in the TinyFibers scheduler
+
+  void Schedule() {
+    // Not implemented
+  }
+
+  void Dispatch() {
+    // Not implemented
+  }
+
+  void Destroy() {
+    // Not implemented
   }
 
  private:
@@ -21,7 +35,7 @@ class Fiber {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Spawn(Routine /*routine*/, StaticThreadPool& /*scheduler*/) {
+void Spawn(Routine /*routine*/, Scheduler& /*scheduler*/) {
   // Not implemented
 }
 

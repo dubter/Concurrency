@@ -42,7 +42,7 @@ void Fiber::Schedule() {
   // Not implemented
 }
 
-void Fiber::Reschedule() {
+void Fiber::Dispatch() {
   // Not implemented
 }
 

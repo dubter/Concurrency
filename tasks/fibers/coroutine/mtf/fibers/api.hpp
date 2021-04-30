@@ -7,7 +7,9 @@ namespace mtf::fibers {
 
 using Routine = coroutine::Routine;
 
-void Spawn(Routine routine, tp::StaticThreadPool& scheduler);
+using Scheduler = tp::StaticThreadPool;
+
+void Spawn(Routine routine, Scheduler& scheduler);
 
 // Spawn fiber in the current scheduler
 void Spawn(Routine routine);
