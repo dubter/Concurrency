@@ -15,6 +15,7 @@
     "To be implemented",
     "std::atomic",
     "std::mutex",
-    "std::condition_variable"
+    "std::condition_variable",
+    "std::this_thread::yield"
   ]
 }
