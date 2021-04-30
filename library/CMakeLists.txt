@@ -18,7 +18,7 @@ message(STATUS "FetchContent: wheels")
 FetchContent_Declare(
         wheels
         GIT_REPOSITORY https://gitlab.com/Lipovsky/wheels.git
-        GIT_TAG 14e04a9764eb3b7a5a1e29420a84a065ae78e9d7
+        GIT_TAG ee9c14caa569bfeddfd037bf2849907cc6d9ac0b
 )
 FetchContent_MakeAvailable(wheels)
 
