@@ -1,5 +1,11 @@
 # Каналы
 
+## Пререквизиты
+
+- [fibers/mutex](/tasks/fibers/mutex)
+
+## Go Proverb
+
 _Do not communicate by sharing memory; instead, share memory by communicating._
 
 https://blog.golang.org/codelab-share
