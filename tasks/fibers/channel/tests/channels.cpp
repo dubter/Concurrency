@@ -171,6 +171,94 @@ TEST_SUITE(Channels) {
   TEST(ConcurrentNoBuffer3, kLongTestOptions) {
     TestConcurrentImpl(6, 2, 50'000, 1);
   }
+
+  class FifoTester {
+    using ProducerId = size_t;
+
+    struct Message {
+      ProducerId producer_id;
+      int value;
+    };
+
+   public:
+    FifoTester(size_t threads, size_t capacity)
+        : pool_{threads}
+        , messages_{capacity} {
+    }
+
+    void RunTest(size_t producers) {
+      // Single consumer
+      Spawn(pool_, [this, producers]() {
+        Consume(producers);
+      });
+
+      // Producers
+      for (size_t id = 0; id < producers; ++id) {
+        Spawn(pool_, [this, id]() {
+          Produce(id);
+        });
+      }
+
+      pool_.Join();
+
+      // Print report
+
+      std::cout << "Sends: " << sends_.load()
+                << ", Receives: " << receives_.load()
+                << std::endl;
+
+      ASSERT_EQ(sends_.load(), receives_.load());
+    }
+
+   private:
+    void Consume(size_t producers) {
+      size_t left = producers;
+
+      while (left > 0) {
+        Message message = messages_.Receive();
+        if (message.value == -1) {
+          if (--left == 0) {
+            break;
+          };
+        } else {
+          auto last_value = GetLastValue(message.producer_id);
+          ASSERT_TRUE(message.value > last_value);
+          last_values_[message.producer_id] = message.value;
+          receives_.fetch_add(1);
+        }
+      }
+    }
+
+    void Produce(ProducerId id) {
+      int value = 0;
+      while (wheels::test::KeepRunning()) {
+        messages_.Send({id, ++value});
+        sends_.fetch_add(1);
+      }
+      messages_.Send({id, -1});
+    }
+
+    int GetLastValue(ProducerId id) {
+      auto it = last_values_.find(id);
+      if (it != last_values_.end()) {
+        return it->second;
+      } else {
+        return 0;
+      }
+    }
+
+   private:
+    StaticThreadPool pool_;
+    Channel<Message> messages_;
+    std::map<ProducerId, int> last_values_;
+    std::atomic<size_t> sends_{0};
+    std::atomic<size_t> receives_{0};
+  };
+
+  TEST(Fifo, wheels::test::TestOptions().TimeLimit(5s)) {
+    FifoTester tester{/*threads=*/3, /*capacity=*/10};
+    tester.RunTest(/*producers=*/5);
+  }
 }
 
 TEST_SUITE(Select) {
