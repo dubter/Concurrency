@@ -12,10 +12,10 @@ namespace await::futures {
 //
 // Usage:
 // auto tp = MakeStaticThreadPool(4, "tp");
-// auto future = AsyncVia(tp, []() { return 42; });;
+// Future<int> f = AsyncVia(tp, []() { return 42; });
 
 template <typename F>
-auto AsyncVia(executors::IExecutorPtr, F&& target) {
+auto AsyncVia(executors::IExecutorPtr /*e*/, F&& target) {
   using T = decltype(target());
 
   return Future<T>::Invalid();  // Not implemented
