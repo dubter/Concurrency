@@ -98,7 +98,7 @@ void Scheduler::RunLoop() {
   while (!run_queue_.IsEmpty()) {
     Fiber* next = run_queue_.PopFront();
     Step(next);
-    Reschedule(next);  // ~ Handle syscall
+    Dispatch(next);  // ~ Handle syscall
   }
 }
 
@@ -113,7 +113,7 @@ void Scheduler::SwitchToFiber(Fiber* fiber) {
   loop_context_.SwitchTo(fiber->Context());
 }
 
-void Scheduler::Reschedule(Fiber* fiber) {
+void Scheduler::Dispatch(Fiber* fiber) {
   switch (fiber->State()) {
     case FiberState::Runnable:  // From Yield
       Schedule(fiber);

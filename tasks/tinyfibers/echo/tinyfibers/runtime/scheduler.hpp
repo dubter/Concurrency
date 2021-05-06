@@ -50,7 +50,7 @@ class Scheduler {
   // Switch to `fiber` and run it until this fiber calls Yield or terminates
   void Step(Fiber* fiber);
   // ~ Handle system call (Yield / SleepFor / Terminate)
-  void Reschedule(Fiber* fiber);
+  void Dispatch(Fiber* fiber);
   // Add fiber to run queue
   void Schedule(Fiber* fiber);
 
