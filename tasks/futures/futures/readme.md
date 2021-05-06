@@ -1,5 +1,11 @@
 # Futures / Promises
 
+## Пререквизиты
+
+- [futures/executors](/tasks/futures/executors)
+
+---
+
 ## Канал
 
 В первом и очень грубом приближении _futures_ / _promises_ реализуют канал для возврата значения из асинхронной операции.
@@ -363,7 +369,7 @@ auto std::move(semi_future).Via(e).Then(ParseJson).Then(ProcessJson);
 
 Перемещайте, а не копируйте `Result<T>` в шаблонном коде, тип `T` может не поддерживать копирование.
 
-Если вам нужно вызвать функцию и завернуть ее результат / исключение в `Result`, то используйте `wheels::make_result::Invoke`.
+Если вам нужно вызвать функцию и завернуть ее возвращаемое значение / исключение в `Result`, то используйте `wheels::make_result::Invoke`.
 
 Предпочитайте функцию `MakeContract` методу `MakeFuture`.
 
@@ -377,7 +383,7 @@ auto std::move(semi_future).Via(e).Then(ParseJson).Then(ProcessJson);
 
 Но основной способ применения фьюч – неблокирующий, т.е. использование `Subscribe` / `Then`.
 
-Не добавляйте мьютекс и кондвар в `SharedState`, реализуйте `GetResult` непосредственно в классе `Future`.
+Не добавляйте мьютекс и кондвар в поля `SharedState`.
 
 Для синхронизации `Set` / `Subscribe` используйте лок-фри автомат, его можно построить на одном атомике.
 

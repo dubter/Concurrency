@@ -9,6 +9,14 @@
         "FaultyThreadsASan",
         "FaultyThreadsTSan"
       ]
+    },
+    {
+      "targets": [
+        "executors_stress_tests"
+      ],
+      "profiles": [
+        "FaultyFibers"
+      ]
     }
   ],
   "lint_files": ["await"],

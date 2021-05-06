@@ -3,7 +3,10 @@
 #include <mtf/fibers/sync/select.hpp>
 #include <mtf/fibers/test/test.hpp>
 
+#include <twist/fault/adversary/adversary.hpp>
+
 #include <wheels/test/test_framework.hpp>
+#include <wheels/test/util.hpp>
 
 #include <chrono>
 
@@ -168,6 +171,94 @@ TEST_SUITE(Channels) {
   TEST(ConcurrentNoBuffer3, kLongTestOptions) {
     TestConcurrentImpl(6, 2, 50'000, 1);
   }
+
+  class FifoTester {
+    using ProducerId = size_t;
+
+    struct Message {
+      ProducerId producer_id;
+      int value;
+    };
+
+   public:
+    FifoTester(size_t threads, size_t capacity)
+        : pool_{threads}
+        , messages_{capacity} {
+    }
+
+    void RunTest(size_t producers) {
+      // Single consumer
+      Spawn(pool_, [this, producers]() {
+        Consume(producers);
+      });
+
+      // Producers
+      for (size_t id = 0; id < producers; ++id) {
+        Spawn(pool_, [this, id]() {
+          Produce(id);
+        });
+      }
+
+      pool_.Join();
+
+      // Print report
+
+      std::cout << "Sends: " << sends_.load()
+                << ", Receives: " << receives_.load()
+                << std::endl;
+
+      ASSERT_EQ(sends_.load(), receives_.load());
+    }
+
+   private:
+    void Consume(size_t producers) {
+      size_t left = producers;
+
+      while (left > 0) {
+        Message message = messages_.Receive();
+        if (message.value == -1) {
+          if (--left == 0) {
+            break;
+          };
+        } else {
+          auto last_value = GetLastValue(message.producer_id);
+          ASSERT_TRUE(message.value > last_value);
+          last_values_[message.producer_id] = message.value;
+          receives_.fetch_add(1);
+        }
+      }
+    }
+
+    void Produce(ProducerId id) {
+      int value = 0;
+      while (wheels::test::KeepRunning()) {
+        messages_.Send({id, ++value});
+        sends_.fetch_add(1);
+      }
+      messages_.Send({id, -1});
+    }
+
+    int GetLastValue(ProducerId id) {
+      auto it = last_values_.find(id);
+      if (it != last_values_.end()) {
+        return it->second;
+      } else {
+        return 0;
+      }
+    }
+
+   private:
+    StaticThreadPool pool_;
+    Channel<Message> messages_;
+    std::map<ProducerId, int> last_values_;
+    std::atomic<size_t> sends_{0};
+    std::atomic<size_t> receives_{0};
+  };
+
+  TEST(Fifo, wheels::test::TestOptions().TimeLimit(5s)) {
+    FifoTester tester{/*threads=*/3, /*capacity=*/10};
+    tester.RunTest(/*producers=*/5);
+  }
 }
 
 TEST_SUITE(Select) {
@@ -206,80 +297,267 @@ TEST_SUITE(Select) {
     pool.Join();
   }
 
-  SIMPLE_TEST(ConcurrentSelects) {
-    std::atomic<size_t> xs_consumed{0};
-    std::atomic<size_t> ys_consumed{0};
+  class SelectTester {
+    class StartLatch {
+     public:
+      void Release() {
+        started_.store(true);
+      }
 
-    Channel<int> xs;
-    Channel<int> ys;
-
-    StaticThreadPool pool{4};
-
-    static const size_t kSends = 100500;
-
-    static const size_t kFibers = 16;
-
-    for (size_t i = 0; i < kFibers; ++i) {
-      Spawn(pool, [&]() {
-        bool xs_done = false;
-        bool ys_done = false;
-
-        size_t iter = 0;
-
-        while (!xs_done || !ys_done) {
-          if (++iter % 17 == 0) {
-            Yield();
-          }
-          auto value = Select(xs, ys);
-          switch (value.index()) {
-            case 0: {
-              int x = std::get<0>(value);
-              if (x == -1) {
-                xs_done = true;
-                xs.Send(-1);
-              } else {
-                xs_consumed.fetch_add(x);
-              }
-              break;
-            }
-            case 1:
-              int y = std::get<1>(value);
-              if (y == -1) {
-                ys_done = true;
-                ys.Send(-1);
-              } else {
-                ys_consumed.fetch_add(y);
-              }
-              break;
-          }
+      void Await() {
+        while (!started_.load()) {
+          Yield();
         }
+      }
+
+     private:
+      std::atomic<bool> started_{false};
+    };
+
+   public:
+    SelectTester(size_t threads) : pool_(threads) {
+    }
+
+    void AddChannel(size_t capacity) {
+      channels_.emplace_back(capacity);
+    }
+
+    void Produce(size_t i) {
+      Spawn(pool_, [this, i]() {
+        Producer(i);
       });
     }
 
-    Spawn(pool, [&]() {
-      for (size_t i = 0; i < kSends; ++i) {
-        xs.Send(i);
+    void Receive(size_t i) {
+      Spawn(pool_, [this, i]() {
+        ReceiveConsumer(i);
+      });
+    }
+
+    void Select(size_t i, size_t j) {
+      Spawn(pool_, [this, i, j]() {
+        SelectConsumer(i, j);
+      });
+    }
+
+    void RunTest() {
+      twist::fault::GetAdversary()->Reset();
+
+      // Release all fibers
+      start_.Release();
+
+      pool_.Join();
+
+      // Print report
+      std::cout << "Sends: " << sends_.load() << std::endl;
+      std::cout << "Receives: " << receives_.load() << std::endl;
+
+      ASSERT_EQ(sends_.load(), receives_.load());
+
+      std::cout << "Produced: " << total_produced_.load() << std::endl;
+      std::cout << "Consumed: " << total_consumed_.load() << std::endl;
+
+      ASSERT_EQ(total_produced_.load(), total_consumed_.load());
+
+      twist::fault::GetAdversary()->PrintReport();
+    }
+
+   private:
+    void SelectConsumer(size_t i, size_t j) {
+      start_.Await();
+
+      auto xs = channels_[i];
+      auto ys = channels_[j];
+
+      bool xs_done = false;
+      bool ys_done = false;
+
+      size_t iter = 0;
+
+      while (true) {
+        if (++iter % 7 == 0) {
+          Yield();
+        }
+
+        auto selected_value = mtf::fibers::Select(xs, ys);
+
+        switch (selected_value.index()) {
+          case 0: {
+            int x = std::get<0>(selected_value);
+            if (x == -1) {
+              xs_done = true;
+              xs.Send(-1);
+            } else {
+              total_consumed_.fetch_add(x);
+              receives_.fetch_add(1);
+            }
+            break;
+          }
+          case 1: {
+            int y = std::get<1>(selected_value);
+            if (y == -1) {
+              ys_done = true;
+              ys.Send(-1);
+            } else {
+              total_consumed_.fetch_add(y);
+              receives_.fetch_add(1);
+            }
+            break;
+          }
+        }
+
+        if (xs_done || ys_done) {
+          break;
+        }
       }
-      xs.Send(-1);
-    });
 
-    Spawn(pool, [&]() {
-      for (size_t j = 0; j < kSends; ++j) {
-        ys.Send(j);
+      if (xs_done) {
+        ReceiveConsumer(j);
+      } else {
+        ReceiveConsumer(i);
       }
-      ys.Send(-1);
-    });
+    }
 
-    pool.Join();
+    void ReceiveConsumer(size_t i) {
+      start_.Await();
 
-    static const size_t kProduced = kSends * (0 + kSends - 1) / 2;
+      auto xs = channels_[i];
 
-    std::cout << "Xs consumed: " << xs_consumed.load() << std::endl;
-    std::cout << "Ys consumed: " << ys_consumed.load() << std::endl;
-    std::cout << "Expected: " << kProduced << std::endl;
+      size_t iter = 0;
 
-    ASSERT_EQ(xs_consumed.load(), kProduced);
-    ASSERT_EQ(ys_consumed.load(), kProduced);
+      while (true) {
+        if (++iter % 5 == 0) {
+          Yield();
+        }
+
+        auto value = xs.Receive();
+        if (value == -1) {
+          xs.Send(-1);
+          break;
+        }
+
+        total_consumed_.fetch_add(value);
+        receives_.fetch_add(1);
+      }
+    }
+
+    void Producer(size_t i) {
+      start_.Await();
+
+      auto xs = channels_[i];
+      int value = 0;
+      while (wheels::test::KeepRunning()) {
+        ++value;
+        xs.Send(value);
+        total_produced_.fetch_add(value);
+        sends_.fetch_add(1);
+      }
+      xs.Send(-1);  // Poison pill
+    }
+
+   private:
+    StaticThreadPool pool_;
+
+    std::vector<Channel<int>> channels_;
+
+    StartLatch start_;
+
+    std::atomic<int64_t> sends_{0};
+    std::atomic<int64_t> receives_{0};
+
+    std::atomic<int64_t> total_produced_{0};
+    std::atomic<int64_t> total_consumed_{0};
+  };
+
+  TEST(ConcurrentSelects, wheels::test::TestOptions().TimeLimit(5s)) {
+    SelectTester tester{/*threads=*/4};
+
+    tester.AddChannel(7);
+    tester.AddChannel(8);
+
+    tester.Produce(0);
+    tester.Produce(1);
+
+    tester.Select(0, 1);
+    tester.Select(0, 1);
+
+    tester.RunTest();
+  }
+
+  TEST(Deadlock, wheels::test::TestOptions().TimeLimit(5s)) {
+    SelectTester tester{/*threads=*/4};
+
+    tester.AddChannel(17);
+    tester.AddChannel(17);
+
+    tester.Produce(0);
+    tester.Produce(1);
+
+    tester.Select(0, 1);
+    tester.Select(1, 0);
+
+    tester.RunTest();
+  }
+
+  TEST(MixSelectsAndReceives, wheels::test::TestOptions().TimeLimit(5s)) {
+    SelectTester tester{/*threads=*/4};
+
+    tester.AddChannel(11);
+    tester.AddChannel(9);
+
+    tester.Produce(0);
+    tester.Produce(1);
+
+    tester.Select(0, 1);
+    tester.Select(1, 0);
+    tester.Receive(0);
+    tester.Receive(1);
+
+    tester.RunTest();
+  }
+
+  TEST(OverlappedSelects, wheels::test::TestOptions().TimeLimit(5s)) {
+    SelectTester tester{/*threads=*/4};
+
+    tester.AddChannel(11);
+    tester.AddChannel(12);
+    tester.AddChannel(13);
+
+    tester.Produce(0);
+    tester.Produce(1);
+    tester.Produce(2);
+
+    tester.Select(0, 1);
+    tester.Select(1, 2);
+    tester.Select(2, 0);
+
+    tester.RunTest();
+  }
+
+  TEST(Hard, wheels::test::TestOptions().TimeLimit(5s)) {
+    SelectTester tester{/*threads=*/4};
+
+    tester.AddChannel(7);
+    tester.AddChannel(9);
+    tester.AddChannel(8);
+
+    tester.Produce(0);
+    tester.Produce(1);
+    tester.Produce(2);
+
+    tester.Select(0, 1);
+    tester.Select(1, 0);
+    tester.Select(1, 2);
+    tester.Select(2, 1);
+    tester.Select(2, 0);
+    tester.Select(0, 2);
+
+    tester.Receive(0);
+    tester.Receive(1);
+    tester.Receive(1);
+    tester.Receive(2);
+
+    tester.RunTest();
   }
 
   SIMPLE_FIBER_TEST(SelectFairness, 1) {

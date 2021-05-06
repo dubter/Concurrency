@@ -1,5 +1,11 @@
 # Каналы
 
+## Пререквизиты
+
+- [fibers/mutex](/tasks/fibers/mutex)
+
+## Go Proverb
+
 _Do not communicate by sharing memory; instead, share memory by communicating._
 
 https://blog.golang.org/codelab-share
@@ -15,6 +21,16 @@ https://blog.golang.org/codelab-share
 Канал – MPMC (_multiple producers_ / _multiple consumers_).
 
 Для простоты мы обойдемся без `Close` и неблокирующих вариаций `TrySend` / `TryReceive`.
+
+### Блокировки / lock-free
+
+В реализации канала используйте блокировки (так делают в Golang). Лок-фри реализация не требуется.
+
+### Рандеву
+
+Если в канале есть ждущие консьюмеры, то в `Send` передавайте сообщение консьюмеру напрямую, минуя буфер канала. Этим вы сэкономите синхронизацию.
+
+Не пишите код, похожий на код с кондварами / мьютексами.
 
 ## `Select`
 
@@ -39,7 +55,12 @@ https://blog.golang.org/codelab-share
  }
 ```
 
-`Select`-ы могут конкурировать как с `Receive`-ами, так и с другими `Select`-ами. 
+### Сценарии
+
+`Select`-ы могут
+- конкурировать как с `Receive`-ами, так и с другими `Select`-ами
+- пересекаться по наборам каналов
+- ждать на одних и тех же каналах в разном порядке
 
 ### Число каналов
 
