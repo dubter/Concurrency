@@ -40,7 +40,7 @@ message(STATUS "FetchContent: twist")
 FetchContent_Declare(
         twist
         GIT_REPOSITORY https://gitlab.com/Lipovsky/twist.git
-        GIT_TAG 9d37aa158e66f5b58368f118f16b576aee0d60b0
+        GIT_TAG 60831b7ece98635258e0accf5442f336ca857905
 )
 FetchContent_MakeAvailable(twist)
 
