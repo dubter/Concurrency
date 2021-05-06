@@ -25,7 +25,7 @@ class ChannelImpl {
 
   ~ChannelImpl() {
     // Not implemented
-    // Check that receivers list is empty
+    // Check that receivers/senders queues are empty
   }
 
   void Send(T /*value*/) {
