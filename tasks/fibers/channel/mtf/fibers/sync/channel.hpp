@@ -6,7 +6,7 @@
 
 namespace mtf::fibers {
 
-// Buffered channel
+// Buffered MP/MC channel
 // https://tour.golang.org/concurrency/3
 
 // Does not support void type
