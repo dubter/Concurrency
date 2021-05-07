@@ -16,6 +16,6 @@
     "std::atomic",
     "std::mutex",
     "std::condition_variable",
-    "std::this_thread::yield"
+    "std::this_thread"
   ]
 }
