@@ -261,6 +261,42 @@ TEST_SUITE(ThreadPool) {
     ASSERT_TRUE(stop_watch.Elapsed() > 3s);
   }
 
+  SIMPLE_TEST(TaskLifetime) {
+    tp::StaticThreadPool pool{4};
+
+    twist::stdlike::atomic<int> dead{0};
+
+    class Task {
+     public:
+      Task(twist::stdlike::atomic<int>& done) : counter_(done) {
+      }
+      Task(const Task&) = delete;
+      Task(Task&&) = default;
+
+      ~Task() {
+        if (done_) {
+          counter_.fetch_add(1);
+        }
+      }
+
+      void operator()() {
+        std::this_thread::sleep_for(100ms);
+        done_ = true;
+      }
+
+     private:
+      bool done_{false};
+      twist::stdlike::atomic<int>& counter_;
+    };
+
+    for (int i = 0; i < 4; ++i) {
+      pool.Submit(Task(dead));
+    }
+    std::this_thread::sleep_for(500ms);
+    ASSERT_EQ(dead.load(), 4)
+    pool.Join();
+  }
+
   SIMPLE_TEST(Racy) {
     tp::StaticThreadPool pool{4};
 
