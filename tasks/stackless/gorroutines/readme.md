@@ -139,7 +139,7 @@ int main() {
 1) [`StaticThreadPool`](gorr/runtime/thread_pool.hpp)
 2) [`Yield`](gorr/runtime/yield.hpp)
 3) [`Mutex`](gorr/runtime/mutex.hpp)
-4) [Опционально] [`JoinHandle`](gorr/runtime/join_handle.hpp) и метод [`Join`](gorr/runtime/join.hpp).
+4) [Опционально] [`JoinHandle`](gorr/runtime/join_handle.hpp) и метод [`Join`](gorr/runtime/join.hpp)
 
 
 ## References
