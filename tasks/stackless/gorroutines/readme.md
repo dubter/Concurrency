@@ -45,7 +45,7 @@ int main() {
 
 ## Планировщик
 
-В отличие от обычного пула потоков, `gorr::StaticThreadPool` планирует не задачи, а корутины: 
+В отличие от обычного пула потоков, [`gorr::StaticThreadPool`](gorr/runtime/thread_pool.hpp) планирует не задачи, а корутины: 
 
 ```cpp
 // Телепортируемся в пул потоков
@@ -70,7 +70,7 @@ co_await gorr::Yield();
 
 ## `Mutex`
 
-Операция `Lock` у `gorr::Mutex` – асинхронная:
+Операция `Lock` у [`gorr::Mutex`](gorr/runtime/mutex.hpp) – асинхронная:
 
 ```cpp
 {
@@ -95,7 +95,7 @@ co_await gorr::Yield();
 
 ## `JoinHandle`
 
-Горрутина при запуске дает пользователю `gorr::JoinHandle`, с помощью которого тот может дождаться завершения горрутины:   
+Горрутина при запуске дает пользователю [`gorr::JoinHandle`](gorr/runtime/join_handle.hpp), с помощью которого тот может дождаться завершения горрутины:   
 
 ```cpp
 
