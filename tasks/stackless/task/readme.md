@@ -1,4 +1,4 @@
-# Task (или ленивая Future)
+# `Task` (или ленивая `Future`)
 
 Рассмотрим пример:
 
@@ -83,16 +83,15 @@ int value = co_await task;
 
 Альтернативный способ – провести границу между [красными и синими вызовами](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/) с помощью блокирующего вызова `Await` и тем самым остановить синтаксическое заражение:
 ```cpp
-
 // Функция main не может быть корутиной,
 // использовать co_await в ней нельзя.
 int main() {
   Task<int> task = Coro();
-  // Блокируем поток до завершения корутины `Coro`.
+  // Стартуем корутину и блокируем поток до ее завершения.
   int value = Await(std::move(task));
   std::cout << "Value = " << value << std::endl;
+  return 0;
 }
-
 ```
 
 ## Profit
