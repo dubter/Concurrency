@@ -112,7 +112,7 @@ int main() {
 
 1) Реализуйте [`JoinHandle`](task/join_handle.hpp) – синоним для `Task<void>`
 2) Реализуйте [`Task<T>`](task/task.hpp)
-3) Напишите специализацию `Task<T>` для `void` и выразите `JoinHandle` через нее.
+3) Поддержите `Task<void>` и выразите `JoinHandle` через него.
 
 ### Требования
 
