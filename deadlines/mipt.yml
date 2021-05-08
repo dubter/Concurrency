@@ -89,3 +89,12 @@
   tasks:
     - task: fibers/channel
       score: 500
+
+- group:    Stackless Coroutines
+  start:    01-01-2021 00:00
+  deadline: 21-05-2021 23:59
+  tasks:
+    - task: stackless/gorroutines
+      score: 400
+    - task: stackless/task
+      score: 400
