@@ -91,6 +91,19 @@ endfunction()
 
 # --------------------------------------------------------------------
 
+# Playground
+
+function(add_playground DIR_NAME)
+    get_task_target(PLAY_NAME "playground")
+
+    set(PLAY_DIR "${TASK_DIR}/${DIR_NAME}")
+    file(GLOB_RECURSE PLAY_CXX_SOURCES ${PLAY_DIR}/*.cpp)
+
+    add_task_executable(${PLAY_NAME} ${PLAY_CXX_SOURCES})
+endfunction()
+
+# --------------------------------------------------------------------
+
 # Tests
 
 function(add_task_test BINARY_NAME)
