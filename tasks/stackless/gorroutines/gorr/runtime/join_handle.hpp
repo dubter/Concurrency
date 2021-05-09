@@ -28,6 +28,27 @@ struct JoinHandle {
       // Nop
     }
   };
+
+  JoinHandle() {
+    // Not implemented
+  }
+
+  JoinHandle(JoinHandle&&) {
+    // Not implemented
+  }
+
+  JoinHandle& operator=(JoinHandle&&) {
+    // Not implemented
+    return *this;
+  }
+
+  // Non-copyable
+  JoinHandle(const JoinHandle&) = delete;
+  JoinHandle& operator=(const JoinHandle&) = delete;
+
+  ~JoinHandle() {
+    // Not implemented
+  }
 };
 
 }  // namespace gorr

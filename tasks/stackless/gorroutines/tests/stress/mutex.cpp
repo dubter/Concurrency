@@ -1,7 +1,7 @@
 #include <gorr/runtime/thread_pool.hpp>
 #include <gorr/runtime/yield.hpp>
 #include <gorr/runtime/mutex.hpp>
-#include <gorr/runtime/join_handle.hpp>
+#include <gorr/runtime/join.hpp>
 
 #include <twist/test/test.hpp>
 #include <twist/test/util/plate.hpp>
@@ -42,15 +42,15 @@ TEST_SUITE(Mutex) {
   }
 
   TWIST_TEST_TL(Stress1, 5s) {
-    MutexStressTest(/*threads=*/2, /*gorrs=*/100);
+    MutexStressTest(/*threads=*/2, /*gorroutines=*/100);
   }
 
   TWIST_TEST_TL(Stress2, 5s) {
-    MutexStressTest(/*threads=*/4, /*gorrs=*/10);
+    MutexStressTest(/*threads=*/4, /*gorroutines=*/10);
   }
 
   TWIST_TEST_TL(Stress3, 5s) {
-    MutexStressTest(/*threads=*/5, /*gorrs=*/300);
+    MutexStressTest(/*threads=*/5, /*gorroutines=*/300);
   }
 
   void MissedWakeupTest(size_t threads, size_t gorroutines) {
@@ -71,7 +71,7 @@ TEST_SUITE(Mutex) {
     };
 
     for (size_t i = 0; i < gorroutines; ++i) {
-      goroutine();  // Spawn
+      gorr::Detach(goroutine());  // Spawn
     };
 
     scheduler.Join();

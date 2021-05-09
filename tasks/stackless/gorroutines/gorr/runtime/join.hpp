@@ -8,4 +8,8 @@ inline void Join(JoinHandle /*handle*/) {
   std::abort();  // Not implemented
 }
 
+inline void Detach(JoinHandle /*handle*/) {
+  // Not implemented
+}
+
 }  // namespace gorr

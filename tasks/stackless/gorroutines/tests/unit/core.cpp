@@ -1,6 +1,6 @@
 #include <gorr/runtime/thread_pool.hpp>
 #include <gorr/runtime/yield.hpp>
-#include <gorr/runtime/join_handle.hpp>
+#include <gorr/runtime/join.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
@@ -24,7 +24,7 @@ TEST_SUITE(Core) {
       co_return;
     };
 
-    gorroutine();  // Spawn
+    gorr::Detach(gorroutine());  // Spawn
 
     scheduler.Join();
 
@@ -59,11 +59,11 @@ TEST_SUITE(Core) {
     auto starter = [&]() -> gorr::JoinHandle {
       co_await scheduler.Schedule();
 
-      gorr1();
-      gorr2();
+      gorr::Detach(gorr1());
+      gorr::Detach(gorr2());
     };
 
-    starter();
+    gorr::Detach(starter());
 
     scheduler.Join();
 
@@ -76,7 +76,7 @@ TEST_SUITE(Core) {
     }
 
     size_t Explode(size_t d) {
-      Gorroutine(d);
+      gorr::Detach(Gorroutine(d));
       scheduler_.Join();
       return leafs_.load();
     }
@@ -87,8 +87,8 @@ TEST_SUITE(Core) {
 
       if (d > 2) {
         // Fork
-        Gorroutine(d - 1);
-        Gorroutine(d - 2);
+        gorr::Detach(Gorroutine(d - 1));
+        gorr::Detach(Gorroutine(d - 2));
       } else {
         ++leafs_;
       }
@@ -128,7 +128,7 @@ TEST_SUITE(Core) {
     };
 
     for (size_t i = 0; i < kGorroutines; ++i) {
-      gorroutine();  // Spawn
+      gorr::Detach(gorroutine());  // Spawn
     }
 
     scheduler.Join();

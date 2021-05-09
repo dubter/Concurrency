@@ -1,7 +1,7 @@
 #include <gorr/runtime/thread_pool.hpp>
 #include <gorr/runtime/yield.hpp>
 #include <gorr/runtime/mutex.hpp>
-#include <gorr/runtime/join_handle.hpp>
+#include <gorr/runtime/join.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
@@ -28,7 +28,7 @@ TEST_SUITE(Mutex) {
       co_return;
     };
 
-    gorroutine();  // Spawn
+    gorr::Detach(gorroutine());  // Spawn
 
     scheduler.Join();
   }
@@ -50,7 +50,7 @@ TEST_SUITE(Mutex) {
       co_return;
     };
 
-    bubble();  // Spawn
+    gorr::Detach(bubble());  // Spawn
 
     auto locker = [&]() -> gorr::JoinHandle {
       co_await scheduler.Schedule();
@@ -62,7 +62,7 @@ TEST_SUITE(Mutex) {
     };
 
     for (size_t i = 0; i < 3; ++i) {
-      locker();  // Spawn
+      gorr::Detach(locker());  // Spawn
     }
 
     std::this_thread::sleep_for(100ms);
@@ -74,7 +74,7 @@ TEST_SUITE(Mutex) {
       free.store(true);
     };
 
-    runner();  // Spawn
+    gorr::Detach(runner());  // Spawn
 
     std::this_thread::sleep_for(100ms);
 
@@ -102,7 +102,7 @@ TEST_SUITE(Mutex) {
       }
     };
 
-    sleeper();  // Spawn
+    gorr::Detach(sleeper());  // Spawn
 
     std::this_thread::sleep_for(100ms);
 
@@ -118,7 +118,7 @@ TEST_SUITE(Mutex) {
     };
 
     for (size_t i = 0; i < 10; ++i) {
-      locker();  // Spawn
+      gorr::Detach(locker());  // Spawn
     }
 
     scheduler.Join();

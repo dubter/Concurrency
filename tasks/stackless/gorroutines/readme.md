@@ -16,7 +16,9 @@ gorr::JoinHandle GorRoutine() {
   // Перепланируемся в пул потоков
   co_await scheduler.Schedule();
 
-  for (size_t j = 0; j < 100; ++j) {
+  // Теперь мы исполняемся в потоке-воркере пула
+
+  for (size_t j = 0; j < 128; ++j) {
     if (j % 7 == 0) {
       // Уступаем поток пула другой горрутине
       co_await gorr::Yield();
@@ -34,7 +36,7 @@ gorr::JoinHandle GorRoutine() {
 int main() {
   for (size_t i = 0; i < 100; ++i) {
     // Запускаем горрутину
-    GorRoutine();
+    gorr::Detach(GorRoutine());
   }
   
   // Дожидаемся завершения всех горрутин
@@ -130,7 +132,7 @@ int main() {
 
 #### Реализация 
 
-В задаче дана заглушка, [опционально] можно заменить ее на решение задачи `Task`.
+В задаче дана заглушка, [по желанию] можно интегрировать вместо нее решение задачи [stackless/task](/tasks/stackless/task).
 
 ## Задача
 
