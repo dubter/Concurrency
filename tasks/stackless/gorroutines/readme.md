@@ -109,7 +109,6 @@ co_await gorr::Yield();
 Горрутина при запуске дает пользователю [`gorr::JoinHandle`](gorr/runtime/join_handle.hpp), с помощью которого тот может дождаться завершения горрутины:   
 
 ```cpp
-
 gorr::StaticThreadPool scheduler{/*threads=*/4};
 
 gorr::JoinHandle GorRoutine() {
@@ -125,6 +124,9 @@ int main() {
 
   // Синхронно дожидаемся завершения горрутины в пуле
   gorr::Join(std::move(h));
+  // Альтернативный вариант - отвязываемся от
+  // запущенной горутины с помощью
+  // gorr::Detach(std::move(h))
 
   // ...
 }
