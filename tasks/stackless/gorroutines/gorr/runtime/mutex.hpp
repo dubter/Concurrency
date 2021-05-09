@@ -24,15 +24,15 @@ class Mutex {
 
   // Awaiter
   struct LockOp {
-    bool await_ready() {
+    bool await_ready() {  // NOLINT
       return true;  // Not implemented
     }
 
-    bool await_suspend(CoroHandle /*handle*/) {
+    bool await_suspend(CoroHandle /*handle*/) {  // NOLINT
       return true;  // Not implemented
     }
 
-    auto await_resume() {
+    auto await_resume() {  // NOLINT
       return Guard{mutex};
     }
 

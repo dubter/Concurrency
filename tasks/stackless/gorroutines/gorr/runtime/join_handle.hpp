@@ -8,23 +8,23 @@ namespace gorr {
 
 struct JoinHandle {
   struct Promise {
-    auto get_return_object() {
+    auto get_return_object() {  // NOLINT
       return JoinHandle{};
     }
 
-    auto initial_suspend() noexcept {
+    auto initial_suspend() noexcept {  // NOLINT
       return std::experimental::suspend_never{};
     }
 
-    auto final_suspend() noexcept {
+    auto final_suspend() noexcept {  // NOLINT
       return std::experimental::suspend_never{};
     }
 
-    void unhandled_exception() {
+    void unhandled_exception() {  // NOLINT
       std::terminate();
     }
 
-    void return_void() {
+    void return_void() {  // NOLINT
       // Nop
     }
   };
@@ -54,6 +54,7 @@ struct JoinHandle {
 }  // namespace gorr
 
 template <typename... Args>
-struct std::experimental::coroutine_traits<gorr::JoinHandle, Args...> {
-  using promise_type = gorr::JoinHandle::Promise;
+struct std::experimental::coroutine_traits<gorr::JoinHandle,
+                                           Args...> {  // NOLINT
+  using promise_type = gorr::JoinHandle::Promise;  // NOLINT
 };
