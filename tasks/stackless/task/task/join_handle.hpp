@@ -21,39 +21,39 @@ class [[nodiscard]] JoinHandle {
   using MyCoroHandle = std::experimental::coroutine_handle<Promise>;
 
   struct Promise {
-    auto get_return_object() {
+    auto get_return_object() {  // NOLINT
       return JoinHandle{};
     }
 
-    auto initial_suspend() noexcept {
+    auto initial_suspend() noexcept {  // NOLINT
       // Not implemented
       return std::experimental::suspend_never{};
     }
 
-    auto final_suspend() noexcept {
+    auto final_suspend() noexcept {  // NOLINT
       // Not implemented
       return std::experimental::suspend_never{};
     }
 
-    void unhandled_exception() {
+    void unhandled_exception() {  // NOLINT
       std::abort();  // Not implemented
     }
 
-    void return_void() {
+    void return_void() {  // NOLINT
       std::abort();  // Not implemented
     }
   };
 
   struct Awaiter {
-    bool await_ready() {
+    bool await_ready() {  // NOLINT
       return true;  // Not implemented
     }
 
-    void await_suspend(AnyCoroHandle /*caller*/) {
+    void await_suspend(AnyCoroHandle /*caller*/) {  // NOLINT
       // Not implemented
     }
 
-    void await_resume() {
+    void await_resume() {  // NOLINT
       // Nop
     }
   };
@@ -89,6 +89,6 @@ class [[nodiscard]] JoinHandle {
 }  // namespace task
 
 template <typename... Args>
-struct std::experimental::coroutine_traits<task::JoinHandle, Args...> {
-  using promise_type = task::JoinHandle::Promise;
+struct std::experimental::coroutine_traits<task::JoinHandle, Args...> {  // NOLINT
+  using promise_type = task::JoinHandle::Promise;  // NOLINT
 };
