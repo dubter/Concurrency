@@ -7,7 +7,7 @@ namespace task {
 
 inline void Join(JoinHandle /*handle*/) {
   // Not implemented
-  // Await(handle);
+  // Await(std::move(handle));
 }
 
 }  // namespace task

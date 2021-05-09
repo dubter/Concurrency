@@ -54,6 +54,26 @@ class [[nodiscard]] Task {
     }
   };
 
+  Task() {
+    // Not implemented
+  }
+
+  Task(Task&&) {
+    // Not implemented
+  }
+
+  Task& operator=(Task&&) {
+    return *this;  // Not implemented
+  }
+
+  // Non-copyable
+  Task(const Task&) = delete;
+  Task& operator=(const Task&) = delete;
+
+  ~Task() {
+    // Not implemented
+  }
+
   auto operator co_await() {
     return Awaiter{};
   }

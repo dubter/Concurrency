@@ -58,6 +58,26 @@ class [[nodiscard]] JoinHandle {
     }
   };
 
+  JoinHandle() {
+    // Not implemented
+  }
+
+  JoinHandle(JoinHandle&&) {
+    // Not implemented
+  }
+
+  JoinHandle& operator=(JoinHandle&&) {
+    return *this;  // Not implemented
+  }
+
+  // Non-copyable
+  JoinHandle(const JoinHandle&) = delete;
+  JoinHandle& operator=(const JoinHandle&) = delete;
+
+  ~JoinHandle() {
+    // Not implemented
+  }
+
   auto operator co_await() {
     return Awaiter{};
   }

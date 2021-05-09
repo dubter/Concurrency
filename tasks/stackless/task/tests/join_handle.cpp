@@ -24,7 +24,7 @@ TEST_SUITE(JoinHandle) {
     ok = false;
 
     JoinHandle h = Bar();
-    Join(h);
+    Join(std::move(h));
 
     ASSERT_TRUE(ok);
   }
@@ -39,7 +39,7 @@ TEST_SUITE(JoinHandle) {
     ok = false;
 
     JoinHandle h = Foo();
-    Join(h);
+    Join(std::move(h));
 
     ASSERT_TRUE(ok);
   }

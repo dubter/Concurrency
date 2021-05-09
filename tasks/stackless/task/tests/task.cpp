@@ -18,7 +18,7 @@ TEST_SUITE(Task) {
 
   SIMPLE_TEST(JustWorks) {
     auto task = Bar();
-    int value = Await(task);
+    int value = Await(std::move(task));
     ASSERT_EQ(value, 7);
   }
 
@@ -30,7 +30,7 @@ TEST_SUITE(Task) {
 
   SIMPLE_TEST(Compose1) {
     auto task = Foo();
-    int value = Await(task);
+    int value = Await(std::move(task));
 
     ASSERT_EQ(value, 7);
   }
@@ -42,7 +42,7 @@ TEST_SUITE(Task) {
 
   SIMPLE_TEST(Compose2) {
     auto task = Baz();
-    std::string str = Await(task);
+    std::string str = Await(std::move(task));
 
     ASSERT_EQ(str, "7");
   }
@@ -93,7 +93,7 @@ TEST_SUITE(Task) {
 
   SIMPLE_TEST(Recurse1) {
     Task task = Recurse(17);
-    int value = Await(task);
+    int value = Await(std::move(task));
     ASSERT_EQ(value, 123);
   }
 
@@ -159,7 +159,7 @@ TEST_SUITE(Task) {
   SIMPLE_TEST(Fib) {
     tp::StaticThreadPool pool{4};
     auto task = Fib(pool, 19);
-    int f = Await(task);
+    int f = Await(std::move(task));
 
     std::cout << "Fib(19) = " << f << std::endl;
 
