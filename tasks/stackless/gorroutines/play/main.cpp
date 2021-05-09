@@ -1,4 +1,5 @@
 #include <gorr/runtime/thread_pool.hpp>
+#include <gorr/runtime/yield.hpp>
 #include <gorr/runtime/mutex.hpp>
 #include <gorr/runtime/join.hpp>
 
