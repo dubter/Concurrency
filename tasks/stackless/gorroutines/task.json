@@ -13,7 +13,7 @@
   "submit_files": ["gorr"],
   "forbidden_patterns": [
     "malloc", "free",
-    "new", "delete",
+    "new",
     "make_shared", "shared_ptr"
   ]
 }
