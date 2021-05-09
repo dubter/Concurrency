@@ -22,7 +22,7 @@ static const auto kLongTestOptions = wheels::test::TestOptions().TimeLimit(60s);
 
 TEST_SUITE(Channels) {
   SIMPLE_FIBER_TEST(JustWorks, 1) {
-    Channel<int> ints;
+    Channel<int> ints{7};
     ints.Send(1);
     ints.Send(2);
     ints.Send(3);
@@ -32,7 +32,7 @@ TEST_SUITE(Channels) {
   }
 
   TEST(ConcurrentReceivers, kLongTestOptions) {
-    Channel<int64_t> ints;
+    Channel<int64_t> ints{7};
 
     StaticThreadPool pool{4};
 
@@ -265,8 +265,8 @@ TEST_SUITE(Select) {
   SIMPLE_TEST(JustWorks) {
     StaticThreadPool pool{4};
 
-    Channel<int> ints;
-    Channel<std::string> strs;
+    Channel<int> ints{16};
+    Channel<std::string> strs{16};
 
     Spawn(pool, [&]() {
       for (size_t i = 0; i < 5; ++i) {
@@ -563,8 +563,8 @@ TEST_SUITE(Select) {
   SIMPLE_FIBER_TEST(SelectFairness, 1) {
     static const size_t kIterations = 10000;
 
-    Channel<int> xs;
-    Channel<int> ys;
+    Channel<int> xs{8};
+    Channel<int> ys{8};
 
     xs.Send(1);
     ys.Send(2);

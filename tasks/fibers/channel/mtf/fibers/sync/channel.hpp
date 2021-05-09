@@ -21,10 +21,6 @@ class Channel {
   Channel(size_t capacity) : impl_(std::make_shared<Impl>(capacity)) {
   }
 
-  // Unbounded channel
-  Channel() : Channel(std::numeric_limits<size_t>::max()) {
-  }
-
   // Blocking
   void Send(T value) {
     impl_->Send(std::move(value));
