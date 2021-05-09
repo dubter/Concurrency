@@ -108,7 +108,7 @@ co_await gorr::Yield();
 
 ```cpp
 
-gorr::StaticThreadPool scheduler{4};
+gorr::StaticThreadPool scheduler{/*threads=*/4};
 
 gorr::JoinHandle GorRoutine() {
   co_await scheduler.Schedule();
@@ -122,7 +122,7 @@ int main() {
   auto h = GorRoutine();
 
   // Синхронно дожидаемся завершения горрутины в пуле
-  gorr::Join(h);
+  gorr::Join(std::move(h));
 
   // ...
 }
