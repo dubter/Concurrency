@@ -18,7 +18,7 @@ using mtf::tp::StaticThreadPool;
 
 using namespace std::chrono_literals;
 
-static const auto kLongTestOptions = wheels::test::TestOptions().TimeLimit(30s);
+static const auto kLongTestOptions = wheels::test::TestOptions().TimeLimit(60s);
 
 TEST_SUITE(Channels) {
   SIMPLE_FIBER_TEST(JustWorks, 1) {
