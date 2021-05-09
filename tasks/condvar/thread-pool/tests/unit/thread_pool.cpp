@@ -264,11 +264,11 @@ TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(TaskLifetime) {
     tp::StaticThreadPool pool{4};
 
-    twist::stdlike::atomic<int> dead{0};
+    std::atomic<int> dead{0};
 
     class Task {
      public:
-      Task(twist::stdlike::atomic<int>& done) : counter_(done) {
+      Task(std::atomic<int>& done) : counter_(done) {
       }
       Task(const Task&) = delete;
       Task(Task&&) = default;
@@ -286,7 +286,7 @@ TEST_SUITE(ThreadPool) {
 
      private:
       bool done_{false};
-      twist::stdlike::atomic<int>& counter_;
+      std::atomic<int>& counter_;
     };
 
     for (int i = 0; i < 4; ++i) {
