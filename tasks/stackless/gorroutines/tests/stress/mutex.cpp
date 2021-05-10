@@ -62,7 +62,7 @@ TEST_SUITE(Mutex) {
       co_await scheduler.Schedule();
 
       {
-        auto guard = mutex.Lock();
+        auto guard = co_await mutex.Lock();
         // Critical section
         (void)guard;  // Supress warning
       }  // Unlock
