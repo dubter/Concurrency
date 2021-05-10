@@ -266,40 +266,40 @@ TEST_SUITE(Channels) {
     ASSERT_EQ(sent.load(), received.load());
   }
 
-  TEST(ConcurrentUnbounded1, kLongTestOptions) {
-    TestConcurrentImpl(5, 5, 20'000, std::numeric_limits<size_t>::max());
+  TEST(ConcurrentLargeBuffer1, kLongTestOptions) {
+    TestConcurrentImpl(5, 5, 20'000, 256);
   }
 
-  TEST(ConcurrentUnbounded2, kLongTestOptions) {
-    TestConcurrentImpl(2, 8, 20'000, std::numeric_limits<size_t>::max());
+  TEST(ConcurrentLargeBuffer2, kLongTestOptions) {
+    TestConcurrentImpl(2, 8, 20'000, 256);
   }
 
-  TEST(ConcurrentUnbounded3, kLongTestOptions) {
-    TestConcurrentImpl(8, 2, 20'000, std::numeric_limits<size_t>::max());
+  TEST(ConcurrentLargeBuffer3, kLongTestOptions) {
+    TestConcurrentImpl(8, 2, 20'000, 256);
   }
 
-  TEST(ConcurrentBounded1, kLongTestOptions) {
+  TEST(ConcurrentSmallBuffer1, kLongTestOptions) {
     TestConcurrentImpl(5, 5, 100'000, 10);
   }
 
-  TEST(ConcurrentBounded2, kLongTestOptions) {
+  TEST(ConcurrentSmallBuffer2, kLongTestOptions) {
     TestConcurrentImpl(2, 6, 100'000, 10);
   }
 
-  TEST(ConcurrentBounded3, kLongTestOptions) {
+  TEST(ConcurrentSmallBuffer3, kLongTestOptions) {
     TestConcurrentImpl(6, 2, 100'000, 10);
   }
 
-  TEST(ConcurrentNoBuffer1, kLongTestOptions) {
+  TEST(ConcurrentOneItemBuffer1, kLongTestOptions) {
     // Unbounded channel
     TestConcurrentImpl(4, 4, 50'000, 1);
   }
 
-  TEST(ConcurrentNoBuffer2, kLongTestOptions) {
+  TEST(ConcurrentOneItemBuffer2, kLongTestOptions) {
     TestConcurrentImpl(2, 6, 50'000, 1);
   }
 
-  TEST(ConcurrentNoBuffer3, kLongTestOptions) {
+  TEST(ConcurrentOneItemBuffer3, kLongTestOptions) {
     TestConcurrentImpl(6, 2, 50'000, 1);
   }
 
