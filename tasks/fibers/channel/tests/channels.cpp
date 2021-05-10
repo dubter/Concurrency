@@ -31,6 +31,69 @@ TEST_SUITE(Channels) {
     ASSERT_EQ(ints.Receive(), 3);
   }
 
+  SIMPLE_TEST(BlockSenders) {
+    StaticThreadPool scheduler{1};
+
+    static const size_t kBufferSize = 17;
+
+    Channel<int> ints{kBufferSize};
+
+    std::atomic<bool> enough{false};
+    size_t received = 0;
+
+    // Producer
+    Spawn(scheduler, [&]() {
+      while (!enough.load()) {
+        ints.Send(7);
+      }
+      ints.Send(-1);
+    });
+
+    // Consumer
+    Spawn(scheduler, [&]() {
+      for (size_t i = 0; i < 7; ++i) {
+        Yield();
+      }
+
+      // Producer blocked
+      enough.store(true);
+
+      while (true) {
+        int value = ints.Receive();
+        if (value == -1) {
+          // Poison pill
+          break;
+        } else {
+          ++received;
+        }
+      }
+    });
+
+    scheduler.Join();
+
+    ASSERT_EQ(received, kBufferSize + 1);
+  }
+
+  SIMPLE_TEST(WakeSenders) {
+    StaticThreadPool scheduler{1};
+
+    bool done = false;
+    Channel<int> ints{1};
+
+    Spawn(scheduler, [&] {
+      ints.Send(1);
+      ints.Send(2);  // Blocked
+      done = true;
+    });
+
+    Spawn(scheduler, [&] {
+      ASSERT_EQ(ints.Receive(), 1);
+    });
+
+    scheduler.Join();
+    ASSERT_TRUE(done);
+  }
+
   TEST(ConcurrentReceivers, kLongTestOptions) {
     Channel<int64_t> ints{7};
 
