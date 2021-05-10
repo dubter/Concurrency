@@ -45,7 +45,7 @@ struct MoveOnly {
 
 //////////////////////////////////////////////////////////////////////
 
-static const auto kLongTestOptions = wheels::test::TestOptions().TimeLimit(30s);
+static const auto kLongTestOptions = wheels::test::TestOptions().TimeLimit(60s);
 
 //////////////////////////////////////////////////////////////////////
 
