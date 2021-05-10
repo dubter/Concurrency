@@ -92,14 +92,11 @@ TEST_SUITE(Channels) {
 #endif
 
   SIMPLE_FIBER_TEST(MoveOnly, 1) {
-    Channel<MoveOnly<Tag1>> xs{3};
-    Channel<MoveOnly<Tag2>> ys{3};
+    Channel<MoveOnly<Tag1>> messages{5};
 
-    xs.Send({"Hello"});
-    ys.Send({"World"});
-
-    auto value = Select(xs, ys);
-    WHEELS_UNUSED(value);
+    messages.Send({"Hello"});
+    MoveOnly message = messages.Receive();
+    ASSERT_EQ(message.data, "Hello");
   }
 
   SIMPLE_TEST(BlockSenders) {
@@ -430,11 +427,14 @@ TEST_SUITE(Select) {
   }
 
   SIMPLE_FIBER_TEST(MoveOnly, 1) {
-    Channel<MoveOnly<Tag1>> messages{5};
+    Channel<MoveOnly<Tag1>> xs{3};
+    Channel<MoveOnly<Tag2>> ys{3};
 
-    messages.Send({"Hello"});
-    MoveOnly message = messages.Receive();
-    ASSERT_EQ(message.data, "Hello");
+    xs.Send({"Hello"});
+    ys.Send({"World"});
+
+    auto value = Select(xs, ys);
+    WHEELS_UNUSED(value);
   }
 
 #if !__has_feature(address_sanitizer) && !__has_feature(thread_sanitizer)
