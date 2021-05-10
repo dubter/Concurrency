@@ -24,7 +24,7 @@ class StaticThreadPool {
   // Awaiter
   struct ScheduleOp {
     bool await_ready() {  // NOLINT
-      return true;
+      return true;  // Not implemented
     }
 
     void await_suspend(CoroHandle /*handle*/) {  // NOLINT
