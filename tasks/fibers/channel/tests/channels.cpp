@@ -11,6 +11,7 @@
 #include <wheels/support/cpu_time.hpp>
 
 #include <chrono>
+#include <string>
 
 using mtf::fibers::Channel;
 using mtf::fibers::Select;
@@ -27,7 +28,10 @@ struct Tag2 {};
 
 template <typename Tag>
 struct MoveOnly {
-  MoveOnly() = default;
+  MoveOnly() = delete;
+
+  MoveOnly(std::string _data) : data(std::move(_data)) {
+  }
 
   MoveOnly(MoveOnly&&) noexcept = default;
   MoveOnly& operator=(MoveOnly&&) noexcept = default;
@@ -35,6 +39,8 @@ struct MoveOnly {
   // Non-copyable
   MoveOnly(const MoveOnly&) = delete;
   MoveOnly& operator=(const MoveOnly&) = delete;
+
+  std::string data;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -89,8 +95,8 @@ TEST_SUITE(Channels) {
     Channel<MoveOnly<Tag1>> xs{3};
     Channel<MoveOnly<Tag2>> ys{3};
 
-    xs.Send({});
-    ys.Send({});
+    xs.Send({"Hello"});
+    ys.Send({"World"});
 
     auto value = Select(xs, ys);
     WHEELS_UNUSED(value);
@@ -424,11 +430,11 @@ TEST_SUITE(Select) {
   }
 
   SIMPLE_FIBER_TEST(MoveOnly, 1) {
-    Channel<MoveOnly<Tag1>> msgs{5};
+    Channel<MoveOnly<Tag1>> messages{5};
 
-    msgs.Send({});
-    MoveOnly value = msgs.Receive();
-    (void)value;
+    messages.Send({"Hello"});
+    MoveOnly message = messages.Receive();
+    ASSERT_EQ(message.data, "Hello");
   }
 
 #if !__has_feature(address_sanitizer) && !__has_feature(thread_sanitizer)
