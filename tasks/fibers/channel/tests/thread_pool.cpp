@@ -39,23 +39,23 @@ TEST_SUITE(StaticThreadPool) {
     ASSERT_TRUE(done);
   }
 
-  SIMPLE_TEST(SubmitContinutation) {
-    StaticThreadPool pool{4};
-
-    bool done = false;
-
-    pool.Submit([&]() {
-      mtf::tp::Current()->SubmitContinuation([&]() {
-        done = true;
-      });
-      std::this_thread::sleep_for(1s);
-      ASSERT_FALSE(done);
-    });
-
-    pool.Join();
-
-    ASSERT_TRUE(done);
-  }
+//  SIMPLE_TEST(SubmitContinutation) {
+//    StaticThreadPool pool{4};
+//
+//    bool done = false;
+//
+//    pool.Submit([&]() {
+//      mtf::tp::Current()->SubmitContinuation([&]() {
+//        done = true;
+//      });
+//      std::this_thread::sleep_for(1s);
+//      ASSERT_FALSE(done);
+//    });
+//
+//    pool.Join();
+//
+//    ASSERT_TRUE(done);
+//  }
 
   SIMPLE_TEST(Join) {
     StaticThreadPool pool{3};

@@ -172,6 +172,9 @@ TEST_SUITE(Fibers) {
 
     Spawn(pool_1, make_tester(pool_1));
     Spawn(pool_2, make_tester(pool_2));
+
+    pool_1.Join();
+    pool_2.Join();
   }
 
   SIMPLE_TEST(TwoPools2) {
@@ -196,6 +199,9 @@ TEST_SUITE(Fibers) {
 
     Spawn(pool_1, make_tester(pool_1));
     Spawn(pool_2, make_tester(pool_2));
+
+    pool_1.Join();
+    pool_2.Join();
   }
 
   struct RacyCounter {
