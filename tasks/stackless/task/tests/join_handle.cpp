@@ -114,7 +114,7 @@ TEST_SUITE(JoinHandle) {
     co_return;
   }
 
-  SIMPLE_TEST(Loop) {
+  TEST(Loop, wheels::test::TestOptions().AdaptTLToSanitizer()) {
     ok = false;
     Join(Loop(1'000'000));
     ASSERT_TRUE(ok);

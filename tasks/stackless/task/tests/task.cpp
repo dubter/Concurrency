@@ -109,7 +109,7 @@ TEST_SUITE(Task) {
     co_return total;
   }
 
-  SIMPLE_TEST(Loop) {
+  TEST(Loop, wheels::test::TestOptions().AdaptTLToSanitizer()) {
     static const size_t kN = 1'000'000;
     static const size_t kTotalExpected = kN * (kN - 1) / 2;
 
