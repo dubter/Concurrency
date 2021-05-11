@@ -31,7 +31,7 @@ TEST_SUITE(Mutex) {
     };
 
     for (size_t i = 0; i < gorroutines; ++i) {
-      gorroutine();  // Spawn
+      gorr::Detach(gorroutine());  // Spawn
     }
 
     scheduler.Join();
@@ -58,20 +58,19 @@ TEST_SUITE(Mutex) {
 
     gorr::Mutex mutex;
 
-    auto goroutine = [&]() -> gorr::JoinHandle {
+    auto gorroutine = [&]() -> gorr::JoinHandle {
       co_await scheduler.Schedule();
 
       {
         auto guard = co_await mutex.Lock();
         // Critical section
-        (void)guard;  // Supress warning
-      }  // Unlock
+      }
 
       co_return;
     };
 
     for (size_t i = 0; i < gorroutines; ++i) {
-      gorr::Detach(goroutine());  // Spawn
+      gorr::Detach(gorroutine());  // Spawn
     };
 
     scheduler.Join();
