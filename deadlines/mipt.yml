@@ -95,6 +95,6 @@
   deadline: 21-05-2021 23:59
   tasks:
     - task: stackless/gorroutines
-      score: 400
+      score: 500
     - task: stackless/task
       score: 400
