@@ -10,6 +10,12 @@ _Do not communicate by sharing memory; instead, share memory by communicating._
 
 https://blog.golang.org/codelab-share
 
+### Communicating Sequential Processes
+
+- [Original paper](https://www.cs.cmu.edu/~crary/819-f09/Hoare78.pdf)
+- [Book](http://www.usingcsp.com/cspbook.pdf)
+
+
 ## Буферизированный канал
 
 [A Tour of Go / Buffered Channels](https://tour.golang.org/concurrency/3)
@@ -79,7 +85,7 @@ https://blog.golang.org/codelab-share
 
 Задача со звездочкой: реализуйте variadic `Select`, работающий с произвольным числом каналов.
 
-### Прогресс
+### Fairness
 
 Реализация `Select` не должна отдавать приоритет одному из каналов: если `Select` вызывается в цикле, то файбер должен регулярно получать сообщения из обоих каналов.
 
