@@ -57,12 +57,14 @@ TEST_SUITE(Mutex) {
     gorr::StaticThreadPool scheduler{threads};
 
     gorr::Mutex mutex;
+    std::atomic<size_t> cs{0};
 
     auto gorroutine = [&]() -> gorr::JoinHandle {
       co_await scheduler.Schedule();
 
       {
         auto guard = co_await mutex.Lock();
+        ++cs;
         // Critical section
       }
 
@@ -74,6 +76,8 @@ TEST_SUITE(Mutex) {
     };
 
     scheduler.Join();
+
+    ASSERT_EQ(cs.load(), gorroutines);
   }
 
   TWIST_ITERATE_TEST(WakeupStress1, 5s) {
