@@ -218,6 +218,8 @@ TEST_SUITE(Fibers) {
     std::atomic<size_t> value_{0};
   };
 
+#if !__has_feature(address_sanitizer) && !__has_feature(thread_sanitizer) && !defined(TWIST_FIBERS)
+
   TEST(RacyCounter, wheels::test::TestOptions().TimeLimit(10s).AdaptTLToSanitizer()) {
     static const size_t kIncrements = 100'000;
     static const size_t kThreads = 4;
@@ -252,4 +254,7 @@ TEST_SUITE(Fibers) {
     ASSERT_GE(counter.Get(), kIncrements);
     ASSERT_LT(counter.Get(), kIncrements * kFibers);
   }
+
+#endif
+
 }
