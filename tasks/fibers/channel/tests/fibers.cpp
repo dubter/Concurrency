@@ -172,6 +172,9 @@ TEST_SUITE(Fibers) {
 
     Spawn(pool_1, make_tester(pool_1));
     Spawn(pool_2, make_tester(pool_2));
+
+    pool_1.Join();
+    pool_2.Join();
   }
 
   SIMPLE_TEST(TwoPools2) {
@@ -196,6 +199,9 @@ TEST_SUITE(Fibers) {
 
     Spawn(pool_1, make_tester(pool_1));
     Spawn(pool_2, make_tester(pool_2));
+
+    pool_1.Join();
+    pool_2.Join();
   }
 
   struct RacyCounter {
@@ -211,6 +217,8 @@ TEST_SUITE(Fibers) {
    private:
     std::atomic<size_t> value_{0};
   };
+
+#if !__has_feature(address_sanitizer) && !__has_feature(thread_sanitizer) && !defined(TWIST_FIBERS)
 
   TEST(RacyCounter, wheels::test::TestOptions().TimeLimit(10s).AdaptTLToSanitizer()) {
     static const size_t kIncrements = 100'000;
@@ -246,4 +254,7 @@ TEST_SUITE(Fibers) {
     ASSERT_GE(counter.Get(), kIncrements);
     ASSERT_LT(counter.Get(), kIncrements * kFibers);
   }
+
+#endif
+
 }

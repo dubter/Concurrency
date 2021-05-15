@@ -3,12 +3,15 @@
 #include <mtf/fibers/sync/select.hpp>
 #include <mtf/fibers/test/test.hpp>
 
-#include <twist/fault/adversary/adversary.hpp>
+#include <twist/test/test.hpp>
 
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/util.hpp>
 
+#include <wheels/support/cpu_time.hpp>
+
 #include <chrono>
+#include <string>
 
 using mtf::fibers::Channel;
 using mtf::fibers::Select;
@@ -18,11 +21,37 @@ using mtf::tp::StaticThreadPool;
 
 using namespace std::chrono_literals;
 
-static const auto kLongTestOptions = wheels::test::TestOptions().TimeLimit(30s);
+//////////////////////////////////////////////////////////////////////
+
+struct Tag1 {};
+struct Tag2 {};
+
+template <typename Tag>
+struct MoveOnly {
+  MoveOnly() = delete;
+
+  MoveOnly(std::string _data) : data(std::move(_data)) {
+  }
+
+  MoveOnly(MoveOnly&&) noexcept = default;
+  MoveOnly& operator=(MoveOnly&&) noexcept = default;
+
+  // Non-copyable
+  MoveOnly(const MoveOnly&) = delete;
+  MoveOnly& operator=(const MoveOnly&) = delete;
+
+  std::string data;
+};
+
+//////////////////////////////////////////////////////////////////////
+
+static const auto kLongTestOptions = wheels::test::TestOptions().TimeLimit(60s);
+
+//////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(Channels) {
   SIMPLE_FIBER_TEST(JustWorks, 1) {
-    Channel<int> ints;
+    Channel<int> ints{5};
     ints.Send(1);
     ints.Send(2);
     ints.Send(3);
@@ -31,8 +60,110 @@ TEST_SUITE(Channels) {
     ASSERT_EQ(ints.Receive(), 3);
   }
 
+#if !__has_feature(address_sanitizer) && !__has_feature(thread_sanitizer)
+
+  SIMPLE_TEST(Blocking1) {
+    StaticThreadPool scheduler{2};
+
+    wheels::ProcessCPUTimer cpu_timer;
+
+    Channel<int> ints{5};
+
+    std::atomic<bool> done{false};
+
+    Spawn(scheduler, [&]() {
+      ints.Receive();
+      done = true;
+    });
+
+    std::this_thread::sleep_for(1s);
+    ASSERT_FALSE(done.load());
+
+    Spawn(scheduler, [&]() {
+      ints.Send(7);
+    });
+
+    scheduler.Join();
+
+    ASSERT_TRUE(cpu_timer.Elapsed() < 50ms);
+    ASSERT_TRUE(done.load());
+  }
+
+#endif
+
+  SIMPLE_FIBER_TEST(MoveOnly, 1) {
+    Channel<MoveOnly<Tag1>> messages{5};
+
+    messages.Send({"Hello"});
+    MoveOnly message = messages.Receive();
+    ASSERT_EQ(message.data, "Hello");
+  }
+
+  SIMPLE_TEST(BlockSenders) {
+    StaticThreadPool scheduler{1};
+
+    static const size_t kBufferSize = 17;
+
+    Channel<int> ints{kBufferSize};
+
+    std::atomic<bool> enough{false};
+    size_t received = 0;
+
+    // Producer
+    Spawn(scheduler, [&]() {
+      while (!enough.load()) {
+        ints.Send(7);
+      }
+      ints.Send(-1);
+    });
+
+    // Consumer
+    Spawn(scheduler, [&]() {
+      for (size_t i = 0; i < 7; ++i) {
+        Yield();
+      }
+
+      // Producer blocked
+      enough.store(true);
+
+      while (true) {
+        int value = ints.Receive();
+        if (value == -1) {
+          // Poison pill
+          break;
+        } else {
+          ++received;
+        }
+      }
+    });
+
+    scheduler.Join();
+
+    ASSERT_EQ(received, kBufferSize + 1);
+  }
+
+  SIMPLE_TEST(WakeSenders) {
+    StaticThreadPool scheduler{1};
+
+    bool done = false;
+    Channel<int> ints{1};
+
+    Spawn(scheduler, [&] {
+      ints.Send(1);
+      ints.Send(2);  // Blocked
+      done = true;
+    });
+
+    Spawn(scheduler, [&] {
+      ASSERT_EQ(ints.Receive(), 1);
+    });
+
+    scheduler.Join();
+    ASSERT_TRUE(done);
+  }
+
   TEST(ConcurrentReceivers, kLongTestOptions) {
-    Channel<int64_t> ints;
+    Channel<int64_t> ints{7};
 
     StaticThreadPool pool{4};
 
@@ -135,40 +266,40 @@ TEST_SUITE(Channels) {
     ASSERT_EQ(sent.load(), received.load());
   }
 
-  TEST(ConcurrentUnbounded1, kLongTestOptions) {
-    TestConcurrentImpl(5, 5, 20'000, std::numeric_limits<size_t>::max());
+  TEST(ConcurrentLargeBuffer1, kLongTestOptions) {
+    TestConcurrentImpl(5, 5, 20'000, 256);
   }
 
-  TEST(ConcurrentUnbounded2, kLongTestOptions) {
-    TestConcurrentImpl(2, 8, 20'000, std::numeric_limits<size_t>::max());
+  TEST(ConcurrentLargeBuffer2, kLongTestOptions) {
+    TestConcurrentImpl(2, 8, 20'000, 256);
   }
 
-  TEST(ConcurrentUnbounded3, kLongTestOptions) {
-    TestConcurrentImpl(8, 2, 20'000, std::numeric_limits<size_t>::max());
+  TEST(ConcurrentLargeBuffer3, kLongTestOptions) {
+    TestConcurrentImpl(8, 2, 20'000, 256);
   }
 
-  TEST(ConcurrentBounded1, kLongTestOptions) {
+  TEST(ConcurrentSmallBuffer1, kLongTestOptions) {
     TestConcurrentImpl(5, 5, 100'000, 10);
   }
 
-  TEST(ConcurrentBounded2, kLongTestOptions) {
+  TEST(ConcurrentSmallBuffer2, kLongTestOptions) {
     TestConcurrentImpl(2, 6, 100'000, 10);
   }
 
-  TEST(ConcurrentBounded3, kLongTestOptions) {
+  TEST(ConcurrentSmallBuffer3, kLongTestOptions) {
     TestConcurrentImpl(6, 2, 100'000, 10);
   }
 
-  TEST(ConcurrentNoBuffer1, kLongTestOptions) {
+  TEST(ConcurrentOneItemBuffer1, kLongTestOptions) {
     // Unbounded channel
     TestConcurrentImpl(4, 4, 50'000, 1);
   }
 
-  TEST(ConcurrentNoBuffer2, kLongTestOptions) {
+  TEST(ConcurrentOneItemBuffer2, kLongTestOptions) {
     TestConcurrentImpl(2, 6, 50'000, 1);
   }
 
-  TEST(ConcurrentNoBuffer3, kLongTestOptions) {
+  TEST(ConcurrentOneItemBuffer3, kLongTestOptions) {
     TestConcurrentImpl(6, 2, 50'000, 1);
   }
 
@@ -182,8 +313,7 @@ TEST_SUITE(Channels) {
 
    public:
     FifoTester(size_t threads, size_t capacity)
-        : pool_{threads}
-        , messages_{capacity} {
+        : pool_{threads}, messages_{capacity} {
     }
 
     void RunTest(size_t producers) {
@@ -204,8 +334,7 @@ TEST_SUITE(Channels) {
       // Print report
 
       std::cout << "Sends: " << sends_.load()
-                << ", Receives: " << receives_.load()
-                << std::endl;
+                << ", Receives: " << receives_.load() << std::endl;
 
       ASSERT_EQ(sends_.load(), receives_.load());
     }
@@ -255,7 +384,7 @@ TEST_SUITE(Channels) {
     std::atomic<size_t> receives_{0};
   };
 
-  TEST(Fifo, wheels::test::TestOptions().TimeLimit(5s)) {
+  TEST(Fifo, wheels::test::TestOptions{}.TimeLimit(5s)) {
     FifoTester tester{/*threads=*/3, /*capacity=*/10};
     tester.RunTest(/*producers=*/5);
   }
@@ -265,8 +394,8 @@ TEST_SUITE(Select) {
   SIMPLE_TEST(JustWorks) {
     StaticThreadPool pool{4};
 
-    Channel<int> ints;
-    Channel<std::string> strs;
+    Channel<int> ints{5};
+    Channel<std::string> strs{7};
 
     Spawn(pool, [&]() {
       for (size_t i = 0; i < 5; ++i) {
@@ -297,6 +426,79 @@ TEST_SUITE(Select) {
     pool.Join();
   }
 
+  SIMPLE_FIBER_TEST(MoveOnly, 1) {
+    Channel<MoveOnly<Tag1>> xs{3};
+    Channel<MoveOnly<Tag2>> ys{3};
+
+    xs.Send({"Hello"});
+    ys.Send({"World"});
+
+    auto value = Select(xs, ys);
+    WHEELS_UNUSED(value);
+  }
+
+#if !__has_feature(address_sanitizer) && !__has_feature(thread_sanitizer)
+
+  SIMPLE_TEST(Blocking1) {
+    StaticThreadPool pool{4};
+
+    wheels::ProcessCPUTimer timer;
+
+    Channel<int> xs{3};
+    Channel<int> ys{3};
+
+    Spawn(pool, [&]() {
+      auto value = Select(xs, ys);
+      ASSERT_EQ(value.index(), 0);
+      ASSERT_EQ(std::get<0>(value), 1);
+    });
+
+    Spawn(pool, [&]() {
+      std::this_thread::sleep_for(1s);
+      xs.Send(1);
+    });
+
+    Spawn(pool, [&]() {
+      std::this_thread::sleep_for(2s);
+      ys.Send(2);
+    });
+
+    pool.Join();
+
+    ASSERT_TRUE(timer.Elapsed() < 50ms);
+  }
+
+  SIMPLE_TEST(Blocking2) {
+    StaticThreadPool pool{4};
+
+    wheels::ProcessCPUTimer timer;
+
+    Channel<int> xs{3};
+    Channel<int> ys{3};
+
+    Spawn(pool, [&]() {
+      auto value = Select(xs, ys);
+      ASSERT_EQ(value.index(), 1);
+      ASSERT_EQ(std::get<1>(value), 2);
+    });
+
+    Spawn(pool, [&]() {
+      std::this_thread::sleep_for(2s);
+      xs.Send(1);
+    });
+
+    Spawn(pool, [&]() {
+      std::this_thread::sleep_for(1s);
+      ys.Send(2);
+    });
+
+    pool.Join();
+
+    ASSERT_TRUE(timer.Elapsed() < 50ms);
+  }
+
+#endif
+
   class SelectTester {
     class StartLatch {
      public:
@@ -315,7 +517,7 @@ TEST_SUITE(Select) {
     };
 
    public:
-    SelectTester(size_t threads) : pool_(threads) {
+    explicit SelectTester(size_t threads) : pool_(threads) {
     }
 
     void AddChannel(size_t capacity) {
@@ -344,13 +546,13 @@ TEST_SUITE(Select) {
       twist::fault::GetAdversary()->Reset();
 
       // Release all fibers
-      start_.Release();
+      start_latch_.Release();
 
       pool_.Join();
 
       // Print report
-      std::cout << "Sends: " << sends_.load() << std::endl;
-      std::cout << "Receives: " << receives_.load() << std::endl;
+      std::cout << "Sends #: " << sends_.load() << std::endl;
+      std::cout << "Receives #: " << receives_.load() << std::endl;
 
       ASSERT_EQ(sends_.load(), receives_.load());
 
@@ -364,7 +566,7 @@ TEST_SUITE(Select) {
 
    private:
     void SelectConsumer(size_t i, size_t j) {
-      start_.Await();
+      start_latch_.Await();
 
       auto xs = channels_[i];
       auto ys = channels_[j];
@@ -419,7 +621,7 @@ TEST_SUITE(Select) {
     }
 
     void ReceiveConsumer(size_t i) {
-      start_.Await();
+      start_latch_.Await();
 
       auto xs = channels_[i];
 
@@ -442,7 +644,7 @@ TEST_SUITE(Select) {
     }
 
     void Producer(size_t i) {
-      start_.Await();
+      start_latch_.Await();
 
       auto xs = channels_[i];
       int value = 0;
@@ -460,7 +662,7 @@ TEST_SUITE(Select) {
 
     std::vector<Channel<int>> channels_;
 
-    StartLatch start_;
+    StartLatch start_latch_;
 
     std::atomic<int64_t> sends_{0};
     std::atomic<int64_t> receives_{0};
@@ -563,8 +765,8 @@ TEST_SUITE(Select) {
   SIMPLE_FIBER_TEST(SelectFairness, 1) {
     static const size_t kIterations = 10000;
 
-    Channel<int> xs;
-    Channel<int> ys;
+    Channel<int> xs{5};
+    Channel<int> ys{5};
 
     xs.Send(1);
     ys.Send(2);

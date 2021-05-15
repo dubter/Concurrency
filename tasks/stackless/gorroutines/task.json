@@ -1,0 +1,19 @@
+{
+  "tests": [
+    {
+      "targets": ["unit_tests"],
+      "profiles": ["Debug", "FaultyThreadsASan", "FaultyThreadsTSan"]
+    },
+    {
+      "targets": ["stress_tests"],
+      "profiles": ["FaultyFibers", "FaultyThreadsTSan"]
+    }
+  ],
+  "lint_files": ["gorr"],
+  "submit_files": ["gorr"],
+  "forbidden_patterns": [
+    "malloc", "free",
+    "new",
+    "make_shared", "shared_ptr"
+  ]
+}

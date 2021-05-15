@@ -12,9 +12,12 @@ apt-get install -y \
 	cmake \
 	ninja-build \
 	git \
+	g++-10 \
 	clang-11 \
 	clang-format-11 \
 	clang-tidy-11 \
+	libc++-11-dev \
+	libc++abi-11-dev \
 	lldb-11 \
 	python3 \
 	python3-pip \

@@ -85,7 +85,21 @@
 
 - group:    Multi-Threaded Fibers - Channels + Select
   start:    01-01-2021 00:00
-  deadline: 09-05-2021 23:59
+  deadline: 16-05-2021 23:59
   tasks:
     - task: fibers/channel
       score: 500
+
+- group:    Stackless Coroutines / Gor-goutines
+  start:    01-01-2021 00:00
+  deadline: 23-05-2021 23:59
+  tasks:
+    - task: stackless/gorroutines
+      score: 400
+
+- group:    Stackless Coroutines / Task
+  start:    01-01-2021 00:00
+  deadline: 30-05-2021 23:59
+  tasks:
+    - task: stackless/task
+      score: 400

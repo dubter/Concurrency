@@ -1,6 +1,9 @@
 {
   "warmup_targets": ["wheels", "twist"],
-  "tidy_std": "c++20",
+  "tidy_compiler_options": [
+    "-std=c++20",
+    "-stdlib=libc++"
+  ],
   "tidy_includes_path": "build/Debug/_deps",
   "tidy_common_includes": [
     "wheels-src",
@@ -16,6 +19,6 @@
     "std::atomic",
     "std::mutex",
     "std::condition_variable",
-    "std::this_thread::yield"
+    "std::this_thread"
   ]
 }
