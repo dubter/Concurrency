@@ -128,6 +128,45 @@ TEST_SUITE(Mutex) {
     ASSERT_EQ(cs_count, 10);
   }
 
+  SIMPLE_TEST(StackOverflow) {
+    gorr::StaticThreadPool scheduler{/*threads=*/1};
+
+    gorr::Mutex mutex;
+
+    static const size_t kLockers = 100500;
+
+    std::atomic<size_t> lockers{0};
+
+    auto sleeper = [&]() -> gorr::JoinHandle {
+      co_await scheduler.Schedule();
+
+      auto guard = co_await mutex.Lock();
+
+      while (lockers.load() < kLockers) {
+        co_await gorr::Yield();
+      }
+    };
+
+    gorr::Detach(sleeper());
+
+    std::this_thread::sleep_for(100ms);
+
+    auto locker = [&]() -> gorr::JoinHandle {
+      co_await scheduler.Schedule();
+
+      {
+        ++lockers;
+        auto guard = co_await mutex.Lock();
+      }
+    };
+
+    for (size_t i = 0; i < kLockers; ++i) {
+      gorr::Detach(locker());
+    }
+
+    scheduler.Join();
+  }
+
 #endif
 
 };
