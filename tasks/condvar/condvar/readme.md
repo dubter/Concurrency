@@ -35,7 +35,7 @@
 
 Изучите:
 * [`std::condition_variable`](https://en.cppreference.com/w/cpp/thread/condition_variable)
-* [Реализацию](https://gitlab.com/Lipovsky/tinyfibers/-/blob/master/tinyfibers/sync/condvar.hpp) условной переменной для файберов
+* [Реализацию](https://gitlab.com/Lipovsky/tinyfibers/-/blob/master/tinyfibers/sync/condvar.hpp) условной переменной для кооперативных файберов
 
 ## Отношения с другими примитивами
 
@@ -48,7 +48,7 @@
  
 ## Реализация
 
-Как и мьютекс, кондвар должен блокировать и будить ждущие потоки. А значит при реализации нам потребуется уже знакомый инструмент - `futex`, с которым мы работаем через операции `wait` / `notify_{one,all}` у `atomic`.
+Как и мьютекс, кондвар должен блокировать и будить ждущие потоки. А значит при реализации нам потребуется уже знакомый инструмент – `futex`, с которым мы работаем через операции `wait` / `notify_{one,all}` у `atomic`.
 
 ## Фьютекс и кондвар
 
