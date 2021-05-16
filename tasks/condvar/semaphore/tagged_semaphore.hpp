@@ -62,7 +62,7 @@ class TaggedSemaphore {
   };
 
  public:
-  TaggedSemaphore(size_t tokens)
+  explicit TaggedSemaphore(size_t tokens)
       : impl_(tokens) {
   }
 
