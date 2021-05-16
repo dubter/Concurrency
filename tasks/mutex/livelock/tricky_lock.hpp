@@ -9,7 +9,7 @@ class TrickyLock {
  public:
   void Lock() {
     while (thread_count_.fetch_add(1) > 0) {
-      thread_count_.fetch_sub(1);
+      thread_count_.fetch_sub(1);  // Step back
     }
   }
 
