@@ -41,6 +41,10 @@ TEST_SUITE(Mutex) {
     ASSERT_TRUE(plate.AccessCount() > 100500);
   }
 
+  TWIST_TEST_TL(Stress0, 5s) {
+    MutexStressTest(/*threads=*/4, /*gorroutines=*/3);
+  }
+
   TWIST_TEST_TL(Stress1, 5s) {
     MutexStressTest(/*threads=*/2, /*gorroutines=*/100);
   }
