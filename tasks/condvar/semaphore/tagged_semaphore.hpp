@@ -28,11 +28,7 @@ class TaggedSemaphore {
       that.Invalidate();
     }
 
-    Token& operator=(Token&& that) {
-      that.Invalidate();
-      valid_ = true;
-      return *this;
-    }
+    Token& operator=(Token&& that) = delete;
 
    private:
     Token() = default;
