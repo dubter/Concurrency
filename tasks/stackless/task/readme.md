@@ -1,4 +1,4 @@
-# `Task` (или ленивая `Future`)
+# `Task` (ленивая `Future`)
 
 Рассмотрим пример:
 
@@ -134,7 +134,9 @@ int main() {
 
 Получить [`coroutine_handle`](https://en.cppreference.com/w/cpp/coroutine/coroutine_handle) для текущей корутины из `promise_type` можно с помощью метода [`from_promise`](https://en.cppreference.com/w/cpp/coroutine/coroutine_handle/from_promise)
 
-Используйте `wheels<Result<T>` для передачи значения / исключения между caller / callee.
+Используйте `wheels::Result<T>` для передачи значения / исключения между caller / callee.
+
+`Task` / `JoinHandle` не должны зависеть от пула потоков. Использование `Task` не требует исполнения корутины в пуле.
 
 ## References
 
