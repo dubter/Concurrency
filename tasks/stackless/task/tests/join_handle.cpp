@@ -24,6 +24,7 @@ TEST_SUITE(JoinHandle) {
     ok = false;
 
     JoinHandle h = Bar();
+    ASSERT_FALSE(ok);  // Lazy
     Join(std::move(h));
 
     ASSERT_TRUE(ok);

@@ -9,8 +9,6 @@ using task::Task;
 using task::Await;
 
 TEST_SUITE(Task) {
-  bool ok = false;
-
   Task<int> Bar() {
     std::cout << "Bar" << std::endl;
     co_return 7;
@@ -20,6 +18,20 @@ TEST_SUITE(Task) {
     auto task = Bar();
     int value = Await(std::move(task));
     ASSERT_EQ(value, 7);
+  }
+
+  Task<int> Lazy(bool& started) {
+    started = true;
+    co_return 5;
+  }
+
+  SIMPLE_TEST(Lazy) {
+    bool started = false;
+    auto task = Lazy(started);
+    ASSERT_FALSE(started);
+    int value = Await(std::move(task));
+    ASSERT_TRUE(started);
+    ASSERT_EQ(value, 5);
   }
 
   Task<int> Foo() {
