@@ -1,4 +1,4 @@
-# Trieber Stack
+# Treiber Stack
 
 Напишите [лок-фри стек Трайбера](https://en.wikipedia.org/wiki/Treiber_stack).
 
