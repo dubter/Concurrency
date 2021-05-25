@@ -33,6 +33,33 @@ TEST_SUITE(Mutex) {
     scheduler.Join();
   }
 
+  SIMPLE_TEST(NestedCriticalSections) {
+    gorr::StaticThreadPool scheduler{/*threads=*/4};
+    gorr::Mutex mutex1;
+    gorr::Mutex mutex2;
+    gorr::Mutex mutex3;
+
+    auto gorroutine = [&]() -> gorr::JoinHandle {
+      co_await scheduler.Schedule();
+
+      {
+        auto guard1 = co_await mutex1.Lock();
+        {
+          auto guard2 = co_await mutex2.Lock();
+          {
+            auto guard3 = co_await mutex3.Lock();
+          }
+        }
+      }
+
+      co_return;
+    };
+
+    gorr::Detach(gorroutine());  // Spawn
+
+    scheduler.Join();
+  }
+
   SIMPLE_TEST(DoNotBlockPoolThread) {
     gorr::StaticThreadPool scheduler{/*threads=*/2};
 
