@@ -89,6 +89,6 @@ TEST_SUITE(Mutex) {
   }
 
   TWIST_ITERATE_TEST(WakeupStress2, 5s) {
-    MissedWakeupTest(/*threads=*/2, /*gorroutines=*/3);
+    MissedWakeupTest(/*threads=*/3, /*gorroutines=*/3);
   }
 }
