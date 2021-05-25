@@ -16,6 +16,7 @@
       ],
       "profiles": [
         "FaultyFibers",
+        "FaultyThreadsASan",
         "FaultyThreadsTSan"
       ]
     }
