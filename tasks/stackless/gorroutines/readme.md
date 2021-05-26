@@ -2,7 +2,7 @@
 
 Однажды с помощью _stackful_ корутин мы реализовали кооперативную многозадачность в виде файберов (легковесных потоков).
 
-В этой задаче мы сделаем то же самое, но на этот раз с помощью _stackless_ [корутин из С++20](https://en.cppreference.com/w/cpp/language/coroutines).
+В этой задаче мы сделаем то же самое, но на этот раз с помощью _stackless_ [корутин С++20](https://en.cppreference.com/w/cpp/language/coroutines).
 
 То, что у нас получится, мы (не всерьез) назовем _гор-рутинами_ (_gor-routines_) в честь одного из авторов Coroutines TS в С++ – [Гора Нишанова](https://www.youtube.com/watch?v=_fu0gx-xseY). Не путайте их с [настоящими горутинами](https://gobyexample.com/goroutines) (goroutines) из языка Go!
 
@@ -16,7 +16,7 @@ gorr::JoinHandle GorRoutine() {
   // Перепланируемся в пул потоков
   co_await scheduler.Schedule();
 
-  // Теперь мы исполняемся в потоке-воркере пула
+  // Теперь мы исполняемся в потоке пула `scheduler`
 
   for (size_t j = 0; j < 128; ++j) {
     if (j % 7 == 0) {
@@ -106,7 +106,7 @@ co_await gorr::Yield();
 
 ### `JoinHandle`
 
-Горрутина при запуске дает пользователю [`gorr::JoinHandle`](gorr/runtime/join_handle.hpp), с помощью которого тот может дождаться завершения горрутины:   
+Горрутина при запуске дает пользователю [`gorr::JoinHandle`](gorr/runtime/join_handle.hpp), с помощью которого тот может дождаться ее завершения:   
 
 ```cpp
 gorr::StaticThreadPool scheduler{/*threads=*/4};
