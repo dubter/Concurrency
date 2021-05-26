@@ -168,6 +168,7 @@ TEST_SUITE(AtomicSharedPtr) {
   TEST(OverflowStamp, wheels::test::TestOptions().AdaptTLToSanitizer()) {
     auto sp = MakeShared<TestObject>(11);
     AtomicSharedPtr<TestObject> asp;
+    asp.Store(sp);
 
     std::vector<SharedPtr<TestObject>> sps;
 
