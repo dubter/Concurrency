@@ -160,8 +160,8 @@ TEST_SUITE(Task) {
     if (k > 1) {
       Task t1 = Fib(pool, k - 1);
       Task t2 = Fib(pool, k - 2);
-      int f1 = co_await(t1);
-      int f2 = co_await(t2);
+      int f1 = co_await t1;
+      int f2 = co_await t2;
       co_return f1 + f2;
     } else {
       co_return 1;

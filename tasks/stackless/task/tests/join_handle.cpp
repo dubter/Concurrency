@@ -131,8 +131,8 @@ TEST_SUITE(JoinHandle) {
     if (k > 1) {
       auto h1 = Fib(pool, k - 1);
       auto h2 = Fib(pool, k - 2);
-      co_await(h1);
-      co_await(h2);
+      co_await h1;
+      co_await h2;
     } else {
       ++f_value;
     }
