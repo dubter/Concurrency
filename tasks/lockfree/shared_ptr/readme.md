@@ -41,8 +41,8 @@ std::optional<T> TryPop() {
       return std::nullopt;
     }
     // Между
-    // - чтением curr_top = top_.load() и
-    // - чтением curr_top->next 
+    // 1) чтением curr_top = top_.load() и
+    // 2) чтением curr_top->next 
     // другая операция `TryPop` могла извлечь и удалить узел,
     // на который указывает curr_top.
     if (top_.compare_exchange_weak(curr_top, curr_top->next)) {
@@ -56,8 +56,9 @@ std::optional<T> TryPop() {
 
 ## `atomic_shared_ptr`
 
-Решить проблемы с конкурентным доступом поможет [`atomic_shared_ptr`](https://en.cppreference.com/w/cpp/experimental/atomic_shared_ptr)
-, который держит сильную ссылку на разделяемый объект и позволяет выполнять над ней стандартные атомарные операции: `store`, `load`, `compare_exchange_weak` и т.д.
+Решить проблемы с конкурентным доступом поможет [`atomic_shared_ptr`](https://en.cppreference.com/w/cpp/experimental/atomic_shared_ptr).
+
+`atomic_shared_ptr` держит сильную ссылку на разделяемый объект и позволяет выполнять над ней стандартные атомарные операции: `store`, `load`, `compare_exchange_weak` и т.д.
 
 Можно считать, что `atomic_shared_ptr` – это `atomic<shared_ptr>`.
 
