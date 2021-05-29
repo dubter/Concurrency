@@ -8,7 +8,7 @@ namespace gorr {
 
 namespace detail {
 
-struct WaitNode : public wheels::IntrusiveListNode<WaitNode> {
+struct WaitNode : wheels::IntrusiveListNode<WaitNode> {
   void Resume() {
     coro.resume();
   }
