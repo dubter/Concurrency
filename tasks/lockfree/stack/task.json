@@ -1,0 +1,35 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
+    },
+    {
+      "targets": [
+        "stress_tests"
+      ],
+      "profiles": [
+        "FaultyFibers",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
+    }
+  ],
+  "lint_files": [
+    "atomic_stamped_ptr.hpp",
+    "lock_free_stack.hpp"
+  ],
+  "submit_files": [
+    "atomic_stamped_ptr.hpp",
+    "lock_free_stack.hpp"
+  ],
+  "forbidden_patterns": [
+    "mutex"
+  ]
+}

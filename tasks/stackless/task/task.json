@@ -8,8 +8,9 @@
   "lint_files": ["task"],
   "submit_files": ["task"],
   "forbidden_patterns": [
+    "StaticThreadPool",
     "malloc", "free",
-    "new",
+    "new ",
     "make_shared", "shared_ptr"
   ]
 }

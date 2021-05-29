@@ -108,7 +108,7 @@ TEST_SUITE(Fibers) {
     pool.Join();
   }
 
-  SIMPLE_TEST(Yield2) {
+  TEST(Yield2, wheels::test::TestOptions().AdaptTLToSanitizer()) {
     StaticThreadPool pool{4};
 
     static const size_t kYields = 123456;

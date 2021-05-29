@@ -103,3 +103,12 @@
   tasks:
     - task: stackless/task
       score: 400
+
+- group:    Lock-free
+  start:    01-01-2021 00:00
+  deadline: 08-06-2021 23:59
+  tasks:
+    - task: lockfree/stack
+      score: 300
+    - task: lockfree/shared_ptr
+      score: 300
