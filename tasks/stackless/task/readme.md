@@ -3,7 +3,7 @@
 Рассмотрим пример:
 
 ```cpp
-std::future<int> Coro(StaticThreadPool& pool) {
+std::future<int> Compute(StaticThreadPool& pool) {
   // Перепланируемся в пул потоков
   co_await pool;
   // Асинхронно вычисляем ответ
@@ -11,15 +11,15 @@ std::future<int> Coro(StaticThreadPool& pool) {
 }
 
 // Похоже на `AsyncVia`?
-std::future<int> f = Coro();
+std::future<int> f = Compute();
 std::cout << "Async value = " << f.get() << std::endl;
 ```
 
-В точке вызова (точнее, старта) корутина `Coro` не может сразу вернуть значение типа `int` (оно будет вычислено асинхронно в пуле потоков), поэтому вызов `Coro()` возвращает представление этого будущего значения – `std::future<int>`:
+В точке вызова (точнее, старта) корутина `Compute` не может сразу вернуть значение типа `int` (оно будет вычислено асинхронно в пуле потоков), поэтому вызов `Compute()` возвращает представление этого будущего значения – `std::future<int>`:
 
 ```cpp
 // Примерно такой код сгенерирует компилятор:
-auto Coro(StaticThreadPool& pool) {
+auto Compute(StaticThreadPool& pool) {
   // Аллоцируем coroutine state
   // Он скрыт от пользователя корутин
   auto* coro = new CoroutineState{pool};
@@ -48,7 +48,7 @@ auto Coro(StaticThreadPool& pool) {
 
 ```cpp
 // Task<int> – представление будущего результата
-Task<int> Coro(StaticThreadPool& pool) {
+Task<int> Compute(StaticThreadPool& pool) {
 // Перепланируемся в пул потоков
   co_await pool;
   // Теперь мы исполняемся в потоке пула
@@ -58,10 +58,10 @@ Task<int> Coro(StaticThreadPool& pool) {
 }
 ```
 
-При вызове `Coro()` корутина должна остановиться _перед_ исполнением пользовательского кода, в служебной точке `co_await promise.initial_suspend()`:
+При вызове `Compute()` корутина должна остановиться _перед_ исполнением пользовательского кода, в служебной точке `co_await promise.initial_suspend()`:
 
 ```cpp
-Task<int> task = Coro();
+Task<int> task = Compute();
 // <- В этой точке вычисление еще не запланировано
 // в пул потоков
 ```
@@ -89,7 +89,7 @@ int value = co_await task;
 // Функция main не может быть корутиной,
 // использовать co_await в ней нельзя.
 int main() {
-  Task<int> task = Coro();
+  Task<int> task = Compute();
   // Стартуем корутину и блокируем поток до ее завершения.
   int value = Await(std::move(task));
   std::cout << "Value = " << value << std::endl;
