@@ -110,12 +110,11 @@ class AtomicStampedPtr {
   static const size_t kMaxStamp = 1 << 16;
 
  public:
-  explicit AtomicStampedPtr(T* raw_ptr) {
-    Store({raw_ptr, 0});
+  explicit AtomicStampedPtr(T* raw_ptr) : AtomicStampedPtr({raw_ptr, 0}) {
   }
 
-  explicit AtomicStampedPtr(StampedPtr<T> stamped_ptr) {
-    Store(stamped_ptr);
+  explicit AtomicStampedPtr(StampedPtr<T> stamped_ptr)
+      : packed_ptr_(Pack(stamped_ptr)) {
   }
 
   void Store(StampedPtr<T> stamped_ptr) {
