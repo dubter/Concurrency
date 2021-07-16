@@ -7,8 +7,6 @@
 
 namespace solutions {
 
-using twist::util::SpinWait;
-
 class Mutex {
  public:
   void Lock() {
