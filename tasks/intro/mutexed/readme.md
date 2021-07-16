@@ -76,7 +76,7 @@ Mutexed<std::vector<int>> shared_vector;
 #### Примитивные типы
 
 ```cpp
-Mutexed<int> shared_int;
+Mutexed<int> shared_int{0};
 
 {
   auto ref = shared_int.Lock();
