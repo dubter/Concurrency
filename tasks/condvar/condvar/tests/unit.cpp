@@ -40,7 +40,7 @@ TEST_SUITE(CondVar) {
    private:
     bool set_{false};
     mutex mutex_;
-    solutions::ConditionVariable set_cond_;
+    stdlike::CondVar set_cond_;
   };
 
   SIMPLE_TWIST_TEST(NotifyOne) {
@@ -94,7 +94,7 @@ TEST_SUITE(CondVar) {
    private:
     bool released_{false};
     mutex mutex_;
-    solutions::ConditionVariable released_cond_;
+    stdlike::CondVar released_cond_;
   };
 
   SIMPLE_TWIST_TEST(NotifyAll) {
@@ -129,7 +129,7 @@ TEST_SUITE(CondVar) {
   SIMPLE_TWIST_TEST(NotifyManyTimes) {
     static const size_t kIterations = 1000'000;
 
-    solutions::ConditionVariable cv;
+    stdlike::CondVar cv;
     for (size_t i = 0; i < kIterations; ++i) {
       cv.NotifyOne();
     }

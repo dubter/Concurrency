@@ -18,7 +18,7 @@
 
 namespace robot {
 
-void NotifyAtLeastOneThread(solutions::ConditionVariable& condvar) {
+void NotifyAtLeastOneThread(stdlike::CondVar& condvar) {
   if (twist::test::Random2()) {
     condvar.NotifyOne();
   } else {
@@ -54,7 +54,7 @@ class Robot {
  private:
   Step step_{Step::Left};
   twist::stdlike::mutex mutex_;
-  solutions::ConditionVariable switched_;
+  stdlike::CondVar switched_;
 };
 
 void Test(size_t steps) {
@@ -135,8 +135,8 @@ class BlockingQueue {
   std::deque<int> buffer_;
   size_t capacity_;
   twist::stdlike::mutex mutex_;
-  solutions::ConditionVariable not_empty_;
-  solutions::ConditionVariable not_full_;
+  stdlike::CondVar not_empty_;
+  stdlike::CondVar not_full_;
 };
 
 void Test(size_t producers, size_t consumers) {
