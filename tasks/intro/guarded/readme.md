@@ -99,8 +99,8 @@ Mutexed<int> shared_int;
 ## `Mutexed` in the Wild
 
 - [`Synchronized`](https://github.com/facebook/folly/blob/master/folly/docs/Synchronized.md) из библиотеки `facebook/folly`
-- [`Mutex`](https://doc.rust-lang.org/std/sync/struct.Mutex.html) В стандартной библиотеке языка [Rust](https://www.rust-lang.org/)  
+- [`Mutex`](https://doc.rust-lang.org/std/sync/struct.Mutex.html) из стандартной библиотеки языка [Rust](https://www.rust-lang.org/)
 
 ## Альтернативное решение
 
-[Thread-safety analysis](https://clang.llvm.org/docs/ThreadSafetyAnalysis.html) в Clang.
+См. [Thread-safety analysis](https://clang.llvm.org/docs/ThreadSafetyAnalysis.html) в компиляторе Clang.
