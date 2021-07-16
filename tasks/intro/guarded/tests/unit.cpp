@@ -1,4 +1,4 @@
-#include "guarded.hpp"
+#include "mutexed.hpp"
 
 #include <twist/test/test.hpp>
 
@@ -13,36 +13,50 @@
 
 using namespace std::chrono_literals;
 
-using solutions::Guarded;
+using util::Mutexed;
+using util::Locked;
 
 TEST_SUITE(Guarded) {
   SIMPLE_TWIST_TEST(Vector) {
-    Guarded<std::vector<int>> ints;
+    Mutexed<std::vector<int>> ints;
 
-    ASSERT_TRUE(ints->empty());
+    {
+      auto ref = ints.Lock();
+      ASSERT_TRUE(ref->empty());
+    }
 
-    ints->push_back(42);
-    ASSERT_EQ(ints->front(), 42);
-    ASSERT_EQ(ints->at(0), 42);
-    ASSERT_EQ(ints->size(), 1);
+    {
+      auto ref = ints.Lock();
 
-    ints->push_back(99);
-    ASSERT_EQ(ints->size(), 2);
+      ref->push_back(42);
+      ASSERT_EQ(ref->front(), 42);
+      ASSERT_EQ(ref->at(0), 42);
+      ASSERT_EQ(ref->size(), 1);
+    }
+
+    {
+      auto ref = ints.Lock();
+      ref->push_back(99);
+      ASSERT_EQ(ref->size(), 2);
+    }
   }
 
   SIMPLE_TWIST_TEST(Set) {
-    Guarded<std::set<std::string>> strings;
+    Mutexed<std::set<std::string>> strings;
 
-    strings->insert("Hello");
-    strings->insert("World");
-    strings->insert("!");
+    {
+      auto ref = strings.Lock();
+      ref->insert("Hello");
+      ref->insert("World");
+      ref->insert("!");
+    }
 
-    ASSERT_EQ(strings->size(), 3);
+    ASSERT_EQ(Locked(strings)->size(), 3);
   }
 
   SIMPLE_TWIST_TEST(Ctor) {
-    Guarded<std::string> str(5, '!');
-    ASSERT_EQ(str->length(), 5);
+    Mutexed<std::string> str(5, '!');
+    ASSERT_EQ(Locked(str)->length(), 5);
   }
 
   class Counter {
@@ -62,19 +76,19 @@ TEST_SUITE(Guarded) {
   };
 
   SIMPLE_TWIST_TEST(Counter) {
-    Guarded<Counter> counter;
+    Mutexed<Counter> counter;
 
     twist::stdlike::thread t1([&]() {
-      counter->Increment();
+      Locked(counter)->Increment();
     });
     twist::stdlike::thread t2([&]() {
-      counter->Increment();
+      Locked(counter)->Increment();
     });
 
     t1.join();
     t2.join();
 
-    ASSERT_EQ(counter->Value(), 2);
+    ASSERT_EQ(Locked(counter)->Value(), 2);
   }
 }
 
