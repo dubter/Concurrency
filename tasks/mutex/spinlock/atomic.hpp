@@ -8,6 +8,9 @@ namespace stdlike {
 
 class Atomic {
   using Impl = AtomicInt64;
+
+ public:
+  // Underlying value type
   using Value = Int64;
 
  public:
