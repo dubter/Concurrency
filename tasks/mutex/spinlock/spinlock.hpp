@@ -1,6 +1,6 @@
 #pragma once
 
-#include "atomics.hpp"
+#include "atomic.hpp"
 
 #include <wheels/support/cpu.hpp>
 
@@ -11,7 +11,7 @@ namespace solutions {
 class TASSpinLock {
  public:
   void Lock() {
-    while (AtomicExchange(&locked_, 1) != 0) {
+    while (locked_.Exchange(1) == 0) {
       wheels::SpinLockPause();
     }
   }
@@ -21,11 +21,11 @@ class TASSpinLock {
   }
 
   void Unlock() {
-    AtomicStore(&locked_, 0);
+    locked_.Store(0);
   }
 
  private:
-  AtomicInt64 locked_ = 0;
+  stdlike::Atomic locked_{0};
 };
 
 }  // namespace solutions
