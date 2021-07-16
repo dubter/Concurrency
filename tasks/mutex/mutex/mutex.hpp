@@ -5,7 +5,7 @@
 
 #include <cstdlib>
 
-namespace solutions {
+namespace stdlike {
 
 class Mutex {
  public:
@@ -21,4 +21,4 @@ class Mutex {
   // ???
 };
 
-}  // namespace solutions
+}  // namespace stdlike

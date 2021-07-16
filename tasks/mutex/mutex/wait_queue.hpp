@@ -2,7 +2,7 @@
 
 #include <twist/stdlike/atomic.hpp>
 
-namespace solutions {
+namespace util {
 
 class WaitQueue {
  public:
@@ -23,4 +23,4 @@ class WaitQueue {
   twist::stdlike::atomic<uint32_t> queue_{0};
 };
 
-}  // namespace solutions
+}  // namespace util
