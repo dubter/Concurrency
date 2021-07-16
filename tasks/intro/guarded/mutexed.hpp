@@ -15,6 +15,12 @@ class Mutexed {
   class UniqueRef {
     // Your code goes here
 
+    // Non-copyable
+    UniqueRef(const UniqueRef&) = delete;
+
+    // Non-movable
+    UniqueRef(UniqueRef&&) = delete;
+
     // operator*
 
     // operator->
