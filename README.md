@@ -17,7 +17,7 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 
 - [Задачи](/tasks)
 - [Дедлайны](/deadlines)
-- [Manytask](http://84.252.128.234:5222/)
+- [Manytask](http://178.154.225.159:5222/)
 
 ## Библиотеки
 
