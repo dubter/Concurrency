@@ -12,11 +12,11 @@
 .globl FUNCTION_NAME(AtomicStoreRelease)
 .globl FUNCTION_NAME(AtomicStoreSeqCst)
 
-.globl FUNCTION_NAME(AtomicExchange)
+.globl FUNCTION_NAME(AtomicExchangeSeqCst)
 
 # Implementation
 
-# Load variations
+# Load
 
 FUNCTION_NAME(AtomicLoadRelaxed):
     movq (%rdi), %rax
@@ -30,7 +30,7 @@ FUNCTION_NAME(AtomicLoadSeqCst):
     movq (%rdi), %rax
     retq
 
-# Store variations
+# Store
 
 FUNCTION_NAME(AtomicStoreRelaxed):
     movq %rsi, (%rdi)
@@ -46,7 +46,7 @@ FUNCTION_NAME(AtomicStoreSeqCst):
 
 # Exchange
 
-FUNCTION_NAME(AtomicExchange):
+FUNCTION_NAME(AtomicExchangeSeqCst):
     movq (%rdi), %rax  # Load
     movq %rsi, (%rdi)  # Store
     retq

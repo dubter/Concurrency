@@ -32,7 +32,7 @@ void Atomic::Store(Value value, MemoryOrder mo) {
 }
 
 Atomic::Value Atomic::Exchange(Value new_value, MemoryOrder /*mo*/) {
-  return AtomicExchange(&cell_, new_value);
+  return AtomicExchangeSeqCst(&cell_, new_value);
 }
 
 }  // namespace stdlike

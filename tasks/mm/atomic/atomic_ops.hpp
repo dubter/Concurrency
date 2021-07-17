@@ -30,4 +30,4 @@ extern "C" void AtomicStoreSeqCst(AtomicInt64* cell, Int64 value);
 // Atomically replaces content of memory location `cell` with `value`,
 // returns content of the location before the call
 
-extern "C" Int64 AtomicExchange(AtomicInt64* cell, Int64 value);
+extern "C" Int64 AtomicExchangeSeqCst(AtomicInt64* cell, Int64 value);
