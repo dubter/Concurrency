@@ -9,7 +9,7 @@
 
 using namespace std::chrono_literals;
 
-using solutions::Mutex;
+using stdlike::Mutex;
 
 using twist::strand::stdlike::thread;
 using twist::strand::stdlike::this_thread::sleep_for;

@@ -4,9 +4,9 @@
 
 #include <cstdint>
 
-namespace solutions {
+namespace stdlike {
 
-class ConditionVariable {
+class CondVar {
  public:
   // Mutex - BasicLockable
   // https://en.cppreference.com/w/cpp/named_req/BasicLockable
@@ -27,4 +27,4 @@ class ConditionVariable {
   // ???
 };
 
-}  // namespace solutions
+}  // namespace stdlike

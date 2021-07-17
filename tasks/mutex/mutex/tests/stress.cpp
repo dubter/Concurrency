@@ -14,7 +14,7 @@ using namespace std::chrono_literals;
 TEST_SUITE(Mutex) {
   void Test(size_t threads) {
     twist::test::util::Plate plate;  // Guarded by mutex
-    solutions::Mutex mutex;
+    stdlike::Mutex mutex;
 
     twist::test::util::Race race{threads};
 
@@ -49,7 +49,7 @@ TEST_SUITE(Mutex) {
 
 TEST_SUITE(MissedWakeup) {
   void Test(size_t threads) {
-    solutions::Mutex mutex;
+    stdlike::Mutex mutex;
 
     twist::test::util::Race race{threads};
 

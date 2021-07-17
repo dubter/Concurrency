@@ -3,7 +3,7 @@
 Рассмотрим пример:
 
 ```cpp
-std::future<int> Coro(StaticThreadPool& pool) {
+std::future<int> Compute(StaticThreadPool& pool) {
   // Перепланируемся в пул потоков
   co_await pool;
   // Асинхронно вычисляем ответ
@@ -11,15 +11,15 @@ std::future<int> Coro(StaticThreadPool& pool) {
 }
 
 // Похоже на `AsyncVia`?
-std::future<int> f = Coro();
+std::future<int> f = Compute();
 std::cout << "Async value = " << f.get() << std::endl;
 ```
 
-В точке вызова (точнее, старта) корутина `Coro` не может сразу вернуть значение типа `int` (оно будет вычислено асинхронно в пуле потоков), поэтому вызов `Coro()` возвращает представление этого будущего значения – `std::future<int>`:
+В точке вызова (точнее, старта) корутина `Compute` не может сразу же вернуть caller-у значение типа `int` (оно будет вычислено асинхронно в пуле потоков), поэтому вызов `Compute()` возвращает представление этого будущего значения – `std::future<int>`:
 
 ```cpp
 // Примерно такой код сгенерирует компилятор:
-auto Coro(StaticThreadPool& pool) {
+auto Compute(StaticThreadPool& pool) {
   // Аллоцируем coroutine state
   // Он скрыт от пользователя корутин
   auto* coro = new CoroutineState{pool};
@@ -48,7 +48,7 @@ auto Coro(StaticThreadPool& pool) {
 
 ```cpp
 // Task<int> – представление будущего результата
-Task<int> Coro(StaticThreadPool& pool) {
+Task<int> Compute(StaticThreadPool& pool) {
 // Перепланируемся в пул потоков
   co_await pool;
   // Теперь мы исполняемся в потоке пула
@@ -58,10 +58,10 @@ Task<int> Coro(StaticThreadPool& pool) {
 }
 ```
 
-При вызове `Coro()` корутина должна остановиться _перед_ исполнением пользовательского кода, в служебной точке `co_await promise.initial_suspend()`:
+При вызове `Compute()` корутина должна остановиться _перед_ исполнением пользовательского кода, в служебной точке `co_await promise.initial_suspend()`:
 
 ```cpp
-Task<int> task = Coro();
+Task<int> task = Compute();
 // <- В этой точке вычисление еще не запланировано
 // в пул потоков
 ```
@@ -89,7 +89,7 @@ int value = co_await task;
 // Функция main не может быть корутиной,
 // использовать co_await в ней нельзя.
 int main() {
-  Task<int> task = Coro();
+  Task<int> task = Compute();
   // Стартуем корутину и блокируем поток до ее завершения.
   int value = Await(std::move(task));
   std::cout << "Value = " << value << std::endl;
@@ -97,19 +97,66 @@ int main() {
 }
 ```
 
-## Profit
+### Profit
 
-### Аллокация
+#### Аллокация
 
 Нам не нужна отдельная динамическая аллокация для shared state, у нас уже есть аллоцированный на куче coroutine state (причем компилятор может стереть эту аллокацию, если будет уверен, что она не нужна).
 
-### Подсчет ссылок
+#### Подсчет ссылок
 
 Нам не нужен подсчет ссылок для контроля времени жизни shared state / coroutine state: `co_await task` означает, что время жизни корутины-caller-а (которая играет роль консьюмера) покрывает время жизни корутины-callee (которая является продьюсером).
 
-### Синхронизация
+#### Синхронизация
 
 Старт асинхронной операции отложенный, им управляет caller, а значит он может подписать продолжение (continuation) на этот результат без гонки, т.е. без синхронизации.
+
+## Fork-join
+
+Пусть теперь мы хотим написать на корутинах рекурсивный алгоритм, использующий технику разделяй-и-властвуй.
+
+Пока `Task` не позволяет нам параллельно запустить две подзадачи:
+```cpp
+int Fin(int n) {
+  if (n > 2) {
+    Task t1 = Fib(n - 1);
+    // <- Пока задачи не запущены!
+
+    int f1 = co_await t1;  // =(
+    int f2 = Fib(n - 2);
+    return f1 + f2;
+    
+  } else {
+    return 1;
+  }
+}  
+
+```
+
+Мы хотим разделить ожидание завершения и старт асинхронной операции:
+```cpp
+Task<int> t1 = Fib(n - 1);
+Task<int> t2 = Fib(n - 2);
+
+Start(t1);
+Start(t2);
+
+int f1 = co_await t1;
+int f2 = co_await t2;
+
+return f1 + f2;
+```
+
+Заметим, что одну из подзадач можно исполнить синхронно:
+
+```cpp
+Task t1 = Fib(n - 1);
+Start(t1);  // Стартуем асинхронное исполнение первой подзадачи
+int f2 = Fib(n - 2);  // Синхронно выполняем вторую подзадачу
+int f1 = co_await t1;  // Дожидаемся первой подзадачи
+return f1 + f2;
+```
+
 
 ## Задача
 

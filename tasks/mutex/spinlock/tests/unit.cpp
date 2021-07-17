@@ -1,4 +1,5 @@
 #include "../spinlock.hpp"
+#include "../atomic_ops.hpp"
 
 #include <twist/test/test.hpp>
 
