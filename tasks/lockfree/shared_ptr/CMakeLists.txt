@@ -2,7 +2,7 @@ begin_task()
 
 set_task_sources(
         atomic_stamped_ptr.hpp
-        atomic_shared_ptr.hpp
+        shared_ptr.hpp
         lock_free_stack.hpp)
 
 # Unit tests

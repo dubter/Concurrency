@@ -23,11 +23,11 @@
   ],
   "lint_files": [
     "atomic_stamped_ptr.hpp",
-    "atomic_shared_ptr.hpp"
+    "shared_ptr.hpp"
   ],
   "submit_files": [
     "atomic_stamped_ptr.hpp",
-    "atomic_shared_ptr.hpp"
+    "shared_ptr.hpp"
   ],
   "forbidden_patterns": [
     "mutex"

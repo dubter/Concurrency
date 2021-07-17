@@ -1,4 +1,4 @@
-#include "../../atomic_shared_ptr.hpp"
+#include "../../shared_ptr.hpp"
 
 #include <wheels/test/test_framework.hpp>
 

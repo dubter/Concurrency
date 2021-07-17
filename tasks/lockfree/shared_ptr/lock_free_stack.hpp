@@ -1,6 +1,6 @@
 #pragma once
 
-#include "atomic_shared_ptr.hpp"
+#include "shared_ptr.hpp"
 
 #include <twist/stdlike/atomic.hpp>
 

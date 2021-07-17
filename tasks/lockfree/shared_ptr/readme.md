@@ -42,8 +42,8 @@ std::optional<T> TryPop() {
     }
     // Между
     // 1) чтением curr_top = top_.load() и
-    // 2) чтением curr_top->next 
-    // другая операция `TryPop` могла извлечь и удалить узел,
+    // 2) чтением curr_top->next
+    // другая операция `TryPop` могла извлечь из стека и удалить узел,
     // на который указывает curr_top.
     if (top_.compare_exchange_weak(curr_top, curr_top->next)) {
       T popped_value = std::move(curr_top->value);
@@ -62,11 +62,13 @@ std::optional<T> TryPop() {
 
 Можно считать, что `atomic_shared_ptr` – это `atomic<shared_ptr>`.
 
-Атомарность операций в `atomic_shared_ptr` обеспечивается уже не на уровне процессора, а с помощью лок-фри алгоритма:
+Атомарность операций в `atomic_shared_ptr` обеспечивается уже не на уровне процессора, а с помощью специально изготовленного лок-фри алгоритма:
 [Implementing a Lock-free `atomic_shared_ptr`](https://github.com/brycelelbach/cppnow_presentations_2016/blob/master/01_wednesday/implementing_a_lock_free_atomic_shared_ptr.pdf).
 
 ## Задание
 
 Вам дана [реализация лок-фри стека](lock_free_stack.hpp).
 
-[Напишите](atomic_shared_ptr.hpp) для нее классы `SharedPtr<T>` и `AtomicSharedPtr<T>`.
+[Напишите](shared_ptr.hpp) для нее классы `SharedPtr<T>` и `AtomicSharedPtr<T>`.
+
+Реализация `AtomicSharedPtr<T>` должна быть лок-фри.
