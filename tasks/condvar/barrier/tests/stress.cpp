@@ -94,7 +94,7 @@ void Test(size_t threads, size_t iterations) {
   }
 
   race.Run();
-};
+}
 }  // namespace rotate
 
 TWIST_TEST_RUNS(RotateVector, rotate::Test)

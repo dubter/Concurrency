@@ -5,7 +5,8 @@
 
 namespace await::executors {
 
-IThreadPoolPtr MakeStaticThreadPool(size_t /*threads*/, const std::string& /*name*/) {
+IThreadPoolPtr MakeStaticThreadPool(size_t /*threads*/,
+                                    const std::string& /*name*/) {
   return nullptr;  // Not implemented
 }
 

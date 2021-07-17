@@ -27,7 +27,7 @@ Result<uint16_t> Acceptor::BindToAvailablePort() {
   return NotSupported();  // Your code goes here
 }
 
-Status Acceptor::Listen(size_t /*backlog*/) {
+Status Acceptor::Listen(uint32_t /*backlog*/) {
   return NotSupported();  // Your code goes here
 }
 

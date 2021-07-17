@@ -23,10 +23,11 @@ class Fiber {
   void Resume();
 
  private:
+  // Similar to those in the TinyFibers scheduler
   void Stop();
   void Step();
   void Schedule();
-  void Reschedule();
+  void Dispatch();
   void Destroy();
   void Await();
 

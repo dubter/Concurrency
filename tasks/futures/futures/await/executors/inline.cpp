@@ -33,4 +33,4 @@ IExecutorPtr GetInlineExecutor() {
   return single.Get();
 }
 
-};  // namespace await::executors
+}  // namespace await::executors

@@ -6,7 +6,14 @@
 
 namespace mtf::fibers {
 
-// Buffered channel
+namespace detail {
+
+template <typename X, typename Y>
+class Selector;
+
+}  // namespace detail
+
+// Buffered MP/MC channel
 // https://tour.golang.org/concurrency/3
 
 // Does not support void type
@@ -16,9 +23,12 @@ template <typename T>
 class Channel {
   using Impl = detail::ChannelImpl<T>;
 
+  template <typename X, typename Y>
+  friend class detail::Selector;
+
  public:
   // Bounded channel, `capacity` > 0
-  Channel(size_t capacity) : impl_(std::make_shared<Impl>(capacity)) {
+  explicit Channel(size_t capacity) : impl_(std::make_shared<Impl>(capacity)) {
   }
 
   // Blocking

@@ -4,7 +4,7 @@
 
 namespace mtf::fibers {
 
-context::Stack AllocateStack();
+context::Stack AcquireStack();
 void ReleaseStack(context::Stack stack);
 
 }  // namespace mtf::fibers

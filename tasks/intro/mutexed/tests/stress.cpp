@@ -28,4 +28,4 @@ TEST_SUITE(Guarded) {
   }
 }
 
-RUN_ALL_TESTS();
+RUN_ALL_TESTS()

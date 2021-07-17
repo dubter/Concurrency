@@ -67,4 +67,4 @@ TEST_SUITE(DiningPhilosophers) {
   }
 }
 
-RUN_ALL_TESTS();
+RUN_ALL_TESTS()

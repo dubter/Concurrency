@@ -204,7 +204,7 @@ scheduler.Join();
 
 #### Пул
 
-Аналогично [TinyFibers](https://gitlab.com/Lipovsky/tinyfibers/-/blob/master/tinyfibers/runtime/stacks.cpp) весь код аллокации стеков должен быть спрятан от файберов за функциями `AllocateStack` / `ReleaseStack`.
+Аналогично [TinyFibers](https://gitlab.com/Lipovsky/tinyfibers/-/blob/master/tinyfibers/runtime/stacks.cpp) весь код аллокации стеков должен быть спрятан от файберов за функциями `AcquireStack` / `ReleaseStack`.
 
 #### Спинлок
 

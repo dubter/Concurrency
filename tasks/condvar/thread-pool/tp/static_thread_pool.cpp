@@ -8,7 +8,7 @@ namespace tp {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static twist::util::ThreadLocal<StaticThreadPool*> pool{nullptr};
+static twist::util::ThreadLocalPtr<StaticThreadPool> pool;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,7 +33,7 @@ void StaticThreadPool::Shutdown() {
 }
 
 StaticThreadPool* StaticThreadPool::Current() {
-  return *pool;
+  return pool;
 }
 
 }  // namespace tp

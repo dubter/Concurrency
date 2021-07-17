@@ -22,7 +22,7 @@ class Acceptor {
 
   uint16_t GetPort() const;
 
-  wheels::Status Listen(size_t backlog = 128);
+  wheels::Status Listen(uint32_t backlog = 128);
 
   wheels::Result<Socket> Accept();
 
