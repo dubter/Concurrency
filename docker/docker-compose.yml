@@ -3,6 +3,7 @@ version: "3.3"
 services:
   wrapper:
     build:
+      platform: linux/amd64 
       context: image
       dockerfile: Dockerfile
     container_name: $CONTAINER_NAME
