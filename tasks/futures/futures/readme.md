@@ -16,11 +16,7 @@
 // Где-то в программе:
 // Разворачиваем канал
 // `promise` отправится потоку `A` (producer), фьюча - потоку `B` (consumer)
-Promise<int> promise;
-auto future = promise.MakeFuture();
-
-// Альтернативный вариант:
-// auto [future, promise] = MakeContract<int>();
+auto [future, promise] = MakeContract<int>();
 
 // В потоке A:
 // Отправляем значение, "комплитим" (от complete) фьючу
@@ -255,7 +251,7 @@ std::move(f).Subscribe([](Result<int> result) {
 Рассмотрим следующий пример:
 
 ```cpp
-// Ранее: [f, p] = MakeContract<int>();
+// Ранее: auto [f, p] = MakeContract<int>();
 
 // В потоке A:
 std::move(p).SetValue(42);
@@ -278,10 +274,10 @@ std::move(f).Subsribe(callback);
 
 ```cpp
 // Пул потоков для запуска вычислительных задач
-auto cpu_tp = MakeStaticThreadPool(4, "cpu");
+auto compute_tp = MakeStaticThreadPool(4, "compute");
 
 // Запускаем распаковку в пуле потоков `cpu_tp`
-auto f = Fetch(url).Via(cpu_tp).Then(Decompress);
+auto f = Fetch(url).Via(compute_tp).Then(Decompress);
 ```
 
 Установленный через `Via` экзекутор наследуется по всей цепочке продолжений:
@@ -370,8 +366,6 @@ auto std::move(semi_future).Via(e).Then(ParseJson).Then(ProcessJson);
 Перемещайте, а не копируйте `Result<T>` в шаблонном коде, тип `T` может не поддерживать копирование.
 
 Если вам нужно вызвать функцию и завернуть ее возвращаемое значение / исключение в `Result`, то используйте `wheels::make_result::Invoke`.
-
-Предпочитайте функцию `MakeContract` методу `MakeFuture`.
 
 Избегайте дублирования кода в комбинаторах: общую логику поместите в функцию [`Combine`](await/futures/combine/detail/combine.hpp), специфичную для комбинатора – в соответствующий класс-комбинатор.
 
