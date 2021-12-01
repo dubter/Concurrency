@@ -48,7 +48,7 @@
 Напишите дедлок и запустите стресс-тесты в сборке с [ThreadSanitizer](https://clang.llvm.org/docs/ThreadSanitizer.html) с помощью команды:
 
 ```shell
-clippy target stress_tests -p FaultyThreadsTSan
+clippy target stress_tests FaultyThreadsTSan
 ```
 
 Что означает предупреждение _lock-order-inversion_?
