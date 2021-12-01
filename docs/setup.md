@@ -136,7 +136,7 @@ clippy warmup
 
 Теперь вы готовы к решению задач.
 
-Решите задачу [A+B](/tasks/intro/aplusb).
+Решите задачу [A+B](/tasks/tutorial/aplusb).
 
 ### Шаг 9
 
