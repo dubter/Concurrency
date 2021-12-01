@@ -11,7 +11,7 @@ namespace solutions {
 class TASSpinLock {
  public:
   void Lock() {
-    while (locked_.Exchange(1) == 0) {
+    while (locked_.Exchange(1) == 1) {
       wheels::SpinLockPause();
     }
   }
