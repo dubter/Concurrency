@@ -25,4 +25,4 @@ auto stamped_ptr = asp.Load();
 bool succeeded = asp.CompareExchangeWeak(stamped_ptr, stamped_ptr.IncrementCount());
 ```
 
-Счетчик, который хранит `AtomicStampedPtr`, самостоятельной семантики не имеет.
+Счетчик в `AtomicStampedPtr` самостоятельного смысла не имеет.
