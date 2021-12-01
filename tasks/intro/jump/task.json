@@ -1,9 +1,0 @@
-{
-  "test_profiles": ["Debug"],
-  "test_targets": ["tests"],
-  "lint_files": [],
-  "submit_files": ["jump.hpp", "jump.S"],
-  "forbidden_patterns": [
-    "Your asm code goes here"
-  ]
-}
