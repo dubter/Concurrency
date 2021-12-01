@@ -16,7 +16,7 @@
 
 - [Basics of Futexes](https://eli.thegreenplace.net/2018/basics-of-futexes/)
 - [futex(2)](http://man7.org/linux/man-pages/man2/futex.2.html)
-- [kernel/futex.c](https://github.com/torvalds/linux/blob/master/kernel/futex.c)
+- [kernel/futex/waitwake.c](https://github.com/torvalds/linux/blob/master/kernel/futex/waitwake.c)
 
 ### `twist::stdlike`
 
