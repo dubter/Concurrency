@@ -7,4 +7,3 @@ add_subdirectory(spinlock)
 add_subdirectory(try-lock)
 add_subdirectory(mutex)
 add_subdirectory(mutexed)
-
