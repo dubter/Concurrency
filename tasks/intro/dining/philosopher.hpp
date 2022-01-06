@@ -8,17 +8,19 @@ class Philosopher {
  public:
   Philosopher(Table& table, size_t seat);
 
-  void EatThenThink();
+  void Eat();
+  void Think();
 
+  // Statistics
   size_t Meals() const {
     return meals_;
   }
 
  private:
+  // Eat
   void AcquireForks();
-  void Eat();
+  void EatWithForks();
   void ReleaseForks();
-  void Think();
 
  private:
   Table& table_;

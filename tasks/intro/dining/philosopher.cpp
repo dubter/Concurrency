@@ -11,11 +11,10 @@ Philosopher::Philosopher(Table& table, size_t seat)
       right_fork_(table_.RightFork(seat)) {
 }
 
-void Philosopher::EatThenThink() {
+void Philosopher::Eat() {
   AcquireForks();
-  Eat();
+  EatWithForks();
   ReleaseForks();
-  Think();
 }
 
 // Acquire left_fork_ and right_fork_
@@ -23,7 +22,7 @@ void Philosopher::AcquireForks() {
   // Your code goes here
 }
 
-void Philosopher::Eat() {
+void Philosopher::EatWithForks() {
   table_.AccessPlate(seat_);
   // Try to provoke data race
   table_.AccessPlate(table_.ToRight(seat_));
@@ -36,6 +35,7 @@ void Philosopher::ReleaseForks() {
 }
 
 void Philosopher::Think() {
+  // Random pause or context switch
   twist::test::InjectFault();
 }
 

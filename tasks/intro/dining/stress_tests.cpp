@@ -26,7 +26,8 @@ void Dining(size_t seats) {
     race.Add([&, seat]() {
       auto& plato = philosophers_.at(seat);
       while (wheels::test::KeepRunning()) {
-        plato.EatThenThink();
+        plato.Eat();
+        plato.Think();
       }
     });
   }
