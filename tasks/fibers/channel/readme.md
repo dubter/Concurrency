@@ -8,7 +8,7 @@
 
 _Do not communicate by sharing memory; instead, share memory by communicating._
 
-https://blog.golang.org/codelab-share
+[Share Memory By Communicating](https://blog.golang.org/codelab-share)
 
 ### Communicating Sequential Processes
 
@@ -20,7 +20,7 @@ https://blog.golang.org/codelab-share
 
 [A Tour of Go / Buffered Channels](https://tour.golang.org/concurrency/3)
 
-Реализуйте [`Channel<T>`](mtf/fibers/sync/channel.hpp) – буферизированный канал с буфером фиксированного размера, который позволяет отправлять данные из одного файбера в другой.
+Реализуйте [`Channel<T>`](mtf/fibers/sync/channel.hpp) – канал с буфером фиксированного размера, который позволяет отправлять данные из одного файбера в другой.
 
 Метод `Send` блокирует _файбер_ (не поток!) если буфер канала заполнен, метод `Receive` – если пуст.
 
