@@ -12,12 +12,13 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 
 1) [Начало работы](docs/setup.md)
 2) [Как сдавать задачи](docs/ci.md)
+3) [Про Twist](docs/twist.md)
 
 ## Навигация
 
 - [Задачи](/tasks)
 - [Дедлайны](/deadlines)
-- [Manytask](http://178.154.225.159:5222/)
+- Manytask (отключен)
 
 ## Библиотеки
 
