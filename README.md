@@ -6,7 +6,8 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 
 ## Ссылки
 
-[Awesome Concurrency](https://gitlab.com/Lipovsky/awesome-concurrency)
+- [Awesome Concurrency](https://gitlab.com/Lipovsky/awesome-concurrency)
+- [Репозитории с примерами](https://gitlab.com/l2288)
 
 ## Инструкции
 
