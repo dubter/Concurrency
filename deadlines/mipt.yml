@@ -1,21 +1,24 @@
-- group:    Intro
-  start:    01-01-2021 00:00
-  deadline: 28-02-2021 23:59
+- group:    Tutorial
+  start:    05-02-2022 12:00
+  deadline: 13-02-2022 23:59
   tasks:
-    - task: intro/aplusb
-      score: 0
-    - task: intro/deadlock
-      score: 100
-    - task: intro/dining
-      score: 100
-    - task: intro/jump
-      score: 100
-    - task: intro/guarded
+    - task: tutorial/aplusb
       score: 100
 
-- group:    Mutual Exclusion
-  start:    01-01-2021 00:00
-  deadline: 28-02-2021 23:59
+- group:    Mutual Exclusion / Part I
+  start:    05-02-2022 12:00
+  deadline: 21-02-2022 23:59
+  tasks:
+    - task: mutex/deadlock
+      score: 100
+    - task: mutex/dining
+      score: 100
+    - task: mutex/mutexed
+      score: 100
+
+- group:    Mutual Exclusion / Part II
+  start:    12-02-2022 12:00
+  deadline: 28-02-2022 23:59
   tasks:
     - task: mutex/livelock
       score: 200
@@ -27,8 +30,8 @@
       score: 200
 
 - group:    Condition Variables
-  start:    01-01-2021 00:00
-  deadline: 07-03-2021 23:59
+  start:    19-02-2022 12:00
+  deadline: 07-03-2022 23:59
   tasks:
     - task: condvar/barrier
       score: 200
@@ -38,63 +41,75 @@
       score: 200
     - task: condvar/thread-pool
       score: 400
-
-- group:    Multi-Threaded Fibers - Intro
-  start:    01-01-2021 00:00
-  deadline: 22-03-2021 23:59
-  tasks:
-    - task: fibers/coroutine
-      score: 500
-
-- group:    Asio
-  start:    01-01-2021 00:00
-  deadline: 22-03-2021 23:59
-  tasks:
-    - task: asio/echo
+    - task: condvar/future
       score: 200
 
-- group:    TinyFibers + Asio
-  start:    01-01-2021 00:00
-  deadline: 29-03-2021 23:59
+- group:    TinyFibers
+  start:    05-03-2022 12:00
+  deadline: 21-03-2022 23:59
   tasks:
     - task: tinyfibers/sleep
       score: 300
     - task: tinyfibers/echo
       score: 500
 
-- group:    Executors
-  start:    01-01-2021 00:00
-  deadline: 20-04-2021 23:59
+- group:    Fibers / Coroutine
+  start:    05-03-2022 12:00
+  deadline: 21-03-2022 23:59
   tasks:
-    - task: futures/executors
+    - task: fibers/coroutine
       score: 500
 
-- group:    Futures
-  start:    01-01-2021 00:00
-  deadline: 27-04-2021 23:59
-  tasks:
-    - task: futures/futures
-      score: 500
-
-- group:    Multi-Threaded Fibers - Mutex + Condvar
-  start:    01-01-2021 00:00
-  deadline: 03-05-2021 23:59
+- group:    Fibers / Mutex + Condvar
+  start:    05-03-2022 12:00
+  deadline: 04-04-2022 23:59
   tasks:
     - task: fibers/mutex
-      score: 400
+      score: 500
 
-- group:    Multi-Threaded Fibers - Channels + Select
-  start:    01-01-2021 00:00
-  deadline: 21-05-2021 23:59
+- group:    Fibers / Channel + Select
+  start:    05-03-2022 12:00
+  deadline: 18-04-2022 23:59
   tasks:
     - task: fibers/channel
       score: 500
 
+- group:    Asio
+  start:    05-03-2022 12:00
+  deadline: 14-03-2022 23:59
+  tasks:
+    - task: asio/echo
+      score: 200
+
+- group:    Futures & Executors
+  start:    26-03-2022 12:00
+  deadline: 12-04-2022 23:59
+  tasks:
+    - task: futures/executors
+      score: 500
+    - task: futures/futures
+      score: 500
+
+- group:    Lock-free
+  start:    02-04-2022 12:00
+  deadline: 18-04-2022 23:59
+  tasks:
+    - task: lockfree/stack
+      score: 400
+    - task: lockfree/shared_ptr
+      score: 400
+    - task: lockfree/queue
+      score: 400
+
 - group:    Stackless Coroutines
-  start:    01-01-2021 00:00
-  deadline: 21-05-2021 23:59
+  start:    16-04-2022 12:00
+  deadline: 21-05-2022 23:59
   tasks:
     - task: stackless/gorroutines
       score: 500
     - task: stackless/task
       score: 400
+    - task: stackless/maybe
+      score: 200
+    - task: stackless/yield
+      score: 200
