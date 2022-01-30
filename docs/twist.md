@@ -1,6 +1,6 @@
 # Twist
 
-Для тестирования всех домашних заданий используется фреймворк [_Twist_](https://gitlab.com/Lipovsky/twist).
+Для тестирования задач курса используется фреймворк [_Twist_](https://gitlab.com/Lipovsky/twist).
 
 Цель _Twist_ – спровоцировать в стресс-тестах баги, связанные с неаккуратной синхронизацией потоков.
 
@@ -65,4 +65,19 @@ class SpinLock {
   // Вместо std::atomic<bool>
   twist::stdlike::atomic<bool> locked_{false};
 };
+```
+
+### Futex
+
+В `twist` метод `wait` у `atomic` доступен только для `T` = `uint32_t`.
+
+Кроме того, `atomic` в `twist` дополнительно имеет методы `FutexWait` / `FutexWake`.
+
+```cpp
+// https://eel.is/c++draft/atomics.types.generic#lib:atomic,wait
+void wait(T old) {
+  while (load() == old) {
+    FutexWait(old);
+  }   
+}
 ```
