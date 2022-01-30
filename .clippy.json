@@ -1,4 +1,8 @@
 {
+  "build_dir": "/tmp/clippy-build",
+  "task_ci_config": ".grade.gitlab-ci.yml",
+  "repo_master": "master",
+  "solutions_master": "master",
   "warmup_targets": ["wheels", "twist"],
   "tidy_compiler_options": [
     "-std=c++20",
@@ -19,6 +23,7 @@
     "std::atomic",
     "std::mutex",
     "std::condition_variable",
+    "std::thread",
     "std::this_thread"
   ]
 }
