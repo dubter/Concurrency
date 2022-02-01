@@ -60,14 +60,14 @@
     - task: fibers/coroutine
       score: 500
 
-- group:    Fibers / Mutex + Condvar
+- group:    Fibers / Mutex
   start:    05-03-2022 12:00
   deadline: 04-04-2022 23:59
   tasks:
     - task: fibers/mutex
       score: 500
 
-- group:    Fibers / Channel + Select
+- group:    Fibers / Channels
   start:    05-03-2022 12:00
   deadline: 18-04-2022 23:59
   tasks:
