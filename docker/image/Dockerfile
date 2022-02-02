@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:21.10
 
 COPY install_deps.sh /
 RUN sh install_deps.sh
@@ -8,8 +8,8 @@ ENV TZ=Europe/Moscow
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
-ENV CXX="/usr/bin/clang++-11"
-ENV CC="/usr/bin/clang-11"
+ENV CXX="/usr/bin/clang++-13"
+ENV CC="/usr/bin/clang-13"
 
 # User for CLion
 RUN groupadd -g 712342 clion_user_group
