@@ -38,8 +38,8 @@
 | Поле | Значение |
 |---|---|
 | _Make_ | `/usr/bin/make` |
-| _C Compiler_ | `/usr/bin/clang-13`
-| _C++ Compiler_ | `/usr/bin/clang++-13` |
+| _C Compiler_ | `/usr/bin/clang-12`
+| _C++ Compiler_ | `/usr/bin/clang++-12` |
 
 Проверьте, что в поле `Make` вы написали путь именно к `make`, а не к `cmake`.
 
