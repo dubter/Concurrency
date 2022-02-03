@@ -14,53 +14,29 @@ static inline void Resume(Fiber* fiber) {
   GetCurrentScheduler()->Resume(fiber);
 }
 
-class WaitQueue::Impl {
- public:
-  void Park() {
-    Fiber* caller = GetCurrentFiber();
-    wait_queue_.PushBack(caller);
-    Suspend();
-  }
-
-  void WakeOne() {
-    if (wait_queue_.IsEmpty()) {
-      return;
-    }
-    Fiber* fiber = wait_queue_.PopFront();
-    Resume(fiber);
-  }
-
-  void WakeAll() {
-    while (!wait_queue_.IsEmpty()) {
-      Fiber* fiber = wait_queue_.PopFront();
-      Resume(fiber);
-    }
-  }
-
-  ~Impl() {
-    WHEELS_ASSERT(wait_queue_.IsEmpty(), "WaitQueue is not empty");
-  }
-
- private:
-  FiberQueue wait_queue_;
-};
-
-WaitQueue::WaitQueue() : pimpl_(std::make_unique<Impl>()) {
-}
-
-WaitQueue::~WaitQueue() {
-}
-
 void WaitQueue::Park() {
-  pimpl_->Park();
+  Fiber* caller = GetCurrentFiber();
+  waiters_.PushBack(caller);
+  Suspend();
 }
 
 void WaitQueue::WakeOne() {
-  pimpl_->WakeOne();
+  if (waiters_.IsEmpty()) {
+    return;
+  }
+  Fiber* fiber = waiters_.PopFront();
+  Resume(fiber);
 }
 
 void WaitQueue::WakeAll() {
-  pimpl_->WakeAll();
+  while (!waiters_.IsEmpty()) {
+    Fiber* fiber = waiters_.PopFront();
+    Resume(fiber);
+  }
+}
+
+WaitQueue::~WaitQueue() {
+  WHEELS_ASSERT(waiters_.IsEmpty(), "WaitQueue is not empty");
 }
 
 }  // namespace tinyfibers

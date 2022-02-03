@@ -6,7 +6,7 @@
 #include <tinyfibers/runtime/api.hpp>
 #include <tinyfibers/runtime/watcher.hpp>
 
-#include <wheels/support/intrusive_list.hpp>
+#include <wheels/intrusive/list.hpp>
 
 namespace tinyfibers {
 

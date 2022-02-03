@@ -4,7 +4,7 @@
 
 #include <tinyfibers/net/buffer.hpp>
 
-#include <wheels/support/result.hpp>
+#include <wheels/result/result.hpp>
 
 namespace tinyfibers::net {
 

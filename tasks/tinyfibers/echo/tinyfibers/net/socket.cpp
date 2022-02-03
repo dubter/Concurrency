@@ -3,6 +3,8 @@
 #include <tinyfibers/runtime/scheduler.hpp>
 #include <tinyfibers/runtime/parking_lot.hpp>
 
+#include <wheels/result/make.hpp>
+
 using wheels::Result;
 using wheels::Status;
 
