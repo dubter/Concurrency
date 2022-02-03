@@ -2,7 +2,7 @@
 
 namespace mtf::coroutine::impl {
 
-Coroutine::Coroutine(Routine /*routine*/, context::StackView /*stack*/) {
+Coroutine::Coroutine(Routine /*routine*/, wheels::MutableMemView /*stack*/) {
   // Not implemented
 }
 

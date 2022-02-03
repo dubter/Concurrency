@@ -12,10 +12,9 @@ namespace mtf::fibers {
 // https://eli.thegreenplace.net/2018/basics-of-futexes/
 
 template <typename T>
-class FutexLike : public twist::stdlike::atomic<T> {
+class FutexLike {
  public:
-  explicit FutexLike(T initial_value)
-      : twist::stdlike::atomic<T>(initial_value) {
+  explicit FutexLike(twist::stdlike::atomic<T>& /*cell*/) {
   }
 
   ~FutexLike() {

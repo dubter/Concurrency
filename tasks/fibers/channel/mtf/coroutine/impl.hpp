@@ -2,7 +2,7 @@
 
 #include <mtf/coroutine/routine.hpp>
 
-#include <context/context.hpp>
+#include <wheels/memory/view.hpp>
 
 #include <exception>
 
@@ -12,7 +12,7 @@ namespace mtf::coroutine::impl {
 
 class Coroutine {
  public:
-  Coroutine(Routine routine, context::StackView stack);
+  Coroutine(Routine routine, wheels::MutableMemView stack);
 
   // Non-copyable
   Coroutine(const Coroutine&) = delete;
