@@ -7,7 +7,7 @@
 
 #include <wheels/test/util.hpp>
 
-TEST_SUITE(Guarded) {
+TEST_SUITE(Mutexed) {
   TWIST_TEST_TL(Stress, 3s) {
     static const size_t kThreads = 3;
 

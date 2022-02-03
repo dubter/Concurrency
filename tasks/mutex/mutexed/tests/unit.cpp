@@ -16,7 +16,7 @@ using namespace std::chrono_literals;
 using util::Mutexed;
 using util::Locked;
 
-TEST_SUITE(Guarded) {
+TEST_SUITE(Mutexed) {
   SIMPLE_TWIST_TEST(Vector) {
     Mutexed<std::vector<int>> ints;
 
