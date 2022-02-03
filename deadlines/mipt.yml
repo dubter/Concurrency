@@ -1,6 +1,6 @@
 - group:    Tutorial
   start:    05-02-2022 12:00
-  deadline: 13-02-2022 23:59
+  deadline: 14-02-2022 23:59
   tasks:
     - task: tutorial/aplusb
       score: 100
@@ -103,7 +103,7 @@
 
 - group:    Stackless Coroutines
   start:    16-04-2022 12:00
-  deadline: 21-05-2022 23:59
+  deadline: 09-05-2022 23:59
   tasks:
     - task: stackless/gorroutines
       score: 500
