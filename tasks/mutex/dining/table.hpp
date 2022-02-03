@@ -19,7 +19,7 @@ class Plate {
 
 class Table {
  public:
-  Table(size_t num_seats)
+  explicit Table(size_t num_seats)
       : num_seats_(num_seats), plates_(num_seats_), forks_(num_seats_) {
   }
 
