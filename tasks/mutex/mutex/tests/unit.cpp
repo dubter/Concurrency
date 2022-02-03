@@ -1,10 +1,11 @@
 #include "../mutex.hpp"
 
+#include <twist/stdlike/thread.hpp>
+
 #include <twist/test/test.hpp>
 
 #include <twist/test/util/cpu_timer.hpp>
 
-#include <thread>
 #include <chrono>
 
 using namespace std::chrono_literals;
