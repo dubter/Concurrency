@@ -19,7 +19,7 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 
 - [Задачи](/tasks)
 - [Дедлайны](/deadlines)
-- Manytask (отключен)
+- [Manytask](http://concurrency-course.cc/)
 - [Результаты](https://docs.google.com/spreadsheets/d/1jwIqnhV3L_q186vciDA0MwO9iam-swf7KnUgaf28aRk/edit?usp=sharing)
 
 ## Библиотеки
