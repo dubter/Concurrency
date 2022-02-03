@@ -12,14 +12,13 @@ apt-get install -y \
 	cmake \
 	ninja-build \
 	git \
-	g++-11 \
-	clang-13 \
-	clang-format-13 \
-	clang-tidy-13 \
-	libc++-13-dev \
-	libc++abi-13-dev \
-	libunwind-13-dev \
-	lldb-13 \
+	g++-10 \
+	clang-12 \
+	clang-format-12 \
+	clang-tidy-12 \
+	libc++-12-dev \
+	libc++abi-12-dev \
+	lldb-12 \
 	python3 \
 	python3-pip \
 	python3-venv \
