@@ -18,7 +18,7 @@ message(STATUS "FetchContent: wheels")
 FetchContent_Declare(
         wheels
         GIT_REPOSITORY https://gitlab.com/Lipovsky/wheels.git
-        GIT_TAG a3eb693ad8efbe2ec71e8efcc23cc53d63b2d174
+        GIT_TAG master
 )
 FetchContent_MakeAvailable(wheels)
 
@@ -29,7 +29,7 @@ message(STATUS "FetchContent: context")
 FetchContent_Declare(
         context
         GIT_REPOSITORY https://gitlab.com/Lipovsky/context.git
-        GIT_TAG eea2a2746919e40c9fe81fbec1a91beb6e465f41
+        GIT_TAG bb426ed9ab25254de08acfd80925f3ba6b342ed1
 )
 FetchContent_MakeAvailable(context)
 
@@ -40,7 +40,7 @@ message(STATUS "FetchContent: twist")
 FetchContent_Declare(
         twist
         GIT_REPOSITORY https://gitlab.com/Lipovsky/twist.git
-        GIT_TAG 611fa7a34ea1ad24472481910b1021dbfbf045eb
+        GIT_TAG f0f89585301d79c25dd1a0c2046a13c68e8cf65f
 )
 FetchContent_MakeAvailable(twist)
 
@@ -51,7 +51,7 @@ message(STATUS "FetchContent: tinyfibers")
 FetchContent_Declare(
         tinyfibers
         GIT_REPOSITORY https://gitlab.com/Lipovsky/tinyfibers.git
-        GIT_TAG e28ec9fe419a79f630fb1538b36afa26de88f8bd
+        GIT_TAG 919587424fec4fb4de24d2a534123c9b8aa26467
 )
 FetchContent_MakeAvailable(tinyfibers)
 
