@@ -13,7 +13,7 @@ class AtomicCounter {
     ++value_;
   }
   
-  void GetValue() const {
+  size_t GetValue() const {
     // Забыли захватить мьютекс );
     return value_;
   }
@@ -71,6 +71,7 @@ Mutexed<std::vector<int>> shared_vector;
   auto ref = shared_vector.Lock();
   // Вызываем метод вектора через ->
   ref->push_back(7);
+}
 ```
 
 #### Примитивные типы
