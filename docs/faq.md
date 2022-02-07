@@ -107,3 +107,9 @@
 ### Как отключить проверку `clang-tidy` для конкретной строки кода?
 
 См. [Suppressing Undesired Diagnostics](https://clang.llvm.org/extra/clang-tidy/#suppressing-undesired-diagnostics).
+
+---
+
+### У меня MacBook с процессором ARM M1, код не собирается, что делать?
+
+Нужно добавить в [`docker-compose.yml`](/docker/docker-compose.yml) в секцию `wrapper` настройку `platform: linux/x86_64`.
