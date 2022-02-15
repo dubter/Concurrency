@@ -15,3 +15,18 @@
       score: 100
     - task: mutex/mutexed
       score: 100
+
+- group:    Mutual Exclusion / Part II
+  start:    15-02-2022 18:00
+  deadline: 22-02-2022 23:59
+  tasks:
+    - task: mutex/livelock
+      score: 200
+    - task: mutex/mutex
+      score: 200
+    - task: mutex/spinlock
+      score: 200
+    - task: mutex/try-lock
+      score: 200
+    - task: mutex/queue
+      score: 200
