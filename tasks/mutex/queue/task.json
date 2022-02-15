@@ -1,0 +1,20 @@
+{
+  "test_groups": [
+    {
+      "targets": ["unit_tests"],
+      "profiles": ["Debug"]
+    },
+    {
+      "targets": ["stress_tests"],
+      "profiles": [
+        "FaultyFibers",
+        "Debug",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
+    }
+  ],
+  "submit_files": ["queue_spinlock.hpp"],
+  "lint_files": ["queue_spinlock.hpp"],
+  "forbidden_patterns": ["std::mutex", "sleep"]
+}
