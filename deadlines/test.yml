@@ -1,13 +1,13 @@
 - group:    Tutorial
   start:    01-01-2021 12:00
-  deadline: 13-02-2022 23:59
+  deadline: 01-01-2025 23:59
   tasks:
     - task: tutorial/aplusb
       score: 100
 
 - group:    Mutual Exclusion / Part I
   start:    01-01-2021 12:00
-  deadline: 21-02-2022 23:59
+  deadline: 01-01-2025 23:59
   tasks:
     - task: mutex/deadlock
       score: 100
@@ -18,7 +18,7 @@
 
 - group:    Mutual Exclusion / Part II
   start:    01-01-2021 12:00
-  deadline: 28-02-2022 23:59
+  deadline: 01-01-2025 23:59
   tasks:
     - task: mutex/livelock
       score: 200
@@ -27,4 +27,11 @@
     - task: mutex/spinlock
       score: 200
     - task: mutex/try-lock
+      score: 200
+
+- group:    Mutual Exclusion / Part III
+  start:    01-01-2021 12:00
+  deadline: 01-01-2025 23:59
+  tasks:
+    - task: mutex/queue
       score: 200
