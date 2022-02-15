@@ -8,28 +8,41 @@ namespace spinlocks {
 /*  Scalable Queue SpinLock
  *
  *  Usage:
+ *
+ *  QueueSpinLock qspinlock;
  *  {
- *    QueueSpinLock::Guard guard(spinlock);  // <-- Lock
+ *    QueueSpinLock::Guard guard(qspinlock);  // <-- Acquire
  *    // Critical section
- *  }  // <-- Unlock
+ *  }  // <-- Release
  */
 
 class QueueSpinLock {
  public:
   class Guard {
+    friend class QueueSpinLock;
+
    public:
     explicit Guard(QueueSpinLock& spinlock) : spinlock_(spinlock) {
-      // Your code goes here
+      spinlock_.Acquire(this);
     }
 
     ~Guard() {
-      // Your code goes here
+      spinlock_.Release(this);
     }
 
    private:
     QueueSpinLock& spinlock_;
     // ???
   };
+
+ private:
+  void Acquire(Guard* /*guard*/) {
+    // Your code goes here
+  }
+
+  void Release(Guard* /*owner*/) {
+    // Your code goes here
+  }
 
  private:
   // ???
