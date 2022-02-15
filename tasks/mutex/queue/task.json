@@ -1,5 +1,5 @@
 {
-  "test_groups": [
+  "tests": [
     {
       "targets": ["unit_tests"],
       "profiles": ["Debug"]

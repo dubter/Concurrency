@@ -24,7 +24,7 @@ TEST_SUITE(Mutex) {
     for (size_t i = 0; i < threads; ++i) {
       race.Add([&]() {
         while (wheels::test::KeepRunning()) {
-          QueueSpinLock guard(qspinlock);
+          QueueSpinLock::Guard guard(qspinlock);
           {
             // Critical section
             plate.Access();
