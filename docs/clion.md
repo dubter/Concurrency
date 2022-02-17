@@ -1,10 +1,10 @@
-# Настройка CLion
+# Настройка CLion.
 
 ## Начальная настройка
 
 ### Шаг 0
 
-Установите свежую версию [CLion](https://www.jetbrains.com/ru-ru/clion/).
+Установите свежую версию [CLion](https://www.jetbrains.com/ru-ru/clion/). CLion поддерживает тулчейн Docker, начиная с версии 2021.3.
 
 ### Шаг 1
 
@@ -12,28 +12,9 @@
 
 ### Шаг 2
 
-Настраиваем [Remote development](https://www.jetbrains.com/help/clion/remote-projects-support.html) для работы в контейнере.
+Создаём [Docker Toolchain](https://www.jetbrains.com/help/clion/clion-toolchains-in-docker.html#create-docker-toolchain) для работы в контейнере.
 
-В `Preferences` > `Build, Execution, Deployment` > `Toolchains` создайте Remote Host и заполните поля как на скриншоте:
-
-![Setup remote host](images/toolchain.png)
-
-#### 2.1 Credentials
-
-Нажмите на шестеренку в поле `Credentials` и создайте `SSH Configuration`:
-
-| Поле | Значение |
-|---|---|
-| _Host_ | `127.0.0.1` |
-| _Port_ | `3333`
-| _User name_ | `clion_user` |
-| _Password_ | `password` |
-
-![Setup remote host](images/credentials.png)
-
-#### 2.2 Tools
-
-Заполните поля:
+В `Preferences` > `Build, Execution, Deployment` > `Toolchains` создайте тулчейн Docker и убедитесь, что поля соотвествуют следующим значениям:
 
 | Поле | Значение |
 |---|---|
@@ -41,28 +22,22 @@
 | _C Compiler_ | `/usr/bin/clang-12`
 | _C++ Compiler_ | `/usr/bin/clang++-12` |
 
-Проверьте, что в поле `Make` вы написали путь именно к `make`, а не к `cmake`.
+![Toolchain](images/toolchain.png)
+
+Проверьте, что в поле `Make` содержится путь именно к `make`, а не к `cmake`.
 
 ### Шаг 3
 
-В `Preferences` > `Build, Execution, Deployment` > `CMake` добавьте новый профиль сборки и установите в нем созданный шагом ранее тулчейн:
+В `Preferences` > `Build, Execution, Deployment` > `CMake` добавьте новый профиль сборки и установите в нем созданный шагом ранее тулчейн. 
 
 ![Setup remote host](images/profile.png)
 
+Загрузка проекта CMake может занять около полминуты.
+
 ### Шаг 4
-
-Исключите из синхронизации с контейнером директории `build` и `client` из корня репозитория:
-
-[Exclude a local folder from upload/download](https://www.jetbrains.com/help/clion/excluding-files-and-folders-from-deployment.html#exclude_by_name)
-
-`Preferences` > `Build, Execution, Deployment` > `Deployment` > выбрать настроенный на предыдущем шаге профиль > вкладка `Excluded Paths`
-
-### Шаг 5
 
 Готово! Теперь можно выбрать в IDE цель с задачей / тестами и запустить её!
 
 ## Полезные советы
-
-- Иногда в CLion залипает синхронизация файлов между хост-системой и контейнером. Чтобы форсировать синхронизацию, нажмите ПКМ по директории курса и в контекстном меню выберите `Deployment` > `Upload to`.
 
 - В окошке `Terminal` можно залогиниться в контейнер и работать там с консольным клиентом `clippy` не покидая IDE.
