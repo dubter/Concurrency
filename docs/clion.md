@@ -1,10 +1,10 @@
-# Настройка CLion.
+# Настройка CLion
 
 ## Начальная настройка
 
 ### Шаг 0
 
-Установите свежую версию [CLion](https://www.jetbrains.com/ru-ru/clion/). CLion поддерживает тулчейн Docker, начиная с версии 2021.3.
+Установите самую свежую версию [CLion](https://www.jetbrains.com/ru-ru/clion/). CLion поддерживает тулчейн Docker начиная с версии 2021.3.
 
 ### Шаг 1
 
@@ -12,7 +12,7 @@
 
 ### Шаг 2
 
-Создаём [Docker Toolchain](https://www.jetbrains.com/help/clion/clion-toolchains-in-docker.html#create-docker-toolchain) для работы в контейнере.
+Создаём [Docker Toolchain](https://www.jetbrains.com/help/clion/clion-toolchains-in-docker.html#create-docker-toolchain):
 
 В `Preferences` > `Build, Execution, Deployment` > `Toolchains` создайте тулчейн Docker и убедитесь, что поля соотвествуют следующим значениям:
 
