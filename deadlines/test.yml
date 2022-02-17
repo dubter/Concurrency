@@ -35,3 +35,10 @@
   tasks:
     - task: mutex/queue
       score: 200
+
+- group:    Condition Variables / Futures
+  start:    01-01-2021 12:00
+  deadline: 01-01-2025 23:59
+  tasks:
+    - task: condvar/future
+      score: 200
