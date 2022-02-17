@@ -16,9 +16,13 @@ class Promise {
   Promise(const Promise&) = delete;
   Promise& operator=(const Promise&) = delete;
 
+  // Movable
+  Promise(Promise&&) = default;
+  Promise& operator=(Promise&&) = default;
+
   // One-shot
   Future<T> MakeFuture() {
-    return Future<T>{state_};
+    throw std::runtime_error("Not implemented");
   }
 
   // One-shot

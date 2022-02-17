@@ -15,6 +15,10 @@ class Future {
   Future(const Future&) = delete;
   Future& operator=(const Future&) = delete;
 
+  // Movable
+  Future(Future&&) = default;
+  Future& operator=(Future&&) = default;
+
   // One-shot
   // Wait for result (value or exception)
   T Get() {
