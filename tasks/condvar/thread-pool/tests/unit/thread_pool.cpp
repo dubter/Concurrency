@@ -23,7 +23,7 @@ TEST_SUITE(ThreadPool) {
     pool.Stop();
   }
 
-  SIMPLE_TEST(Join) {
+  SIMPLE_TEST(Wait) {
     tp::ThreadPool pool{4};
 
     bool done = false;
@@ -174,7 +174,7 @@ TEST_SUITE(ThreadPool) {
     pool.Stop();
   }
 
-  SIMPLE_TEST(SubmitAfterJoin) {
+  SIMPLE_TEST(SubmitAfterWait) {
     tp::ThreadPool pool{4};
 
     bool done = false;
