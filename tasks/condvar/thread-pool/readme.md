@@ -65,12 +65,15 @@ tp::ThreadPool pool{4};
 
 pool.Submit([]() {
   std::this_thread::sleep_for(1s);
-  tp::Current()->Submit()
+  tp::Current()->Submit([]() {
+    std::cout << "Hi" << std::endl;
+  });
 });
 
 // К моменту вызова Wait вложенная задача скорее всего еще не запланирована.
 // Но вызов Wait дождется ее завершения.
 pool.Wait();
+// <-- На экране напечатано "Hi"
 ```
 
 ## Остановка
