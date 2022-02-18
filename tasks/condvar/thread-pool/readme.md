@@ -120,8 +120,8 @@ pool.Wait();
 
 ## Задание
 
-1) Реализуйте [блокирующую очередь](tp/blocking_queue.hpp)
-2) Реализуйте [пул потоков](tp/thread_pool.hpp)
+1) Реализуйте блокирующую очередь – [`UnboundedBlockingQueue`](tp/blocking_queue.hpp)
+2) Реализуйте пул потоков – [`ThreadPool`](tp/thread_pool.hpp)
 
 Изучите [юнит-тесты](tests/unit) очереди и пула потоков чтобы разобраться с их поведением.
 
