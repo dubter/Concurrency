@@ -1,4 +1,4 @@
-#include <tp/static_thread_pool.hpp>
+#include <tp/thread_pool.hpp>
 
 #include <twist/test/test.hpp>
 #include <twist/test/runs.hpp>
@@ -25,7 +25,7 @@ void Backoff() {
 }
 
 void Test(size_t threads, size_t clients, size_t limit) {
-  tp::StaticThreadPool pool{threads};
+  tp::ThreadPool pool{threads};
 
   pool.Submit([]() {
     KeepAlive();
@@ -56,7 +56,8 @@ void Test(size_t threads, size_t clients, size_t limit) {
 
   race.Run();
 
-  pool.Join();
+  pool.Wait();
+  pool.Stop();
 
   std::cout << "Tasks completed: " << completed.load() << std::endl;
 
@@ -78,20 +79,22 @@ TWIST_TEST_RUNS(Submits, tasks::Test)
 namespace join {
 
 void TestSequential() {
-  tp::StaticThreadPool pool{4};
+  tp::ThreadPool pool{4};
 
   std::atomic<size_t> tasks{0};
 
   pool.Submit([&]() {
     ++tasks;
   });
-  pool.Join();
+
+  pool.Wait();
+  pool.Stop();
 
   ASSERT_EQ(tasks.load(), 1);
 }
 
 void TestConcurrent() {
-  tp::StaticThreadPool pool{2};
+  tp::ThreadPool pool{2};
 
   std::atomic<size_t> tasks{0};
 
@@ -104,7 +107,8 @@ void TestConcurrent() {
   });
 
   race.Add([&]() {
-    pool.Join();
+    pool.Wait();
+    pool.Stop();
   });
 
   race.Run();
@@ -113,7 +117,7 @@ void TestConcurrent() {
 }
 
 void TestCurrent() {
-  tp::StaticThreadPool pool{2};
+  tp::ThreadPool pool{2};
 
   std::atomic<bool> done{false};
 
@@ -122,7 +126,9 @@ void TestCurrent() {
       done = true;
     });
   });
-  pool.Join();
+
+  pool.Wait();
+  pool.Stop();
 
   ASSERT_TRUE(done.load());
 }
