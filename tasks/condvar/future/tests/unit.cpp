@@ -53,38 +53,6 @@ TEST_SUITE(Futures) {
     producer.join();
   }
 
-  struct MoveOnly {
-    MoveOnly() = default;
-
-    // Non-copyable
-    MoveOnly(const MoveOnly&) = delete;
-    MoveOnly& operator=(const MoveOnly&) = delete;
-
-    // Movable
-    MoveOnly(MoveOnly&&) = default;
-    MoveOnly& operator=(MoveOnly&&) = default;
-  };
-
-  SIMPLE_TEST(MoveOnly) {
-    Promise<MoveOnly> p;
-    auto f = p.MakeFuture();
-
-    std::thread producer([p = std::move(p)]() mutable {
-      p.SetValue(MoveOnly{});
-    });
-
-    f.Get();
-    producer.join();
-  }
-
-  SIMPLE_TEST(NonDefaultConstructable) {
-    struct NonDefaultConstructable {
-      explicit NonDefaultConstructable(int) {
-      }
-    };
-    Promise<NonDefaultConstructable> p;
-  }
-
   SIMPLE_TEST(WaitForException) {
     Promise<std::string> p;
     auto f = p.MakeFuture();
@@ -134,6 +102,38 @@ TEST_SUITE(Futures) {
     producer0.join();
     producer1.join();
     producer2.join();
+  }
+
+  struct MoveOnly {
+    MoveOnly() = default;
+
+    // Non-copyable
+    MoveOnly(const MoveOnly&) = delete;
+    MoveOnly& operator=(const MoveOnly&) = delete;
+
+    // Movable
+    MoveOnly(MoveOnly&&) = default;
+    MoveOnly& operator=(MoveOnly&&) = default;
+  };
+
+  SIMPLE_TEST(MoveOnly) {
+    Promise<MoveOnly> p;
+    auto f = p.MakeFuture();
+
+    std::thread producer([p = std::move(p)]() mutable {
+      p.SetValue(MoveOnly{});
+    });
+
+    f.Get();
+    producer.join();
+  }
+
+  SIMPLE_TEST(NonDefaultConstructable) {
+    struct NonDefaultConstructable {
+      explicit NonDefaultConstructable(int) {
+      }
+    };
+    Promise<NonDefaultConstructable> p;
   }
 }
 
