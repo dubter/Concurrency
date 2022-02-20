@@ -42,8 +42,7 @@ TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(MultiWait) {
     tp::ThreadPool pool{1};
 
-    pool.Wait();
-    for (size_t i = 0; i < 4; ++i) {
+    for (size_t i = 0; i < 3; ++i) {
       bool done = false;
 
       pool.Submit([&]() {
