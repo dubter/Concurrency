@@ -39,6 +39,24 @@ TEST_SUITE(ThreadPool) {
     ASSERT_TRUE(done);
   }
 
+  SIMPLE_TEST(MultiWait) {
+    tp::ThreadPool pool{1};
+
+    for (size_t i = 0; i < 3; ++i) {
+      bool done = false;
+
+      pool.Submit([&]() {
+        std::this_thread::sleep_for(1s);
+        done = true;
+      });
+
+      pool.Wait();
+      ASSERT_TRUE(done);
+    }
+
+    pool.Stop();
+  }
+
   SIMPLE_TEST(Exceptions) {
     tp::ThreadPool pool{1};
 
