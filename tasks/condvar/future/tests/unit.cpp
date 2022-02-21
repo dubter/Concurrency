@@ -72,6 +72,34 @@ TEST_SUITE(Futures) {
     producer.join();
   }
 
+  template <typename T>
+  void Drop(T value) {
+    (void)value;
+  }
+
+  SIMPLE_TEST(DropFuture) {
+    Promise<std::string> p;
+    auto f = p.MakeFuture();
+
+    Drop(std::move(f));
+
+    std::thread producer([p = std::move(p)]() mutable {
+      p.SetValue("Hi");
+    });
+
+    producer.join();
+  }
+
+  SIMPLE_TEST(DropPromise) {
+    Promise<std::string> p;
+    auto f = p.MakeFuture();
+
+    p.SetValue("Test");
+    Drop(std::move(p));
+
+    ASSERT_EQ(f.Get(), "Test");
+  }
+
   SIMPLE_TEST(Futures) {
     Promise<int> p0;
     Promise<int> p1;

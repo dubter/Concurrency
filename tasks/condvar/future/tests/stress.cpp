@@ -81,13 +81,16 @@ TEST_SUITE(Future) {
     // Make contract
 
     Promise<std::string> p;
-    auto f = p.MakeFuture();
+    Future<std::string> f = p.MakeFuture();
 
     // Run concurrent producer & consumer
 
     twist::test::util::Race race;
 
     race.Add([f = std::move(f)]() mutable {
+      if (wheels::test::TestIteration() % 2 == 1) {
+        ASSERT_EQ(f.Get(), "Test");
+      }
       Drop(std::move(f));
     });
 
