@@ -2,6 +2,8 @@
 
 #include <wheels/test/test_framework.hpp>
 
+#include <twist/stdlike/thread.hpp>
+
 #include <twist/test/test.hpp>
 #include <twist/test/util/race.hpp>
 
@@ -65,6 +67,33 @@ TEST_SUITE(Future) {
 
     race.Add([&f1]() {
       ASSERT_EQ(f1.Get(), "World");
+    });
+
+    race.Run();
+  }
+
+  template <typename T>
+  void Drop(T value) {
+    (void)value;
+  }
+
+  TWIST_ITERATE_TEST(SharedState, 5s) {
+    // Make contract
+
+    Promise<std::string> p;
+    auto f = p.MakeFuture();
+
+    // Run concurrent producer & consumer
+
+    twist::test::util::Race race;
+
+    race.Add([f = std::move(f)]() mutable {
+      Drop(std::move(f));
+    });
+
+    race.Add([p = std::move(p)]() mutable {
+      p.SetValue("Test");
+      Drop(std::move(p));
     });
 
     race.Run();
