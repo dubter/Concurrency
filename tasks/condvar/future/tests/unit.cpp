@@ -4,6 +4,7 @@
 
 #include <string>
 #include <thread>
+#include <variant>
 
 using stdlike::Promise;
 using stdlike::Future;
@@ -134,6 +135,23 @@ TEST_SUITE(Futures) {
       }
     };
     Promise<NonDefaultConstructable> p;
+  }
+
+  SIMPLE_TEST(MonoState) {
+    Promise<std::monostate> p;
+    auto f = p.MakeFuture();
+    bool ok = false;
+
+    std::thread producer([p = std::move(p), &ok]() mutable {
+      std::this_thread::sleep_for(1s);
+      ok = true;
+      p.SetValue({});
+    });
+
+    f.Get();
+    ASSERT_TRUE(ok);
+
+    producer.join();
   }
 }
 
