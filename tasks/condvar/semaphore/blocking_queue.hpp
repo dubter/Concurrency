@@ -1,6 +1,6 @@
 #pragma once
 
-#include "semaphore.hpp"
+#include "tagged_semaphore.hpp"
 
 #include <deque>
 
