@@ -40,6 +40,12 @@
   start:    01-01-2021 12:00
   deadline: 01-01-2025 23:59
   tasks:
+    - task: condvar/barrier
+      score: 200
+    - task: condvar/semaphore
+      score: 200
+    - task: condvar/condvar
+      score: 200
     - task: condvar/future
       score: 200
     - task: condvar/thread-pool
