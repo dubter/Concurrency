@@ -52,6 +52,8 @@ int value = f.Get();  // <-- Дожидаемся значения
 
 ### `void` vs `std::monostate`
 
-Для `T` = `void` потребуется специализация шаблона: метод `SetValue(T)` у `Promise` нужно заменить на `Set()`, а `T Get()` у `Future` – на `void Wait()`. 
+Для `T` = `void` потребуется специализация шаблона:
+- метод `void SetValue(T)` у `Promise` нужно заменить на `void Set()`, 
+- а `T Get()` у `Future` – на `void Wait()`. 
 
 Мы проигнорируем эту сложность и в качестве альтернативы будем использовать `T` = [`std::monostate`](https://en.cppreference.com/w/cpp/utility/variant/monostate) (_unit_-тип, тип с единственным значением). 
