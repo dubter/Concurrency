@@ -18,6 +18,7 @@
   "forbidden_patterns": [
     "std::future",
     "std::optional",
+    "new", "delete",
     "yield",
     "sleep_for",
     "SpinWait"
