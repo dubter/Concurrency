@@ -30,3 +30,18 @@
       score: 200
     - task: mutex/queue
       score: 200
+
+- group:    Condition Variables / Thread Pool / Futures
+  start:    22-02-2022 18:00
+  deadline: 01-03-2022 23:59
+  tasks:
+    - task: condvar/barrier
+      score: 200
+    - task: condvar/semaphore
+      score: 200
+    - task: condvar/condvar
+      score: 200
+    - task: condvar/future
+      score: 200
+    - task: condvar/thread-pool
+      score: 300
