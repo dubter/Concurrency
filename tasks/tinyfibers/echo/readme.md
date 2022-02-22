@@ -56,11 +56,12 @@
 
 Сокеты – низкий уровень абстракции, и ошибки на этом уровне не исключительны, а наоборот, ожидаемы.
 
-API сокетов построено на классах [`Result<T>`](https://gitlab.com/Lipovsky/wheels/-/blob/master/wheels/support/result.hpp) и `Status` (синоним для `Result<void>`).
+API сокетов построено на классах [`Result<T>`](https://gitlab.com/Lipovsky/wheels/-/blob/master/wheels/result/result.hpp) и `Status` (синоним для `Result<void>`).
 
-Экземпляр `Result` гарантированно содержит _либо_ значение типа `T`, _либо_ код ошибки.
+Экземпляр `Result<T>` гарантированно содержит _либо_ значение типа `T`, _либо_ код ошибки.
+Пустой `Result` сконструировать невозможно.
 
-`Result` не навязывает конкретный способ обработки ошибок, вы можете использовать как обработку кодов, так и исключения.
+`Result` не навязывает конкретный способ обработки ошибок, вы можете использовать как коды ошибок, так и исключения.
 
 ### `[[nodiscard]]`
 
@@ -82,15 +83,15 @@ size_t bytes_read = client_socket.Read(asio::buffer(read_buf, kBufSize)).ValueOr
 
 // Write возвращает `Status` - синоним `Result<void>`
 // Проверка результата и выбрасывание исключения
-// в случае ошибки происходит в вызове ExpectOk()
-client_socket.Write(asio::buffer(read_buf, bytes_read)).ExpectOk();
+// в случае ошибки происходит в вызове ThrowIfError()
+client_socket.Write(asio::buffer(read_buf, bytes_read)).ThrowIfError();
 
 ```
 
 #### Коды ошибок
 
 ```cpp
-// Здесь за auto прячется `Result<Socket>`
+// Здесь за auto скрывается `Result<Socket>`
 auto client_socket = acceptor.Accept();
 
 // Вместо `IsOk` можно использовать противоположный
