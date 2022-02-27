@@ -60,6 +60,30 @@ TEST_SUITE(Futures) {
 
     producer.join();
   }
+
+  class TestException : public std::runtime_error {
+   public:
+    TestException() : std::runtime_error("Test") {
+    }
+  };
+
+  SIMPLE_TEST(ExceptionPtr) {
+    Promise<std::exception_ptr> p;
+    auto f = p.MakeFuture();
+
+    std::thread producer([p = std::move(p)]() mutable {
+      std::this_thread::sleep_for(1s);
+      try {
+        throw TestException();
+      } catch (...) {
+        p.SetException(std::current_exception());
+      }
+    });
+
+    ASSERT_THROW(f.Get(), TestException);
+
+    producer.join();
+  }
 }
 
 RUN_ALL_TESTS()
