@@ -22,7 +22,8 @@ class ThreadPool {
   void Submit(Task task);
 
   // Waits until outstanding work count has reached zero
-  void WaitIdle();
+  [[deprecated("Rename to WaitIdle and delete this annotation")]]
+  void Wait();
 
   // Stops the worker threads as soon as possible
   // Pending tasks will be discarded
