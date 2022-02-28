@@ -76,11 +76,12 @@ TEST_SUITE(Futures) {
       try {
         throw TestException();
       } catch (...) {
-        p.SetException(std::current_exception());
+        p.SetValue(std::current_exception());
       }
     });
 
-    ASSERT_THROW(f.Get(), TestException);
+    auto ex = f.Get();
+    ASSERT_THROW(std::rethrow_exception(ex), TestException);
 
     producer.join();
   }
