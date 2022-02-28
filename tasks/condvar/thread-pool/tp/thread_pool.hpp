@@ -22,7 +22,7 @@ class ThreadPool {
   void Submit(Task task);
 
   // Waits until outstanding work count has reached zero
-  void Wait();
+  void WaitIdle();
 
   // Stops the worker threads as soon as possible
   // Pending tasks will be discarded

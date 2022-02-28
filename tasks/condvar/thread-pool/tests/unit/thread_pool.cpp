@@ -19,7 +19,7 @@ TEST_SUITE(ThreadPool) {
       std::cout << "Hello from thread pool!" << std::endl;
     });
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
   }
 
@@ -33,7 +33,7 @@ TEST_SUITE(ThreadPool) {
       done = true;
     });
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
 
     ASSERT_TRUE(done);
@@ -50,7 +50,7 @@ TEST_SUITE(ThreadPool) {
         done = true;
       });
 
-      pool.Wait();
+      pool.WaitIdle();
       ASSERT_TRUE(done);
     }
 
@@ -64,7 +64,7 @@ TEST_SUITE(ThreadPool) {
       throw std::runtime_error("Task failed");
     });
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
   }
 
@@ -81,7 +81,7 @@ TEST_SUITE(ThreadPool) {
       });
     }
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
 
     ASSERT_EQ(tasks.load(), kTasks);
@@ -105,7 +105,7 @@ TEST_SUITE(ThreadPool) {
 
     ASSERT_EQ(tasks.load(), 1);
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
 
     ASSERT_EQ(tasks.load(), 2);
@@ -129,10 +129,10 @@ TEST_SUITE(ThreadPool) {
       ++tasks;
     });
 
-    pool2.Wait();
+    pool2.WaitIdle();
     pool2.Stop();
 
-    pool1.Wait();
+    pool1.WaitIdle();
     pool1.Stop();
 
     ASSERT_TRUE(stop_watch.Elapsed() < 1500ms);
@@ -173,7 +173,7 @@ TEST_SUITE(ThreadPool) {
 
     std::this_thread::sleep_for(1s);
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
 
     ASSERT_TRUE(cpu_timer.Elapsed() < 100ms);
@@ -188,7 +188,7 @@ TEST_SUITE(ThreadPool) {
       ASSERT_EQ(tp::Current(), &pool);
     });
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
   }
 
@@ -205,7 +205,7 @@ TEST_SUITE(ThreadPool) {
       });
     });
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
 
     ASSERT_TRUE(done);
@@ -241,7 +241,7 @@ TEST_SUITE(ThreadPool) {
       });
     }
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
 
     ASSERT_EQ(tasks.load(), 4);
@@ -261,7 +261,7 @@ TEST_SUITE(ThreadPool) {
 
     wheels::StopWatch stop_watch;
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
 
     ASSERT_TRUE(stop_watch.Elapsed() > 1s);
@@ -287,7 +287,7 @@ TEST_SUITE(ThreadPool) {
 
     wheels::StopWatch stop_watch;
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
 
     ASSERT_TRUE(stop_watch.Elapsed() > 3s);
@@ -327,7 +327,7 @@ TEST_SUITE(ThreadPool) {
     std::this_thread::sleep_for(500ms);
     ASSERT_EQ(dead.load(), 4)
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
   }
 
@@ -346,7 +346,7 @@ TEST_SUITE(ThreadPool) {
       });
     }
 
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
 
     std::cout << "Racy counter value: " << shared_counter << std::endl;

@@ -22,7 +22,7 @@ void ThreadPool::Submit(Task /*task*/) {
   // Not implemented
 }
 
-void ThreadPool::Wait() {
+void ThreadPool::WaitIdle() {
   // Not implemented
 }
 

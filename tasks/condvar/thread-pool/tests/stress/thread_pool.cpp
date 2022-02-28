@@ -56,7 +56,7 @@ void Test(size_t threads, size_t clients, size_t limit) {
 
   race.Run();
 
-  pool.Wait();
+  pool.WaitIdle();
   pool.Stop();
 
   std::cout << "Tasks completed: " << completed.load() << std::endl;
@@ -87,7 +87,7 @@ void TestSequential() {
     ++tasks;
   });
 
-  pool.Wait();
+  pool.WaitIdle();
   pool.Stop();
 
   ASSERT_EQ(tasks.load(), 1);
@@ -107,7 +107,7 @@ void TestConcurrent() {
   });
 
   race.Add([&]() {
-    pool.Wait();
+    pool.WaitIdle();
     pool.Stop();
   });
 
@@ -127,7 +127,7 @@ void TestCurrent() {
     });
   });
 
-  pool.Wait();
+  pool.WaitIdle();
   pool.Stop();
 
   ASSERT_TRUE(done.load());
