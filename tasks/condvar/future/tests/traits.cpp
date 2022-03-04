@@ -101,7 +101,6 @@ TEST_SUITE(Futures) {
 
     std::exception_ptr ex;
     ASSERT_THROW(ex = f.Get(), TestException);
-    ASSERT(false);
     producer.join();
   }
 }
