@@ -29,7 +29,7 @@ message(STATUS "FetchContent: context")
 FetchContent_Declare(
         context
         GIT_REPOSITORY https://gitlab.com/Lipovsky/context.git
-        GIT_TAG bb426ed9ab25254de08acfd80925f3ba6b342ed1
+        GIT_TAG 88ca86fe028ef5d79937a102cf60bb4b4ef6b89f
 )
 FetchContent_MakeAvailable(context)
 
@@ -40,7 +40,7 @@ message(STATUS "FetchContent: twist")
 FetchContent_Declare(
         twist
         GIT_REPOSITORY https://gitlab.com/Lipovsky/twist.git
-        GIT_TAG 57e36ec238999a9ed38800cbcecf6aaba4d3ad43
+        GIT_TAG 15aa9c06153ba8a927a0de9ec0580aa1fbdfa955
 )
 FetchContent_MakeAvailable(twist)
 
@@ -51,7 +51,7 @@ message(STATUS "FetchContent: tinyfibers")
 FetchContent_Declare(
         tinyfibers
         GIT_REPOSITORY https://gitlab.com/Lipovsky/tinyfibers.git
-        GIT_TAG 919587424fec4fb4de24d2a534123c9b8aa26467
+        GIT_TAG 125ff950c06a29830b771231dc74738a751c1da8
 )
 FetchContent_MakeAvailable(tinyfibers)
 
