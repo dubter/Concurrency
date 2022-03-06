@@ -10,9 +10,7 @@ using Routine = coroutine::Routine;
 using Scheduler = tp::ThreadPool;
 
 // Considered harmful
-
 void Go(Routine routine);
-
 void Go(Scheduler& scheduler, Routine routine);
 
 namespace self {

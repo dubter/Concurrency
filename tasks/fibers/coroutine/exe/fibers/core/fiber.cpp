@@ -23,6 +23,8 @@ Fiber& Fiber::Self() {
 
 //////////////////////////////////////////////////////////////////////
 
+// API Implementation
+
 void Go(Routine /*routine*/) {
   // Not implemented
 }
