@@ -29,9 +29,8 @@ void Coroutine::Suspend() {
   current->impl_.Suspend();
 }
 
-// Intentionally naive and inefficient
 context::Stack Coroutine::AllocateStack() {
-  static const size_t kStackPages = 16;
+  static const size_t kStackPages = 16;  // 16 * 4KB = 64KB
   return context::Stack::AllocatePages(kStackPages);
 }
 

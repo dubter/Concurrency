@@ -28,8 +28,8 @@ class Processor {
 
  private:
   static context::Stack AllocateStack() {
-    // 16 * 4KB = 64KB
-    return context::Stack::AllocatePages(16);
+    static const size_t kStackPages = 16;  // 16 * 4KB = 64KB
+    return context::Stack::AllocatePages(kStackPages);
   }
 
  private:
