@@ -3,6 +3,9 @@ begin_task()
 # Library
 add_task_library(exe)
 
+# Playground
+add_playground(play)
+
 # Tests
 add_task_test_dir(tests/coroutine/standalone coroutine_tests)
 add_task_test_dir(tests/coroutine/processors processors_tests)
