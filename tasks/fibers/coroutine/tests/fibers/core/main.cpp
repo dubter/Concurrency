@@ -3,12 +3,14 @@
 
 #include <wheels/test/test_framework.hpp>
 
+#include <twist/test/test.hpp>
+
 using exe::tp::ThreadPool;
 using exe::fibers::Go;
 using exe::fibers::self::Yield;
 
 void ExpectPool(ThreadPool& pool) {
-  ASSERT_EQ(exe::tp::Current(), &pool);
+  ASSERT_EQ(ThreadPool::Current(), &pool);
 }
 
 TEST_SUITE(Fibers) {
@@ -184,6 +186,12 @@ TEST_SUITE(Fibers) {
 
     Go(pool_1, make_tester(pool_1));
     Go(pool_2, make_tester(pool_2));
+
+    pool_1.WaitIdle();
+    pool_2.WaitIdle();
+
+    pool_1.Stop();
+    pool_2.Stop();
   }
 
   SIMPLE_TEST(TwoPools2) {
@@ -208,6 +216,12 @@ TEST_SUITE(Fibers) {
 
     Go(pool_1, make_tester(pool_1));
     Go(pool_2, make_tester(pool_2));
+
+    pool_1.WaitIdle();
+    pool_2.WaitIdle();
+
+    pool_1.Stop();
+    pool_2.Stop();
   }
 
   struct RacyCounter {
