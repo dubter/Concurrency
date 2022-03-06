@@ -21,7 +21,6 @@
       "targets": ["fibers_core_tests"],
       "profiles": [
         "Debug",
-        "FaultyFibers",
         "FaultyThreadsASan",
         "FaultyThreadsTSan"
       ]
