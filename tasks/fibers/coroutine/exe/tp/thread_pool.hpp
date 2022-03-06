@@ -18,7 +18,7 @@ class ThreadPool {
   ThreadPool& operator=(const ThreadPool&) = delete;
 
   // Schedules task for execution in one of the worker threads
-  // Do not use directly, use tp::Submit
+  // Do not use directly, use tp::Submit instead
   void Submit(Task task);
 
   // Waits until outstanding work count has reached zero

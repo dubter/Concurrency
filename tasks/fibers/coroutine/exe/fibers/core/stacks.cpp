@@ -18,11 +18,12 @@ class StackAllocator {
 
  private:
   static Stack AllocateNewStack() {
-    return Stack::AllocatePages(16);
+    static const size_t kStackPages = 16;  // 16 * 4KB = 64KB
+    return Stack::AllocatePages(kStackPages);
   }
 
  private:
-  // Use pooling
+  // Pool
 };
 
 //////////////////////////////////////////////////////////////////////
