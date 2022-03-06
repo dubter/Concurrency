@@ -123,7 +123,7 @@ void ProcessorExample() {
 }
 ```
 
-Оригинальное применение корутин – реализация модульного компилятора: [Design of a Separable Transition-Diagram Compiler](https://www.melconway.com/Home/pdf/compiler.pdf)
+Оригинальное применение корутин – реализация модульного компилятора, где каждый модуль представлен корутиной, и эти модули организованы в конвейер: [Design of a Separable Transition-Diagram Compiler](https://www.melconway.com/Home/pdf/compiler.pdf)
 
 ## От корутин к файберам
 
