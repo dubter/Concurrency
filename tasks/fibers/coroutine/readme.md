@@ -288,7 +288,7 @@ void SubmitExample() {
   
   tp::ThreadPool pool{4};
   
-  tp::Submit([]() {
+  tp::Submit(pool, []() {
     std::cout << "Hello!" << std::endl;
   });
   
