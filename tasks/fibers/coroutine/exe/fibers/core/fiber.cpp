@@ -1,5 +1,7 @@
 #include <exe/fibers/core/fiber.hpp>
-#include <exe/fibers/core/api.hpp>
+#include <exe/fibers/core/stacks.hpp>
+
+#include <twist/util/thread_local.hpp>
 
 namespace exe::fibers {
 

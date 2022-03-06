@@ -7,7 +7,6 @@
 #include <wheels/memory/view.hpp>
 
 #include <exception>
-#include <optional>
 
 namespace exe::coroutine {
 
