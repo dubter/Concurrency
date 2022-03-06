@@ -11,7 +11,7 @@ namespace exe::coroutine {
 static twist::util::ThreadLocalPtr<Coroutine> current;
 
 Coroutine::Coroutine(Routine routine)
-  : stack_(AllocateStack()), impl_(std::move(routine), stack_.View()) {
+    : stack_(AllocateStack()), impl_(std::move(routine), stack_.View()) {
 }
 
 void Coroutine::Resume() {
