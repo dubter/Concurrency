@@ -85,6 +85,24 @@ TEST_SUITE(Futures) {
 
     producer.join();
   }
+
+  SIMPLE_TEST(ExceptionPtrThrow) {
+    Promise<std::exception_ptr> p;
+    auto f = p.MakeFuture();
+
+    std::thread producer([p = std::move(p)]() mutable {
+      std::this_thread::sleep_for(1s);
+      try {
+        throw TestException();
+      } catch (...) {
+        p.SetException(std::current_exception());
+      }
+    });
+
+    std::exception_ptr ex;
+    ASSERT_THROW(ex = f.Get(), TestException);
+    producer.join();
+  }
 }
 
 RUN_ALL_TESTS()
