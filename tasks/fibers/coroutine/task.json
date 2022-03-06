@@ -15,7 +15,7 @@
     },
     {
       "targets": ["coroutine_tests"],
-      "profiles:": ["Debug"]
+      "profiles": ["Debug"]
     },
     {
       "targets": ["fibers_core_tests"],
