@@ -257,7 +257,7 @@ void FibersExample() {
 
 Не аллоцируйте стеки в критической секции.
 
-## Интрузивность
+### Интрузивность
 
 С помощью интрузивных контейнеров можно сэкономить почти все аллокации в рантайме файберов.
 
@@ -268,6 +268,12 @@ void FibersExample() {
 
 Не используйте умные указатели для контроля времени жизни файбера. Такой подход не будет
 совместим с интрузивными очередями ожидания в примитивах синхронизации в будущих задачах.
+
+### `ThreadPool::Current`
+
+Попробуйте не использовать `ThreadPool::Current`, вместо этого храните указатель на пул прямо в поле файбера.
+
+В будущем мы обобщим пул потоков до абстрактного планировщика, и тогда аналогичный метод написать уже не получится.
 
 ### Misc
 
@@ -280,4 +286,3 @@ void FibersExample() {
 - [Gor Nishanov – C++ Coroutines – a negative overhead abstraction](https://www.youtube.com/watch?v=Ts-1mWBmTNE)
 - [Ron Pressler and Alan Bateman – Project Loom](https://www.youtube.com/watch?v=J31o0ZMQEnI)
 - [Roman Elizarov – Introduction to Coroutines](https://www.youtube.com/watch?v=_hfBv0a09Jc)
-
