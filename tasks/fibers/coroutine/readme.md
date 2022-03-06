@@ -275,7 +275,7 @@ void FibersExample() {
 Не используйте умные указатели для контроля времени жизни файбера. Такой подход не будет сочетаться
 с очередями ожидания в примитивах синхронизации, которые появятся в будущих задачах.
 
-https://isocpp.org/wiki/faq/freestore-mgmt#delete-this
+[Is it legal (and moral) for a member function to say `delete this`?](https://isocpp.org/wiki/faq/freestore-mgmt#delete-this)
 
 ### Интрузивность и `tp::Submit`
 
