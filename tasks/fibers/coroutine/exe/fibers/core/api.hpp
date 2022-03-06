@@ -10,8 +10,12 @@ using Routine = coroutine::Routine;
 using Scheduler = tp::ThreadPool;
 
 // Considered harmful
-void Go(Routine routine);
+
+// Starts a new fiber
 void Go(Scheduler& scheduler, Routine routine);
+
+// Starts a new fiber in the current scheduler
+void Go(Routine routine);
 
 namespace self {
 

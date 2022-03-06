@@ -25,11 +25,11 @@ Fiber& Fiber::Self() {
 
 // API Implementation
 
-void Go(Routine /*routine*/) {
+void Go(Scheduler& /*scheduler*/, Routine /*routine*/) {
   // Not implemented
 }
 
-void Go(Scheduler& /*scheduler*/, Routine /*routine*/) {
+void Go(Routine /*routine*/) {
   // Not implemented
 }
 
