@@ -2,12 +2,10 @@
   "tests": [
     {
       "targets": ["thread_pool_unit_tests"],
-      "profiles:": ["Debug"]
+      "profiles": ["Debug"]
     },
     {
-      "targets": [
-        "thread_pool_stress_tests"
-      ],
+      "targets": ["thread_pool_stress_tests"],
       "profiles": [
         "Debug",
         "FaultyFibers",
