@@ -2,8 +2,8 @@
 
 #include <wheels/support/function.hpp>
 
-namespace mtf::coroutine {
+namespace exe::coroutine {
 
 using Routine = wheels::UniqueFunction<void()>;
 
-}  // namespace mtf::coroutine
+}  // namespace exe::coroutine

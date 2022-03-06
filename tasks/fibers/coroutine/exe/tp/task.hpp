@@ -2,8 +2,8 @@
 
 #include <wheels/support/function.hpp>
 
-namespace mtf::tp {
+namespace exe::tp {
 
 using Task = wheels::UniqueFunction<void()>;
 
-}  // namespace mtf::tp
+}  // namespace exe::tp

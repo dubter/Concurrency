@@ -1,56 +1,60 @@
-#include <mtf/fibers/api.hpp>
+#include <exe/fibers/core/api.hpp>
+#include <exe/tp/thread_pool.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
-#include <wheels/support/time.hpp>
+using exe::tp::ThreadPool;
+using exe::fibers::Go;
+using exe::fibers::self::Yield;
 
-using mtf::tp::StaticThreadPool;
-using mtf::fibers::Spawn;
-using mtf::fibers::Yield;
+void ExpectPool(ThreadPool& pool) {
+  ASSERT_EQ(exe::tp::Current(), &pool);
+}
 
 TEST_SUITE(Fibers) {
   SIMPLE_TEST(JustWorks) {
-    StaticThreadPool pool{3};
+    ThreadPool pool{3};
 
-    std::atomic<bool> done{false};
+    bool done = false;
 
-    auto tester = [&]() {
-      ASSERT_EQ(mtf::tp::Current(), &pool);
-      done.store(true);
-    };
+    Go(pool, [&]() {
+      ExpectPool(pool);
+      done = true;
+    });
 
-    Spawn(tester, pool);
-    pool.Join();
+    pool.WaitIdle();
 
-    ASSERT_EQ(done.load(), true);
+    ASSERT_TRUE(done);
+
+    pool.Stop();
   }
 
   SIMPLE_TEST(Child) {
-    StaticThreadPool pool{3};
+    ThreadPool pool{3};
     std::atomic<size_t> done{0};
 
-    auto parent = [&]() {
-      ASSERT_EQ(mtf::tp::Current(), &pool);
+    auto init = [&]() {
+      ExpectPool(pool);
 
-      auto child = [&]() {
-        ASSERT_EQ(mtf::tp::Current(), &pool);
+      Go([&]() {
+        ExpectPool(pool);
         ++done;
-      };
-
-      Spawn(child);
+      });
 
       ++done;
     };
 
-    Spawn(parent, pool);
+    Go(pool, init);
 
-    pool.Join();
+    pool.WaitIdle();
 
     ASSERT_EQ(done.load(), 2);
+
+    pool.Stop();
   }
 
   SIMPLE_TEST(RunInParallel) {
-    StaticThreadPool pool{3};
+    ThreadPool pool{3};
     std::atomic<size_t> completed{0};
 
     auto sleeper = [&]() {
@@ -60,14 +64,16 @@ TEST_SUITE(Fibers) {
 
     wheels::StopWatch stop_watch;
 
-    Spawn(sleeper, pool);
-    Spawn(sleeper, pool);
-    Spawn(sleeper, pool);
+    Go(pool, sleeper);
+    Go(pool, sleeper);
+    Go(pool, sleeper);
 
-    pool.Join();
+    pool.WaitIdle();
 
     ASSERT_EQ(completed.load(), 3);
     ASSERT_TRUE(stop_watch.Elapsed() < 3s + 500ms);
+
+    pool.Stop();
   }
 
   SIMPLE_TEST(Yield) {
@@ -98,18 +104,20 @@ TEST_SUITE(Fibers) {
       }
     };
 
-    auto starter = [&]() {
-      Spawn(bull);
-      Spawn(bear);
-    };
+    // NB: 1 worker thread!
+    ThreadPool pool{1};
 
-    StaticThreadPool pool{1};
-    Spawn(starter, pool);
-    pool.Join();
+    Go(pool, [&]() {
+      Go(bull);
+      Go(bear);
+    });
+
+    pool.WaitIdle();
+    pool.Stop();
   }
 
   SIMPLE_TEST(Yield2) {
-    StaticThreadPool pool{4};
+    ThreadPool pool{4};
 
     static const size_t kYields = 123456;
 
@@ -119,10 +127,11 @@ TEST_SUITE(Fibers) {
       }
     };
 
-    Spawn(tester, pool);
-    Spawn(tester, pool);
+    Go(pool, tester);
+    Go(pool, tester);
 
-    pool.Join();
+    pool.WaitIdle();
+    pool.Stop();
   }
 
   class ForkTester {
@@ -131,17 +140,20 @@ TEST_SUITE(Fibers) {
     }
 
     size_t Explode(size_t d) {
-      Spawn(MakeForker(d), pool_);
-      pool_.Join();
+      Go(pool_, MakeForker(d));
+
+      pool_.WaitIdle();
+      pool_.Stop();
+
       return leafs_.load();
     }
 
    private:
-    mtf::fibers::Routine MakeForker(size_t d) {
+    exe::fibers::Routine MakeForker(size_t d) {
       return [this, d]() {
         if (d > 2) {
-          Spawn(MakeForker(d - 2));
-          Spawn(MakeForker(d - 1));
+          Go(MakeForker(d - 2));
+          Go(MakeForker(d - 1));
         } else {
           leafs_.fetch_add(1);
         }
@@ -149,7 +161,7 @@ TEST_SUITE(Fibers) {
     }
 
    private:
-    StaticThreadPool pool_;
+    ThreadPool pool_;
     std::atomic<size_t> leafs_{0};
   };
 
@@ -161,41 +173,41 @@ TEST_SUITE(Fibers) {
   }
 
   SIMPLE_TEST(TwoPools1) {
-    StaticThreadPool pool_1{4};
-    StaticThreadPool pool_2{4};
+    ThreadPool pool_1{4};
+    ThreadPool pool_2{4};
 
-    auto make_tester = [](StaticThreadPool& pool) {
+    auto make_tester = [](ThreadPool& pool) {
       return [&pool]() {
-        ASSERT_EQ(mtf::tp::Current(), &pool);
+        ExpectPool(pool);
       };
     };
 
-    Spawn(make_tester(pool_1), pool_1);
-    Spawn(make_tester(pool_2), pool_2);
+    Go(pool_1, make_tester(pool_1));
+    Go(pool_2, make_tester(pool_2));
   }
 
   SIMPLE_TEST(TwoPools2) {
-    StaticThreadPool pool_1{4};
-    StaticThreadPool pool_2{4};
+    ThreadPool pool_1{4};
+    ThreadPool pool_2{4};
 
-    auto make_tester = [](StaticThreadPool& pool) {
+    auto make_tester = [](ThreadPool& pool) {
       return [&pool]() {
         static const size_t kIterations = 1024;
 
         for (size_t i = 0; i < kIterations; ++i) {
-          ASSERT_EQ(mtf::tp::Current(), &pool);
+          ExpectPool(pool);
 
           Yield();
 
-          Spawn([&pool]() {
-            ASSERT_EQ(mtf::tp::Current(), &pool);
+          Go(pool, [&pool]() {
+            ExpectPool(pool);
           });
         }
       };
     };
 
-    Spawn(make_tester(pool_1), pool_1);
-    Spawn(make_tester(pool_2), pool_2);
+    Go(pool_1, make_tester(pool_1));
+    Go(pool_2, make_tester(pool_2));
   }
 
   struct RacyCounter {
@@ -228,15 +240,15 @@ TEST_SUITE(Fibers) {
       }
     };
 
-    StaticThreadPool pool{kThreads};
+    ThreadPool pool{kThreads};
 
-    Spawn([&]() {
+    Go(pool, [&]() {
       for (size_t i = 0; i < kFibers; ++i) {
-        Spawn(routine);
+        Go(routine);
       }
-    }, pool);
+    });
 
-    pool.Join();
+    pool.WaitIdle();
 
     std::cout << "Thread count: " << kThreads << std::endl
               << "Fibers: " << kFibers << std::endl
@@ -245,5 +257,9 @@ TEST_SUITE(Fibers) {
 
     ASSERT_GE(counter.Get(), kIncrements);
     ASSERT_LT(counter.Get(), kIncrements * kFibers);
+
+    pool.Stop();
   }
 }
+
+RUN_ALL_TESTS()

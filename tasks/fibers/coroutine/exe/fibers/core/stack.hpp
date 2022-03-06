@@ -2,9 +2,9 @@
 
 #include <context/stack.hpp>
 
-namespace mtf::fibers {
+namespace exe::fibers {
 
-context::Stack AcquireStack();
+context::Stack AllocateStack();
 void ReleaseStack(context::Stack stack);
 
-}  // namespace mtf::fibers
+}  // namespace exe::fibers
