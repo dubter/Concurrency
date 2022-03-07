@@ -8,7 +8,7 @@ namespace solutions {
 
 template <typename Tag>
 class TaggedSemaphore {
- private:
+ public:
   // No affine types in C++ =(
   class Token {
     friend class TaggedSemaphore;
