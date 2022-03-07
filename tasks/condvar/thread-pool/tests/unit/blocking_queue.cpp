@@ -132,6 +132,24 @@ TEST_SUITE(BlockingQueue) {
     producer.join();
   }
 
+  SIMPLE_TEST(BlockingTake3) {
+    Queue<int> queue;
+
+    std::thread first_producer([&]() {
+      queue.Take();
+    });
+
+    std::thread second_producer([&]() {
+      queue.Take();
+    });
+
+    std::this_thread::sleep_for(100ms);
+    queue.Cancel();
+
+    first_producer.join();
+    second_producer.join();
+  }
+
   SIMPLE_TEST(ProducerConsumer) {
     Queue<int> queue;
 
