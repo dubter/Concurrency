@@ -45,8 +45,8 @@
       score: 400
 
 - group:    Fibers / Part I
-  start:    07-03-2021 12:00
-  deadline: 21-03-2025 23:59
+  start:    07-03-2022 12:00
+  deadline: 21-03-2022 23:59
   tasks:
     - task: fibers/coroutine
       score: 500
