@@ -31,7 +31,7 @@
 
 - group:    Condition Variables / Thread Pool / Futures
   start:    21-02-2022 12:00
-  deadline: 07-03-2022 23:59
+  deadline: 08-03-2022 06:00
   tasks:
     - task: condvar/barrier
       score: 200
