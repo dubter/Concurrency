@@ -67,6 +67,8 @@ void BasicsExample() {
 
   co.Resume();
 
+  // Вызов IsCompleted() возвращает true если корутина уже завершила 
+  // свое исполнение (дойдя до конца `routine` или бросив исключение).
   assert(co.IsCompleted());
 
   // Попытка вызова Suspend вне корутины - UB
