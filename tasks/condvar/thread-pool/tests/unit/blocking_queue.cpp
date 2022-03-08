@@ -132,22 +132,46 @@ TEST_SUITE(BlockingQueue) {
     producer.join();
   }
 
-  SIMPLE_TEST(BlockingTake3) {
+  SIMPLE_TEST(UnblockConsumers1) {
     Queue<int> queue;
 
-    std::thread first_producer([&]() {
+    // Consumers
+
+    std::thread consumer1([&]() {
       queue.Take();
     });
 
-    std::thread second_producer([&]() {
+    std::thread consumer2([&]() {
       queue.Take();
     });
 
+    // Producer
     std::this_thread::sleep_for(100ms);
     queue.Cancel();
 
-    first_producer.join();
-    second_producer.join();
+    consumer1.join();
+    consumer2.join();
+  }
+
+  SIMPLE_TEST(UnblockConsumers2) {
+    Queue<int> queue;
+
+    // Consumers
+
+    std::thread consumer1([&]() {
+      queue.Take();
+    });
+
+    std::thread consumer2([&]() {
+      queue.Take();
+    });
+
+    // Producer
+    std::this_thread::sleep_for(100ms);
+    queue.Close();
+
+    consumer1.join();
+    consumer2.join();
   }
 
   SIMPLE_TEST(ProducerConsumer) {
