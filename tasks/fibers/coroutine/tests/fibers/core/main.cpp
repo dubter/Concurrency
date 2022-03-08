@@ -121,7 +121,7 @@ TEST_SUITE(Fibers) {
   SIMPLE_TEST(Yield2) {
     ThreadPool pool{4};
 
-    static const size_t kYields = 123456;
+    static const size_t kYields = 65536;
 
     auto tester = []() {
       for (size_t i = 0; i < kYields; ++i) {
@@ -264,7 +264,7 @@ TEST_SUITE(Fibers) {
 
     pool.WaitIdle();
 
-    std::cout << "Thread count: " << kThreads << std::endl
+    std::cout << "Threads: " << kThreads << std::endl
               << "Fibers: " << kFibers << std::endl
               << "Increments per fiber: " << kIncrements << std::endl
               << "Racy counter value: " << counter.Get() << std::endl;
