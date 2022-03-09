@@ -161,16 +161,6 @@ TEST_SUITE(Coroutine) {
     ASSERT_EQ(steps, 3);
   }
 
-  void TreeWalk(TreeNodePtr node) {
-    if (node->left) {
-      TreeWalk(node->left);
-    }
-    Coroutine::Suspend();
-    if (node->right) {
-      TreeWalk(node->right);
-    }
-  }
-
   SIMPLE_TEST(TreeWalk) {
     auto root = TreeNode::CreateFork(
         "B",
