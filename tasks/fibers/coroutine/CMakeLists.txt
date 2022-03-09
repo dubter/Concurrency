@@ -7,12 +7,17 @@ add_task_library(exe)
 add_playground(play)
 
 # Tests
+
+# Coroutine
 add_task_test_dir(tests/coroutine/standalone coroutine_tests)
 add_task_test_dir(tests/coroutine/processors processors_tests)
 
+# Thread Pool
 add_task_test_dir(tests/thread_pool/unit thread_pool_unit_tests)
 add_task_test_dir(tests/thread_pool/stress thread_pool_stress_tests)
 
-add_task_test_dir(tests/fibers/core fibers_core_tests)
+# Fibers
+add_task_test_dir(tests/fibers/core/ fibers_core_tests)
+add_task_test_dir(tests/fibers/racy fiber_racy_tests)
 
 end_task()

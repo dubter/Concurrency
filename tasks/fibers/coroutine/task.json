@@ -24,6 +24,10 @@
         "FaultyThreadsASan",
         "FaultyThreadsTSan"
       ]
+    },
+    {
+      "targets": ["fibers_racy_tests"],
+      "profiles": ["Debug"]
     }
   ],
   "lint_files": ["exe"],
