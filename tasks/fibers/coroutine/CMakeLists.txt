@@ -18,6 +18,6 @@ add_task_test_dir(tests/thread_pool/stress thread_pool_stress_tests)
 
 # Fibers
 add_task_test_dir(tests/fibers/core/ fibers_core_tests)
-add_task_test_dir(tests/fibers/racy fiber_racy_tests)
+add_task_test_dir(tests/fibers/racy fibers_racy_tests)
 
 end_task()
