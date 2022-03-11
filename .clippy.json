@@ -24,6 +24,7 @@
     "std::mutex",
     "std::condition_variable",
     "std::thread",
-    "std::this_thread"
+    "std::this_thread",
+    "thread_local "
   ]
 }
