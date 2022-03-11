@@ -221,7 +221,7 @@ void FibersExample() {
 
 В нашем фреймворке они будут основаны на одной и той же реализации – [`CoroutineImpl`](exe/coroutine/impl.hpp).
 
-`CoroutineImpl` не управляет стеками, он получает только _view_ на них (в виде экземпляра [`MutableMemView`](https://gitlab.com/Lipovsky/wheels/-/blob/master/wheels/memory/view.hpp)), за управление памятью отвечает код уровнем выше (например, рантайм файберов).
+`CoroutineImpl` не управляет стеками, он получает только _view_ на них (в виде [`MutableMemView`](https://gitlab.com/Lipovsky/wheels/-/blob/master/wheels/memory/view.hpp)), за управление памятью отвечает код уровнем выше (например, рантайм файберов).
 
 `CoroutineImpl` имеет небезопасный / неудобный `Suspend`: пользователь должен сам найти объект корутины и вызвать метод прямо на нем. 
 
