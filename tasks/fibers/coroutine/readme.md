@@ -229,7 +229,7 @@ void FibersExample() {
 
 Корутина (в виде `CoroutineImpl`) – исполняемая сущность, а значит у нее должен быть собственный контекст исполнения, который представлен классом [`ExecutionContext`](https://gitlab.com/Lipovsky/context/-/blob/master/context/context.hpp).
 
-`ExecutionContext` поддерживает две операции: установка (`Setup`) и переключение (`SwitchTo`) контекста.
+`ExecutionContext` поддерживает две операции: _установка_ (`Setup`) и _переключение_ (`SwitchTo`) контекста.
 
 #### Переключение контекста
 
