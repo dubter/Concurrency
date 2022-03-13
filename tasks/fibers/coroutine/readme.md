@@ -250,6 +250,12 @@ void FibersExample() {
 
 Пример использования: [TinyFibers](https://gitlab.com/Lipovsky/tinyfibers/-/blob/master/tinyfibers/core/fiber.cpp)
 
+#### `ExitTo`
+
+При последнем переключении из контекста корутины / файбера (т.е. в конце трамплина) используйте [`ExitTo`](https://gitlab.com/Lipovsky/context/-/blob/f51d01b54a529b445f1be51eae515629ba8c8001/context/context.hpp#L43) вместо `SwitchTo`.
+ 
+Этот граничный случай необходим для корректной работы проверок в [AddressSanitizer](https://clang.llvm.org/docs/AddressSanitizer.html).
+
 ## Задание
 
 1) Реализуйте [`ThreadPool`](exe/tp/thread_pool.hpp)
@@ -319,6 +325,8 @@ void SubmitExample() {
 ### Misc
 
 Не добавляйте в публичный интерфейс класса `CoroutineImpl` служебные методы, которые пользователь корутины не должен вызывать напрямую.
+
+Не используйте `ThreadLocalPtr` в `CoroutineImpl`.
 
 Класс `Fiber` не должен быть виден пользователю через публичное API.
 
