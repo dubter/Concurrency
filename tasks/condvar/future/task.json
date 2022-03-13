@@ -17,7 +17,6 @@
   "submit_files": ["futures"],
   "forbidden_patterns": [
     "std::future",
-    "std::optional",
     "new",
     "yield",
     "sleep_for",
