@@ -167,12 +167,13 @@ TEST_SUITE(Fibers) {
     std::atomic<size_t> leafs_{0};
   };
 
-  TEST(Forks, wheels::test::TestOptions().TimeLimit(10s).AdaptTLToSanitizer()) {
-    ForkTester tester{4};
-    // Respect ThreadSanitizer thread limit:
-    // Tid - 13 bits => 8192 threads
-    ASSERT_EQ(tester.Explode(20), 6765);
-  }
+//  // Under investigation
+//  TEST(Forks, wheels::test::TestOptions().TimeLimit(10s).AdaptTLToSanitizer()) {
+//    ForkTester tester{4};
+//    // Respect ThreadSanitizer thread limit:
+//    // Tid - 13 bits => 8192 threads
+//    ASSERT_EQ(tester.Explode(20), 6765);
+//  }
 
   SIMPLE_TEST(TwoPools1) {
     ThreadPool pool_1{4};
