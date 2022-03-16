@@ -105,7 +105,9 @@ Step 3
 
 С помощью корутин можно писать итераторы по рекурсивным структурам данных: [Iteration Inside and Out](https://journal.stuffwithstuff.com/2013/01/13/iteration-inside-and-out/)
 
-### Генераторы / процессоры
+### Процессоры / генераторы
+
+#### Push
 
 ```cpp
 void ProcessorExample() {
@@ -119,17 +121,43 @@ void ProcessorExample() {
     }
   });
   
+  // Модель push
+  
   // Посылаем процессору порции данных для обработки
   consumer.Send("Hello");
   // <-- На экране напечаталось `Hello`
   consumer.Send("World");
   // <-- На экране напечаталось `World`
   consumer.Close();
-  // <-- Вызов процедура `consumer`-а завершился
+  // <-- Процедура `consumer`-а завершилась
 }
 ```
 
 Оригинальное применение корутин – реализация модульного компилятора, где каждый модуль представлен корутиной, и эти модули организованы в конвейер: [Design of a Separable Transition-Diagram Compiler](https://www.melconway.com/Home/pdf/compiler.pdf)
+
+### Pull
+
+В генераторах поток данных направлен в обратную сторону:
+
+```cpp
+void GeneratorExample() {
+  using namespace exe::coroutine::generators;
+  
+  Generator<int> countdown([]() {
+    for (int i = 10; i >= 0; --i) {
+      Send(i);
+    }
+  });
+  
+  // Модель pull
+  
+  while (auto next = countdown.Receive()) {
+    // next - std::optional
+    std::cout << *next << std::end;
+  }
+  std::cout << "Launch!" << std::endl;
+}
+```
 
 ## От корутин к файберам
 
@@ -262,7 +290,9 @@ void FibersExample() {
 2) Реализуйте [`CoroutineImpl`](exe/coroutine/impl.hpp)
 3) Через `ThreadPool` и `CoroutineImpl` выразите [файберы](exe/fibers/core/api.hpp)
 
-Бонусная задача: реализуйте [`Processor<T>`](exe/coroutine/processor.hpp)
+Бонусные уровни:
+- Реализуйте [`Processor<T>`](exe/coroutine/processor.hpp)
+- Реализуйте [`Generator<T>`](exe/coroutine/generator.hpp)
 
 ## Замечания по реализации
 
