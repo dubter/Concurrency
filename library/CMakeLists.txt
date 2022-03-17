@@ -62,7 +62,7 @@ message(STATUS "FetchContent: asio")
 FetchContent_Declare(
         asio
         GIT_REPOSITORY https://github.com/chriskohlhoff/asio.git
-        GIT_TAG asio-1-18-1
+        GIT_TAG asio-1-22-1
 )
 FetchContent_MakeAvailable(asio)
 
