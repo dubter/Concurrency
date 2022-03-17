@@ -2,8 +2,8 @@
 
 #include <cstdint>
 
-namespace echo {
+namespace echo::tiny {
 
 void ServeForever(uint16_t port);
 
-}  // namespace echo
+}  // namespace echo::tiny

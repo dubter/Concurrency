@@ -9,7 +9,6 @@ using wheels::Status;
 
 using wheels::make_result::Fail;
 using wheels::make_result::JustStatus;
-using wheels::make_result::NotSupported;
 using wheels::make_result::Ok;
 using wheels::make_result::PropagateError;
 using wheels::make_result::ToStatus;
@@ -21,19 +20,19 @@ Acceptor::Acceptor() {
 }
 
 Status Acceptor::BindTo(uint16_t /*port*/) {
-  return NotSupported();  // Your code goes here
+  std::abort();  // Not implemented
 }
 
 Result<uint16_t> Acceptor::BindToAvailablePort() {
-  return NotSupported();  // Your code goes here
+  std::abort();  // Not implemented
 }
 
 Status Acceptor::Listen(uint32_t /*backlog*/) {
-  return NotSupported();  // Your code goes here
+  std::abort();  // Not implemented
 }
 
 Result<Socket> Acceptor::Accept() {
-  return NotSupported();  // Your code goes here
+  std::abort();  // Not implemented
 }
 
 uint16_t Acceptor::GetPort() const {

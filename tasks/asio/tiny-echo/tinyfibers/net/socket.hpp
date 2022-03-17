@@ -40,11 +40,11 @@ class Socket {
   wheels::Result<size_t> ReadSome(MutableBuffer buffer);
 
   // Will block until
-  // * all of the bytes in the buffer are sent or
+  // * all the bytes in the buffer are sent or
   // * an error occurred
   wheels::Status Write(ConstBuffer buffer);
 
-  // Shutting down the send side of the socket
+  // Shutting down the sender side of the socket
   wheels::Status ShutdownWrite();
 
  private:
@@ -54,4 +54,4 @@ class Socket {
   asio::ip::tcp::socket socket_;
 };
 
-}  // namespace tinyfibers::net
+}  // namespace tinyfbers::net

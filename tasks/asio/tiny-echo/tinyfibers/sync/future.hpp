@@ -2,7 +2,7 @@
 
 #include <tinyfibers/runtime/parking_lot.hpp>
 
-#include <wheels/support/result.hpp>
+#include <wheels/result/result.hpp>
 
 #include <optional>
 
@@ -11,9 +11,8 @@ namespace tinyfibers {
 template <typename T>
 class FutureLite {
  public:
-  // Blocks until the future is fulfilled
   wheels::Result<T> Get() {
-    return wheels::make_result::NotSupported();
+    std::abort();  // Not implemented
   }
 
   void SetValue(T value) {

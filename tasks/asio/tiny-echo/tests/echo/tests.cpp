@@ -1,6 +1,6 @@
 #include <wheels/test/test_framework.hpp>
 
-#include <echo/server.hpp>
+#include <echo/tiny/server.hpp>
 
 #include <tinyfibers/api.hpp>
 #include <tinyfibers/net/socket.hpp>
@@ -31,7 +31,7 @@ void LaunchEchoServer() {
   // Serve forever in background thread
   std::thread([]() {
     RunScheduler([]() {
-      echo::ServeForever(EchoServerPort());
+      echo::tiny::ServeForever(EchoServerPort());
     });
   }).detach();
 }

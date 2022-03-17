@@ -1,34 +1,42 @@
-# Echo
+# TinyEcho
 
 Пока _TinyFibers_ умеют лишь запускаться, перепланироваться и синхронизироваться. В этой задаче мы научим их взаимодействовать с внешним миром.
 
-Для этого мы воспользуемся библиотекой [`asio`](https://think-async.com/Asio/asio-1.18.1/doc/asio/overview/rationale.html), которая предоставляет event loop и асинхронные интерфейсы для работы с таймерами и сетью.
+Для этого мы воспользуемся библиотекой [`asio`](https://think-async.com/Asio/asio-1.22.1/doc/asio/overview/rationale.html), которая предоставляет event loop и асинхронные интерфейсы для работы с таймерами и сетью.
 
 ## Задание
 
-1) Реализуйте [`SleepFor`](tinyfibers/core/api.hpp) для файберов
+1) Реализуйте функцию [`SleepFor`](tinyfibers/core/api.hpp) для файберов
 2) Реализуйте [сокеты](tinyfibers/net/socket.hpp) для файберов
 3) Реализуйте [эхо-сервер](echo/server.cpp)
 
 ## [А]синхронность и поток управления
 
-### Потоки
+### Синхронный I/O
 
 Самый простой способ писать сетевой код – пользоваться _синхронным_ I/O.
 
-Пример: [синхронный эхо-сервер]((https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp14/echo/blocking_tcp_echo_server.cpp).)
+Пример: [синхронный эхо-сервер](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp14/echo/blocking_tcp_echo_server.cpp).
 
-Но синхронный I/O требует блокировки потока операционной системы, так что для конкурентного обслуживания клиентов на каждого из них придется завести отдельный поток.
+В этом примере вызов `sock.read_some(asio::buffer(data), error)` блокирует вызывающий поток до момента завершения чтения.
+
+Синхронный I/O требует блокировки потока операционной системы, так что для конкурентного обслуживания клиентов на каждого из них придется завести отдельный поток.
 
 Такое решение не масштабируется – клиентов может быть гораздо больше, чем число потоков, которые может эффективно обслуживать операционная система.
 
-### Коллбэки и цикл событий
+### Асинхронный I/O
 
 Альтернативный подход – использовать цикл событий (_event loop_) и _асинхронный_ I/O.
 
-Пример: [асинхронный эхо-сервер]((https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp14/echo/async_tcp_echo_server.cpp).)
+Пример: [асинхронный эхо-сервер](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp14/echo/async_tcp_echo_server.cpp).
 
-Асинхронный I/O позволяет упаковать всю работу в виде цепочек коллбэков в один поток операционной системы.
+При вызове на сокете асинхронной операции `async_read_some` мы не блокируемся до момента появления данных, а _подписываемся_ на результат чтения – передаем в вызов _обработчик_ (_handler_) или _коллбэк_ (_callback_), после чего вызов `async_read_some` завершается _без ожидания_.
+
+Коллбэк (обработчик) будет вызван на какой-то будущей итерации цикла событий, когда в `epoll` соответствующий сокет станет доступным для чтения, и из него будут вычитаны данные.
+
+В асинхронном решении для каждого клиентского соединения порождается цепочка неблокирующихся задач. Все эти цепочки "упаковываются" в один поток операционной системы.
+
+[Диаграмма](https://disk.yandex.ru/d/LEfNBVCtfo5N2A)
 
 Правда при этом поток управления (control flow) выворачивается наизнанку: теперь он следует не вашей логике (как в случае с потоками), а подчиняется циклу запуска коллбэков внутри `io_context`-а, фактически – циклу `epoll`-а.
 
@@ -187,6 +195,15 @@ void Scheduler::SleepFor(Duration delay) {
 
 Если в планировщике нет файберов, которые готовы исполняться, но при этом есть спящие файберы, то планировщик должен блокировать _поток_, в котором он (планировщик) запущен, до пробуждения первого файбера.
 
+### Эхо-сервер
+
+После реализации `SleepFor` и сокетов напишите [эхо-сервер](echo/server.cpp).
+
+Он должен
+- выглядеть так же просто, как и [многопоточная реализация](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp14/echo/blocking_tcp_echo_server.cpp),
+- при этом исполняться так же эффективно, как и [асинхронная однопоточная реализация](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp14/echo/async_tcp_echo_server.cpp).
+
+
 ## Указания по реализации
 
 ### Циклы
@@ -200,9 +217,18 @@ void Scheduler::SleepFor(Duration delay) {
 
 Подумайте, как совместить два этих цикла. Реализация метода `RunLoop` должна упроститься.
 
+Обратите внимания на функцию `asio::post`:
+
+```cpp
+// Планируем обработчик на исполнение
+asio::post(io_context, []() {
+  // Будет исполнен на очередной итерации io_context.run();
+});
+```
+
 ### Таймеры
 
-Прочтите tutorial по таймерам:  [Using a timer asynchronously](http://think-async.com/Asio/asio-1.18.1/doc/asio/tutorial/tuttimer2.html).
+Прочтите tutorial по таймерам:  [Using a timer asynchronously](http://think-async.com/Asio/asio-1.22.1/doc/asio/tutorial/tuttimer2.html).
 
 Используйте специализацию `WaitableTimer`, определенную в [timer.hpp](tinyfibers/core/timer.hpp).
 
@@ -212,9 +238,9 @@ void Scheduler::SleepFor(Duration delay) {
 
 ### Сокеты
 
-Используйте [`asio::ip::tcp::socket`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/socket.html) и [`asio::ip::tcp::acceptor`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/acceptor.html) в реализациях `Socket` и `Acceptor`.
+Используйте [`asio::ip::tcp::socket`](http://think-async.com/Asio/asio-1.22.1/doc/asio/reference/ip__tcp/socket.html) и [`asio::ip::tcp::acceptor`](http://think-async.com/Asio/asio-1.22.1/doc/asio/reference/ip__tcp/acceptor.html) в реализациях `Socket` и `Acceptor`.
 
-Методы `ReadSome` и `Write` у сокета реализуйте через [`async_read_some`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/basic_stream_socket/async_read_some.html) и [`async_write`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/async_write/overload1.html) соответственно.
+Методы `ReadSome` и `Write` у сокета реализуйте через [`async_read_some`](http://think-async.com/Asio/asio-1.22.1/doc/asio/reference/basic_stream_socket/async_read_some.html) и [`async_write`](http://think-async.com/Asio/asio-1.22.1/doc/asio/reference/async_write/overload1.html) соответственно.
 
 Метод `Read` реализуйте через `ReadSome`.
 
@@ -228,11 +254,11 @@ void Scheduler::SleepFor(Duration delay) {
 
 #### Установка соединения
 
-Сначала вам потребуется транслировать `host` в IP-адреса, для этого используйте класс [`asio::ip::tcp::resolver`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/resolver.html).
+Сначала вам потребуется транслировать `host` в IP-адреса, для этого используйте класс [`asio::ip::tcp::resolver`](http://think-async.com/Asio/asio-1.22.1/doc/asio/reference/ip__tcp/resolver.html).
 
 Затем нужно пройти по всем `endpoint`-ам и попробовать установить соединение с каждым из них.
 
-Рекомендуем реализовать в сокете вспомогательный статический метод `Connect`, который получает [`asio::ip::tcp::endpoint`](http://think-async.com/Asio/asio-1.18.1/doc/asio/reference/ip__tcp/endpoint.html).
+Рекомендуем реализовать в сокете вспомогательный статический метод `Connect`, который получает [`asio::ip::tcp::endpoint`](http://think-async.com/Asio/asio-1.22.1/doc/asio/reference/ip__tcp/endpoint.html).
 
 Изучите пример [async_tcp_client](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp11/timeouts/async_tcp_client.cpp).
 
@@ -258,17 +284,13 @@ void Scheduler::SleepFor(Duration delay) {
 
 Результат асинхронной операции (значение или ошибку) передавайте из коллбэка в файбер в виде `Result<T>`.
 
-### Эхо-сервер
-
-После реализации `SleepFor` и сокетов напишите [эхо-сервер](echo/server.cpp). 
-
-Он должен
-- выглядеть так же просто, как и [многопоточная реализация](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp14/echo/blocking_tcp_echo_server.cpp),
-- при этом исполняться так же эффективно, как и [асинхронная однопоточная реализация](https://github.com/chriskohlhoff/asio/blob/master/asio/src/examples/cpp14/echo/async_tcp_echo_server.cpp).
-
 ## Материалы
 
-* [Asio](https://github.com/chriskohlhoff/asio/)
-* [Basic Asio Anatomy](http://think-async.com/Asio/asio-1.18.1/doc/asio/overview/core/basics.html)
+### Asio
+
+* [Github](https://github.com/chriskohlhoff/asio/)
+* [Basic Anatomy](https://think-async.com/Asio/asio-1.22.1/doc/asio/overview/basics.html)
+* [Overview](https://think-async.com/Asio/asio-1.22.1/doc/asio/overview.html)
+* [Tutorial](https://think-async.com/Asio/asio-1.22.1/doc/asio/tutorial.html)
 * [Thinking Asynchronously: Designing Applications with Boost.Asio](https://www.youtube.com/watch?v=D-lTwGJRx0o), [слайды](http://cpp.mimuw.edu.pl/files/boost_vs_qt/asio/thinking_asynchronously.pdf)
 

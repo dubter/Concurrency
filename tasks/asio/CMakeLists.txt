@@ -1,3 +1,3 @@
 # Tasks
 
-add_subdirectory(echo)
+add_subdirectory(tiny-echo)

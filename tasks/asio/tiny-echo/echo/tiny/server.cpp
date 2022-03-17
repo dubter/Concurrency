@@ -1,4 +1,4 @@
-#include <echo/server.hpp>
+#include <echo/tiny/server.hpp>
 
 #include <tinyfibers/api.hpp>
 #include <tinyfibers/net/acceptor.hpp>
@@ -8,9 +8,9 @@ using tinyfibers::Spawn;
 using tinyfibers::net::Acceptor;
 using tinyfibers::net::Socket;
 
-namespace echo {
+namespace echo::tiny {
 
-void Session(Socket /*socket*/) {
+void Session(Socket /*client*/) {
   // Not implemented
 }
 
@@ -18,4 +18,4 @@ void ServeForever(uint16_t /*port*/) {
   // Not implemented
 }
 
-}  // namespace echo
+}  // namespace echo::tiny
