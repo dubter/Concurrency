@@ -3,6 +3,10 @@
     "CMAKE_BUILD_TYPE=Debug",
     "UBSAN=ON"
   ],
+  "Debug": [
+    "CMAKE_BUILD_TYPE=DebugASan",
+    "ASAN=ON"
+  ],
   "Release": [
     "CMAKE_BUILD_TYPE=Release"
   ],
