@@ -8,7 +8,7 @@ namespace tinyfibers {
 
 //////////////////////////////////////////////////////////////////////
 
-static thread_local Scheduler* current_scheduler;
+static Scheduler* current_scheduler;
 
 Scheduler* GetCurrentScheduler() {
   WHEELS_VERIFY(current_scheduler, "Not in fiber context");
