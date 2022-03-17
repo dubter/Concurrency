@@ -1,0 +1,21 @@
+{
+  "tests": [
+    {
+      "targets": ["core_tests", "sleep_tests", "net_tests"],
+      "profiles": ["Debug", "DebugASan"]
+    },
+    {
+      "targets": ["echo_tests"],
+      "profiles": ["Debug"]
+    }
+  ],
+  "lint_files": ["tinyfibers", "echo"],
+  "submit_files": [
+    "tinyfibers/core",
+    "tinyfibers/sync",
+    "tinyfibers/support",
+    "tinyfibers/net",
+    "echo"
+  ],
+  "forbidden_patterns": ["sleep_for"]
+}
