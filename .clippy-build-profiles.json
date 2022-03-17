@@ -3,7 +3,7 @@
     "CMAKE_BUILD_TYPE=Debug",
     "UBSAN=ON"
   ],
-  "Debug": [
+  "DebugASan": [
     "CMAKE_BUILD_TYPE=DebugASan",
     "ASAN=ON"
   ],
