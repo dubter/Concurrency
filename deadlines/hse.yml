@@ -57,3 +57,10 @@
   tasks:
     - task: mutex/queue
       score: 200
+
+- group:    Asio
+  start:    17-03-2022 12:00
+  deadline: 28-03-2022 23:59
+  tasks:
+    - task: asio/tiny-echo
+      score: 500
