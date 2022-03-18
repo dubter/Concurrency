@@ -5,8 +5,6 @@
 
 #include <context/stack.hpp>
 
-#include <asio/strand.hpp>
-
 namespace exe::fibers {
 
 // Fiber = Stackful coroutine + Scheduler
