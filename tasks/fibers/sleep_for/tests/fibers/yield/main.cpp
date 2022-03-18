@@ -33,7 +33,7 @@ TEST_SUITE(Yield) {
     });
   }
 
-  SIMPLE_TEST(Stress) {
+  TEST(Stress, wheels::test::TestOptions().TimeLimit(10s).AdaptTLToSanitizer()) {
     RunScheduler(/*threads=*/4, []() {
       for (size_t i = 0; i < 127; ++i) {
         fibers::Go([]() {
