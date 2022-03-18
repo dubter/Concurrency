@@ -116,6 +116,8 @@ void SleepForExample() {
 
 В реализации файберов не должно быть блокирующего поток ожидания.
 
+Не храните таймер в полях файбера.
+
 ## Asio
 
 * [Github](https://github.com/chriskohlhoff/asio/)
