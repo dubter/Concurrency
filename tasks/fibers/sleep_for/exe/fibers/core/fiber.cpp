@@ -3,6 +3,8 @@
 
 #include <twist/util/thread_local.hpp>
 
+#include <asio/steady_timer.hpp>
+
 namespace exe::fibers {
 
 //////////////////////////////////////////////////////////////////////
