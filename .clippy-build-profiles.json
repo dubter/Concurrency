@@ -4,7 +4,7 @@
     "UBSAN=ON"
   ],
   "DebugASan": [
-    "CMAKE_BUILD_TYPE=DebugASan",
+    "CMAKE_BUILD_TYPE=Debug",
     "ASAN=ON"
   ],
   "Release": [
