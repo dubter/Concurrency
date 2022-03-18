@@ -9,7 +9,7 @@
 
 namespace exe::fibers {
 
-// Fiber = Stackful coroutine + Scheduler (Thread pool)
+// Fiber = Stackful coroutine + Scheduler
 
 class Fiber {
  public:
