@@ -53,9 +53,9 @@
     - task: fibers/coroutine
       score: 500
 
-- group:    Asio
+- group:    Fibers / Part II
   start:    17-03-2022 12:00
   deadline: 29-03-2022 23:59
   tasks:
-    - task: asio/tiny-echo
-      score: 500
+    - task: fibers/sleep_for
+      score: 300
