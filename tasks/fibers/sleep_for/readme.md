@@ -41,7 +41,7 @@ void PostExample() {
 
 #### Executors
 
-В библиотеку интегрирован целый фреймворк _экзекуторов_ (_executors_):
+В `asio` интегрирован целый фреймворк _экзекуторов_ (_executors_):
 
 [Executors and Asynchronous Operations](http://chriskohlhoff.github.io/executors/)
 
