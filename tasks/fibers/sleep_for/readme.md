@@ -43,8 +43,7 @@ void PostExample() {
 
 В библиотеку интегрирован целый фреймворк _экзекуторов_ (_executors_):
 
-[Executors and
-Asynchronous Operations](http://think-async.com/executors/Executors_and_Asynchronous_Operations_Slides.pdf)
+[Executors and Asynchronous Operations](http://chriskohlhoff.github.io/executors/)
 
 
 ### Таймеры
