@@ -40,11 +40,13 @@
 
 Нужен для адаптивного активного ожидания.
 
+Заголовочный файл: `<twist/util/spin_wait.hpp>`
+
 ```cpp
 SpinLock::Lock() {
   // Одноразовый!
   // Для каждого нового цикла ожидания в каждом потоке 
-  // должен создаваться новый экземпляр SpinWait
+  // нужно заводить новый экземпляр SpinWait
   SpinWait spin_wait;
   while (locked_.exchange(1) == 1) {
     spin_wait();  // <- backoff
