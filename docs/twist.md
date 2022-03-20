@@ -46,7 +46,7 @@ SpinLock::Lock() {
   // Для каждого нового цикла ожидания в каждом потоке 
   // должен создаваться новый экземпляр SpinWait
   SpinWait spin_wait;
-  while (!locked_.exchange(1)) {
+  while (locked_.exchange(1) == 1) {
     spin_wait();  // <- backoff
   }
 }
