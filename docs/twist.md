@@ -56,6 +56,14 @@ SpinLock::Lock() {
 
 Вместо `thread_local` нужно использовать `twist::util::ThreadLocalPtr<T>` из заголовочного файла `<twist/util/thread_local.hpp>`.
 
+```cpp
+// ThreadLocalPtr<T> - замена thread_local T*
+// - Для каждого потока хранит собственное значение указателя
+// - Повторяет интерфейс указателя
+// - Инициализируется nullptr-ом
+ThreadLocalPtr<Fiber> this_fiber;
+```
+
 ### Futex
 
 В `twist` метод `wait` у `atomic` доступен только для `T` = `uint32_t`.
