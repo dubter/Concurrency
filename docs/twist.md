@@ -36,6 +36,22 @@
 
 А еще лучше использовать `twist::stdlike::SpinWait` из заголовочного файла `<twist/util/spin_wait.hpp>`.
 
+### `SpinWait`
+
+Нужен для адаптивного активного ожидания.
+
+```cpp
+SpinLock::Lock() {
+  // Одноразовый!
+  // Для каждого нового цикла ожидания в каждом потоке 
+  // должен создаваться новый экземпляр SpinWait
+  SpinWait spin_wait;
+  while (!locked_.exchange(1)) {
+    spin_wait();  // <- backoff
+  }
+}
+```
+
 ### `thread_local`
 
 Вместо `thread_local` нужно использовать `twist::util::ThreadLocalPtr<T>` из заголовочного файла `<twist/util/thread_local.hpp>`.
