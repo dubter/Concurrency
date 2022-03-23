@@ -59,3 +59,10 @@
   tasks:
     - task: fibers/sleep_for
       score: 300
+
+- group:    Fibers / Part III
+  start:    24-03-2022 00:00
+  deadline: 05-04-2022 23:59
+  tasks:
+    - task: fibers/mutex
+      score: 500
