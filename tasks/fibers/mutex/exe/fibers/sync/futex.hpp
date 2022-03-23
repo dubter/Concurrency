@@ -5,6 +5,7 @@
 #include <twist/stdlike/atomic.hpp>
 
 #include <wheels/intrusive/list.hpp>
+#include <wheels/support/assert.hpp>
 
 namespace exe::fibers {
 
