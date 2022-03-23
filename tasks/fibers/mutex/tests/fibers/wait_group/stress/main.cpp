@@ -53,15 +53,15 @@ void StressTest(size_t workers, size_t waiters) {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(WaitGroup) {
-  TWIST_TEST_TL(Stress_1, 10s) {
+  TWIST_TEST_TL(Stress_1, 5s) {
     StressTest(/*workers=*/1, /*waiters=*/1);
   }
 
-  TWIST_TEST_TL(Stress_2, 10s) {
+  TWIST_TEST_TL(Stress_2, 5s) {
     StressTest(/*workers=*/2, /*waiters=*/2);
   }
 
-  TWIST_TEST_TL(Stress_3, 10s) {
+  TWIST_TEST_TL(Stress_3, 5s) {
     StressTest(/*workers=*/3, /*waiters=*/1);
   }
 }

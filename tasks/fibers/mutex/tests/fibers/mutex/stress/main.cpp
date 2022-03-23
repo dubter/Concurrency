@@ -34,7 +34,7 @@ void StressTest1(size_t fibers) {
   scheduler.WaitIdle();
 
   std::cout << "# critical sections: " << plate.AccessCount() << std::endl;
-  ASSERT_TRUE(plate.AccessCount() > 100500);
+  ASSERT_TRUE(plate.AccessCount() > 12345);
 
   scheduler.Stop();
 }
@@ -67,7 +67,7 @@ void StressTest2(size_t fibers) {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(Mutex) {
-  TWIST_TEST_TL(Stress_1_1, 10s) {
+  TWIST_TEST_TL(Stress_1_1, 5s) {
     StressTest1(/*fibers=*/4);
   }
 
@@ -79,11 +79,11 @@ TEST_SUITE(Mutex) {
     StressTest1(/*fibers=*/100);
   }
 
-  TWIST_TEST_TL(Stress_2_1, 10s) {
+  TWIST_TEST_TL(Stress_2_1, 5s) {
     StressTest2(/*fibers=*/2);
   }
 
-  TWIST_TEST_TL(Stress_2_2, 10s) {
+  TWIST_TEST_TL(Stress_2_2, 5s) {
     StressTest2(/*fibers=*/3);
   }
 }

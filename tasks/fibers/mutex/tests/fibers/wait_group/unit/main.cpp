@@ -8,14 +8,13 @@
 #include <atomic>
 #include <thread>
 
-using namespace exe::tp;
-using namespace exe::fibers;
+using namespace exe;
 
 TEST_SUITE(WaitGroup) {
   SIMPLE_TEST(OneWaiter) {
-    ThreadPool scheduler{/*threads=*/4};
+    tp::ThreadPool scheduler{/*threads=*/4};
 
-    WaitGroup wg;
+    fibers::WaitGroup wg;
     std::atomic<size_t> workers{0};
     std::atomic<bool> waiter{false};
 
@@ -23,13 +22,13 @@ TEST_SUITE(WaitGroup) {
 
     wg.Add(kWorkers);
 
-    Go(scheduler, [&]() {
+    fibers::Go(scheduler, [&]() {
       wg.Wait();
       waiter = true;
     });
 
     for (size_t i = 0; i < kWorkers; ++i) {
-      Go(scheduler, [&]() {
+      fibers::Go(scheduler, [&]() {
         wg.Done();
         ++workers;
       });
@@ -44,9 +43,9 @@ TEST_SUITE(WaitGroup) {
   }
 
   SIMPLE_TEST(MultipleWaiters) {
-    ThreadPool scheduler{/*threads=*/4};
+    tp::ThreadPool scheduler{/*threads=*/4};
 
-    WaitGroup wg;
+    fibers::WaitGroup wg;
 
     std::atomic<size_t> workers{0};
     std::atomic<size_t> waiters{0};
@@ -57,14 +56,14 @@ TEST_SUITE(WaitGroup) {
     wg.Add(kWorkers);
 
     for (size_t i = 0; i < kWaiters; ++i) {
-      Go(scheduler, [&]() {
+      fibers::Go(scheduler, [&]() {
         wg.Wait();
         ++waiters;
       });
     }
 
     for (size_t i = 0; i < kWorkers; ++i) {
-      Go(scheduler, [&]() {
+      fibers::Go(scheduler, [&]() {
         wg.Done();
         ++workers;
       });
@@ -79,21 +78,21 @@ TEST_SUITE(WaitGroup) {
   }
 
   SIMPLE_TEST(BlockingWait) {
-    ThreadPool scheduler{/*threads=*/4};
+    tp::ThreadPool scheduler{/*threads=*/4};
 
-    WaitGroup wg;
+    fibers::WaitGroup wg;
     std::atomic<size_t> workers = 0;
 
     wheels::ProcessCPUTimer timer;
 
     wg.Add(1);
 
-    Go(scheduler, [&wg]() {
+    fibers::Go(scheduler, [&wg]() {
       wg.Wait();
     });
 
     for (size_t i = 0; i < 3; ++i) {
-      Go(scheduler, [&]() {
+      fibers::Go(scheduler, [&]() {
         std::this_thread::sleep_for(1s);
         wg.Done();
         ++workers;
