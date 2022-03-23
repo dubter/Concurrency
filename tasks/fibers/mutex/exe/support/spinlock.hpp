@@ -14,6 +14,16 @@ class SpinLock {
     // Not implemented
   }
 
+  // BasicLockable
+
+  void lock() {  // NOLINT
+    Lock();
+  }
+
+  void unlock() {  // NOLINT
+    Unlock();
+  }
+
  private:
   // ???
 };
