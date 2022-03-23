@@ -1,20 +1,39 @@
-#include <mtf/fibers/core/api.hpp>
-#include <mtf/fibers/sync/mutex.hpp>
+#include <exe/tp/thread_pool.hpp>
+#include <exe/fibers/core/api.hpp>
+#include <exe/fibers/sync/mutex.hpp>
+#include <exe/fibers/sync/wait_group.hpp>
 
 #include <iostream>
 
-using mtf::fibers::Spawn;
-using mtf::fibers::Mutex;
+using namespace exe;
 
 int main() {
-  mtf::tp::StaticThreadPool scheduler{/*threads=*/4};
-  Mutex mutex;
+  tp::ThreadPool scheduler{/*threads=*/4};
 
-  Spawn(scheduler, []() {
-    std::cout << "Hello, world!" << std::endl;
+  fibers::Go(scheduler, []() {
+    fibers::WaitGroup wg;
+
+    fibers::Mutex mutex;
+    size_t cs = 0;
+
+    wg.Add(3);
+
+    for (size_t i = 0; i < 3; ++i) {
+      fibers::Go([&]() {
+        for (size_t j = 0; j < 1024; ++j) {
+          std::lock_guard guard(mutex);
+          ++cs;
+        }
+      });
+    }
+
+    wg.Wait();
+
+    std::cout << "# critical sections: " << cs << std::endl;
   });
 
-  scheduler.Join();
+  scheduler.WaitIdle();
+  scheduler.Stop();
 
   return 0;
 }
