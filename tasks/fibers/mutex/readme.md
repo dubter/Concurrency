@@ -26,7 +26,7 @@ void SyncExample() {
   
   fibers::Go(scheduler, []() {
     fibers::Mutex mutex;
-    size_t cs{0};
+    size_t cs = 0;
     
     // https://gobyexample.com/waitgroups
     fibers::WaitGroup wg;
@@ -48,7 +48,7 @@ void SyncExample() {
       });
     }
     
-    // Дожидаемся завершения всех запущенных файберов
+    // Дожидаемся завершения всех запущенных выше файберов
     wg.Wait();
     
     std::cout << cs.load() << std::endl;
