@@ -128,13 +128,17 @@ Awaiter работает с _остановленным_ файбером чер
 
 ## Аллокации
 
-### `FutexLike`
+### `Suspend`
 
-В вашей реализации фьютекса не должно быть динамических аллокаций памяти.
-
-Используйте [`wheels::IntrusiveList`](https://gitlab.com/Lipovsky/wheels/-/tree/master/wheels/intrusive/list.hpp).
+Метод `Yield`, реализованный через `Suspend`, должен обходиться без динамических аллокаций памяти.
 
 Заворачивание лямбды в `std::function` или подобный контейнер с type erasure – тоже динамическая аллокация.
+
+### `FutexLike`
+
+В реализации фьютекса не должно быть динамических аллокаций памяти.
+
+Используйте [`wheels::IntrusiveList`](https://gitlab.com/Lipovsky/wheels/-/tree/master/wheels/intrusive/list.hpp).
 
 ### Планировщик
 
