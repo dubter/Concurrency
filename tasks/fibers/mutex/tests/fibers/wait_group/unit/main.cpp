@@ -12,38 +12,39 @@ using namespace exe;
 
 TEST_SUITE(WaitGroup) {
   SIMPLE_TEST(OneWaiter) {
-    tp::ThreadPool scheduler{/*threads=*/4};
+    tp::ThreadPool scheduler{/*threads=*/5};
 
     fibers::WaitGroup wg;
     std::atomic<size_t> workers{0};
     std::atomic<bool> waiter{false};
 
-    static const size_t kWorkers = 5;
+    static const size_t kWorkers = 3;
 
     wg.Add(kWorkers);
 
     fibers::Go(scheduler, [&]() {
       wg.Wait();
+      ASSERT_EQ(workers.load(), kWorkers);
       waiter = true;
     });
 
     for (size_t i = 0; i < kWorkers; ++i) {
       fibers::Go(scheduler, [&]() {
-        wg.Done();
+        std::this_thread::sleep_for(1s);
         ++workers;
+        wg.Done();
       });
     }
 
     scheduler.WaitIdle();
 
-    ASSERT_EQ(workers, kWorkers);
     ASSERT_TRUE(waiter);
 
     scheduler.Stop();
   }
 
   SIMPLE_TEST(MultipleWaiters) {
-    tp::ThreadPool scheduler{/*threads=*/4};
+    tp::ThreadPool scheduler{/*threads=*/5};
 
     fibers::WaitGroup wg;
 
@@ -51,27 +52,28 @@ TEST_SUITE(WaitGroup) {
     std::atomic<size_t> waiters{0};
 
     static const size_t kWorkers = 5;
-    static const size_t kWaiters = 5;
+    static const size_t kWaiters = 4;
 
     wg.Add(kWorkers);
 
     for (size_t i = 0; i < kWaiters; ++i) {
       fibers::Go(scheduler, [&]() {
         wg.Wait();
+        ASSERT_EQ(workers.load(), kWorkers);
         ++waiters;
       });
     }
 
     for (size_t i = 0; i < kWorkers; ++i) {
       fibers::Go(scheduler, [&]() {
-        wg.Done();
+        std::this_thread::sleep_for(1s);
         ++workers;
+        wg.Done();
       });
     }
 
     scheduler.WaitIdle();
 
-    ASSERT_EQ(workers, kWorkers);
     ASSERT_EQ(waiters, kWaiters);
 
     scheduler.Stop();
@@ -81,27 +83,30 @@ TEST_SUITE(WaitGroup) {
     tp::ThreadPool scheduler{/*threads=*/4};
 
     fibers::WaitGroup wg;
+
     std::atomic<size_t> workers = 0;
 
     wheels::ProcessCPUTimer timer;
 
+    static const size_t kWorkers = 3;
+
     wg.Add(1);
 
-    fibers::Go(scheduler, [&wg]() {
+    fibers::Go(scheduler, [&]() {
       wg.Wait();
+      ASSERT_EQ(workers.load(), kWorkers);
     });
 
-    for (size_t i = 0; i < 3; ++i) {
+    for (size_t i = 0; i < kWorkers; ++i) {
       fibers::Go(scheduler, [&]() {
         std::this_thread::sleep_for(1s);
-        wg.Done();
         ++workers;
+        wg.Done();
       });
     }
 
     scheduler.WaitIdle();
 
-    ASSERT_EQ(workers, 3);
     ASSERT_TRUE(timer.Elapsed() < 100ms);
 
     scheduler.Stop();
