@@ -51,7 +51,7 @@ TEST_SUITE(WaitGroup) {
     std::atomic<size_t> workers{0};
     std::atomic<size_t> waiters{0};
 
-    static const size_t kWorkers = 5;
+    static const size_t kWorkers = 3;
     static const size_t kWaiters = 4;
 
     wg.Add(kWorkers);
