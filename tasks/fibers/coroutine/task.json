@@ -15,7 +15,10 @@
     },
     {
       "targets": ["coroutine_tests"],
-      "profiles": ["Debug"]
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
     },
     {
       "targets": ["fibers_core_tests"],
