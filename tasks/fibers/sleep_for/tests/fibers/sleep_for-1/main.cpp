@@ -113,6 +113,25 @@ TEST_SUITE(SleepFor1) {
     });
   }
 
+  SIMPLE_TEST(Delays) {
+    RunScheduler(/*threads=*/1, []() {
+      for (size_t i = 1; i <= 3; ++i) {
+        fibers::Go([i]() {
+          const auto delay = i * 1s;
+
+          wheels::StopWatch stop_watch;
+          {
+            fibers::self::SleepFor(delay);
+          }
+          auto elapsed = stop_watch.Elapsed();
+
+          ASSERT_TRUE(elapsed >= delay - 128ms);
+          ASSERT_TRUE(elapsed <= delay + 128ms)
+        });
+      }
+    });
+  }
+
   SIMPLE_TEST(Stress) {
     RunScheduler(/*threads=*/1, []() {
       WaitGroup wg;
