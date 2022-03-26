@@ -22,35 +22,39 @@ TEST_SUITE(SleepFor) {
     });
   }
 
-  void StressTest(size_t fibers, size_t sleeps) {
-    RunScheduler(/*threads=*/4, [fibers, sleeps]() {
+  void StressTest1(size_t fibers) {
+    RunScheduler(/*threads=*/4, [fibers]() {
       for (size_t i = 0; i < fibers; ++i) {
-        fibers::Go([i, sleeps]() {
-          for (size_t j = 0; j < sleeps; ++j) {
-            fibers::self::SleepFor(((i + j) % 7) * 1ms);
+        fibers::Go([i]() {
+          size_t j = 0;
+
+          while (wheels::test::KeepRunning()) {
+            fibers::self::SleepFor(((i + j) % 5) * 1ms);
 
             if (j % 11 == 0) {
               fibers::self::Yield();
             }
+
+            ++j;
           }
         });
       }
     });
   }
 
-  SIMPLE_TEST(Stress1) {
-    StressTest(/*fibers=*/5, /*sleeps=*/1024);
+  SIMPLE_TEST(Stress1_1) {
+    StressTest1(/*fibers=*/5);
   }
 
-  SIMPLE_TEST(Stress2) {
-    StressTest(/*fibers=*/2, /*sleeps=*/1024);
+  SIMPLE_TEST(Stress1_2) {
+    StressTest1(/*fibers=*/2);
   }
 
-  SIMPLE_TEST(Stress3) {
-    StressTest(/*fibers=*/10, /*sleeps=*/512);
+  SIMPLE_TEST(Stress1_3) {
+    StressTest1(/*fibers=*/10);
   }
 
-  void StressTestSmallSleeps(size_t fibers) {
+  void StressTest2(size_t fibers) {
     while (wheels::test::KeepRunning()) {
       RunScheduler(/*threads=*/4, [fibers]() {
         for (size_t i = 0; i < fibers; ++i) {
@@ -62,12 +66,12 @@ TEST_SUITE(SleepFor) {
     }
   }
 
-  SIMPLE_TEST(StressSmallSleep1) {
-    StressTestSmallSleeps(/*fibers=*/1);
+  SIMPLE_TEST(Stress_2_1) {
+    StressTest2(/*fibers=*/1);
   }
 
-  SIMPLE_TEST(StressSmallSleep2) {
-    StressTestSmallSleeps(/*fibers=*/2);
+  SIMPLE_TEST(Stress_2_2) {
+    StressTest2(/*fibers=*/2);
   }
 }
 
