@@ -1,4 +1,5 @@
 #include <wheels/test/test_framework.hpp>
+#include <wheels/test/util.hpp>
 
 #include <wheels/support/cpu_time.hpp>
 
@@ -37,18 +38,6 @@ TEST_SUITE(SleepFor) {
     });
   }
 
-  void StressTestSmallSleeps(size_t fibers, size_t experiments) {
-    for (size_t experiment = 0; experiment < experiments; ++experiment) {
-      RunScheduler(/*threads=*/4, [fibers]() {
-        for (size_t i = 0; i < fibers; ++i) {
-          fibers::Go([] {
-            fibers::self::SleepFor(1ms);
-          });
-        }
-      });
-    }
-  }
-
   SIMPLE_TEST(Stress1) {
     StressTest(/*fibers=*/5, /*sleeps=*/1024);
   }
@@ -61,12 +50,24 @@ TEST_SUITE(SleepFor) {
     StressTest(/*fibers=*/10, /*sleeps=*/512);
   }
 
+  void StressTestSmallSleeps(size_t fibers) {
+    while (wheels::test::KeepRunning()) {
+      RunScheduler(/*threads=*/4, [fibers]() {
+        for (size_t i = 0; i < fibers; ++i) {
+          fibers::Go([i] {
+            fibers::self::SleepFor((i % 2) * 1ms);
+          });
+        }
+      });
+    }
+  }
+
   SIMPLE_TEST(StressSmallSleep1) {
-    StressTestSmallSleeps(/*fibers=*/1, /*experiments=*/2048);
+    StressTestSmallSleeps(/*fibers=*/1);
   }
 
   SIMPLE_TEST(StressSmallSleep2) {
-    StressTestSmallSleeps(/*fibers=*/2, /*experiments=*/2048);
+    StressTestSmallSleeps(/*fibers=*/2);
   }
 }
 
