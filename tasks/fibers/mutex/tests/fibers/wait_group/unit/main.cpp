@@ -90,7 +90,7 @@ TEST_SUITE(WaitGroup) {
 
     static const size_t kWorkers = 3;
 
-    wg.Add(1);
+    wg.Add(kWorkers);
 
     fibers::Go(scheduler, [&]() {
       wg.Wait();
