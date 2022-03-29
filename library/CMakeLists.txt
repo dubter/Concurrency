@@ -18,7 +18,7 @@ message(STATUS "FetchContent: wheels")
 FetchContent_Declare(
         wheels
         GIT_REPOSITORY https://gitlab.com/Lipovsky/wheels.git
-        GIT_TAG 43693e7ef6ebc9edda3d68e38550c813275e8a8c
+        GIT_TAG master
 )
 FetchContent_MakeAvailable(wheels)
 
@@ -29,7 +29,7 @@ message(STATUS "FetchContent: context")
 FetchContent_Declare(
         context
         GIT_REPOSITORY https://gitlab.com/Lipovsky/context.git
-        GIT_TAG bd921018925ec84642601e5a6b6b111dfaf8d4e4
+        GIT_TAG f51d01b54a529b445f1be51eae515629ba8c8001
 )
 FetchContent_MakeAvailable(context)
 
