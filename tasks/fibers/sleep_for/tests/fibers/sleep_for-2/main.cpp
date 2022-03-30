@@ -73,6 +73,25 @@ TEST_SUITE(SleepFor) {
   SIMPLE_TEST(Stress_2_2) {
     StressTest2(/*fibers=*/2);
   }
+
+  void NoYieldTest() {
+    asio::io_context scheduler;
+    bool done = false;
+
+    exe::fibers::Go(scheduler, [&done]() {
+        fibers::self::SleepFor(200ms);
+        done = true;
+    });
+
+    auto processed_count = scheduler.run();
+
+    ASSERT_TRUE(processed_count < 10);
+    ASSERT_TRUE(done);
+  }
+
+  SIMPLE_TEST(No_Yield_Test) {
+    NoYieldTest();
+  }
 }
 
 RUN_ALL_TESTS()
