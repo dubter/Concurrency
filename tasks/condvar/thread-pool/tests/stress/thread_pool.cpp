@@ -148,3 +148,36 @@ TEST_SUITE(Join) {
     join::TestCurrent();
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+namespace wait_idle {
+
+void Test(size_t tasks) {
+  tp::ThreadPool tp{1};
+  std::atomic<size_t> tasks_completed{0};
+  for (size_t i = 0; i < tasks; ++i) {
+    tp.Submit([&](){
+      ++tasks_completed;
+    });
+  }
+  tp.WaitIdle();
+  ASSERT_EQ(tasks_completed.load(), tasks);
+  tp.Stop();
+}
+
+}  // namespace wait_idle
+
+TEST_SUITE(WaitIdle) {
+  TWIST_ITERATE_TEST(Correct_1_task, 1s) {
+    wait_idle::Test(1);
+  }
+
+  TWIST_ITERATE_TEST(Correct_2_tasks, 1s) {
+    wait_idle::Test(2);
+  }
+
+  TWIST_ITERATE_TEST(Correct_3_tasks, 1s) {
+    wait_idle::Test(3);
+  }
+}
