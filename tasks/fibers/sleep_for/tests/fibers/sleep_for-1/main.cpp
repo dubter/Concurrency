@@ -44,14 +44,21 @@ TEST_SUITE(SleepFor1) {
     });
   }
 
-  SIMPLE_TEST(CpuTime) {
-    wheels::ThreadCPUTimer timer;
+  SIMPLE_TEST(DoNotYield) {
+    asio::io_context scheduler;
+    bool done = false;
 
-    RunScheduler(/*threads=*/1, []() {
-      fibers::self::SleepFor(2s);
+    exe::fibers::Go(scheduler, [&done]() {
+      fibers::self::SleepFor(200ms);
+      done = true;
     });
 
-    ASSERT_TRUE(timer.Elapsed() < 256ms);
+    auto handlers = scheduler.run();
+
+    std::cout << "Handlers: " << handlers << std::endl;
+
+    ASSERT_TRUE(handlers < 10);
+    ASSERT_TRUE(done);
   }
 
   SIMPLE_TEST(For) {
