@@ -4,11 +4,12 @@
 
 #include <asio.hpp>
 
+#include <atomic>
 #include <vector>
 #include <thread>
 
 template <typename F>
-void RunScheduler(size_t threads, F init) {
+size_t RunScheduler(size_t threads, F init) {
   // I/O scheduler
   asio::io_context scheduler;
 
@@ -25,9 +26,12 @@ void RunScheduler(size_t threads, F init) {
 
   std::vector<std::thread> runners;
 
+  std::atomic<size_t> total_handlers{0};
+
   for (size_t i = 0; i < threads; ++i) {
-    runners.emplace_back([&scheduler]() {
-      scheduler.run();
+    runners.emplace_back([&scheduler, &total_handlers]() {
+      size_t count = scheduler.run();
+      total_handlers.fetch_add(count);
     });
   }
   // Join runners
@@ -36,4 +40,6 @@ void RunScheduler(size_t threads, F init) {
   }
 
   ASSERT_TRUE(done);
+
+  return total_handlers.load();
 }

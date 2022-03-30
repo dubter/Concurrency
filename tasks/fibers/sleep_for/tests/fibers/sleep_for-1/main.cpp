@@ -44,14 +44,13 @@ TEST_SUITE(SleepFor1) {
     });
   }
 
-  SIMPLE_TEST(CpuTime) {
-    wheels::ThreadCPUTimer timer;
-
-    RunScheduler(/*threads=*/1, []() {
+  SIMPLE_TEST(DoNotYield) {
+    size_t handlers = RunScheduler(/*threads=*/1, []() {
       fibers::self::SleepFor(2s);
     });
 
-    ASSERT_TRUE(timer.Elapsed() < 256ms);
+    std::cout << "Handlers = " << handlers << std::endl;
+    ASSERT_TRUE(handlers < 10);
   }
 
   SIMPLE_TEST(For) {
