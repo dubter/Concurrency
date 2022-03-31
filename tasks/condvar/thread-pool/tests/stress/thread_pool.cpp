@@ -4,6 +4,8 @@
 #include <twist/test/runs.hpp>
 #include <twist/test/util/race.hpp>
 
+#include <wheels/test/util.hpp>
+
 #include <twist/stdlike/atomic.hpp>
 
 #include <atomic>
@@ -76,108 +78,109 @@ TWIST_TEST_RUNS(Submits, tasks::Test)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace join {
+namespace wait_idle {
 
-void TestSequential() {
+void TestOneTask() {
   tp::ThreadPool pool{4};
 
-  std::atomic<size_t> tasks{0};
+  while (wheels::test::KeepRunning()) {
+    size_t tasks = 0;
 
-  pool.Submit([&]() {
-    ++tasks;
-  });
-
-  pool.WaitIdle();
-  pool.Stop();
-
-  ASSERT_EQ(tasks.load(), 1);
-}
-
-void TestConcurrent() {
-  tp::ThreadPool pool{2};
-
-  std::atomic<size_t> tasks{0};
-
-  twist::test::util::Race race;
-
-  race.Add([&]() {
     pool.Submit([&]() {
       ++tasks;
     });
-  });
 
-  race.Add([&]() {
     pool.WaitIdle();
-    pool.Stop();
-  });
 
-  race.Run();
+    ASSERT_EQ(tasks, 1);
+  }
 
-  ASSERT_LE(tasks.load(), 1);
+  pool.Stop();
+}
+
+void TestSeries() {
+  tp::ThreadPool pool{1};
+
+  size_t iter = 0;
+
+  while (wheels::test::KeepRunning()) {
+    ++iter;
+    const size_t tasks = 1 + iter % 3;
+
+    size_t tasks_completed = 0;
+    for (size_t i = 0; i < tasks; ++i) {
+      pool.Submit([&](){
+        ++tasks_completed;
+      });
+    }
+
+    pool.WaitIdle();
+
+    ASSERT_EQ(tasks_completed, tasks);
+  }
+
+  pool.Stop();
 }
 
 void TestCurrent() {
   tp::ThreadPool pool{2};
 
-  std::atomic<bool> done{false};
+  while (wheels::test::KeepRunning()) {
+    bool done = false;
 
-  pool.Submit([&]() {
-    tp::Current()->Submit([&]() {
-      done = true;
+    pool.Submit([&]() {
+      tp::ThreadPool::Current()->Submit([&]() {
+        done = true;
+      });
+    });
+
+    pool.WaitIdle();
+
+    ASSERT_TRUE(done);
+  }
+
+  pool.Stop();
+}
+
+void TestConcurrent() {
+  tp::ThreadPool pool{2};
+
+  size_t tasks = 0;
+
+  twist::stdlike::thread t1([&]() {
+    pool.Submit([&]() {
+      ++tasks;
     });
   });
 
-  pool.WaitIdle();
+  twist::stdlike::thread t2([&]() {
+    pool.WaitIdle();
+  });
+
+  t1.join();
+  t2.join();
+
+  ASSERT_TRUE(tasks <= 1);
+
   pool.Stop();
-
-  ASSERT_TRUE(done.load());
-}
-
-}  // namespace join
-
-TEST_SUITE(Join) {
-  TWIST_ITERATE_TEST(Sequential, 5s) {
-    join::TestSequential();
-  }
-
-  TWIST_ITERATE_TEST(Concurrent, 5s) {
-    join::TestConcurrent();
-  }
-
-  TWIST_ITERATE_TEST(Current, 5s) {
-    join::TestCurrent();
-  }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace wait_idle {
-
-void Test(size_t tasks) {
-  tp::ThreadPool tp{1};
-  std::atomic<size_t> tasks_completed{0};
-  for (size_t i = 0; i < tasks; ++i) {
-    tp.Submit([&](){
-      ++tasks_completed;
-    });
-  }
-  tp.WaitIdle();
-  ASSERT_EQ(tasks_completed.load(), tasks);
-  tp.Stop();
 }
 
 }  // namespace wait_idle
 
 TEST_SUITE(WaitIdle) {
-  TWIST_ITERATE_TEST(Correct_1_task, 1s) {
-    wait_idle::Test(1);
+  TWIST_TEST_TL(OneTask, 5s) {
+    wait_idle::TestOneTask();
   }
 
-  TWIST_ITERATE_TEST(Correct_2_tasks, 1s) {
-    wait_idle::Test(2);
+  TWIST_TEST_TL(Series, 5s) {
+    wait_idle::TestSeries();
   }
 
-  TWIST_ITERATE_TEST(Correct_3_tasks, 1s) {
-    wait_idle::Test(3);
+  TWIST_TEST_TL(Current, 5s) {
+    wait_idle::TestCurrent();
+  }
+
+  TWIST_ITERATE_TEST(Concurrent, 5s) {
+    wait_idle::TestConcurrent();
   }
 }
