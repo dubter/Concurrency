@@ -54,6 +54,9 @@ void SyncExample() {
     std::cout << cs << std::endl;
     // <-- Напечатано 123 * 1024
   });
+  
+  scheduler.WaitIdle();
+  scheduler.Stop();
 }
 ```
 
