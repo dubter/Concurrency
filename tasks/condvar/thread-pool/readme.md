@@ -142,9 +142,9 @@ pool.WaitIdle();
 
 ### `WaitIdle`
 
-Посмотрите на [Go by Example: WaitGroups](https://gobyexample.com/waitgroups), возможно вам будет полезен подобный примитив.
-
 Методы `WaitIdle` и `Stop` должны быть ортогональны друг другу.
+
+Изучите [Go by Example: WaitGroups](https://gobyexample.com/waitgroups), вам пригодится подобный примитив.
 
 ### Деструктор
 
