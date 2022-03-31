@@ -51,7 +51,7 @@ void SyncExample() {
     // Дожидаемся завершения всех запущенных выше файберов
     wg.Wait();
     
-    std::cout << cs.load() << std::endl;
+    std::cout << cs << std::endl;
     // <-- Напечатано 123 * 1024
   });
 }
