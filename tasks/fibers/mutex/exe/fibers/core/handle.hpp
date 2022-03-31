@@ -20,11 +20,11 @@ class FiberHandle {
     return fiber_ != nullptr;
   }
 
-  // Resume asynchronously in associated scheduler
-  void Resume();
+  // Schedule to an associated scheduler
+  void Schedule();
 
-  // Resume synchronously in the current thread
-  void ResumeHere();
+  // Resume immediately in the current thread
+  void Resume();
 
  private:
   explicit FiberHandle(Fiber* fiber) : fiber_(fiber) {

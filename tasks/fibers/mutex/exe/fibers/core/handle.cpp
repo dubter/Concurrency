@@ -13,11 +13,11 @@ Fiber* FiberHandle::Release() {
   return std::exchange(fiber_, nullptr);
 }
 
-void FiberHandle::Resume() {
-  // Not implemented
+void FiberHandle::Schedule() {
+  Release()->Schedule();
 }
 
-void FiberHandle::ResumeHere() {
+void FiberHandle::Resume() {
   // Not implemented
 }
 
