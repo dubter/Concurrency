@@ -14,7 +14,7 @@ using namespace std::chrono_literals;
 
 //////////////////////////////////////////////////////////////////////
 
-void StressTest(size_t workers, size_t waiters) {
+void StressTest1(size_t workers, size_t waiters) {
   tp::ThreadPool scheduler{/*threads=*/4};
 
   while (wheels::test::KeepRunning()) {
@@ -54,17 +54,93 @@ void StressTest(size_t workers, size_t waiters) {
 
 //////////////////////////////////////////////////////////////////////
 
+class Goer {
+ public:
+  explicit Goer(fibers::WaitGroup& wg)
+  : wg_(wg) {
+  }
+
+  void Start(size_t steps) {
+    steps_left_ = steps;
+    Step();
+  }
+
+  size_t Steps() const {
+    return steps_made_;
+  }
+
+ private:
+  void Step() {
+    if (steps_left_ == 0) {
+      return;
+    }
+
+    ++steps_made_;
+    --steps_left_;
+
+    wg_.Add(1);
+    fibers::Go([this]() {
+      Step();
+      wg_.Done();
+    });
+  }
+
+ private:
+  fibers::WaitGroup& wg_;
+  size_t steps_left_;
+  size_t steps_made_ = 0;
+};
+
+void StressTest2() {
+  tp::ThreadPool scheduler{/*threads=*/4};
+
+  size_t iter = 0;
+
+  while (wheels::test::KeepRunning()) {
+    ++iter;
+
+    bool done = false;
+
+    fibers::Go(scheduler, [&done, iter]() {
+      const size_t steps = 1 + iter % 3;
+
+      fibers::WaitGroup wg;
+
+      Goer goer{wg};
+      goer.Start(steps);
+
+      wg.Wait();
+
+      ASSERT_EQ(goer.Steps(), steps);
+
+      done = true;
+    });
+
+    scheduler.WaitIdle();
+
+    ASSERT_TRUE(done);
+  }
+
+  scheduler.Stop();
+}
+
+//////////////////////////////////////////////////////////////////////
+
 TEST_SUITE(WaitGroup) {
-  TWIST_TEST_TL(Stress_1, 5s) {
-    StressTest(/*workers=*/1, /*waiters=*/1);
+  TWIST_TEST_TL(Stress_1_1, 5s) {
+    StressTest1(/*workers=*/1, /*waiters=*/1);
+  }
+
+  TWIST_TEST_TL(Stress_1_2, 5s) {
+    StressTest1(/*workers=*/2, /*waiters=*/2);
+  }
+
+  TWIST_TEST_TL(Stress_1_3, 5s) {
+    StressTest1(/*workers=*/3, /*waiters=*/1);
   }
 
   TWIST_TEST_TL(Stress_2, 5s) {
-    StressTest(/*workers=*/2, /*waiters=*/2);
-  }
-
-  TWIST_TEST_TL(Stress_3, 5s) {
-    StressTest(/*workers=*/3, /*waiters=*/1);
+    StressTest2();
   }
 }
 
