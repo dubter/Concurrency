@@ -7,6 +7,7 @@
 #include <wheels/test/util.hpp>
 
 #include <twist/stdlike/atomic.hpp>
+#include <twist/stdlike/thread.hpp>
 
 #include <atomic>
 
@@ -145,7 +146,7 @@ void TestCurrent() {
 void TestConcurrent() {
   tp::ThreadPool pool{2};
 
-  size_t tasks = 0;
+  std::atomic<size_t> tasks = 0;
 
   twist::stdlike::thread t1([&]() {
     pool.Submit([&]() {

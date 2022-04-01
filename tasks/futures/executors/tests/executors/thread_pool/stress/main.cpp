@@ -153,7 +153,7 @@ void TestCurrent() {
 void TestConcurrent() {
   ThreadPool pool{2};
 
-  size_t tasks = 0;
+  std::atomic<size_t> tasks = 0;
 
   twist::stdlike::thread t1([&]() {
     Execute(pool, [&]() {

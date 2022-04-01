@@ -9,6 +9,7 @@
 #include <twist/test/util/race.hpp>
 
 #include <twist/stdlike/atomic.hpp>
+#include <twist/stdlike/thread.hpp>
 
 #include <atomic>
 
@@ -152,7 +153,7 @@ void TestCurrent() {
 void TestConcurrent() {
   ThreadPool pool{2};
 
-  size_t tasks = 0;
+  std::atomic<size_t> tasks = 0;
 
   twist::stdlike::thread t1([&]() {
     Submit(pool, [&]() {
