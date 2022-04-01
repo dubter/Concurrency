@@ -20,8 +20,8 @@ void StressTest(size_t workers, size_t waiters) {
   while (wheels::test::KeepRunning()) {
     fibers::WaitGroup wg;
 
-    // Number of completed waiters
-    std::atomic<size_t> oks{0};
+    std::atomic<size_t> waiters_done{0};
+    std::atomic<size_t> workers_done{0};
 
     wg.Add(workers);
 
@@ -30,7 +30,7 @@ void StressTest(size_t workers, size_t waiters) {
     for (size_t i = 0; i < waiters; ++i) {
       fibers::Go(scheduler, [&]() {
         wg.Wait();
-        ++oks;
+        waiters_done.fetch_add(1);
       });
     }
 
@@ -38,13 +38,15 @@ void StressTest(size_t workers, size_t waiters) {
 
     for (size_t j = 0; j < workers; ++j) {
       fibers::Go(scheduler, [&]() {
+        workers_done.fetch_add(1);
         wg.Done();
       });
     }
 
     scheduler.WaitIdle();
 
-    ASSERT_EQ(oks, waiters);
+    ASSERT_EQ(waiters_done.load(), waiters);
+    ASSERT_EQ(workers_done.load(), workers);
   }
 
   scheduler.Stop();
