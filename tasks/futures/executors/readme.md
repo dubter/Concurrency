@@ -263,7 +263,7 @@ void StrandExample() {
 1) Перенесите в [`ThreadPool`](exe/executors/tp/thread_pool.hpp) реализацию пула потоков
 2) Реализуйте [`ManualExecutor`](exe/executors/manual.hpp)
 3) Реализуйте [`Strand`](exe/executors/strand.hpp) используя взаимное исключение
-4) Реализуйте `Strand` через лок-фри очередь 
+4) Реализуйте [`Strand`](exe/executors/strand.hpp) через лок-фри очередь 
 
 
 ## Реализация
