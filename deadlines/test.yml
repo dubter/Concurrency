@@ -71,3 +71,10 @@
   tasks:
     - task: fibers/mutex
       score: 500
+
+- group:    Futures / Part I
+  start:    01-01-2021 12:00
+  deadline: 01-01-2025 23:59
+  tasks:
+    - task: futures/executors
+      score: 400
