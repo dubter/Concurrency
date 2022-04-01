@@ -2,8 +2,9 @@
 
 #include <wheels/support/function.hpp>
 
-namespace await::executors {
+namespace exe::executors {
 
+// Intrusive task?
 using Task = wheels::UniqueFunction<void()>;
 
-}  // namespace await::executors
+}  // namespace exe::executors
