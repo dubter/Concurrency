@@ -24,6 +24,7 @@ int main() {
           std::lock_guard guard(mutex);
           ++cs;
         }
+        wg.Done();
       });
     }
 
