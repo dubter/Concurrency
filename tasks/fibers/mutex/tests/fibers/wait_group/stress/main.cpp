@@ -104,12 +104,16 @@ void StressTest2() {
     fibers::Go(scheduler, [&done, iter]() {
       const size_t steps = 1 + iter % 3;
 
-      fibers::WaitGroup wg;
+      // Размещаем wg на куче, но только для того, чтобы
+      // AddressSanitizer мог обнаружить ошибку
+      // Можно считать, что wg находится на стеке
+      auto wg = std::make_unique<fibers::WaitGroup>();
+      //fibers::WaitGroup wg;
 
-      Goer goer{wg};
+      Goer goer{*wg};
       goer.Start(steps);
 
-      wg.Wait();
+      wg->Wait();
 
       ASSERT_EQ(goer.Steps(), steps);
 
