@@ -29,7 +29,7 @@ message(STATUS "FetchContent: context")
 FetchContent_Declare(
         context
         GIT_REPOSITORY https://gitlab.com/Lipovsky/context.git
-        GIT_TAG f51d01b54a529b445f1be51eae515629ba8c8001
+        GIT_TAG 28cd099628152d8fa66300e2b77c7b94a4fe743d
 )
 FetchContent_MakeAvailable(context)
 
@@ -40,7 +40,7 @@ message(STATUS "FetchContent: twist")
 FetchContent_Declare(
         twist
         GIT_REPOSITORY https://gitlab.com/Lipovsky/twist.git
-        GIT_TAG 186a1fa4e8733e8466a2f58f10e7b6ec6762d5ff
+        GIT_TAG 16c00a6dbc96a351e2482af7377e64bd480144b0
 )
 FetchContent_MakeAvailable(twist)
 
