@@ -136,7 +136,7 @@ void SemaphoreStressTest(size_t permits, size_t fibers) {
 
 //////////////////////////////////////////////////////////////////////
 
-TEST_SUITE(Mutex) {
+TEST_SUITE(CondVar) {
   TWIST_TEST_TL(EventStress, 5s) {
     EventStressTest();
   }
