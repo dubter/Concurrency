@@ -34,7 +34,7 @@
 
 Вместо `std::this_thread::yield` необходимо использовать `twist::stdlike::this_thread::yield` из заголовочного файла `<twist/stdlike/thread.hpp>`.
 
-А еще лучше использовать `twist::stdlike::SpinWait` из заголовочного файла `<twist/util/spin_wait.hpp>`.
+А еще лучше использовать `twist::util::SpinWait` из заголовочного файла `<twist/util/spin_wait.hpp>`.
 
 ### `SpinWait`
 
@@ -47,7 +47,7 @@ SpinLock::Lock() {
   // Одноразовый!
   // Для каждого нового цикла ожидания в каждом потоке 
   // нужно заводить новый экземпляр SpinWait
-  SpinWait spin_wait;
+  twist::util::SpinWait spin_wait;
   while (locked_.exchange(1) == 1) {
     spin_wait();  // <- backoff
   }
