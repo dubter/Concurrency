@@ -91,15 +91,23 @@ endfunction()
 
 # --------------------------------------------------------------------
 
+# Custom target
+
+function(add_task_dir_target NAME DIR_NAME)
+    get_task_target(TARGET_NAME ${NAME})
+
+    set(TARGET_DIR "${TASK_DIR}/${DIR_NAME}")
+    file(GLOB_RECURSE TARGET_CXX_SOURCES ${TARGET_DIR}/*.cpp)
+
+    add_task_executable(${TARGET_NAME} ${TARGET_CXX_SOURCES})
+endfunction()
+
+# --------------------------------------------------------------------
+
 # Playground
 
 function(add_playground DIR_NAME)
-    get_task_target(PLAY_NAME "playground")
-
-    set(PLAY_DIR "${TASK_DIR}/${DIR_NAME}")
-    file(GLOB_RECURSE PLAY_CXX_SOURCES ${PLAY_DIR}/*.cpp)
-
-    add_task_executable(${PLAY_NAME} ${PLAY_CXX_SOURCES})
+    add_task_dir_target(playground ${DIR_NAME})
 endfunction()
 
 # --------------------------------------------------------------------
