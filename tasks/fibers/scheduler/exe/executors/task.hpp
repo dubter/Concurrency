@@ -12,8 +12,6 @@ struct ITask {
 };
 
 // Intrusive task
-struct TaskBase : ITask,
-                  wheels::IntrusiveForwardListNode<TaskBase> {
-};
+struct TaskBase : ITask, wheels::IntrusiveForwardListNode<TaskBase> {};
 
 }  // namespace exe::executors

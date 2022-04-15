@@ -7,7 +7,7 @@
 namespace exe::executors::ftp {
 
 Worker::Worker(FastThreadPool& host, size_t index)
-  : host_(host), index_(index) {
+    : host_(host), index_(index) {
 }
 
 void Worker::Start() {

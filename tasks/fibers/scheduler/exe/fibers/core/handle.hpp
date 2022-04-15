@@ -8,6 +8,7 @@ class Fiber;
 
 class FiberHandle {
   friend class Fiber;
+
  public:
   FiberHandle() : FiberHandle(nullptr) {
   }
