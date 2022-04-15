@@ -25,6 +25,10 @@ void FastThreadPool::Stop() {
   // Not implemented
 }
 
+PoolMetrics FastThreadPool::Metrics() const {
+  std::abort();  // Not implemented
+}
+
 FastThreadPool* FastThreadPool::Current() {
   return nullptr;  // Not implemented
   // Use Worker::Current()

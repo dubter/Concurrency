@@ -34,6 +34,9 @@ class FastThreadPool : public IExecutor {
 
   void Stop();
 
+  // After Stop
+  PoolMetrics Metrics() const;
+
   static FastThreadPool* Current();
 
  private:
