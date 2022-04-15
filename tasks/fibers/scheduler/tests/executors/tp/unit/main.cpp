@@ -60,17 +60,6 @@ TEST_SUITE(ThreadPool) {
     pool.Stop();
   }
 
-  SIMPLE_TEST(Exceptions) {
-    ThreadPool pool{1};
-
-    Execute(pool, []() {
-      throw std::runtime_error("Task failed");
-    });
-
-    pool.WaitIdle();
-    pool.Stop();
-  }
-
   SIMPLE_TEST(ManyTasks) {
     ThreadPool pool{4};
 
