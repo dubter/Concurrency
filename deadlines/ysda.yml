@@ -73,3 +73,12 @@
   tasks:
     - task: futures/executors
       score: 400
+
+- group:    Fibers / Part IV
+  start:    15-04-2022 12:00
+  deadline: 03-05-2022 23:59
+  tasks:
+    - task: lockfree/steal
+      score: 200
+    - task: fibers/scheduler
+      score: 600
