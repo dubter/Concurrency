@@ -4,9 +4,36 @@
 
 using lockfree::WorkStealingQueue;
 
+//////////////////////////////////////////////////////////////////////
+
 struct TestObject {
   int data;
 };
+
+class TestObjectMaker {
+ public:
+  TestObjectMaker() {
+    PrepareNext();
+  }
+
+  ~TestObjectMaker() {
+    delete next_;
+  }
+
+  TestObject* Get() {
+    return next_;
+  }
+
+  void PrepareNext() {
+    next_ = new TestObject{next_value_++};
+  }
+
+ private:
+  int next_value_ = 0;
+  TestObject* next_;
+};
+
+//////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(WorkStealingQueue) {
 
@@ -126,15 +153,16 @@ TEST_SUITE(WorkStealingQueue) {
     int produced_cs = 0;
     int consumed_cs = 0;
 
-    int next_value = 0;
+    TestObjectMaker maker;
 
     TestObject* buffer[15];
 
     for (size_t i = 0; i < 100; ++i) {
       for (size_t j = 0; j < 10; ++j) {
-        if (q.TryPush(new TestObject{next_value})) {
-          produced_cs += next_value;
-          ++next_value;
+        TestObject* obj = maker.Get();
+        if (q.TryPush(obj)) {
+          produced_cs += obj->data;
+          maker.PrepareNext();
         }
       }
 

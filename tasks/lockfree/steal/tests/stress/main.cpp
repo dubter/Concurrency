@@ -16,12 +16,29 @@
 
 struct TestObject {
   size_t value;
+};
 
-  static TestObject* New() {
-    static std::atomic<size_t> next_{0};
-
-    return new TestObject{next_.fetch_add(1)};
+class TestObjectMaker {
+ public:
+  TestObjectMaker() {
+    PrepareNext();
   }
+
+  ~TestObjectMaker() {
+    delete next_;
+  }
+
+  TestObject* Get() {
+    return next_;
+  }
+
+  void PrepareNext() {
+    next_ = new TestObject{next_value_++};
+  }
+
+ private:
+  size_t next_value_ = 0;
+  TestObject* next_;
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -45,17 +62,21 @@ void StressTest() {
 
       size_t random = i;  // Seed
 
-      TestObject* obj_to_push = TestObject::New();
+      TestObjectMaker obj_maker;
 
       for (size_t iter = 0; wheels::test::KeepRunning(); ++iter) {
         // TryPush
 
-        size_t curr_value = obj_to_push->value;
+        {
+          TestObject* obj_to_push = obj_maker.Get();
+          size_t obj_value = obj_to_push->value;
 
-        if (queues_[i]->TryPush(obj_to_push)) {
-          obj_to_push = TestObject::New();
-          random += curr_value;
-          produced_cs.fetch_add(curr_value);
+          if (queues_[i]->TryPush(obj_to_push)) {
+            random += obj_value;
+            produced_cs.fetch_add(obj_value);
+
+            obj_maker.PrepareNext();
+          }
         }
 
         // Grab
