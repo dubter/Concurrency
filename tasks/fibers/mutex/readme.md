@@ -120,11 +120,13 @@ API:
 
 Эту стратегию мы назовем _Awaiter_.
 
+_Awaiter_ решает когда именно остановленный файбер должен запуститься.
+
 [Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await)
 
 ### `FiberHandle`
 
-Awaiter работает с _остановленным_ файбером через [`FiberHandle`](exe/fibers/core/handle.hpp).
+Awaiter работает с _остановленным_ файбером не напрямую, а через объект [`FiberHandle`](exe/fibers/core/handle.hpp).
 
 Непрозрачный `FiberHandle` позволит избавиться в реализации `FutexLike` от непосредственного доступа к объекту `Fiber`, скрыть его от пользователя.
 
