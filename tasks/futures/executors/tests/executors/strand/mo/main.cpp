@@ -1,4 +1,4 @@
-#include <exe/executors/tp/thread_pool.hpp>
+#include <exe/executors/thread_pool.hpp>
 #include <exe/executors/strand.hpp>
 #include <exe/executors/execute.hpp>
 
@@ -46,9 +46,11 @@ void ScheduleExecuteRace() {
     });
 
     barrier.PassThrough();
+
     Execute(strand, [&done] {
       ++done;
     });
+
     pool.WaitIdle();
 
     ASSERT_EQ(done, 2);
@@ -57,8 +59,8 @@ void ScheduleExecuteRace() {
 
 //////////////////////////////////////////////////////////////////////
 
-TEST_SUITE(Strand) {
-  TWIST_TEST_TL(ScheduleRace, 5s) {
+TEST_SUITE(StrandMemoryOrderings) {
+  TWIST_TEST_TL(ScheduleExecuteRace, 5s) {
     ScheduleExecuteRace();
   }
 }

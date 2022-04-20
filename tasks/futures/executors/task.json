@@ -40,9 +40,9 @@
       ]
     },
     {
-      "targets": ["strand_racy_tests"],
+      "targets": ["strand_mo_tests"],
       "profiles": [
-        "Release",
+        "Release"
       ]
     }
   ],
