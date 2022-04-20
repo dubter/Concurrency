@@ -38,6 +38,12 @@
         "FaultyThreadsASan",
         "FaultyThreadsTSan"
       ]
+    },
+    {
+      "targets": ["strand_racy_tests"],
+      "profiles": [
+        "Release",
+      ]
     }
   ],
   "lint_files": ["exe"],

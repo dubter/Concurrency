@@ -18,5 +18,6 @@ add_task_test_dir(tests/executors/manual/unit manual_unit_tests)
 # Strand
 add_task_test_dir(tests/executors/strand/unit strand_unit_tests)
 add_task_test_dir(tests/executors/strand/stress strand_stress_tests)
+add_task_test_dir(tests/executors/strand/racy strand_racy_tests)
 
 end_task()
