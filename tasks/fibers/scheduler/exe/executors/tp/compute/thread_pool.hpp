@@ -4,9 +4,10 @@
 
 #include <cstdlib>
 
-namespace exe::executors {
+namespace exe::executors::tp::compute {
 
-// Fixed-size pool of worker threads
+// Thread pool for independent CPU-bound tasks
+// Fixed pool of worker threads + shared unbounded blocking queue
 
 class ThreadPool : public IExecutor {
  public:
@@ -30,4 +31,4 @@ class ThreadPool : public IExecutor {
   // Worker threads, task queue, etc
 };
 
-}  // namespace exe::executors
+}  // namespace exe::executors::tp::compute

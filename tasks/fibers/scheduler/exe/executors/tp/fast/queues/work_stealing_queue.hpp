@@ -5,7 +5,7 @@
 #include <array>
 #include <span>
 
-namespace exe::executors::ftp {
+namespace exe::executors::tp::fast {
 
 // Single producer / multiple consumers bounded queue
 // for local tasks
@@ -46,4 +46,4 @@ class WorkStealingQueue {
   std::array<Slot, Capacity> buffer_;
 };
 
-}  // namespace exe::executors::ftp
+}  // namespace exe::executors::tp::fast

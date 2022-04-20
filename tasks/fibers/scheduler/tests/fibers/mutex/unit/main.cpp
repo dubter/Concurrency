@@ -1,6 +1,6 @@
 #include <wheels/test/test_framework.hpp>
 
-#include <exe/executors/ftp/thread_pool.hpp>
+#include <exe/executors/tp/fast/thread_pool.hpp>
 #include <exe/fibers/sync/mutex.hpp>
 
 #include <wheels/support/cpu_time.hpp>
@@ -9,7 +9,7 @@
 #include <chrono>
 #include <thread>
 
-using ThreadPool = exe::executors::ftp::FastThreadPool;
+using exe::executors::tp::fast::ThreadPool;
 using namespace exe::fibers;
 using namespace std::chrono_literals;
 

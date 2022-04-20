@@ -1,5 +1,5 @@
-#include <exe/executors/tp/thread_pool.hpp>
-#include <exe/executors/ftp/thread_pool.hpp>
+#include <exe/executors/tp/compute/thread_pool.hpp>
+#include <exe/executors/tp/fast/thread_pool.hpp>
 
 #include <exe/fibers/core/api.hpp>
 #include <exe/fibers/sync/mutex.hpp>
@@ -51,14 +51,14 @@ void WorkLoadMutex() {
 
 //////////////////////////////////////////////////////////////////////
 
-void PrintMetrics(executors::ftp::PoolMetrics /*metrics*/) {
+void PrintMetrics(executors::tp::fast::PoolMetrics /*metrics*/) {
   std::cout << "No metrics collected =(" << std::endl;
 }
 
 void WorkLoad() {
   wheels::StopWatch sw;
 
-  using Scheduler = executors::ftp::FastThreadPool;
+  using Scheduler = executors::tp::fast::ThreadPool;
 
   Scheduler scheduler{4};
 

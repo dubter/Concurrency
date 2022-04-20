@@ -2,7 +2,7 @@
 
 #include <twist/stdlike/atomic.hpp>
 
-namespace exe::executors::ftp {
+namespace exe::executors::tp::fast {
 
 // Coordinates workers (stealing, parking)
 
@@ -17,4 +17,4 @@ class Coordinator {
   // ???
 };
 
-}  // namespace exe::executors::ftp
+}  // namespace exe::executors::tp::fast

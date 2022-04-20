@@ -1,4 +1,4 @@
-#include <exe/executors/ftp/thread_pool.hpp>
+#include <exe/executors/tp/compute/thread_pool.hpp>
 #include <exe/executors/execute.hpp>
 
 #include <wheels/test/test_framework.hpp>
@@ -9,12 +9,12 @@
 #include <chrono>
 #include <thread>
 
-using ThreadPool = exe::executors::ftp::FastThreadPool;
+using exe::executors::tp::compute::ThreadPool;
 using exe::executors::Execute;
 
 using namespace std::chrono_literals;
 
-TEST_SUITE(FastThreadPool) {
+TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(JustWorks) {
     ThreadPool pool{4};
 
@@ -57,17 +57,6 @@ TEST_SUITE(FastThreadPool) {
       ASSERT_TRUE(done);
     }
 
-    pool.Stop();
-  }
-
-  SIMPLE_TEST(Exceptions) {
-    ThreadPool pool{1};
-
-    Execute(pool, []() {
-      throw std::runtime_error("Task failed");
-    });
-
-    pool.WaitIdle();
     pool.Stop();
   }
 

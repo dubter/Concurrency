@@ -2,8 +2,8 @@
 
 #include <exe/executors/task.hpp>
 
-#include <exe/executors/ftp/metrics.hpp>
-#include <exe/executors/ftp/queues/work_stealing_queue.hpp>
+#include <exe/executors/tp/fast/metrics.hpp>
+#include <exe/executors/tp/fast/queues/work_stealing_queue.hpp>
 
 #include <twist/stdlike/atomic.hpp>
 #include <twist/stdlike/thread.hpp>
@@ -13,16 +13,16 @@
 #include <random>
 #include <span>
 
-namespace exe::executors::ftp {
+namespace exe::executors::tp::fast {
 
-class FastThreadPool;
+class ThreadPool;
 
 class Worker {
  private:
   static const size_t kLocalQueueCapacity = 256;
 
  public:
-  Worker(FastThreadPool& host, size_t index);
+  Worker(ThreadPool& host, size_t index);
 
   void Start();
   void Join();
@@ -43,7 +43,7 @@ class Worker {
     return metrics_;
   }
 
-  FastThreadPool& Host() const {
+  ThreadPool& Host() const {
     return host_;
   }
 
@@ -62,7 +62,7 @@ class Worker {
   void Work();
 
  private:
-  FastThreadPool& host_;
+  ThreadPool& host_;
   const size_t index_;
 
   // Worker thread
@@ -83,4 +83,4 @@ class Worker {
   WorkerMetrics metrics_;
 };
 
-}  // namespace exe::executors::ftp
+}  // namespace exe::executors::tp::fast

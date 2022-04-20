@@ -1,8 +1,8 @@
-#include <exe/executors/tp/thread_pool.hpp>
+#include <exe/executors/tp/compute/thread_pool.hpp>
 
 #include <twist/util/thread_local.hpp>
 
-namespace exe::executors {
+namespace exe::executors::tp::compute {
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,4 +34,4 @@ ThreadPool* ThreadPool::Current() {
   return pool;
 }
 
-}  // namespace exe::executors
+}  // namespace exe::executors::tp::compute

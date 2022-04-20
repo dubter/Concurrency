@@ -1,4 +1,4 @@
-#include <exe/executors/ftp/thread_pool.hpp>
+#include <exe/executors/tp/fast/thread_pool.hpp>
 #include <exe/executors/execute.hpp>
 
 #include <wheels/test/test_framework.hpp>
@@ -15,7 +15,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using ThreadPool = exe::executors::ftp::FastThreadPool;
+using exe::executors::tp::fast::ThreadPool;
 using exe::executors::Execute;
 
 ////////////////////////////////////////////////////////////////////////////////

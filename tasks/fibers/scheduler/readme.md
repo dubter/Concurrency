@@ -8,7 +8,7 @@
 
 ----
 
-В этой задаче вы должны реализовать [масштабируемый планировщик](exe/executors/ftp) для файберов.
+В этой задаче вы должны реализовать [масштабируемый планировщик](exe/executors/tp/fast) для файберов.
 
 Масштабируемость означает, что с ростом числа ядер планировщик должен выполнять пропорционально больше задач в единицу времени.
 
@@ -110,7 +110,7 @@
 
 ### Локальная очередь
 
-[`WorkStealingQueue`](exe/executors/ftp/queues/work_stealing_queue.hpp)
+[`WorkStealingQueue`](exe/executors/tp/fast/queues/work_stealing_queue.hpp)
 
 Локальная очередь задач представляет собой лок-фри циклический буфер фиксированного размера.
 
@@ -121,7 +121,7 @@
 
 ### Глобальная очередь
 
-[`GlobalQueue`](exe/executors/ftp/queues/global_queue.hpp)
+[`GlobalQueue`](exe/executors/tp/fast/queues/global_queue.hpp)
 
 Глобальная очередь служит для балансировки нагрузки между воркерами.
 
@@ -167,7 +167,7 @@
 
 Изучите [реализацию](https://github.com/tokio-rs/tokio/blob/master/tokio/src/runtime/thread_pool/idle.rs) этого механизма в планировщике [Tokio](https://github.com/tokio-rs/tokio).
 
-Используйте аналогичную двухфазную парковку, реализуйте ее через класс [`Coordinator`](exe/executors/ftp/coordinator.hpp). 
+Используйте аналогичную двухфазную парковку, реализуйте ее через класс [`Coordinator`](exe/executors/tp/fast/coordinator.hpp). 
 
 Повторная проверка очередей на пустоту после анонса парковки – метод `TryPickTaskBeforePark`.
 
@@ -181,7 +181,7 @@
 
 ### Метрики
 
-Собирайте [метрики](exe/executors/ftp/metrics.hpp), например:
+Собирайте [метрики](exe/executors/tp/fast/metrics.hpp), например:
 
 - Сколько задач было запущено через LIFO-слот / локальную очередь / глобальную очередь
 - Сколько раз воркеры воровали задачи, выгружали задачи в глобальную очередь, забирали задачи из глобальной очереди 

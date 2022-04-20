@@ -1,12 +1,11 @@
-#include <exe/executors/ftp/worker.hpp>
-
-#include <exe/executors/ftp/thread_pool.hpp>
+#include <exe/executors/tp/fast/worker.hpp>
+#include <exe/executors/tp/fast/thread_pool.hpp>
 
 #include <twist/util/thread_local.hpp>
 
-namespace exe::executors::ftp {
+namespace exe::executors::tp::fast {
 
-Worker::Worker(FastThreadPool& host, size_t index)
+Worker::Worker(ThreadPool& host, size_t index)
     : host_(host), index_(index) {
 }
 
@@ -46,4 +45,4 @@ void Worker::Work() {
   }
 }
 
-}  // namespace exe::executors::ftp
+}  // namespace exe::executors::tp::fast

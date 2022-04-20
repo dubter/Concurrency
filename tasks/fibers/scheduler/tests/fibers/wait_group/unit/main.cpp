@@ -1,6 +1,6 @@
 #include <wheels/test/test_framework.hpp>
 
-#include <exe/executors/ftp/thread_pool.hpp>
+#include <exe/executors/tp/fast/thread_pool.hpp>
 #include <exe/fibers/sync/wait_group.hpp>
 
 #include <wheels/support/cpu_time.hpp>
@@ -10,7 +10,7 @@
 
 using namespace exe;
 
-using ThreadPool = exe::executors::ftp::FastThreadPool;
+using exe::executors::tp::fast::ThreadPool;
 
 TEST_SUITE(WaitGroup) {
   SIMPLE_TEST(OneWaiter) {

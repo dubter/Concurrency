@@ -1,14 +1,14 @@
 {
   "tests": [
     {
-      "targets": ["tp_unit_tests"],
+      "targets": ["tp_compute_unit_tests"],
       "profiles": [
         "Debug",
         "DebugASan"
       ]
     },
     {
-      "targets": ["tp_stress_tests"],
+      "targets": ["tp_compute_stress_tests"],
       "profiles": [
         "Debug",
         "FaultyFibers",
@@ -17,14 +17,14 @@
       ]
     },
     {
-      "targets": ["ftp_unit_tests"],
+      "targets": ["tp_fast_unit_tests"],
       "profiles": [
         "Debug",
         "DebugASan"
       ]
     },
     {
-      "targets": ["ftp_stress_tests"],
+      "targets": ["tp_fast_stress_tests"],
       "profiles": [
         "Debug",
         "FaultyFibers",

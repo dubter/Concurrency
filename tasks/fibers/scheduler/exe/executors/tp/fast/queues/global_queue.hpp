@@ -6,7 +6,7 @@
 
 #include <span>
 
-namespace exe::executors::ftp {
+namespace exe::executors::tp::fast {
 
 // Unbounded queue shared between workers
 
@@ -34,4 +34,4 @@ class GlobalQueue {
   // ???
 };
 
-}  // namespace exe::executors::ftp
+}  // namespace exe::executors::tp::fast

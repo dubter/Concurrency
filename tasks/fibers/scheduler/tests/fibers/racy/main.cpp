@@ -1,11 +1,11 @@
 #include <exe/fibers/core/api.hpp>
-#include <exe/executors/ftp/thread_pool.hpp>
+#include <exe/executors/tp/fast/thread_pool.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
 #include <twist/test/test.hpp>
 
-using ThreadPool = exe::executors::ftp::FastThreadPool;
+using exe::executors::tp::fast::ThreadPool;
 using exe::fibers::Go;
 using exe::fibers::self::Yield;
 

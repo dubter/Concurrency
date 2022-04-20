@@ -1,4 +1,4 @@
-#include <exe/executors/tp/thread_pool.hpp>
+#include <exe/executors/tp/compute/thread_pool.hpp>
 #include <exe/executors/execute.hpp>
 
 #include <wheels/test/test_framework.hpp>
@@ -15,7 +15,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using exe::executors::ThreadPool;
+using exe::executors::tp::compute::ThreadPool;
 using exe::executors::Execute;
 
 ////////////////////////////////////////////////////////////////////////////////

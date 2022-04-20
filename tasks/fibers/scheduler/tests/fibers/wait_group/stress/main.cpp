@@ -3,14 +3,14 @@
 
 #include <twist/test/test.hpp>
 
-#include <exe/executors/ftp/thread_pool.hpp>
+#include <exe/executors/tp/fast/thread_pool.hpp>
 #include <exe/fibers/sync/wait_group.hpp>
 
 #include <atomic>
 #include <chrono>
 
 using namespace exe;
-using ThreadPool = exe::executors::ftp::FastThreadPool;
+using exe::executors::tp::fast::ThreadPool;
 
 using namespace std::chrono_literals;
 

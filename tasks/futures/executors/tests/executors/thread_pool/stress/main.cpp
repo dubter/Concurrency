@@ -1,4 +1,4 @@
-#include <exe/executors/tp/thread_pool.hpp>
+#include <exe/executors/thread_pool.hpp>
 #include <exe/executors/execute.hpp>
 
 #include <wheels/test/test_framework.hpp>
