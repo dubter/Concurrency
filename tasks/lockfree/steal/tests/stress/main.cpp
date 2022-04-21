@@ -14,6 +14,14 @@
 
 /////////////////////////////////////////////////////////////////////
 
+void SetupAdversary() {
+#if !__has_feature(thread_sanitizer)
+  twist::fault::SetAdversary(twist::fault::CreateLockFreeAdversary());
+#endif
+}
+
+/////////////////////////////////////////////////////////////////////
+
 struct TestObject {
   size_t value;
 };
@@ -45,7 +53,7 @@ class TestObjectMaker {
 
 template <size_t Queues, size_t Capacity>
 void StressTest() {
-  twist::fault::SetAdversary(twist::fault::CreateLockFreeAdversary());
+  SetupAdversary();
 
   std::array<twist::test::util::ReportProgressFor<lockfree::WorkStealingQueue<TestObject, Capacity>>, Queues> queues_;
 
