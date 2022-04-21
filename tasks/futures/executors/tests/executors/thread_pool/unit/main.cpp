@@ -145,19 +145,21 @@ TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(Shutdown) {
     ThreadPool pool{3};
 
-    for (size_t i = 0; i < 3; ++i) {
+    for (size_t i = 0; i < 10; ++i) {
       Execute(pool, []() {
         std::this_thread::sleep_for(1s);
       });
     }
 
-    for (size_t i = 0; i < 10; ++i) {
+    std::this_thread::sleep_for(256ms);
+
+    for (size_t i = 0; i < 100; ++i) {
       Execute(pool, []() {
-        std::this_thread::sleep_for(100s);
+        std::this_thread::sleep_for(1s);
       });
     }
 
-    std::this_thread::sleep_for(250ms);
+    std::this_thread::sleep_for(256ms);
 
     pool.Stop();
   }
