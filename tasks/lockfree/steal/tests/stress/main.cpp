@@ -75,13 +75,13 @@ void StressTest() {
       for (size_t iter = 0; wheels::test::KeepRunning(); ++iter) {
         // TryPush
 
-        {
+        for (size_t j = 0; j < iter % 3; ++j) {
           TestObject* obj_to_push = obj_maker.Get();
           size_t obj_value = obj_to_push->value;
 
           if (queues_[i]->TryPush(obj_to_push)) {
             random += obj_value;
-            produced_cs.fetch_add(obj_value);
+            produced_cs.fetch_add(obj_value, std::memory_order_relaxed);
 
             obj_maker.PrepareNext();
           }
@@ -91,13 +91,13 @@ void StressTest() {
 
         TestObject* steal_buffer[5];
 
-        if ((iter + i) % 7 == 0) {
+        if ((iter + i) % 5 == 0) {
           size_t steal_target = random % Queues;  // Pseudo-random target
 
           size_t stolen = queues_[steal_target]->Grab({steal_buffer, 5});
 
           for (size_t s = 0; s < stolen; ++s) {
-            stolen_cs.fetch_add(steal_buffer[s]->value);
+            stolen_cs.fetch_add(steal_buffer[s]->value, std::memory_order_relaxed);
             delete steal_buffer[s];
           }
           continue;
@@ -110,7 +110,7 @@ void StressTest() {
         }
 
         if (TestObject* obj = queues_[i]->TryPop()) {
-          consumed_cs.fetch_add(obj->value);
+          consumed_cs.fetch_add(obj->value, std::memory_order_relaxed);
           delete obj;
         }
       }
