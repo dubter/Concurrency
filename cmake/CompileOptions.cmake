@@ -12,4 +12,8 @@ add_compile_options(-Werror -Wno-language-extension-token)
 
 add_compile_options(-Wno-error=unused-command-line-argument)
 
+# libc++
+add_compile_options(-stdlib=libc++)
+add_link_options(-stdlib=libc++)
+
 message(STATUS "C++ standard: ${CMAKE_CXX_STANDARD}")
