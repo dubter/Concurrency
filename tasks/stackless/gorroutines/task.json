@@ -1,19 +1,68 @@
 {
   "tests": [
     {
-      "targets": ["unit_tests"],
-      "profiles": ["Debug", "FaultyThreadsASan", "FaultyThreadsTSan"]
+      "targets": ["thread_pool_unit_tests"],
+      "profiles": [
+        "DebugASan"
+      ]
     },
     {
-      "targets": ["stress_tests"],
-      "profiles": ["FaultyFibers", "FaultyThreadsTSan"]
+      "targets": ["thread_pool_stress_tests"],
+      "profiles": [
+        "Debug",
+        "FaultyFibers",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
+    },
+    {
+      "targets": ["manual_unit_tests"],
+      "profiles": [
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": ["tasks_core_unit_tests"],
+      "profiles": [
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": ["tasks_mutex_unit_tests"],
+      "profiles": [
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": ["tasks_mutex_stress_tests"],
+      "profiles": [
+        "FaultyFibers",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
+    },
+    {
+      "targets": ["tasks_wait_group_unit_tests"],
+      "profiles": [
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": ["tasks_wait_group_stress_tests"],
+      "profiles": [
+        "FaultyFibers",
+        "FaultyFibersASan",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
     }
   ],
-  "lint_files": ["gorr"],
-  "submit_files": ["gorr"],
+  "lint_files": ["exe"],
+  "submit_files": ["exe"],
   "forbidden_patterns": [
-    "malloc", "free",
-    "new ",
-    "make_shared", "shared_ptr"
+    "malloc(", "free(",
+    "new ", "delete ",
+    "make_shared", "make_unique",
+    "unique_ptr", "shared_ptr"
   ]
 }

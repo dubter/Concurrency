@@ -1,21 +1,58 @@
-#include <gorr/runtime/thread_pool.hpp>
-#include <gorr/runtime/yield.hpp>
-#include <gorr/runtime/mutex.hpp>
-#include <gorr/runtime/join.hpp>
+#include <exe/executors/thread_pool.hpp>
+
+#include <exe/tasks/run/fire.hpp>
+#include <exe/tasks/run/teleport.hpp>
+#include <exe/tasks/run/yield.hpp>
+
+#include <exe/tasks/sync/mutex.hpp>
+#include <exe/tasks/sync/wait_group.hpp>
+
+#include <wheels/support/defer.hpp>
 
 #include <iostream>
 
-gorr::StaticThreadPool scheduler{/*threads=*/4};
-
-gorr::JoinHandle GorRoutine() {
-  co_await scheduler.Schedule();
-  std::cout << "Hello, world!" << std::endl;
-  co_return;
-};
+using namespace exe;
 
 int main() {
-  gorr::Detach(GorRoutine());
+  executors::ThreadPool scheduler{4};
 
-  scheduler.Join();
+  auto main = [&]() -> tasks::Task<> {
+    co_await tasks::TeleportTo(scheduler);
+
+    tasks::Mutex mutex;
+    size_t cs = 0;
+
+    tasks::WaitGroup wg;
+
+    auto contender = [&]() -> tasks::Task<> {
+      co_await tasks::TeleportTo(scheduler);
+
+      wheels::Defer defer([&wg]() {
+        wg.Done();
+      });
+
+      for (size_t j = 0; j < 100'000; ++j) {
+        auto lock = co_await mutex.ScopedLock();
+        // Critical section
+        ++cs;
+      }
+    };
+
+    wg.Add(17);
+    for (size_t i = 0; i < 17; ++i) {
+      tasks::FireAndForget(contender());
+    }
+
+    co_await wg.Wait();
+
+    std::cout << "# critical sections = " << cs << std::endl;
+  };
+
+  tasks::FireAndForget(main());
+
+  scheduler.WaitIdle();
+
+  scheduler.Stop();
+
   return 0;
 }
