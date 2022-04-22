@@ -6,6 +6,7 @@
 #include <exe/fibers/sync/wait_group.hpp>
 
 #include <iostream>
+#include <mutex>
 
 using namespace exe;
 
