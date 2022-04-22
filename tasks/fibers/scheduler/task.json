@@ -17,6 +17,15 @@
       ]
     },
     {
+      "targets": ["fibers_over_executors_tests"],
+      "profiles": [
+        "DebugASan",
+        "FaultyFibers",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
+    },
+    {
       "targets": ["tp_fast_unit_tests"],
       "profiles": [
         "Debug",
@@ -33,13 +42,6 @@
       ]
     },
     {
-      "targets": ["coroutine_tests"],
-      "profiles": [
-        "Debug",
-        "DebugASan"
-      ]
-    },
-    {
       "targets": ["fibers_core_tests"],
       "profiles": [
         "Debug",
@@ -53,7 +55,9 @@
     },
     {
       "targets": ["fibers_mutex_unit_tests"],
-      "profiles": ["Debug", "DebugASan"]
+      "profiles": [
+        "DebugASan"
+      ]
     },
     {
       "targets": ["fibers_mutex_stress_tests"],
@@ -65,7 +69,9 @@
     },
     {
       "targets": ["fibers_condvar_unit_tests"],
-      "profiles": ["Debug", "DebugASan"]
+      "profiles": [
+        "DebugASan"
+      ]
     },
     {
       "targets": ["fibers_condvar_stress_tests"],
@@ -77,7 +83,9 @@
     },
     {
       "targets": ["fibers_wait_group_unit_tests"],
-      "profiles": ["Debug", "DebugASan"]
+      "profiles": [
+        "DebugASan"
+      ]
     },
     {
       "targets": ["fibers_wait_group_stress_tests"],
