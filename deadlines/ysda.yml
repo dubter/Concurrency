@@ -82,3 +82,10 @@
       score: 200
     - task: fibers/scheduler
       score: 600
+
+- group:    Stackless Coroutines
+  start:    22-04-2022 12:00
+  deadline: 10-05-2022 23:59
+  tasks:
+    - task: stackless/gorroutines
+      score: 400
