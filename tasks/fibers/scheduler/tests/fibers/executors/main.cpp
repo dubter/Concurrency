@@ -13,7 +13,7 @@
 using namespace exe;
 
 TEST_SUITE(FibersOverExecutors) {
-  TWIST_TEST_TL(ComputeThreadPool, 10s) {
+  TWIST_TEST(ComputeThreadPool, wheels::test::TestOptions().AdaptTLToSanitizer()) {
     // Good old ThreadPool
     executors::tp::compute::ThreadPool scheduler{/*threads=*/4};
 
