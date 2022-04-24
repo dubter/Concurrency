@@ -60,9 +60,5 @@
   "lint_files": ["exe"],
   "submit_files": ["exe"],
   "forbidden_patterns": [
-    "malloc(", "free(",
-    "new ", "delete ",
-    "make_shared", "make_unique",
-    "unique_ptr", "shared_ptr"
   ]
 }
