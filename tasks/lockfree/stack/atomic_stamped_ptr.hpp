@@ -8,6 +8,7 @@
 
 //////////////////////////////////////////////////////////////////////
 
+// Notation:
 // Raw pointer = T*
 // Stamp - unsigned integer
 // Stamped pointer = Raw Pointer + Stamp
@@ -20,7 +21,7 @@
 template <typename T>
 struct StampedPtr {
   T* raw_ptr;
-  size_t stamp;
+  uint64_t stamp;
 
   T* operator->() const {
     return raw_ptr;
@@ -39,7 +40,7 @@ struct StampedPtr {
   }
 
   StampedPtr DecrementStamp() const {
-    WHEELS_VERIFY(stamp > 0, "Stamp == 0");
+    WHEELS_ASSERT(stamp > 0, "Stamp == 0");
     return StampedPtr{raw_ptr, stamp - 1};
   }
 };
@@ -48,41 +49,52 @@ struct StampedPtr {
 
 namespace detail {
 
-template <typename T>
 struct Packer {
+  static const size_t kFreeBits = 16;
+  static const size_t kFreeBitsShift = 64 - kFreeBits;
+  static const uintptr_t kFreeBitsMask = (uintptr_t)((1 << kFreeBits) - 1)
+                                         << kFreeBitsShift;
+
   using PackedPtr = uintptr_t;
 
+  template <typename T>
   static PackedPtr Pack(StampedPtr<T> stamped_ptr) {
-    return ResetHigh16Bits((uintptr_t)stamped_ptr.raw_ptr) |
-           (stamped_ptr.stamp << 48);
+    return ClearFreeBits((uintptr_t)stamped_ptr.raw_ptr) |
+           (stamped_ptr.stamp << kFreeBitsShift);
   }
 
+  template <typename T>
   static StampedPtr<T> Unpack(PackedPtr packed_ptr) {
-    return {GetRawPointer(packed_ptr), GetStamp(packed_ptr)};
+    return {GetRawPointer<T>(packed_ptr), GetStamp(packed_ptr)};
   }
 
  private:
-  static uintptr_t ResetHigh16Bits(uintptr_t mask) {
-    return (mask << 16) >> 16;
-  }
-
-  // https://en.wikipedia.org/wiki/X86-64#Canonical_form_addresses
   static int GetBit(uintptr_t mask, size_t index) {
     return (mask >> index) & 1;
   }
 
+  static uintptr_t SetFreeBits(uintptr_t mask) {
+    return mask | kFreeBitsMask;
+  }
+
+  static uintptr_t ClearFreeBits(uintptr_t mask) {
+    return mask & ~kFreeBitsMask;
+  }
+
+  // https://en.wikipedia.org/wiki/X86-64#Canonical_form_addresses
   static uintptr_t ToCanonicalForm(uintptr_t ptr) {
     if (GetBit(ptr, 47) != 0) {
-      return ptr | ((uintptr_t)0xFFFF << 48);
+      return SetFreeBits(ptr);
     } else {
-      return ResetHigh16Bits(ptr);
+      return ClearFreeBits(ptr);
     }
   }
 
-  static size_t GetStamp(PackedPtr packed_ptr) {
-    return packed_ptr >> 48;
+  static uint64_t GetStamp(PackedPtr packed_ptr) {
+    return packed_ptr >> kFreeBitsShift;
   }
 
+  template <typename T>
   static T* GetRawPointer(PackedPtr packed_ptr) {
     return (T*)ToCanonicalForm(packed_ptr);
   }
@@ -103,11 +115,10 @@ struct Packer {
 
 template <typename T>
 class AtomicStampedPtr {
-  using PackedPtr = typename detail::Packer<T>::PackedPtr;
-  static_assert(sizeof(PackedPtr) == 8, "Not supported");
+  using PackedPtr = detail::Packer::PackedPtr;
 
  public:
-  static const size_t kMaxStamp = 1 << 16;
+  static const size_t kMaxStamp = 1 << detail::Packer::kFreeBits;
 
  public:
   explicit AtomicStampedPtr(T* raw_ptr) : AtomicStampedPtr({raw_ptr, 0}) {
@@ -142,11 +153,11 @@ class AtomicStampedPtr {
 
  private:
   static PackedPtr Pack(StampedPtr<T> stamped_ptr) {
-    return detail::Packer<T>::Pack(stamped_ptr);
+    return detail::Packer::Pack(stamped_ptr);
   }
 
   static StampedPtr<T> Unpack(PackedPtr packed_ptr) {
-    return detail::Packer<T>::Unpack(packed_ptr);
+    return detail::Packer::Unpack<T>(packed_ptr);
   }
 
  private:

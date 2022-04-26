@@ -5,9 +5,7 @@
         "unit_tests"
       ],
       "profiles": [
-        "Debug",
-        "FaultyThreadsASan",
-        "FaultyThreadsTSan"
+        "DebugASan"
       ]
     },
     {
