@@ -94,3 +94,12 @@
   tasks:
     - task: stackless/gorroutines
       score: 400
+
+- group:    Lock-Free Stack
+  start:    01-01-2021 12:00
+  deadline: 01-01-2025 23:59
+  tasks:
+    - task: lockfree/stack
+      score: 200
+    - task: lockfree/shared_ptr
+      score: 400
