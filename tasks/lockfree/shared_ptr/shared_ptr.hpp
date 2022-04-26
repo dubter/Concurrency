@@ -94,7 +94,7 @@ class AtomicSharedPtr {
     // Not implemented
   }
 
-  operator SharedPtr<T>() {
+  explicit operator SharedPtr<T>() {
     return Load();
   }
 
