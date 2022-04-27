@@ -21,6 +21,7 @@ add_task_test_dir(tests/fibers/racy fibers_racy_tests)
 # Sync
 add_task_test_dir(tests/fibers/mutex/unit fibers_mutex_unit_tests)
 add_task_test_dir(tests/fibers/mutex/stress fibers_mutex_stress_tests)
+add_task_test_dir(tests/fibers/mutex/unit-extra fibers_mutex_unit_extra_tests)
 
 add_task_test_dir(tests/fibers/wait_group/unit fibers_wait_group_unit_tests)
 add_task_test_dir(tests/fibers/wait_group/stress fibers_wait_group_stress_tests)
