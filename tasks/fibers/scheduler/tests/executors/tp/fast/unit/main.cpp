@@ -142,6 +142,29 @@ TEST_SUITE(FastThreadPool) {
     ASSERT_EQ(tasks.load(), 2);
   }
 
+  SIMPLE_TEST(CrossSubmit) {
+    ThreadPool pool1{1};
+    ThreadPool pool2{1};
+
+    bool done = false;
+
+    Execute(pool1, [&]() {
+      ASSERT_TRUE(ThreadPool::Current() == &pool1);
+      Execute(pool2, [&]() {
+        ASSERT_TRUE(ThreadPool::Current() == &pool2);
+        done = true;
+      });
+    });
+
+    pool1.WaitIdle();
+    pool2.WaitIdle();
+
+    ASSERT_TRUE(done);
+
+    pool1.Stop();
+    pool2.Stop();
+  }
+
   SIMPLE_TEST(Shutdown) {
     ThreadPool pool{3};
 
