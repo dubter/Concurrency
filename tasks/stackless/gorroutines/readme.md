@@ -71,8 +71,6 @@ void GorRoutinesExample() {
       tasks::FireAndForget(contender());
     }
     
-    // В этой задаче для простоты считаем, что WaitGroup "однаразовый",
-    // т.е. его счетчик опускается до нуля только один раз
     co_await wg.Wait();
   };
 
