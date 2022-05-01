@@ -65,7 +65,7 @@ void StressTest2(size_t gorroutines) {
       co_await tasks::TeleportTo(scheduler);
 
       {
-        co_await mutex.ScopedLock();
+        auto lock = co_await mutex.ScopedLock();
         ++cs;
       }
     };
