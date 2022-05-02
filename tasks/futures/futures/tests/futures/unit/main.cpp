@@ -292,6 +292,17 @@ TEST_SUITE(FuturesNew) {
     pool.Stop();
   }
 
+  SIMPLE_TEST(Then4) {
+    auto [f, p] = futures::MakeContract<int>();
+
+    auto g = std::move(f).Then([](int /*value*/) {
+      FAIL_TEST("Skip continuation if error");
+    });
+
+    std::move(p).SetError(TimeoutError());
+    ASSERT_TRUE(std::move(g).GetReadyResult().HasError());
+  }
+
   // Then chaining
 
   SIMPLE_TEST(Pipeline) {
