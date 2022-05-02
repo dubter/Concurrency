@@ -1,18 +1,65 @@
 {
   "tests": [
     {
-      "targets": [
-        "executors_unit_tests",
-        "futures_unit_tests"
-      ],
+      "targets": ["thread_pool_unit_tests"],
+      "profiles": [
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": ["thread_pool_stress_tests"],
       "profiles": [
         "Debug",
+        "FaultyFibers",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
+    },
+    {
+      "targets": ["manual_unit_tests"],
+      "profiles": [
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": ["strand_unit_tests"],
+      "profiles": [
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": ["strand_stress_tests"],
+      "profiles": [
+        "Debug",
+        "FaultyFibers",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
+    },
+    {
+      "targets": ["strand_mo_tests"],
+      "profiles": [
+        "Release"
+      ]
+    },
+    {
+      "targets": ["futures_unit_tests"],
+      "profiles": [
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": ["futures_stress_tests"],
+      "profiles": [
+        "Debug",
+        "FaultyFibers",
         "FaultyThreadsASan",
         "FaultyThreadsTSan"
       ]
     }
   ],
-  "lint_files": ["await"],
-  "submit_files": ["await"],
-  "forbidden_patterns": []
+  "lint_files": ["exe"],
+  "submit_files": ["exe"],
+  "forbidden_patterns": [
+  ]
 }
