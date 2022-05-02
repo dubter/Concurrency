@@ -594,3 +594,5 @@ TEST_SUITE(FuturesNew) {
     ASSERT_TRUE(f.IsReady());
   }
 }
+
+RUN_ALL_TESTS()
