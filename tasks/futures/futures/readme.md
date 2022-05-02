@@ -2,8 +2,8 @@
 
 ## Пререквизиты
 
-- [futures/executors](/tasks/futures/executors)
 - [condvar/future](/tasks/condvar/future)
+- [futures/executors](/tasks/futures/executors)
 
 ---
 
