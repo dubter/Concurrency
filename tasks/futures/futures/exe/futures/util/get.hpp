@@ -14,7 +14,7 @@ namespace detail {
 // Blocking
 template <typename T>
 wheels::Result<T> GetResult(Future<T> /*future*/) {
-  return Future<T>::Invalid();  // Not implemented
+  std::abort();  // Not implemented
 }
 
 // Blocking

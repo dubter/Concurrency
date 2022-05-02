@@ -84,7 +84,8 @@ class [[nodiscard]] Future : public detail::HoldState<T> {
   requires ErrorHandler<F, T> Future<T> Recover(F error_handler) &&;
 
  private:
-  explicit Future(detail::StateRef<T> state) : detail::HoldState<T>(std::move(state)) {
+  explicit Future(detail::StateRef<T> state)
+      : detail::HoldState<T>(std::move(state)) {
   }
 };
 

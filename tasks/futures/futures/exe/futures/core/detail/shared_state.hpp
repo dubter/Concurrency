@@ -37,8 +37,8 @@ class SharedState {
     executor_ = executor;
   }
 
-  executors::IExecutor* GetExecutor() const {
-    return executor_;
+  executors::IExecutor& GetExecutor() const {
+    return *executor_;
   }
 
   // Producer
@@ -57,7 +57,7 @@ class SharedState {
   std::optional<wheels::Result<T>> result_;
   Callback<T> callback_;
   executors::IExecutor* executor_;
-  // Your code goes here
+  // ???
 };
 
 //////////////////////////////////////////////////////////////////////
