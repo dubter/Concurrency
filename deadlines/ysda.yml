@@ -98,3 +98,10 @@
       score: 200
     - task: lockfree/shared_ptr
       score: 400
+
+- group:    Futures / Part II
+  start:    02-05-2022 12:00
+  deadline: 17-05-2022 23:59
+  tasks:
+    - task: futures/futures
+      score: 500
