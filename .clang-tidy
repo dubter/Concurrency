@@ -45,3 +45,5 @@ CheckOptions:
     value: '1'
   - key: readability-simplify-boolean-expr.ChainedConditionalAssignment
     value: '1'
+  - key: readability-identifier-naming.TypeTemplateParameterIgnoredRegexp
+    value: expr-type
