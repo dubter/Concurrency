@@ -21,9 +21,6 @@ class [[nodiscard]] Future : public detail::HoldState<T> {
   template <typename U>
   friend Contract<U> MakeContractVia(executors::IExecutor&);
 
-  template <typename U>
-  friend Future<U> WrapValue(U&& value);
-
   using detail::HoldState<T>::HasState;
   using detail::HoldState<T>::AccessState;
   using detail::HoldState<T>::ReleaseState;
@@ -33,7 +30,7 @@ class [[nodiscard]] Future : public detail::HoldState<T> {
 
   // True if this future has a shared state
   // False if result has already been consumed
-  // 1) synchronously via GetReadyResult/GetResult or
+  // 1) synchronously via GetReadyResult / GetResult or
   // 2) via Subscribe
   bool IsValid() const {
     return HasState();
@@ -57,7 +54,6 @@ class [[nodiscard]] Future : public detail::HoldState<T> {
   // Usage: std::move(f).Via(e).Then(c)
   Future<T> Via(executors::IExecutor& executor) &&;
 
-  // Should be externally ordered with 'Via' calls
   executors::IExecutor& GetExecutor() const;
 
   // Consume future result with asynchronous callback
@@ -66,19 +62,19 @@ class [[nodiscard]] Future : public detail::HoldState<T> {
 
   // Combinators
 
-  // Synchronous Then (Map)
+  // Synchronous Then (also known as Map)
   // Future<T> -> U(T) -> Future<U>
   template <typename F>
   requires SyncContinuation<F, T>
   auto Then(F continuation) &&;
 
-  // Asynchronous Then (FlatMap)
+  // Asynchronous Then (also known as FlatMap)
   // Future<T> -> Future<U>(T) -> Future<U>
   template <typename F>
   requires AsyncContinuation<F, T>
   auto Then(F continuation) &&;
 
-  // Asynchronous error handling
+  // Error handling
   // Future<T> -> Result<T>(Error) -> Future<T>
   template <typename F>
   requires ErrorHandler<F, T> Future<T> Recover(F error_handler) &&;
