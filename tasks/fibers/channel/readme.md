@@ -3,6 +3,9 @@
 ## Пререквизиты
 
 - [fibers/mutex](/tasks/fibers/mutex)
+- [futures/executors](/tasks/futures/executors)
+- Интрузивные задачи
+- [fibers/scheduler](/tasks/fibres/scheduler) – рекомендуется
 
 ## Go Proverb
 
@@ -20,13 +23,48 @@ _Do not communicate by sharing memory; instead, share memory by communicating._
 
 [A Tour of Go / Buffered Channels](https://tour.golang.org/concurrency/3)
 
-Реализуйте [`Channel<T>`](mtf/fibers/sync/channel.hpp) – канал с буфером фиксированного размера, который позволяет отправлять данные из одного файбера в другой.
+Реализуйте [`Channel<T>`](exe/fibers/sync/channel.hpp) – канал с буфером фиксированного размера, который позволяет отправлять данные из одного файбера в другой.
 
-Метод `Send` блокирует _файбер_ (не поток!) если буфер канала заполнен, метод `Receive` – если пуст.
+Метод `Send` останавливает _файбер_ (но не блокирует поток!) если буфер канала заполнен, метод `Receive` – если пуст.
 
 Канал – MPMC (_multiple producers_ / _multiple consumers_).
 
 Для простоты мы обойдемся без `Close` и неблокирующих вариаций `TrySend` / `TryReceive`.
+
+### Пример
+
+```cpp
+void ChannelExample() {
+    executors::ThreadPool scheduler{/*threads=*/4};
+
+  fibers::Go(scheduler, []() {
+    fibers::Channel<int> msgs{16};
+
+    // Producer
+    // Захватываем канал по значению, владение каналом – разделяемое
+    fibers::Go([msgs]() mutable {
+      for (int i = 0; i < 128; ++i) {
+        msgs.Send(i);
+      }
+
+      // Poison pill
+      msgs.Send(-1);
+    });
+
+    // Consumer
+    while (true) {
+      int value = msgs.Receive();
+      if (value == -1) {
+        break;
+      }
+      std::cout << "Received value = " << value << std::endl;
+    }
+  });
+
+  scheduler.WaitIdle();
+  scheduler.Stop();
+}
+```
 
 ### Синхронизация
 
@@ -51,15 +89,15 @@ _Do not communicate by sharing memory; instead, share memory by communicating._
 
 [Go by Example: Select](https://gobyexample.com/select)
 
-Реализуйте функцию [`Select(xs, ys)`](mtf/fibers/sync/select.hpp), которая блокирует файбер до появления первого сообщения в одном из двух каналов `xs` / `ys`:
+Реализуйте функцию [`Select(xs, ys)`](exe/fibers/sync/select.hpp), которая блокирует файбер до появления первого сообщения в одном из двух каналов `xs` / `ys`:
 
 ```cpp
- Channel<X> xs;
- Channel<Y> ys;
+ fibers::Channel<X> xs;
+ fibers::Channel<Y> ys;
  
  // ...
 
- std::variant<X, Y> value = Select(xs, ys);
+ std::variant<X, Y> value = fibers::Select(xs, ys);
  switch (value.index()) {
    case 0:
      // Handle std::get<0>(value);
@@ -103,8 +141,3 @@ _Do not communicate by sharing memory; instead, share memory by communicating._
 Реализация `Select` не должна выполнять динамических аллокаций памяти.
 
 Используйте `IntrusiveList`. Вам пригодится метод `Unlink` у `IntrusiveListNode`.
-
-### Применения
-
-- Ожидание с таймаутом: [Go by Example / Tickers](https://gobyexample.com/tickers)
-- Мультиплексирование событий из разных источников: [etcd/raft](https://github.com/etcd-io/etcd/blob/bd4f8e2b6c6a0bdcd52f4593f68d9f2415ab5293/raft/node.go#L341)
