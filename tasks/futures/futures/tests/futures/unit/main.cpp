@@ -39,7 +39,7 @@ struct MoveOnly {
 
 //////////////////////////////////////////////////////////////////////
 
-TEST_SUITE(FuturesNew) {
+TEST_SUITE(Futures) {
   SIMPLE_TEST(Invalid) {
     auto f = futures::Future<std::string>::Invalid();
     ASSERT_FALSE(f.IsValid());
