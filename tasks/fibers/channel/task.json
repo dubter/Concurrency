@@ -62,7 +62,6 @@
     {
       "targets": ["fibers_wait_group_stress_tests"],
       "profiles": [
-        "FaultyFibers",
         "FaultyFibersASan",
         "FaultyThreadsASan",
         "FaultyThreadsTSan"
