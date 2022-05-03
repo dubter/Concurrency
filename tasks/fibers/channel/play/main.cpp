@@ -8,6 +8,8 @@
 
 using namespace exe;
 
+static const int kPoisonPill = -1;
+
 int main() {
   executors::ThreadPool scheduler{/*threads=*/4};
 
@@ -20,14 +22,13 @@ int main() {
         msgs.Send(i);
       }
 
-      // Poison pill
-      msgs.Send(-1);
+      msgs.Send(kPoisonPill);
     });
 
     // Consumer
     while (true) {
       int value = msgs.Receive();
-      if (value == -1) {
+      if (value == kPoisonPill) {
         break;
       }
       std::cout << "Received value = " << value << std::endl;
