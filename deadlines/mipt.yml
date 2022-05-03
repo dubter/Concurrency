@@ -110,3 +110,10 @@
   tasks:
     - task: futures/futures
       score: 500
+
+- group:    Fibers / Part V
+  start:    03-05-2022 12:00
+  deadline: 20-05-2022 23:59
+  tasks:
+    - task: fibers/channel
+      score: 600
