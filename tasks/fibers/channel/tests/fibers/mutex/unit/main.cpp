@@ -16,6 +16,26 @@ using namespace exe;
 using namespace std::chrono_literals;
 
 TEST_SUITE(Mutex) {
+  SIMPLE_TEST(JustWorks) {
+    executors::ThreadPool scheduler{4};
+
+    fibers::Mutex mutex;
+    size_t cs = 0;
+
+    fibers::Go(scheduler, [&]() {
+      for (size_t j = 0; j < 11; ++j) {
+        std::lock_guard guard(mutex);
+        ++cs;
+      }
+    });
+
+    scheduler.WaitIdle();
+
+    ASSERT_EQ(cs, 11);
+
+    scheduler.Stop();
+  }
+
   SIMPLE_TEST(Counter) {
     executors::ThreadPool scheduler{4};
 
