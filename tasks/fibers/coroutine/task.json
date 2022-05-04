@@ -2,7 +2,9 @@
   "tests": [
     {
       "targets": ["thread_pool_unit_tests"],
-      "profiles": ["Debug"]
+      "profiles": [
+        "DebugASan"
+      ]
     },
     {
       "targets": ["thread_pool_stress_tests"],
@@ -16,7 +18,6 @@
     {
       "targets": ["coroutine_tests"],
       "profiles": [
-        "Debug",
         "DebugASan"
       ]
     },
