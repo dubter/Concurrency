@@ -9,21 +9,43 @@
 #include <chrono>
 #include <thread>
 
-using namespace exe::tp;
-using namespace exe::fibers;
+using namespace exe;
 
 using namespace std::chrono_literals;
 
 TEST_SUITE(Mutex) {
-  SIMPLE_TEST(Counter) {
-    ThreadPool scheduler{4};
+  SIMPLE_TEST(JustWorks) {
+    tp::ThreadPool scheduler{4};
 
-    Mutex mutex;
+    fibers::Mutex mutex;
     size_t cs = 0;
 
-    for (size_t i = 0; i < 10; ++i) {
-      Go(scheduler, [&]() {
-        for (size_t j = 0; j < 1024; ++j) {
+    fibers::Go(scheduler, [&]() {
+      for (size_t j = 0; j < 11; ++j) {
+        std::lock_guard guard(mutex);
+        ++cs;
+      }
+    });
+
+    scheduler.WaitIdle();
+
+    ASSERT_EQ(cs, 11);
+
+    scheduler.Stop();
+  }
+
+  SIMPLE_TEST(Counter) {
+    tp::ThreadPool scheduler{4};
+
+    fibers::Mutex mutex;
+    size_t cs = 0;
+
+    static const size_t kFibers = 10;
+    static const size_t kSectionsPerFiber = 1024;
+
+    for (size_t i = 0; i < kFibers; ++i) {
+      fibers::Go(scheduler, [&]() {
+        for (size_t j = 0; j < kSectionsPerFiber; ++j) {
           std::lock_guard guard(mutex);
           ++cs;
         }
@@ -32,25 +54,27 @@ TEST_SUITE(Mutex) {
 
     scheduler.WaitIdle();
 
-    ASSERT_EQ(cs, 1024 * 10);
+    std::cout << "# cs = " << cs << std::endl;
+
+    ASSERT_EQ(cs, kFibers * kSectionsPerFiber);
 
     scheduler.Stop();
   }
 
   SIMPLE_TEST(Blocking) {
-    ThreadPool scheduler{4};
+    tp::ThreadPool scheduler{4};
 
-    Mutex mutex;
+    fibers::Mutex mutex;
 
     wheels::ProcessCPUTimer timer;
 
-    Go(scheduler, [&]() {
+    fibers::Go(scheduler, [&]() {
       mutex.Lock();
       std::this_thread::sleep_for(1s);
       mutex.Unlock();
     });
 
-    Go(scheduler, [&]() {
+    fibers::Go(scheduler, [&]() {
       mutex.Lock();
       mutex.Unlock();
     });
