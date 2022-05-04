@@ -1,24 +1,25 @@
+#include <exe/executors/thread_pool.hpp>
+
+#include <exe/fibers/core/api.hpp>
+#include <exe/fibers/sync/mutex.hpp>
+
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/util.hpp>
 
 #include <twist/test/test.hpp>
 #include <twist/test/util/plate.hpp>
 
-#include <exe/executors/tp/fast/thread_pool.hpp>
-#include <exe/fibers/sync/mutex.hpp>
-
 #include <atomic>
 #include <chrono>
 
 using namespace exe;
-using exe::executors::tp::fast::ThreadPool;
 
 using namespace std::chrono_literals;
 
 //////////////////////////////////////////////////////////////////////
 
 void StressTest1(size_t fibers) {
-  ThreadPool scheduler{4};
+  executors::ThreadPool scheduler{4};
 
   fibers::Mutex mutex;
   twist::test::util::Plate plate;
@@ -44,7 +45,7 @@ void StressTest1(size_t fibers) {
 //////////////////////////////////////////////////////////////////////
 
 void StressTest2(size_t fibers) {
-  ThreadPool scheduler{4};
+  executors::ThreadPool scheduler{4};
 
   while (wheels::test::KeepRunning()) {
     fibers::Mutex mutex;

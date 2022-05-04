@@ -1,13 +1,10 @@
+#include <exe/executors/thread_pool.hpp>
+
 #include <exe/fibers/core/api.hpp>
-#include <exe/executors/tp/fast/thread_pool.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
-#include <twist/test/test.hpp>
-
-using exe::executors::tp::fast::ThreadPool;
-using exe::fibers::Go;
-using exe::fibers::self::Yield;
+using namespace exe;
 
 TEST_SUITE(Fibers) {
 
@@ -36,16 +33,16 @@ TEST_SUITE(Fibers) {
       for (size_t i = 0; i < kIncrements; ++i) {
         counter.Increment();
         if (i % 10 == 0) {
-          Yield();
+          fibers::self::Yield();
         }
       }
     };
 
-    ThreadPool scheduler{kThreads};
+    executors::ThreadPool scheduler{kThreads};
 
-    Go(scheduler, [&]() {
+    fibers::Go(scheduler, [&]() {
       for (size_t i = 0; i < kFibers; ++i) {
-        Go(racer);
+        fibers::Go(racer);
       }
     });
 

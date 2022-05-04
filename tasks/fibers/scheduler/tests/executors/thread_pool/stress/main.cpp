@@ -1,4 +1,4 @@
-#include <exe/executors/tp/compute/thread_pool.hpp>
+#include <exe/executors/thread_pool.hpp>
 #include <exe/executors/execute.hpp>
 
 #include <wheels/test/test_framework.hpp>
@@ -15,7 +15,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using exe::executors::tp::compute::ThreadPool;
+using exe::executors::ThreadPool;
 using exe::executors::Execute;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +50,7 @@ void Test(size_t threads, size_t clients, size_t limit) {
   for (size_t i = 0; i < clients; ++i) {
     race.Add([&]() {
       while (twist::test::KeepRunning()) {
-        // TryExecute
+        // TrySubmit
         if (++queue <= limit) {
           Execute(pool, [&]() {
             --queue;
@@ -77,7 +77,7 @@ void Test(size_t threads, size_t clients, size_t limit) {
 
 }  // namespace tasks
 
-TWIST_TEST_RUNS(TpExecutes, tasks::Test)
+TWIST_TEST_RUNS(Submits, tasks::Test)
 ->TimeLimit(4s)
 ->Run(3, 5, 111)
 ->Run(4, 3, 13)
@@ -175,7 +175,7 @@ void TestConcurrent() {
 
 }  // namespace wait_idle
 
-TEST_SUITE(TpWaitIdle) {
+TEST_SUITE(WaitIdle) {
   TWIST_TEST_TL(OneTask, 5s) {
     wait_idle::TestOneTask();
   }

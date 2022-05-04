@@ -1,7 +1,9 @@
-#include <wheels/test/test_framework.hpp>
+#include <exe/executors/thread_pool.hpp>
 
-#include <exe/executors/tp/fast/thread_pool.hpp>
+#include <exe/fibers/core/api.hpp>
 #include <exe/fibers/sync/mutex.hpp>
+
+#include <wheels/test/test_framework.hpp>
 
 #include <wheels/support/cpu_time.hpp>
 
@@ -9,19 +11,19 @@
 #include <chrono>
 #include <thread>
 
-using exe::executors::tp::fast::ThreadPool;
-using namespace exe::fibers;
+using namespace exe;
+
 using namespace std::chrono_literals;
 
 TEST_SUITE(Mutex) {
   SIMPLE_TEST(Counter) {
-    ThreadPool scheduler{4};
+    executors::ThreadPool scheduler{4};
 
-    Mutex mutex;
+    fibers::Mutex mutex;
     size_t cs = 0;
 
     for (size_t i = 0; i < 10; ++i) {
-      Go(scheduler, [&]() {
+      fibers::Go(scheduler, [&]() {
         for (size_t j = 0; j < 1024; ++j) {
           std::lock_guard guard(mutex);
           ++cs;
@@ -37,19 +39,19 @@ TEST_SUITE(Mutex) {
   }
 
   SIMPLE_TEST(Blocking) {
-    ThreadPool scheduler{4};
+    executors::ThreadPool scheduler{4};
 
-    Mutex mutex;
+    fibers::Mutex mutex;
 
     wheels::ProcessCPUTimer timer;
 
-    Go(scheduler, [&]() {
+    fibers::Go(scheduler, [&]() {
       mutex.Lock();
       std::this_thread::sleep_for(1s);
       mutex.Unlock();
     });
 
-    Go(scheduler, [&]() {
+    fibers::Go(scheduler, [&]() {
       mutex.Lock();
       mutex.Unlock();
     });

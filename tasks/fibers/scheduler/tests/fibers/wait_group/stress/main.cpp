@@ -1,23 +1,24 @@
+#include <exe/executors/thread_pool.hpp>
+
+#include <exe/fibers/core/api.hpp>
+#include <exe/fibers/sync/wait_group.hpp>
+
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/util.hpp>
 
 #include <twist/test/test.hpp>
 
-#include <exe/executors/tp/fast/thread_pool.hpp>
-#include <exe/fibers/sync/wait_group.hpp>
-
 #include <atomic>
 #include <chrono>
 
 using namespace exe;
-using exe::executors::tp::fast::ThreadPool;
 
 using namespace std::chrono_literals;
 
 //////////////////////////////////////////////////////////////////////
 
 void StressTest1(size_t workers, size_t waiters) {
-  ThreadPool scheduler{/*threads=*/4};
+  executors::ThreadPool scheduler{/*threads=*/4};
 
   while (wheels::test::KeepRunning()) {
     fibers::WaitGroup wg;
@@ -59,7 +60,7 @@ void StressTest1(size_t workers, size_t waiters) {
 class Goer {
  public:
   explicit Goer(fibers::WaitGroup& wg)
-  : wg_(wg) {
+      : wg_(wg) {
   }
 
   void Start(size_t steps) {
@@ -94,7 +95,7 @@ class Goer {
 };
 
 void StressTest2() {
-  ThreadPool scheduler{/*threads=*/4};
+  executors::ThreadPool scheduler{/*threads=*/4};
 
   size_t iter = 0;
 

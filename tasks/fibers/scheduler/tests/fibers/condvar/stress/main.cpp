@@ -4,7 +4,9 @@
 #include <twist/test/test.hpp>
 #include <twist/test/util/plate.hpp>
 
-#include <exe/executors/tp/fast/thread_pool.hpp>
+#include <exe/executors/thread_pool.hpp>
+
+#include <exe/fibers/core/api.hpp>
 #include <exe/fibers/sync/mutex.hpp>
 #include <exe/fibers/sync/condvar.hpp>
 
@@ -12,7 +14,6 @@
 #include <chrono>
 
 using namespace exe;
-using exe::executors::tp::fast::ThreadPool;
 
 using namespace std::chrono_literals;
 
@@ -42,7 +43,7 @@ class Event {
 //////////////////////////////////////////////////////////////////////
 
 void EventStressTest() {
-  ThreadPool scheduler{/*threads=*/4};
+  executors::ThreadPool scheduler{/*threads=*/4};
 
   while (wheels::test::KeepRunning()) {
     Event event;
@@ -101,7 +102,7 @@ class Semaphore {
 //////////////////////////////////////////////////////////////////////
 
 void SemaphoreStressTest(size_t permits, size_t fibers) {
-  ThreadPool scheduler{/*threads=*/4};
+  executors::ThreadPool scheduler{/*threads=*/4};
 
   while (wheels::test::KeepRunning()) {
     Semaphore sema{/*init=*/permits};

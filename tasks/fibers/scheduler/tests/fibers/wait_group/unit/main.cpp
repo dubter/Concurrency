@@ -1,8 +1,9 @@
-#include <wheels/test/test_framework.hpp>
+#include <exe/executors/thread_pool.hpp>
 
-#include <exe/executors/tp/fast/thread_pool.hpp>
+#include <exe/fibers/core/api.hpp>
 #include <exe/fibers/sync/wait_group.hpp>
 
+#include <wheels/test/test_framework.hpp>
 #include <wheels/support/cpu_time.hpp>
 
 #include <atomic>
@@ -10,11 +11,9 @@
 
 using namespace exe;
 
-using exe::executors::tp::fast::ThreadPool;
-
 TEST_SUITE(WaitGroup) {
   SIMPLE_TEST(OneWaiter) {
-    ThreadPool scheduler{/*threads=*/5};
+    executors::ThreadPool scheduler{/*threads=*/5};
 
     fibers::WaitGroup wg;
     std::atomic<size_t> workers{0};
@@ -46,7 +45,7 @@ TEST_SUITE(WaitGroup) {
   }
 
   SIMPLE_TEST(MultipleWaiters) {
-    ThreadPool scheduler{/*threads=*/5};
+    executors::ThreadPool scheduler{/*threads=*/5};
 
     fibers::WaitGroup wg;
 
@@ -82,7 +81,7 @@ TEST_SUITE(WaitGroup) {
   }
 
   SIMPLE_TEST(BlockingWait) {
-    ThreadPool scheduler{/*threads=*/4};
+    executors::ThreadPool scheduler{/*threads=*/4};
 
     fibers::WaitGroup wg;
 

@@ -1,25 +1,24 @@
+#include <exe/executors/thread_pool.hpp>
+
 #include <exe/fibers/core/api.hpp>
-#include <exe/executors/tp/fast/thread_pool.hpp>
 
 #include <wheels/test/test_framework.hpp>
 
-#include <twist/test/test.hpp>
+#include <thread>
 
-using exe::executors::tp::fast::ThreadPool;
-using exe::fibers::Go;
-using exe::fibers::self::Yield;
+using namespace exe;
 
-void ExpectPool(ThreadPool& pool) {
-  ASSERT_EQ(ThreadPool::Current(), &pool);
+void ExpectPool(executors::ThreadPool& pool) {
+  ASSERT_EQ(executors::ThreadPool::Current(), &pool);
 }
 
 TEST_SUITE(Fibers) {
   SIMPLE_TEST(JustWorks) {
-    ThreadPool pool{3};
+    executors::ThreadPool pool{3};
 
     bool done = false;
 
-    Go(pool, [&]() {
+    fibers::Go(pool, [&]() {
       ExpectPool(pool);
       done = true;
     });
@@ -32,13 +31,13 @@ TEST_SUITE(Fibers) {
   }
 
   SIMPLE_TEST(Child) {
-    ThreadPool pool{3};
+    executors::ThreadPool pool{3};
     std::atomic<size_t> done{0};
 
     auto init = [&]() {
       ExpectPool(pool);
 
-      Go([&]() {
+      fibers::Go([&]() {
         ExpectPool(pool);
         ++done;
       });
@@ -46,7 +45,7 @@ TEST_SUITE(Fibers) {
       ++done;
     };
 
-    Go(pool, init);
+    fibers::Go(pool, init);
 
     pool.WaitIdle();
 
@@ -56,7 +55,8 @@ TEST_SUITE(Fibers) {
   }
 
   SIMPLE_TEST(RunInParallel) {
-    ThreadPool pool{3};
+    executors::ThreadPool pool{3};
+
     std::atomic<size_t> completed{0};
 
     auto sleeper = [&]() {
@@ -66,9 +66,9 @@ TEST_SUITE(Fibers) {
 
     wheels::StopWatch stop_watch;
 
-    Go(pool, sleeper);
-    Go(pool, sleeper);
-    Go(pool, sleeper);
+    fibers::Go(pool, sleeper);
+    fibers::Go(pool, sleeper);
+    fibers::Go(pool, sleeper);
 
     pool.WaitIdle();
 
@@ -93,7 +93,7 @@ TEST_SUITE(Fibers) {
     auto bull = [&]() {
       for (size_t i = 0; i < kIterations; ++i) {
         value.fetch_add(1);
-        Yield();
+        fibers::self::Yield();
         check_value();
       }
     };
@@ -101,17 +101,17 @@ TEST_SUITE(Fibers) {
     auto bear = [&]() {
       for (size_t i = 0; i < kIterations; ++i) {
         value.fetch_sub(1);
-        Yield();
+        fibers::self::Yield();
         check_value();
       }
     };
 
     // NB: 1 worker thread!
-    ThreadPool pool{1};
+    executors::ThreadPool pool{1};
 
-    Go(pool, [&]() {
-      Go(bull);
-      Go(bear);
+    fibers::Go(pool, [&]() {
+      fibers::Go(bull);
+      fibers::Go(bear);
     });
 
     pool.WaitIdle();
@@ -119,18 +119,18 @@ TEST_SUITE(Fibers) {
   }
 
   SIMPLE_TEST(Yield2) {
-    ThreadPool pool{4};
+    executors::ThreadPool pool{4};
 
     static const size_t kYields = 65536;
 
     auto tester = []() {
       for (size_t i = 0; i < kYields; ++i) {
-        Yield();
+        fibers::self::Yield();
       }
     };
 
-    Go(pool, tester);
-    Go(pool, tester);
+    fibers::Go(pool, tester);
+    fibers::Go(pool, tester);
 
     pool.WaitIdle();
     pool.Stop();
@@ -142,7 +142,7 @@ TEST_SUITE(Fibers) {
     }
 
     size_t Explode(size_t d) {
-      Go(pool_, MakeForker(d));
+      fibers::Go(pool_, MakeForker(d));
 
       pool_.WaitIdle();
       pool_.Stop();
@@ -154,8 +154,8 @@ TEST_SUITE(Fibers) {
     exe::fibers::Routine MakeForker(size_t d) {
       return [this, d]() {
         if (d > 2) {
-          Go(MakeForker(d - 2));
-          Go(MakeForker(d - 1));
+          fibers::Go(MakeForker(d - 2));
+          fibers::Go(MakeForker(d - 1));
         } else {
           leafs_.fetch_add(1);
         }
@@ -163,30 +163,30 @@ TEST_SUITE(Fibers) {
     }
 
    private:
-    ThreadPool pool_;
+    executors::ThreadPool pool_;
     std::atomic<size_t> leafs_{0};
   };
 
-//  // Under investigation
-//  TEST(Forks, wheels::test::TestOptions().TimeLimit(10s).AdaptTLToSanitizer()) {
-//    ForkTester tester{4};
-//    // Respect ThreadSanitizer thread limit:
-//    // Tid - 13 bits => 8192 threads
-//    ASSERT_EQ(tester.Explode(20), 6765);
-//  }
+  //  // Under investigation
+  //  TEST(Forks, wheels::test::TestOptions().TimeLimit(10s).AdaptTLToSanitizer()) {
+  //    ForkTester tester{4};
+  //    // Respect ThreadSanitizer thread limit:
+  //    // Tid - 13 bits => 8192 threads
+  //    ASSERT_EQ(tester.Explode(20), 6765);
+  //  }
 
   SIMPLE_TEST(TwoPools1) {
-    ThreadPool pool_1{4};
-    ThreadPool pool_2{4};
+    executors::ThreadPool pool_1{4};
+    executors::ThreadPool pool_2{4};
 
-    auto make_tester = [](ThreadPool& pool) {
+    auto make_tester = [](executors::ThreadPool& pool) {
       return [&pool]() {
         ExpectPool(pool);
       };
     };
 
-    Go(pool_1, make_tester(pool_1));
-    Go(pool_2, make_tester(pool_2));
+    fibers::Go(pool_1, make_tester(pool_1));
+    fibers::Go(pool_2, make_tester(pool_2));
 
     pool_1.WaitIdle();
     pool_2.WaitIdle();
@@ -196,27 +196,27 @@ TEST_SUITE(Fibers) {
   }
 
   SIMPLE_TEST(TwoPools2) {
-    ThreadPool pool_1{4};
-    ThreadPool pool_2{4};
+    executors::ThreadPool pool_1{4};
+    executors::ThreadPool pool_2{4};
 
-    auto make_tester = [](ThreadPool& pool) {
+    auto make_tester = [](executors::ThreadPool& pool) {
       return [&pool]() {
         static const size_t kIterations = 1024;
 
         for (size_t i = 0; i < kIterations; ++i) {
           ExpectPool(pool);
 
-          Yield();
+          fibers::self::Yield();
 
-          Go(pool, [&pool]() {
+          fibers::Go(pool, [&pool]() {
             ExpectPool(pool);
           });
         }
       };
     };
 
-    Go(pool_1, make_tester(pool_1));
-    Go(pool_2, make_tester(pool_2));
+    fibers::Go(pool_1, make_tester(pool_1));
+    fibers::Go(pool_2, make_tester(pool_2));
 
     pool_1.WaitIdle();
     pool_2.WaitIdle();

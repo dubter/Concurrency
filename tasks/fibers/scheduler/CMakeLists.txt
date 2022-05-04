@@ -14,16 +14,9 @@ add_task_dir_target(workloads workloads)
 # Coroutine
 add_task_test_dir(tests/coroutine/standalone coroutine_tests)
 
-# Compute Thread Pool
-add_task_test_dir(tests/executors/tp/compute/unit tp_compute_unit_tests)
-add_task_test_dir(tests/executors/tp/compute/stress tp_compute_stress_tests)
-
-# Fibers over executors
-add_task_test_dir(tests/fibers/executors fibers_over_executors_tests)
-
-# Fast Thread Pool
-add_task_test_dir(tests/executors/tp/fast/unit tp_fast_unit_tests)
-add_task_test_dir(tests/executors/tp/fast/stress tp_fast_stress_tests)
+# Thread pool
+add_task_test_dir(tests/executors/thread_pool/unit thread_pool_unit_tests)
+add_task_test_dir(tests/executors/thread_pool/stress thread_pool_stress_tests)
 
 # Fibers
 add_task_test_dir(tests/fibers/core/ fibers_core_tests)

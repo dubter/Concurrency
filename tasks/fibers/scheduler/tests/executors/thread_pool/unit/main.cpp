@@ -1,4 +1,4 @@
-#include <exe/executors/tp/compute/thread_pool.hpp>
+#include <exe/executors/thread_pool.hpp>
 #include <exe/executors/execute.hpp>
 
 #include <wheels/test/test_framework.hpp>
@@ -9,12 +9,12 @@
 #include <chrono>
 #include <thread>
 
-using exe::executors::tp::compute::ThreadPool;
+using exe::executors::ThreadPool;
 using exe::executors::Execute;
 
 using namespace std::chrono_literals;
 
-TEST_SUITE(ThreadPool) {
+TEST_SUITE(FastThreadPool) {
   SIMPLE_TEST(JustWorks) {
     ThreadPool pool{4};
 
@@ -57,6 +57,17 @@ TEST_SUITE(ThreadPool) {
       ASSERT_TRUE(done);
     }
 
+    pool.Stop();
+  }
+
+  SIMPLE_TEST(Exceptions) {
+    ThreadPool pool{1};
+
+    Execute(pool, []() {
+      throw std::runtime_error("Task failed");
+    });
+
+    pool.WaitIdle();
     pool.Stop();
   }
 
@@ -131,22 +142,47 @@ TEST_SUITE(ThreadPool) {
     ASSERT_EQ(tasks.load(), 2);
   }
 
+  SIMPLE_TEST(CrossSubmit) {
+    ThreadPool pool1{1};
+    ThreadPool pool2{1};
+
+    bool done = false;
+
+    Execute(pool1, [&]() {
+      ASSERT_TRUE(ThreadPool::Current() == &pool1);
+      Execute(pool2, [&]() {
+        ASSERT_TRUE(ThreadPool::Current() == &pool2);
+        done = true;
+      });
+    });
+
+    pool1.WaitIdle();
+    pool2.WaitIdle();
+
+    ASSERT_TRUE(done);
+
+    pool1.Stop();
+    pool2.Stop();
+  }
+
   SIMPLE_TEST(Shutdown) {
     ThreadPool pool{3};
 
-    for (size_t i = 0; i < 3; ++i) {
+    for (size_t i = 0; i < 10; ++i) {
       Execute(pool, []() {
         std::this_thread::sleep_for(1s);
       });
     }
 
-    for (size_t i = 0; i < 10; ++i) {
+    std::this_thread::sleep_for(256ms);
+
+    for (size_t i = 0; i < 100; ++i) {
       Execute(pool, []() {
-        std::this_thread::sleep_for(100s);
+        std::this_thread::sleep_for(1s);
       });
     }
 
-    std::this_thread::sleep_for(250ms);
+    std::this_thread::sleep_for(256ms);
 
     pool.Stop();
   }

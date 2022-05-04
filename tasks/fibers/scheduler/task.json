@@ -1,39 +1,13 @@
 {
   "tests": [
     {
-      "targets": ["tp_compute_unit_tests"],
+      "targets": ["thread_pool_unit_tests"],
       "profiles": [
-        "Debug",
         "DebugASan"
       ]
     },
     {
-      "targets": ["tp_compute_stress_tests"],
-      "profiles": [
-        "Debug",
-        "FaultyFibers",
-        "FaultyThreadsASan",
-        "FaultyThreadsTSan"
-      ]
-    },
-    {
-      "targets": ["fibers_over_executors_tests"],
-      "profiles": [
-        "DebugASan",
-        "FaultyFibers",
-        "FaultyThreadsASan",
-        "FaultyThreadsTSan"
-      ]
-    },
-    {
-      "targets": ["tp_fast_unit_tests"],
-      "profiles": [
-        "Debug",
-        "DebugASan"
-      ]
-    },
-    {
-      "targets": ["tp_fast_stress_tests"],
+      "targets": ["thread_pool_stress_tests"],
       "profiles": [
         "Debug",
         "FaultyFibers",
@@ -99,6 +73,9 @@
   ],
   "lint_files": ["exe"],
   "submit_files": ["exe"],
+  "do_not_change_files": [
+    "exe/executors/thread_pool.hpp"
+  ],
   "forbidden_patterns": [
   ]
 }
