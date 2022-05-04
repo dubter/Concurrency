@@ -111,7 +111,7 @@ futures::Future<int> f = futures::Execute(pool, []() -> int {
 // Then: Future<T> → U(T) → Future<U>
 auto g = std::move(f).Then([](int value) {
   return value + 1;
-})
+});
 ```
 
 Функция, переданная в `Then`, называется _продолжением_ (_continuation_). 
