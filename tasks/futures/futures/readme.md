@@ -114,7 +114,7 @@ auto g = std::move(f).Then([](int value) {
 });
 ```
 
-Функция, переданная в `Then`, называется _продолжением_ (_continuation_). 
+Переданная в `Then` функция называется _продолжением_ (_continuation_). 
 
 Продолжение получает единственным аргументом значение типа `T` и возвращает новое значение (тип которого будем обозначать через `U`).
 
@@ -135,7 +135,7 @@ futures::Execute(pool, []() -> int {
 }).Then([](int value) {
   return value * 2;
 }).Subscribe([](wheels::Result<int> result) {
-  std::cout << "Value " << *result << std::endl;
+  std::cout << "Value = " << *result << std::endl;
 });
 ```
 
