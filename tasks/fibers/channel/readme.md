@@ -35,7 +35,7 @@ _Do not communicate by sharing memory; instead, share memory by communicating._
 
 ```cpp
 void ChannelExample() {
-    executors::ThreadPool scheduler{/*threads=*/4};
+  executors::ThreadPool scheduler{/*threads=*/4};
 
   fibers::Go(scheduler, []() {
     fibers::Channel<int> msgs{16};
