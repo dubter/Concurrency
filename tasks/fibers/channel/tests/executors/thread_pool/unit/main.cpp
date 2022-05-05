@@ -14,7 +14,7 @@ using exe::executors::Execute;
 
 using namespace std::chrono_literals;
 
-TEST_SUITE(FastThreadPool) {
+TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(JustWorks) {
     ThreadPool pool{4};
 
