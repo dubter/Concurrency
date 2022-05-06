@@ -13,9 +13,13 @@
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/cpu_time.hpp>
 
+#include <wheels/support/unit.hpp>
+
 #include <thread>
 
 using namespace exe;
+
+using wheels::Unit;
 
 //////////////////////////////////////////////////////////////////////
 
@@ -120,7 +124,7 @@ TEST_SUITE(Futures) {
   SIMPLE_TEST(ExecuteError) {
     executors::ManualExecutor manual;
 
-    auto f = futures::Execute(manual, []() {
+    auto f = futures::Execute(manual, []() -> Unit {
       throw std::runtime_error("Test");
     });
 
