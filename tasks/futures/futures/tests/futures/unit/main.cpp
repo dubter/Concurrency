@@ -299,8 +299,9 @@ TEST_SUITE(Futures) {
   SIMPLE_TEST(Then4) {
     auto [f, p] = futures::MakeContract<int>();
 
-    auto g = std::move(f).Then([](int /*value*/) {
+    auto g = std::move(f).Then([](int /*value*/) -> Unit {
       FAIL_TEST("Skip continuation if error");
+      return {};
     });
 
     std::move(p).SetError(TimeoutError());
