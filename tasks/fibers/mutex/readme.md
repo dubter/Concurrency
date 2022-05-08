@@ -33,9 +33,9 @@ void SyncExample() {
     // опускается до нуля только один раз.
     fibers::WaitGroup wg;
     
+    wg.Add(123);
+    
     for (size_t i = 0; i < 123; ++i) {
-      wg.Add(1);
-      
       fibers::Go([&]() {
         // При выходе из скоупа будет вызван wg.Done()
         // https://gobyexample.com/defer
