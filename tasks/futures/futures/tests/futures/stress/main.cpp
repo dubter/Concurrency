@@ -36,8 +36,8 @@ void StressTestSubscribe() {
     });
 
     executors::Execute(pool, [&done, f = std::move(f)]() mutable {
-      std::move(f).Subscribe([&done](std::string message) {
-        ASSERT_EQ(message, "Hi");
+      std::move(f).Subscribe([&done](wheels::Result<std::string> message) {
+        ASSERT_EQ(message.ExpectValue(), "Hi");
         done = true;
       });
     });
