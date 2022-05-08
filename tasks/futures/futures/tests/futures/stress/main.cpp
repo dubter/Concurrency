@@ -114,7 +114,6 @@ void StressTestAll() {
     auto ints = futures::GetResult(std::move(all)).ExpectValue();
 
     ASSERT_EQ(ints.size(), inputs);
-    std::sort(ints.begin(), ints.end());
     for (int j = 0; j < (int)inputs; ++j) {
       ASSERT_EQ(ints[j], j);
     }
