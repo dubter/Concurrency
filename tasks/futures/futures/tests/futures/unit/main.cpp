@@ -515,7 +515,7 @@ TEST_SUITE(Futures) {
     auto all_result = std::move(all).GetReadyResult();
     ASSERT_TRUE(all_result.IsOk());
 
-    ASSERT_EQ(*all_result, std::vector<int>({7, 3, 5}));
+    ASSERT_EQ(*all_result, std::vector<int>({3, 5, 7}));
   }
 
   SIMPLE_TEST(All2) {
