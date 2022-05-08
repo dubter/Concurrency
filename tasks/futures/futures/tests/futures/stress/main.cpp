@@ -74,7 +74,7 @@ void StressTestPipeline() {
       }).Via(strand).Then([&](Unit) -> Unit {
         ++counter2;
         return Unit{};
-      }).Via(pool).Subscribe([&](Unit) {
+      }).Via(pool).Subscribe([&](wheels::Result<Unit>) {
         ++counter3;
       });
     }
