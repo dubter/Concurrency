@@ -215,12 +215,16 @@
 
 ## References
 
+### Work Stealing
+
+- [Scheduling Multithreaded Computations by Work Stealing](http://supertech.csail.mit.edu/papers/steal.pdf)
+- https://en.wikipedia.org/wiki/Work_stealing
+
 ### Дизайн
 
 - [Scalable Go Scheduler Design Doc](https://golang.org/s/go11sched)
 - [Go scheduler: Implementing language with lightweight concurrency](https://www.youtube.com/watch?v=-K11rY57K7k)
 - [Making the Tokio scheduler 10x faster](https://tokio.rs/blog/2019-10-scheduler)
-- [Work stealing](https://en.wikipedia.org/wiki/Work_stealing)
 
 ### Реализации
 
