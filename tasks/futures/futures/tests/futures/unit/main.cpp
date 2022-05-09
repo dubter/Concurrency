@@ -41,6 +41,15 @@ struct MoveOnly {
   std::string data;
 };
 
+struct NonDefaultConstructable {
+  explicit NonDefaultConstructable(int value) : value(value) {
+  }
+
+  bool operator==(const NonDefaultConstructable& that) const = default
+
+  int value{0};
+};
+
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(Futures) {
@@ -540,6 +549,28 @@ TEST_SUITE(Futures) {
     ASSERT_TRUE(all_result.HasError());
   }
 
+  SIMPLE_TEST(AllNonDefaultConstructable) {
+    auto [f1, p1] = futures::MakeContract<NonDefaultConstructable>();
+    auto [f2, p2] = futures::MakeContract<NonDefaultConstructable>();
+
+    auto all = futures::All(std::move(f1), std::move(f2));
+
+    ASSERT_FALSE(all.IsReady());
+
+    std::move(p1).SetValue(NonDefaultConstructable{1});
+
+    ASSERT_FALSE(all.IsReady());
+
+    std::move(p2).SetValue(NonDefaultConstructable{2});
+
+    ASSERT_TRUE(all.IsReady());
+
+    auto all_result = std::move(all).GetReadyResult();
+    ASSERT_TRUE(all_result.IsOk());
+    ASSERT_EQ((*all_result)[0], NonDefaultConstructable{1});
+    ASSERT_EQ((*all_result)[1], NonDefaultConstructable{2});
+  }
+
   SIMPLE_TEST(AllEmptyInput) {
     auto all = All(std::vector<futures::Future<int>>{});
 
@@ -590,6 +621,27 @@ TEST_SUITE(Futures) {
     auto first_result = std::move(first_of).GetReadyResult();
 
     ASSERT_EQ(first_result.ExpectValue(), 44);
+  }
+
+  SIMPLE_TEST(FirstOfNonDefaultConstructable) {
+    auto [f1, p1] = futures::MakeContract<NonDefaultConstructable>();
+    auto [f2, p2] = futures::MakeContract<NonDefaultConstructable>();
+
+    auto first_of = futures::FirstOf(std::move(f1), std::move(f2));
+
+    ASSERT_FALSE(first_of.IsReady());
+
+    std::move(p2).SetValue(NonDefaultConstructable{2});
+
+    ASSERT_TRUE(first_of.IsReady());
+
+    std::move(p1).SetValue(NonDefaultConstructable{1});
+
+    ASSERT_TRUE(first_of.IsReady());
+
+    auto first_result = std::move(first_of).GetReadyResult();
+    ASSERT_TRUE(first_result.IsOk());
+    ASSERT_EQ(*first_result, NonDefaultConstructable{2});
   }
 
   SIMPLE_TEST(Combine) {
