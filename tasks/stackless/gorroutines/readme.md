@@ -196,7 +196,7 @@ tasks::Task<> task = Work();
 4) Реализуйте лок-фри `Mutex`
 5) Реализуйте одноразовый [`WaitGroup`](exe/tasks/sync/wait_group.hpp)
 6) [Бонусный уровень] Реализуйте многоразовый `WaitGroup`
-7) [Бонусный уровень] Реализуйте  [`Task<T>`](/exe/tasks/core/!task.hpp), который поддерживает `co_await`, `Run` и комбинаторы.
+7) [Бонусный уровень] Реализуйте  [`Task<T>`](/exe/tasks/core/task.hpp), который поддерживает `co_await`, `Run` и комбинаторы.
 
 ## References
 
