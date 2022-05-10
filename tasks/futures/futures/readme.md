@@ -347,8 +347,16 @@ API фьюч можно усовершенствовать: статически
 
 ## References
 
-- [Your Server as a Function](https://monkey.org/~marius/funsrv.pdf), [Finagle – Concurrent Programming with Futures](https://twitter.github.io/finagle/guide/Futures.html)
-- [Futures for C++11 at Facebook](https://engineering.fb.com/developer-tools/futures-for-c-11-at-facebook/), [Folly Futures](https://github.com/facebook/folly/blob/master/folly/docs/Futures.md),
+### _Finagle_
+
+- [Your Server as a Function](https://monkey.org/~marius/funsrv.pdf)
+- [Finagle – Concurrent Programming with Futures](https://twitter.github.io/finagle/guide/Futures.html)
+- [Futures: Twitter vs Scala](https://www.youtube.com/watch?v=jiYe-LdPrS0)
+
+### _Folly_
+
+- [Futures for C++11 at Facebook](https://engineering.fb.com/developer-tools/futures-for-c-11-at-facebook/)
+- [Folly Futures](https://github.com/facebook/folly/blob/master/folly/docs/Futures.md)
 
 ## Задание
 
