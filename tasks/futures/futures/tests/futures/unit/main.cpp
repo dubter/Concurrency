@@ -42,10 +42,8 @@ struct MoveOnly {
 };
 
 struct NonDefaultConstructable {
-  explicit NonDefaultConstructable(int value) : value(value) {
+  explicit NonDefaultConstructable(int v) : value(v) {
   }
-
-  bool operator==(const NonDefaultConstructable& that) const = default
 
   int value{0};
 };
@@ -567,8 +565,11 @@ TEST_SUITE(Futures) {
 
     auto all_result = std::move(all).GetReadyResult();
     ASSERT_TRUE(all_result.IsOk());
-    ASSERT_EQ((*all_result)[0], NonDefaultConstructable{1});
-    ASSERT_EQ((*all_result)[1], NonDefaultConstructable{2});
+
+    auto all_values = std::move(*all_result);
+
+    ASSERT_EQ(all_values[0].value, 1);
+    ASSERT_EQ(all_values[1].value, 2);
   }
 
   SIMPLE_TEST(AllEmptyInput) {
@@ -641,7 +642,7 @@ TEST_SUITE(Futures) {
 
     auto first_result = std::move(first_of).GetReadyResult();
     ASSERT_TRUE(first_result.IsOk());
-    ASSERT_EQ(*first_result, NonDefaultConstructable{2});
+    ASSERT_EQ(first_result->value, 2);
   }
 
   SIMPLE_TEST(Combine) {
