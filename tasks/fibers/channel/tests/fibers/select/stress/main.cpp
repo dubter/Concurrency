@@ -107,7 +107,7 @@ class SelectTester {
 
       switch (selected_value.index()) {
         case 0: {
-          int x = std::get<0>(selected_value);
+          int64_t x = std::get<0>(selected_value);
           if (x == -1) {
             xs_done = true;
             xs.Send(-1);
@@ -118,7 +118,7 @@ class SelectTester {
           break;
         }
         case 1: {
-          int y = std::get<1>(selected_value);
+          int64_t y = std::get<1>(selected_value);
           if (y == -1) {
             ys_done = true;
             ys.Send(-1);
