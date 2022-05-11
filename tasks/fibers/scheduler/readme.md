@@ -198,6 +198,8 @@
 
 Профилируйте вашу реализацию на [`workloads`](workloads/main.cpp) чтобы понять, на что вы расходуете время при планировании.
 
+[Flame Graphs](https://www.brendangregg.com/flamegraphs.html)
+
 ## Задание
 
 ### Подготовительные шаги
