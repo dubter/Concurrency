@@ -349,6 +349,22 @@ API фьюч можно усовершенствовать: статически
 
 [Future vs. SemiFuture](https://github.com/facebook/folly/blob/e270048526d5c65f6dcba13c6e1d5045398847de/folly/futures/Future.h#L466)
 
+## Интрузивность
+
+Поддержите в `Future` интрузивные коллбэки:
+
+```cpp
+template <typename T>
+struct ICallback {
+  virtual void Invoke(wheels::Result<T>) noexcept = 0;
+};
+```
+
+С помощью интрузивности можно избежать дополнительных аллокаций памяти при синхронной распаковке `Future` в потоках / файберах / корутинах:
+- `futures::GetResult(std::move(f))`
+- `fibers::Await(std::move(f))`
+- `co_await std::move(f)`
+
 ## References
 
 ### _Finagle_
