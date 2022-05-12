@@ -209,7 +209,11 @@ auto all = All(std::move(f1), std::move(f2), std::move(f3));
 
 ### Your Server as a Function
 
-_Фьючи_, _сервисы_, порождающие фьючи, и язык _комбинаторов_ составляют модель программирования, в которой можно _декларативно_ описывать
+- _Фьючи_, 
+- _сервисы_, порождающие фьючи, и 
+- язык _комбинаторов_ 
+
+составляют модель программирования, в которой можно _декларативно_ описывать
 целые графы обработки пользовательских запросов, которые будут конкурентно исполняться в общем пуле потоков.
 
 Декларативный стиль скрывает от пользователя всю внутреннюю машинерию, все `Promise`-ы, всю синхронизацию, переводя фокус с _control flow_ на _data flow_.
@@ -352,6 +356,11 @@ API фьюч можно усовершенствовать: статически
 - [Your Server as a Function](https://monkey.org/~marius/funsrv.pdf)
 - [Finagle – Concurrent Programming with Futures](https://twitter.github.io/finagle/guide/Futures.html)
 - [Futures: Twitter vs Scala](https://www.youtube.com/watch?v=jiYe-LdPrS0)
+
+### Scala Futures
+
+- [Scala Futures](https://docs.scala-lang.org/overviews/scala-book/futures.html)
+- [`scala.concurrent.Future`](https://www.scala-lang.org/api/current/scala/concurrent/Future.html)
 
 ### _Folly_
 
