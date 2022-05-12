@@ -22,9 +22,9 @@ void WorkLoadMutex() {
       size_t cs2 = 0;
       fibers::Mutex mutex2;
 
-      for (size_t i = 0; i < 100; ++i) {
-        wg.Add(1);
+      wg.Add(100);
 
+      for (size_t i = 0; i < 100; ++i) {
         fibers::Go([&]() {
           for (size_t j = 0; j < 65536; ++j) {
             {
