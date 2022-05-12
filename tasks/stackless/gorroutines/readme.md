@@ -203,3 +203,7 @@ tasks::Task<> task = Work();
 - [Asymmetric Transfer](https://lewissbaker.github.io/)
 - [cppreference / Coroutines](https://en.cppreference.com/w/cpp/language/coroutines)
 - [dcl.fct.def.coroutine](https://eel.is/c++draft/dcl.fct.def.coroutine), [expr.await](https://eel.is/c++draft/expr.await#:co_await)
+
+### Libraries
+
+- [Folly](https://github.com/facebook/folly/tree/main/folly/experimental/coro)
