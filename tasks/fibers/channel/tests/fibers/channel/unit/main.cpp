@@ -79,6 +79,44 @@ TEST_SUITE(Channels) {
     manual.Drain();
   }
 
+  SIMPLE_TEST(TryReceive) {
+    executors::ManualExecutor manual;
+
+    fibers::Go(manual, []() {
+      fibers::Channel<int> ints{/*buffer=*/1};
+
+      ASSERT_FALSE(ints.TryReceive());
+
+      ints.Send(14);
+
+      {
+        auto value = ints.TryReceive();
+        ASSERT_TRUE(value);
+        ASSERT_EQ(*value, 14);
+      }
+
+      ASSERT_FALSE(ints.TryReceive());
+    });
+
+    manual.Drain();
+  }
+
+  SIMPLE_TEST(TrySend) {
+    executors::ManualExecutor manual;
+
+    fibers::Go(manual, []() {
+      fibers::Channel<int> ints{/*buffer=*/1};
+
+      ints.Send(1);
+      ASSERT_FALSE(ints.TrySend(2));
+      ints.Receive();
+      ASSERT_TRUE(ints.TrySend(2));
+      ASSERT_EQ(ints.Receive(), 2);
+    });
+
+    manual.Drain();
+  }
+
   SIMPLE_TEST(SuspendReceiver) {
     executors::ManualExecutor manual;
 

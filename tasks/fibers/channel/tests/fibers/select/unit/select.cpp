@@ -25,6 +25,132 @@ void RunScheduler(size_t threads, std::function<void()> routine) {
 
 //////////////////////////////////////////////////////////////////////
 
+TEST_SUITE(TrySelect) {
+  SIMPLE_TEST(NoValue) {
+    RunScheduler(1, []() {
+      fibers::Channel<int> ints{1};
+      fibers::Channel<std::string> strs{1};
+
+      auto selected_value = fibers::TrySelect(ints, strs);
+
+      // No value
+      ASSERT_EQ(selected_value.index(), 2);
+    });
+  }
+
+  SIMPLE_TEST(Values1) {
+    bool done = false;
+
+    RunScheduler(4, [&done]() {
+      fibers::Channel<int> ints{5};
+      fibers::Channel<std::string> strs{5};
+
+      {
+        ints.Send(17);
+
+        auto selected_value = fibers::TrySelect(ints, strs);
+
+        ASSERT_EQ(selected_value.index(), 0);
+        ASSERT_EQ(std::get<0>(selected_value), 17);
+      }
+
+      {
+        strs.Send("Hi");
+
+        auto selected_value = fibers::TrySelect(ints, strs);
+
+        ASSERT_EQ(selected_value.index(), 1);
+        ASSERT_EQ(std::get<1>(selected_value), "Hi");
+      }
+
+      {
+        auto selected_value = fibers::TrySelect(ints, strs);
+
+        ASSERT_EQ(selected_value.index(), 2);
+      }
+
+      done = true;
+    });
+
+    ASSERT_TRUE(done);
+  }
+
+  SIMPLE_TEST(Values2) {
+    bool done = false;
+
+    RunScheduler(4, [&done]() {
+      fibers::Channel<int> ints{5};
+      fibers::Channel<std::string> strs{5};
+
+      ints.Send(44);
+      strs.Send("Test");
+
+      bool int_received = false;
+      bool str_received = false;
+
+      for (size_t i = 0; i < 2; ++i) {
+        auto selected_value = fibers::TrySelect(strs, ints);
+
+        if (selected_value.index() == 0) {
+          ASSERT_EQ(std::get<0>(selected_value), "Test");
+          str_received = true;
+        } else if (selected_value.index() == 1) {
+          ASSERT_EQ(std::get<1>(selected_value), 44);
+          int_received = true;
+        } else {
+          FAIL_TEST("Impossible");
+        }
+      }
+
+      ASSERT_TRUE(int_received && str_received);
+
+      done = true;
+    });
+
+    ASSERT_TRUE(done);
+  }
+
+  SIMPLE_TEST(Fairness) {
+    bool done = false;
+
+    RunScheduler(4, [&done]() {
+      static const size_t kIterations = 10000;
+
+      fibers::Channel<int> xs{5};
+      fibers::Channel<int> ys{5};
+
+      xs.Send(1);
+      ys.Send(2);
+
+      int balance = 0;
+
+      for (size_t i = 0; i < kIterations; ++i) {
+        auto selected_value = fibers::TrySelect(xs, ys);
+        switch (selected_value.index()) {
+          case 0:
+            ASSERT_EQ(std::get<0>(selected_value), 1);
+            xs.Send(1);
+            ++balance;
+            break;
+          case 1:
+            ASSERT_EQ(std::get<1>(selected_value), 2);
+            ys.Send(2);
+            --balance;
+            break;
+        }
+
+        ASSERT_TRUE(std::abs(balance) < 128);
+      }
+
+      done = true;
+    });
+
+    ASSERT_TRUE(done);
+  }
+}
+
+//////////////////////////////////////////////////////////////////////
+
 TEST_SUITE(Select) {
   SIMPLE_TEST(NonBlocking1) {
     bool done = false;

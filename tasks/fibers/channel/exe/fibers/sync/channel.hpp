@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <memory>
+#include <optional>
 
 namespace exe::fibers {
 
@@ -27,7 +28,15 @@ class ChannelImpl {
     std::abort();  // Not implemented
   }
 
+  bool TrySend(T /*value*/) {
+    std::abort();  // Not implemented
+  }
+
   T Receive() {
+    std::abort();  // Not implemented
+  }
+
+  std::optional<T> TryReceive() {
     std::abort();  // Not implemented
   }
 
@@ -63,9 +72,17 @@ class Channel {
     impl_->Send(std::move(value));
   }
 
+  bool TrySend(T value) {
+    return impl_->TrySend(std::move(value));
+  }
+
   // Suspending
   T Receive() {
     return impl_->Receive();
+  }
+
+  std::optional<T> TryReceive() {
+    return impl_->TryReceive();
   }
 
  private:

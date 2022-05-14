@@ -2,6 +2,7 @@
 
 ## Пререквизиты
 
+- [mutex/dining](/tasks/mutex/dining)
 - [fibers/mutex](/tasks/fibers/mutex)
 - [futures/executors](/tasks/futures/executors)
 - Интрузивные задачи
@@ -29,7 +30,7 @@ _Do not communicate by sharing memory; instead, share memory by communicating._
 
 Канал – MPMC (_multiple producers_ / _multiple consumers_).
 
-Для простоты мы обойдемся без `Close` и неблокирующих вариаций `TrySend` / `TryReceive`.
+Чтобы упростить сигнатуры методов, мы обойдемся без метода `Close`. 
 
 ### Пример
 
@@ -66,24 +67,26 @@ void ChannelExample() {
 }
 ```
 
-### Синхронизация
+### Реализация
+
+#### Синхронизация
 
 Для синхронизации продьюсеров и консьюмеров используйте спинлок (так делают в Golang). Лок-фри реализация не требуется.
 
-### Рандеву
+#### Рандеву
 
 Если в канале есть ждущие консьюмеры, то в `Send` передавайте сообщение консьюмеру напрямую, со стека на стек, минуя буфер канала.
 
-### Аллокации
+#### Аллокации
 
 Методы `Send` / `Receive` не должны выполнять динамических аллокаций памяти:
 
 - Для списка остановленных продьюсеров / консьюмеров используйте интрузивные списки
 - [Опционально] Для буфера сообщений используйте циклический буфер
 
-### Misc
+#### Остановка
 
-Не пишите в `Send` / `Receive` код, похожий на код с кондварами, в котором есть завернутое в цикл ожидание. В обоих методах достаточно остановиться только один раз.
+Для реализации ожидания в методах `Send` / `Receive` используйте непосредственно `Suspend`.
 
 ## `Select`
 
@@ -92,23 +95,44 @@ void ChannelExample() {
 Реализуйте функцию [`Select(xs, ys)`](exe/fibers/sync/select.hpp), которая останавливает файбер до появления первого сообщения в одном из двух каналов `xs` / `ys`:
 
 ```cpp
- fibers::Channel<X> xs;
- fibers::Channel<Y> ys;
+fibers::Channel<X> xs;
+fibers::Channel<Y> ys;
  
- // ...
-
- std::variant<X, Y> value = fibers::Select(xs, ys);
- switch (value.index()) {
-   case 0:
-     // Handle std::get<0>(value);
-     break;
-   case 1:
-     // Handle std::get<1>(value);
-     break;
- }
+// ...
+std::variant<X, Y> value = fibers::Select(xs, ys);
+switch (value.index()) {
+  case 0:
+    // Handle std::get<0>(value);
+    break;
+  case 1:
+    // Handle std::get<1>(value);
+    break;
+}
 ```
 
 В `Select` разрешается передавать только разные каналы, вызов `Select(xs, xs)` – UB.
+
+### `TrySelect`
+
+[Go by Example: Non-Blocking Channel Operations](https://gobyexample.com/non-blocking-channel-operations)
+
+Поддержите неблокирующую вариацию – `TrySelect`:
+
+```cpp
+// std::variant<X, Y, std::monostate>
+auto maybe_value = fibers::TrySelect(xs, ys);
+switch (value.index()) {
+  case 0:
+    // Handle std::get<0>(maybe_value);
+    break;
+  case 1:
+    // Handle std::get<1>(maybe_value);
+    break;
+  default:
+    // Empty channels
+    break;
+}
+```
 
 ### Сценарии
 
@@ -124,7 +148,9 @@ void ChannelExample() {
 - В нем можно как получать, так и отправлять сообщения
 - У него есть неблокирующий вариант (с `default`)
 
-### Число каналов
+### Реализация
+
+#### Число каналов
 
 Придуманный вами алгоритм синхронизации для `Select` должен обобщаться на произвольное число каналов.
 
@@ -132,11 +158,11 @@ void ChannelExample() {
 
 Бонусный уровень: реализуйте variadic `Select`, работающий с произвольным числом каналов.
 
-### Fairness
+#### Fairness
 
 Реализация `Select` не должна отдавать приоритет одному из каналов: если `Select` вызывается в цикле, то файбер должен регулярно получать сообщения из обоих каналов.
 
-### Аллокации
+#### Аллокации
 
 Реализация `Select` не должна выполнять динамических аллокаций памяти.
 
@@ -145,5 +171,6 @@ void ChannelExample() {
 ## Задание
 
 1) Реализуйте [`Channel<T>`](exe/fibers/sync/channel.hpp)
-2) Реализуйте [`Select`](exe/fibers/sync/select.hpp)
-3) [Бонусный уровень] Поддержите в `Select` произвольное число каналов
+2) Реализуйте [`TrySelect`](exe/fibers/sync/select.hpp)
+3) Реализуйте [`Select`](exe/fibers/sync/select.hpp)
+4) [Бонусный уровень] Поддержите в `Select` произвольное число каналов
