@@ -118,7 +118,7 @@ class AtomicStampedPtr {
   using PackedPtr = detail::Packer::PackedPtr;
 
  public:
-  static const size_t kMaxStamp = 1 << detail::Packer::kFreeBits;
+  static const size_t kMaxStamp = (1 << detail::Packer::kFreeBits) - 1;
 
  public:
   explicit AtomicStampedPtr(T* raw_ptr) : AtomicStampedPtr({raw_ptr, 0}) {
