@@ -60,5 +60,7 @@
   "lint_files": ["exe"],
   "submit_files": ["exe"],
   "forbidden_patterns": [
+    "std::deque",
+    "std::queue"
   ]
 }
