@@ -44,7 +44,7 @@ Coroutine co(routine);
 ### Пример
 
 ```cpp
-void BasicsExample() {
+void StackfulCoroutineExample() {
   using exe::coroutine::Coroutine;
   
   auto routine = []() {
