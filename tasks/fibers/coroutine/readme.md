@@ -376,6 +376,5 @@ void SubmitExample() {
 
 ## Полезные ссылки
 
-- [Gor Nishanov – C++ Coroutines – a negative overhead abstraction](https://www.youtube.com/watch?v=Ts-1mWBmTNE)
+- [Project Loom: Fibers and Continuations for the Java Virtual Machine](https://cr.openjdk.java.net/~rpressler/loom/Loom-Proposal.html), [State of Loom](https://cr.openjdk.java.net/~rpressler/loom/loom/sol1_part1.html)
 - [Ron Pressler and Alan Bateman – Project Loom](https://www.youtube.com/watch?v=J31o0ZMQEnI)
-- [Roman Elizarov – Introduction to Coroutines](https://www.youtube.com/watch?v=_hfBv0a09Jc)
