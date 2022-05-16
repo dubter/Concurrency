@@ -271,7 +271,9 @@ void FibersExample() {
 
 Корутина (в виде `CoroutineImpl`) – исполняемая сущность, а значит у нее должен быть собственный контекст исполнения, который представлен классом [`ExecutionContext`](https://gitlab.com/Lipovsky/context/-/blob/master/context/context.hpp).
 
-`ExecutionContext` поддерживает две операции: _установка_ (`Setup`) и _переключение_ (`SwitchTo`) контекста.
+`ExecutionContext` поддерживает две операции:
+- _установка_ (`Setup`) и 
+- _переключение_ (`SwitchTo`) контекста.
 
 #### Переключение контекста
 
@@ -300,7 +302,7 @@ void FibersExample() {
 
 ## Задание
 
-1) Реализуйте [`ThreadPool`](exe/tp/thread_pool.hpp)
+1) Перенесите в [`ThreadPool`](exe/tp/thread_pool.hpp) реализацию пула потоков из задачи [condvar/thread-pool](/tasks/condvar/thread-pool)
 2) Реализуйте [`CoroutineImpl`](exe/coroutine/impl.hpp)
 3) Через `ThreadPool` и `CoroutineImpl` выразите [файберы](exe/fibers/core/api.hpp)
 
@@ -355,9 +357,9 @@ void SubmitExample() {
 }
 ```
 
-В тестах задачи в пул потоков планируются _только_ с помощью `tp::Submit`.
+В тестах задачи лямбды в пул потоков планируются _только_ с помощью `tp::Submit`.
 
-Сигнатуру метода `ThreadPool::Submit` допускается менять. Благодаря этому в файберах можно избавиться от всех аллокаций при 
+Сигнатуру метода `ThreadPool::Submit` можно менять. Благодаря этому в файберах можно избавиться от всех аллокаций при 
 планировании.
 
 ### `ThreadPool::Current`
@@ -374,7 +376,7 @@ void SubmitExample() {
 
 Класс `Fiber` не должен быть виден пользователю через публичное API.
 
-## Полезные ссылки
+## References
 
 - [Project Loom: Fibers and Continuations for the Java Virtual Machine](https://cr.openjdk.java.net/~rpressler/loom/Loom-Proposal.html), [State of Loom](https://cr.openjdk.java.net/~rpressler/loom/loom/sol1_part1.html)
 - [Ron Pressler and Alan Bateman – Project Loom](https://www.youtube.com/watch?v=J31o0ZMQEnI)
