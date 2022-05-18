@@ -413,6 +413,40 @@ TEST_SUITE(Futures) {
     ASSERT_TRUE(done);
   }
 
+  SIMPLE_TEST(PipelineRecoverWithoutError) {
+    wheels::test::CpuTimeBudgetGuard cpu_time_budget{100ms};
+
+    executors::ManualExecutor manual;
+
+    bool done = false;
+
+    futures::Execute(manual,
+                     []() {
+                       return 1;
+                     })
+        .Then([](int result) -> int {
+          return result * 2;
+        })
+        .Then([](int result) -> int {
+          return result * 10;
+        })
+        .Recover([](wheels::Error) {
+          return wheels::make_result::Ok(7);
+        })
+        .Then([](int value) {
+          return value + 1;
+        })
+        .Subscribe([&done](wheels::Result<int> result) {
+          ASSERT_EQ(result.ExpectValue(), 21);
+          done = true;
+        });
+
+    size_t tasks = manual.Drain();
+    ASSERT_EQ(tasks, 6);
+
+    ASSERT_TRUE(done);
+  }
+
   // Via + Then
 
   SIMPLE_TEST(Via) {
