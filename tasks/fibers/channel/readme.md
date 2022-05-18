@@ -121,7 +121,7 @@ switch (value.index()) {
 ```cpp
 // std::variant<X, Y, std::monostate>
 auto maybe_value = fibers::TrySelect(xs, ys);
-switch (value.index()) {
+switch (maybe_value.index()) {
   case 0:
     // Handle std::get<0>(maybe_value);
     break;
