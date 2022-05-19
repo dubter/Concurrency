@@ -139,7 +139,7 @@ TEST_SUITE(TrySelect) {
             break;
         }
 
-        ASSERT_TRUE(std::abs(balance) < 128);
+        ASSERT_TRUE(std::abs(balance) < 1024);
       }
 
       done = true;
@@ -328,7 +328,7 @@ TEST_SUITE(Select) {
             break;
         }
 
-        ASSERT_TRUE(std::abs(balance) < 128);
+        ASSERT_TRUE(std::abs(balance) < 1024);
       }
 
       done = true;
