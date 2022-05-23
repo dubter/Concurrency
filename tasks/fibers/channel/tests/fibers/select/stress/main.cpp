@@ -347,8 +347,8 @@ TEST_SUITE(TrySelect) {
     tester.Produce(1);
     tester.Produce(1);
 
-    tester.Select(0, 1);
-    tester.Select(1, 0);
+    tester.TrySelect(0, 1);
+    tester.TrySelect(1, 0);
     tester.Receive(0);
     tester.Receive(1);
 
@@ -383,14 +383,16 @@ TEST_SUITE(TrySelect) {
     tester.Produce(0);
     tester.Produce(0);
     tester.Produce(1);
+    tester.Produce(1);
+    tester.Produce(2);
     tester.Produce(2);
     tester.Produce(2);
 
-    tester.Select(0, 1);
+    tester.TrySelect(0, 1);
     tester.TrySelect(1, 0);
-    tester.Select(1, 2);
+    tester.TrySelect(1, 2);
     tester.TrySelect(2, 1);
-    tester.Select(2, 0);
+    tester.TrySelect(2, 0);
     tester.TrySelect(0, 2);
 
     tester.Receive(0);
@@ -485,6 +487,7 @@ TEST_SUITE(Select) {
     tester.Produce(0);
     tester.Produce(1);
     tester.Produce(1);
+    tester.Produce(2);
     tester.Produce(2);
     tester.Produce(2);
 
