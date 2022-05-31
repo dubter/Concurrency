@@ -81,7 +81,7 @@
 
 - group:    Fibers / Part IV
   start:    15-04-2022 12:00
-  deadline: 02-05-2022 23:59
+  deadline: 10-06-2022 23:59
   tasks:
     - task: lockfree/steal
       score: 200
