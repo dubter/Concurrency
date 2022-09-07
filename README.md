@@ -4,6 +4,12 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 
 ---
 
+## Правила
+
+При форке репозитория для решения задач делайте его приватным! Не выкладывайте решения задач в открытом доступе!
+
+Спасибо ❤️
+
 ## Ссылки
 
 - [Awesome Concurrency](https://gitlab.com/Lipovsky/awesome-concurrency)
