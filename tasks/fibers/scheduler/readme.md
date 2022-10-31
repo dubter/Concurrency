@@ -185,7 +185,7 @@
 
 Изучите [механизм парковки потоков](https://github.com/golang/go/blob/d2552037426fe5a190c74172562d897d921fe311/src/runtime/proc.go#L31) в планировщике `Go`.
 
-Изучите [реализацию](https://github.com/tokio-rs/tokio/blob/master/tokio/src/runtime/thread_pool/idle.rs) этого механизма в планировщике [Tokio](https://github.com/tokio-rs/tokio).
+Изучите [реализацию](https://github.com/tokio-rs/tokio/blob/master/tokio/src/runtime/scheduler/multi_thread/idle.rs) этого механизма в планировщике [Tokio](https://github.com/tokio-rs/tokio).
 
 Используйте аналогичную двухфазную парковку, реализуйте ее через класс [`Coordinator`](exe/executors/tp/fast/coordinator.hpp). 
 
