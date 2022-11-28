@@ -164,7 +164,7 @@ void GeneratorExample() {
   
   while (auto next = countdown.Receive()) {
     // next - std::optional
-    std::cout << *next << std::end;
+    std::cout << *next << std::endl;
   }
   std::cout << "Launch!" << std::endl;
 }
