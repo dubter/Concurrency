@@ -88,6 +88,8 @@
 
 В CLion добавьте опцию в поле `CMake Options` в нужный профиль сборки в `Preferences` > `Build, Execution, Deployment` > `CMake`.
 
+В VScode добавьте опцию в поле `Configure Args` в меню настройки расширения `CMake Tools` (вкладка левого меню `Extensions` > значок шестерёнки у `CMake Tools` > `Extension Settings` > `Configure Args` > `Add item`)
+
 Для Clippy используйте файл `.clippy-build-profiles.json` в корне репозитория.
 
 ---
