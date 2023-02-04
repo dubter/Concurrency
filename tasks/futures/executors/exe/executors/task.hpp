@@ -1,10 +1,10 @@
 #pragma once
 
-#include <wheels/support/function.hpp>
+#include <function2/function2.hpp>
 
 namespace exe::executors {
 
 // Intrusive task?
-using Task = wheels::UniqueFunction<void()>;
+using Task = fu2::unique_function<void()>;
 
 }  // namespace exe::executors
