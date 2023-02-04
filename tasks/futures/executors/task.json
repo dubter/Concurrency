@@ -3,7 +3,6 @@
     {
       "targets": ["thread_pool_unit_tests"],
       "profiles": [
-        "Debug",
         "DebugASan"
       ]
     },
@@ -19,14 +18,12 @@
     {
       "targets": ["manual_unit_tests"],
       "profiles": [
-        "Debug",
         "DebugASan"
       ]
     },
     {
       "targets": ["strand_unit_tests"],
       "profiles": [
-        "Debug",
         "DebugASan"
       ]
     },
