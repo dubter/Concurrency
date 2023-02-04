@@ -30,9 +30,7 @@
 
 ![Open folder](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-open-folder.png)
 
-## Настройка окружения
-
-### Шаг 0
+### Шаг 4
 
 Для работы с курсом нужно установить в контейнер следующие расширения аналогично тому, как было установлено расширение Dev Containers:
 
@@ -44,13 +42,13 @@
 
 После установки расширения `clangd` и начала работы с кодом VScode предложит установить `clangd`. С установкой нужно согласиться.
 
-### Шаг 1
+### Шаг 5
 
 После установки расширения для работы с CMake выберите kit - `Clang 12.0.0 x86-64-pc-linux-gnu`. Это можно сделать сразу после установки расширения либо в нижней панели.
 
 ![Setup kit](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-choose-kit.png)
 
-### Шаг 2
+### Шаг 6
 
 Смените директорию для сборки проекта. Для этого откройте настройки расширения `CMake Tools` в меню слева под названием `Extensions`.
 
@@ -65,7 +63,7 @@
 "cmake.buildDirectory": "/tmp/vscode-build"
 ```
 
-**Внимание:** после этого шага нужно удалить директорию `build/` в корне проекта, если она существует.
+**Внимание:** после этого шага удалите директорию `build/` в корне проекта, если она существует.
 
 Теперь запустить CMake можно из нижнего меню, выбрав профиль сборки `Debug`.
 ![Run CMake](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-run-cmake.png)
@@ -78,7 +76,7 @@
 Далее можно выбрать цель для запуска и запустить её.
 ![Run targets](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-run.png)
 
-### Шаг 2
+### Шаг 7
 
 В течение курса может понадобиться дебаггер. Для его настройки откройте сначала любой `.cpp` файл. 
 
