@@ -8,7 +8,7 @@
 
 Для запуска тестов выполните в директории с задачей команду `clippy test`.
 
-Для запуска конкретной тестовой цели выполните команду `clippy target {target-name} {build-profile-name}`.
+Для запуска конкретной тестовой цели CMake выполните команду `clippy target {target-name} {build-profile-name}`.
 
 Для автоматического форматирования кода задачи с помощью [`clang-format`](https://clang.llvm.org/docs/ClangFormat.html) выполните команду `clippy format`. Конфиг для `clang-format` находится в корне репозитория в файле [`.clang-format`](/.clang-format).
 

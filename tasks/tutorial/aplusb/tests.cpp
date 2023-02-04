@@ -6,12 +6,16 @@
 
 TEST_SUITE(UltimateQuestion) {
   SIMPLE_TEST(ComputeAnswer) {
-    solution::DeepThought deep_thought;
-    int answer = deep_thought.ComputeAnswer();
+    static const int kAnswer = 42;
+
+    galaxy::DeepThought deep_thought;
+    int answer = deep_thought.ComputeAnswer({});
+
     std::cout << "Your answer to the Ultimate Question of Life, the Universe, "
                  "and Everything is: "
               << answer << std::endl;
-    ASSERT_EQ(answer, 42);
+
+    ASSERT_EQ(answer, kAnswer);
   }
 }
 
