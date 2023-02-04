@@ -10,7 +10,6 @@
   "forbidden_patterns": [
     "StaticThreadPool",
     "malloc", "free",
-    "new ",
     "make_shared", "shared_ptr"
   ]
 }

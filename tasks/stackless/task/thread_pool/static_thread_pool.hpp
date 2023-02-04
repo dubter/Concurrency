@@ -1,6 +1,6 @@
 #pragma once
 
-#include <wheels/support/function.hpp>
+#include <function2/function2.hpp>
 
 #include <asio.hpp>
 
@@ -12,7 +12,7 @@ namespace tp {
 // Fixed-size pool of worker threads
 
 class StaticThreadPool {
-  using Task = wheels::UniqueFunction<void()>;
+  using Task = fu2::unique_function<void()>;
  public:
   explicit StaticThreadPool(size_t threads);
   ~StaticThreadPool();
