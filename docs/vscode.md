@@ -4,7 +4,7 @@
 
 ### Шаг 0
 
-Установите самую свежую версию [VScode](https://code.visualstudio.com/download).
+Установите самую свежую версию [VScode](https://code.visualstudio.com/download). Работоспособность протестирована с версии 1.60.
 
 ### Шаг 1
 
