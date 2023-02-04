@@ -78,6 +78,21 @@
 
 ### Шаг 7
 
+Настройте индексацию проекта `clangd`. Для этого в настройках расширения `clangd` во вкладке `Workspace` поменяйте значение настройки `Clangd: Arguments` на `-compile-commands-dir=/tmp/vscode-build`. 
+
+![Change clangd setting](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-change-clang-setting.png)
+
+Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит строки
+```
+"clangd.arguments": [
+    "-compile-commands-dir=/tmp/vscode-build"
+]
+```
+
+Теперь при открытии файлов проекта у вас должна работать навигация по коду.
+
+### Шаг 7
+
 В течение курса может понадобиться дебаггер. Для его настройки откройте сначала любой `.cpp` файл. 
 
 В левом меню откройте `Run and Debug` и нажмите `create a launch.json file`
