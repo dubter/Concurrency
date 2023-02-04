@@ -99,7 +99,7 @@ SpinLock::Lock() {
 class Event {
  public:
   void Wait() {
-    twist::ed::Wait(&fired_, 0);
+    twist::ed::Wait(&fired_, /*old=*/0);
   }
 
   void Fire() {
@@ -107,7 +107,7 @@ class Event {
   }
 
  private:
-  // Функции `Wait/Wake` требуют типа uint32_t
+  // Функции `Wait/Wake{One,All}` требуют типа uint32_t
   twist::ed::stdlike::atomic<uint32_t> fired_{0};
 };
 ```
