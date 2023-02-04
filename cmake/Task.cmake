@@ -6,6 +6,12 @@ set(LIBS_LIST "wheels;twist")
 
 # --------------------------------------------------------------------
 
+function(course_log message)
+    message(STATUS "[${PROJECT_NAME}] ${message}")
+endfunction()
+
+# --------------------------------------------------------------------
+
 # Helpers
 
 macro(get_task_target VAR NAME)
@@ -32,7 +38,7 @@ macro(begin_task)
     get_filename_component(HW_DIR ${TASK_DIR} DIRECTORY)
     get_filename_component(HW_NAME ${HW_DIR} NAME)
 
-    message(STATUS "Homework = '${HW_NAME}', task = '${TASK_NAME}'")
+    course_log("Homework = '${HW_NAME}', task = '${TASK_NAME}'")
 
     include_directories(${TASK_DIR})
 
@@ -70,7 +76,7 @@ function(add_task_library DIR_NAME)
     set(LIB_DIR ${TASK_DIR}/${DIR_NAME})
 
     get_task_target(LIB_TARGET ${LIB_NAME})
-    message(STATUS "Add task library target = ${LIB_TARGET}")
+    course_log("Add task library target = ${LIB_TARGET}")
 
     # Library
     file(GLOB_RECURSE LIB_CXX_SOURCES ${LIB_DIR}/*.cpp)
