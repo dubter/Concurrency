@@ -18,7 +18,7 @@
 
 Подключитесь к контейнеру с помощью кнопки `Attach to Container` и дождитесь настройки контейнера для работы с VScode.
 
-![Check container](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-check-container.png)
+![Check container](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-check-container.png)
 
 На этом шаге у вас должно открыться дополнительное окно с VScode, подключенным к контейнеру.
 
@@ -28,7 +28,7 @@
 
 Курс – это CMake-проект, так что просто откройте его в VScode с подключенным контейнером: вкладка `Explorer` > `Open Folder` > выбрать директорию курса в контейнере (`/workspace/concurrency-course`).
 
-![Open folder](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-open-folder.png)
+![Open folder](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-open-folder.png)
 
 ### Шаг 4
 
@@ -46,17 +46,17 @@
 
 После установки расширения для работы с CMake выберите kit - `Clang 12.0.0 x86-64-pc-linux-gnu`. Это можно сделать сразу после установки расширения либо в нижней панели.
 
-![Setup kit](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-choose-kit.png)
+![Setup kit](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-choose-kit.png)
 
 ### Шаг 6
 
 Смените директорию для сборки проекта. Для этого откройте настройки расширения `CMake Tools` в меню слева под названием `Extensions`.
 
-![Open CMake settings](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-open-cmake-settings.png)
+![Open CMake settings](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-open-cmake-settings.png)
 
 Теперь переключитесь на настройки в группе `Workspace` и найдите настройку `Cmake: Build Directory`. Установите её значение на `/tmp/vscode-build`.
 
-![Change CMake settings](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-choose-build-dir.png)
+![Choose build directory](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-choose-build-dir.png)
 
 Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит строку
 ```
@@ -66,39 +66,39 @@
 **Внимание:** после этого шага удалите директорию `build/` в корне проекта, если она существует.
 
 Теперь запустить CMake можно из нижнего меню, выбрав профиль сборки `Debug`.
-![Run CMake](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-run-cmake.png)
+![Run CMake](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-run-cmake.png)
 
 Также из этого меню можно собирать и запускать цели, соответствующие задаче.
 
 Сначала выберите цель для сборки и соберите её.
-![Build targets](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-build.png)
+![Build targets](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-build.png)
 
 Далее можно выбрать цель для запуска и запустить её.
-![Run targets](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-run.png)
+![Run targets](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-run.png)
 
 ### Шаг 7
 
 В течение курса может понадобиться дебаггер. Для его настройки откройте сначала любой `.cpp` файл. 
 
 В левом меню откройте `Run and Debug` и нажмите `create a launch.json file`
-![Create launch file](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-create-launch-file.png)
+![Create launch file](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-create-launch-file.png)
 
 Теперь нажмите `Show all automatic debug configurations` > `Add Configuration...` > `C/C++: (gdb) Launch`. 
-![Add launch configuration](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-add-configuration.png)
+![Add launch configuration](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-add-configuration.png)
 
 
 В файле `.vscode/launch.json` будет создан шаблон, который нужно заполнить. 
-![Launch template](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-launch-template.png)
+![Launch template](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-launch-template.png)
 
 В этом файле нас интересуют следующие поля:
 - `program` — путь до бинарного файла тестов задачи. Например, `/workspace/concurrency-course/build/tasks/tutorial/aplusb/bin/task_tutorial_aplusb_tests`
 - `args` — аргументы командной строки для бинарного файла. Для установки breakpoint'ов нужно выключить запуск тестов в подпроцессе. Для этого добавьте флаг `--disable-forks`. Подробнее можно прочитать в [faq](faq.md).
 
 Должен получится такой файл. Не забудьте его сохранить!
-![Launch file](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-launch-file.png)
+![Launch file](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-launch-file.png)
 
 Теперь можно запускать дебаггер из меню слева `Run and Debug`.
-![Debug](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/blob/3360510dab757a1c535e3e003a9d0399575875b4/docs-images/vscode-debug.png)
+![Debug](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-debug.png)
 
 ## Полезные советы
 
