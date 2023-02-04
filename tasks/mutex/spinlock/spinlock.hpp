@@ -2,7 +2,7 @@
 
 #include "atomic.hpp"
 
-#include <wheels/support/cpu.hpp>
+#include <twist/ed/wait/spin.hpp>
 
 namespace solutions {
 
@@ -12,7 +12,7 @@ class TASSpinLock {
  public:
   void Lock() {
     while (locked_.Exchange(1) == 1) {
-      wheels::SpinLockPause();
+      twist::ed::CpuRelax();
     }
   }
 
