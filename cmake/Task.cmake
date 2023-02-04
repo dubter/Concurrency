@@ -106,7 +106,7 @@ endfunction()
 
 # Playground
 
-function(add_playground DIR_NAME)
+function(add_task_playground DIR_NAME)
     add_task_dir_target(playground ${DIR_NAME})
 endfunction()
 

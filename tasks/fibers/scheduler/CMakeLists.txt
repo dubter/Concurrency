@@ -4,7 +4,7 @@ begin_task()
 add_task_library(exe)
 
 # Playground
-add_playground(play)
+add_task_playground(play)
 
 # Workloads
 add_task_dir_target(workloads workloads)

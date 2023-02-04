@@ -7,7 +7,7 @@ task_link_libraries(asio)
 add_task_library(exe)
 
 # Playground
-add_playground(play)
+add_task_playground(play)
 
 # Tests
 
