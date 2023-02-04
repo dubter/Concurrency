@@ -26,6 +26,17 @@ FetchContent_MakeAvailable(fmtlib)
 
 # --------------------------------------------------------------------
 
+# Unique Function
+
+FetchContent_Declare(
+        function2
+        GIT_REPOSITORY https://github.com/Naios/function2.git
+        GIT_TAG master
+)
+FetchContent_MakeAvailable(function2)
+
+# --------------------------------------------------------------------
+
 message(STATUS "FetchContent: wheels")
 
 FetchContent_Declare(
