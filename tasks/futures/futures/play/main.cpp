@@ -3,6 +3,8 @@
 #include <exe/futures/core/future.hpp>
 #include <exe/futures/util/execute.hpp>
 
+#include <fmt/core.h>
+
 using namespace exe;
 
 int main() {
@@ -13,7 +15,7 @@ int main() {
   });
 
   std::move(f).Via(pool).Subscribe([](wheels::Result<int> result) {
-    std::cout << "Result = " << result.ValueOrThrow();
+    fmt::println("Result = {}", result.ValueOrThrow());
   });
 
   pool.WaitIdle();

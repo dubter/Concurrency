@@ -1,7 +1,7 @@
 #include <exe/tp/thread_pool.hpp>
 #include <exe/fibers/core/api.hpp>
 
-#include <iostream>
+#include <fmt/core.h>
 
 using namespace exe;
 

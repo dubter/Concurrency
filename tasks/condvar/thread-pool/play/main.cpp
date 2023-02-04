@@ -1,12 +1,12 @@
 #include <tp/thread_pool.hpp>
 
-#include <iostream>
+#include <fmt/core.h>
 
 int main() {
   tp::ThreadPool pool{/*workers=*/4};
 
   pool.Submit([]() {
-    std::cout << "Hi from pool" << std::endl;
+    fmt::println("Hi from thread pool");
   });
 
   pool.WaitIdle();

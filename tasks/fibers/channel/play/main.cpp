@@ -3,7 +3,8 @@
 #include <exe/fibers/core/api.hpp>
 #include <exe/fibers/sync/channel.hpp>
 
-#include <iostream>
+#include <fmt/core.h>
+
 #include <mutex>
 
 using namespace exe;
@@ -31,7 +32,7 @@ int main() {
       if (value == kPoisonPill) {
         break;
       }
-      std::cout << "Received value = " << value << std::endl;
+      fmt::println("Received value = {}", value);
     }
   });
 

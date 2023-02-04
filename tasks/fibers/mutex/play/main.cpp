@@ -3,7 +3,7 @@
 #include <exe/fibers/sync/mutex.hpp>
 #include <exe/fibers/sync/wait_group.hpp>
 
-#include <iostream>
+#include <fmt/core.h>
 
 using namespace exe;
 
@@ -30,7 +30,7 @@ int main() {
 
     wg.Wait();
 
-    std::cout << "# critical sections: " << cs << std::endl;
+    fmt::println("# critical sections: {}", cs);
   });
 
   scheduler.WaitIdle();

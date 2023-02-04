@@ -1,6 +1,6 @@
 #include <exe/fibers/core/api.hpp>
 
-#include <iostream>
+#include <fmt/core.h>
 
 using namespace exe;
 using namespace std::chrono_literals;
@@ -10,7 +10,7 @@ int main() {
 
   fibers::Go(scheduler, []() {
     for (size_t i = 0; i < 10; ++i) {
-      std::cout << i << std::endl;
+      fmt::println("Step {}", i);
       fibers::self::SleepFor(256ms);
     }
   });

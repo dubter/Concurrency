@@ -2,7 +2,7 @@
 #include <exe/executors/strand.hpp>
 #include <exe/executors/execute.hpp>
 
-#include <iostream>
+#include <fmt/core.h>
 
 using namespace exe::executors;
 
@@ -20,7 +20,7 @@ int main() {
 
   pool.WaitIdle();
 
-  std::cout << "# critical sections: " << cs << std::endl;
+  fmt::println("# critical sections: {}", cs);
 
   pool.Stop();
   return 0;
