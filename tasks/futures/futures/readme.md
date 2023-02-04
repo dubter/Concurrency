@@ -33,7 +33,7 @@ executors::Execute(pool, [p = std::move(p)]() {
 // Обратите внимание: GetResult – не метод Future, а внешняя функция
 wheels::Result<int> result = futures::GetResult(std::move(f));
 
-std::cout << result.ValueOrThrow() << std::endl;
+fmt::println("Value = {}", result.ValueOrThrow());
 ```
 
 ### `Result`
@@ -73,7 +73,7 @@ auto f = futures::Execute(pool, []() -> int {
 });
 
 // Блокируем поток до завершения вычисления
-std::cout << futures::GetValue(std::move(f)) << std::endl;
+fmt::println("Value = {}", futures::GetValue(std::move(f)));
 ```
 
 ## Будущий результат
@@ -135,7 +135,7 @@ futures::Execute(pool, []() -> int {
 }).Then([](int value) {
   return value * 2;
 }).Subscribe([](wheels::Result<int> result) {
-  std::cout << "Value = " << *result << std::endl;
+  fmt::println("Value = {}", *result);
 });
 ```
 
@@ -248,9 +248,9 @@ futures::Future<int> f = futures::Execute(pool, []() -> int {
 // Вызов `Subscribe` завершается без блокировки, не дожидаясь вызова коллбэка
 std::move(f).Subscribe([](wheels::Result<int> result) {
   if (result.IsOk()) {
-    std::cout << "Result: " << *result << std::endl;
+    fmt::println("Value = {}", *result);
   } else {
-    std::cout << "Computation failed" << std::endl;
+    fmt::println("Computation failed");
   }
 }
 ```
@@ -309,7 +309,7 @@ executors::Execute(pool, [p = std::move(p)]() mutable {
 });
 
 std::move(f).Subscribe([](wheels::Result<T> result) {  // <-- Поток T: подвешиваем коллбэк
-  std::cout << "Value = " << *result << std::endl;
+  fmt::println("Value = {}", *result);
 });
 ```
 

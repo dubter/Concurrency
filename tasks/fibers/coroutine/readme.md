@@ -50,11 +50,11 @@ void StackfulCoroutineExample() {
   auto routine = []() {
     // Роль: callee
 
-    std::cout << "Step 2" << std::endl;
+    fmt::println("Step 2");
     
     Coroutine::Suspend();  // <-- Suspension point
 
-    std::cout << "Step 4" << std::endl;
+    fmt::println("Step 4");
   };
 
   // Роль: caller
@@ -63,14 +63,14 @@ void StackfulCoroutineExample() {
   Coroutine co(routine);
   // <-- Исполнение процедуры `routine` пока не стартовало
 
-  std::cout << "Step 1" << std::endl;
+  fmt::println("Step 1");
 
   // Стартуем корутину
   // Управление передается процедуре routine,
   // и та исполняется до первого вызова Suspend().
   co.Resume();
 
-  std::cout << "Step 3" << std::endl;
+  fmt::println("Step 3");
 
   co.Resume();
 
@@ -128,7 +128,7 @@ void ProcessorExample() {
     // Функция `Receive` останавливает исполнение процессора до
     // вызова caller-ом метода `Send`
     while (auto data = Receive<std::string>()) {
-      std::cout << *data << std::endl;
+      fmt::println("{}", *data);
     }
   });
   
@@ -164,9 +164,9 @@ void GeneratorExample() {
   
   while (auto next = countdown.Receive()) {
     // next - std::optional
-    std::cout << *next << std::endl;
+    fmt::printlln("{}", *next);
   }
-  std::cout << "Launch!" << std::endl;
+  fmt::println("Launch");
 }
 ```
 
@@ -349,7 +349,7 @@ void SubmitExample() {
   tp::ThreadPool pool{4};
   
   tp::Submit(pool, []() {
-    std::cout << "Hello!" << std::endl;
+    std::println("Hello");
   });
   
   pool.WaitIdle();

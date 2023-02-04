@@ -58,7 +58,7 @@ void ChannelExample() {
       if (value == -1) {
         break;
       }
-      std::cout << "Received value = " << value << std::endl;
+      fmt::println("Received value {}", value);
     }
   });
 

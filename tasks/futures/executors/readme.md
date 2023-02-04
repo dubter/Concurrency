@@ -52,7 +52,7 @@ void ThreadPoolExample() {
   
   executors::Execute(pool, []() {
     // Печатаем приветствие из потока пула
-    std::cout << "Hi!" << std::endl;
+    fmt::println("Hi");
   });
   
   // Дожидаемся завершения всех задач
@@ -110,12 +110,12 @@ void ManualExample() {
   
   // Добавляем задачу в очередь
   executors::Execute(manual, []() {
-    std::cout << "Task 1" << std::endl;
+    fmt::println("Task 1");
   });
   
   // И еще одну
   executors::Execute(manual, []() {
-    std::cout << "Task 2" << std::endl;
+    fmt::println("Task 2");
   });
 
   // <-- Теперь обе задачи находятся в очереди ManualExecutor-а,
@@ -126,7 +126,7 @@ void ManualExample() {
 
   // Запланируем третью задачу
   executors::Execute(manual, []() {
-    std::cout << "Task 3" << std::endl;
+    fmt::println("Task 3");
   });
 
   // "Опустошаем" очередь задач, т.е.
@@ -148,15 +148,15 @@ void ManualFibers() {
   executors::ManualExecutor scheduler;
   
   fibers::Go(scheduler, []() {
-    std::cout << "Step 1" << std::endl;
+    fmt::println("Step 1");
     fibers::self::Yield();
-    std::cout << "Step 3" << std::endl;
+    fmt::println("Step 3");
   });
 
   fibers::Go(scheduler, []() {
-    std::cout << "Step 2" << std::endl;
+    fmt::println("Step 2");
     fibers::self::Yield();
-    std::cout << "Step 4" << std::endl;
+    fmt::println("Step 4");
   });
   
   // <-- Пока ни один файбер не начал исполняться
@@ -234,7 +234,7 @@ void StrandExample() {
   // Ждем завершения секций
   workers.WaitIdle();
   
-  std::cout << "# critical sections: " << cs << std::endl;
+  fmt::println("# critical sections: {}", cs);
   // <-- Напечатано 1024
   
   clients.Stop();

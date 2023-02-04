@@ -53,7 +53,7 @@ void SyncExample() {
     // Дожидаемся завершения всех запущенных выше файберов
     wg.Wait();
     
-    std::cout << cs << std::endl;
+    fmt::println("# critical sections: {}", cs);
     // <-- Напечатано 123 * 1024
   });
   

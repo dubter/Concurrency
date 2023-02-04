@@ -27,7 +27,7 @@ tp::ThreadPool pool{/*workers=*/4};
 tp::ThreadPool pool{4};
 
 pool.Submit([]() {
-  std::cout << "Hello from pool!" << std::endl;
+  fmt::println("Hello from pool");
 });
 ```
 
@@ -50,7 +50,7 @@ tp::ThreadPool pool{4};
 pool.Submit([]() {
   // Планируем задачу из задачи
   tp::Current()->Submit([]() {
-    std::cout << "Works!" << std::endl;
+    fmt::println("Child");
   });
 });
 ```
@@ -70,7 +70,7 @@ tp::ThreadPool pool{4};
 pool.Submit([]() {
   std::this_thread::sleep_for(1s);
   tp::Current()->Submit([]() {
-    std::cout << "Hi" << std::endl;
+    fmt::println("Hey");
   });
 });
 

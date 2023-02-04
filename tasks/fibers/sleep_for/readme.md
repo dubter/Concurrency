@@ -28,7 +28,7 @@ void PostExample() {
   // Планируем задачу на исполнение
   asio::post(io, []() {
     // Эта лямбда будет запущена из цикла io_context::run
-    std:::cout << "Hi" << std::endl;
+    fmt::println("Hi");
   });
   // NB: помимо `post`, есть и другие способы запланировать задачу:
   // `dispatch`, `defer`
@@ -72,7 +72,7 @@ void TimerExample() {
   // NB: таймер должен "дожить" до завершения асинхронной операции!
   timer.async_wait([](std::error_code /*ec*/) {
     // Обработчик будет вызван из цикла io_context::run
-    std::cout << "Hi" << std::endl;
+    fmt::println("Hi");
   });
   
   // Прямо сейчас исполнять нечего, но в планировщике есть 
@@ -110,7 +110,7 @@ void SleepForExample() {
   
   fibers::Go(scheduler, []() {
     for (size_t i = 0; i < 10; ++i) {
-      std::cout << i << std::endl;
+      fmt::println("Step {}", i);
       // Файбер блокируется на 1 секунду, но
       // не блокирует цикл планировщика 
       fibers::self::SleepFor(1s);
