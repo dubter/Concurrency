@@ -23,86 +23,109 @@
 - Рандомизировать очередь планировщика и очереди ожидания в мьютексах и кондварах 
 - Вместить больше симуляций в ограниченный временной бюджет стресс-теста
 
+## Навигация
+
+Клиентская часть библиотеки – директория `twist/ed/`, пространство имен `twist::ed`
+
+- `stdlike/` – замена стандартным примитивам синхронизации
+- `lang/` – тред-локальные переменные
+- `wait/` – механизмы ожидания
+  - `spin.hpp` – активное ожидание для спинлоков
+  - `sys.hpp` – блокирующее ожидание для мьютексов
+
+Среда исполнения – директория `twist/rt/`, пространство имен `twist::rt`
+
 ## Правила использования
 
 Чтобы _Twist_ мог работать, пользователь должен соблюдать следующие правила:
 
 ### Примитивы
 
-Вместо `std::thread`, `std::atomic`, `std::mutex`, `std::condition_variable` и других примитивов из [Thread support library](https://en.cppreference.com/w/cpp/thread) необходимо использовать одноименные примитивы из пространства имен `twist::stdlike`.
+Вместо `std::thread`, `std::atomic`, `std::mutex`, `std::condition_variable` и других примитивов из [Thread support library](https://en.cppreference.com/w/cpp/thread) необходимо использовать одноименные примитивы из пространства имен `twist::ed::stdlike`.
 
 Примитивы из _Twist_ повторяют интерфейсы примитивов из стандартной библиотеки, так что вы можете пользоваться документацией на https://en.cppreference.com/w/ и не думать про _Twist_.
 
-Заголовочные файлы меняются по следующему принципу: `#include <atomic>` заменяется на `#include <twist/stdlike/atomic.hpp>`
+Заголовочные файлы меняются по следующему принципу: `#include <atomic>` заменяется на `#include <twist/ed/stdlike/atomic.hpp>`
 
-Доступные заголовки: https://gitlab.com/Lipovsky/twist/-/tree/master/twist/stdlike
+Доступные заголовки: https://gitlab.com/Lipovsky/twist/-/tree/master/twist/ed/stdlike
 
-При этом можно использовать `std::lock_guard` и `std::unique_lock` (но только в связке с `twist::stdlike::mutex`), это не примитивы синхронизации, а RAII для более безопасного использования мьютекса.
+При этом можно использовать `std::lock_guard` и `std::unique_lock` (но только в связке с `twist::ed::stdlike::mutex`), это не примитивы синхронизации, а RAII для более безопасного использования мьютекса.
 
 Использование примитивов из `std` приведет к неопределенному поведению в тестах, будьте внимательны!
 
-### Yield
+### Планировщик
 
-Вместо `std::this_thread::yield` необходимо использовать `twist::stdlike::this_thread::yield` из заголовочного файла `<twist/stdlike/thread.hpp>`.
+Заголовочный файл: `twist/ed/stdlike/thread.hpp`
 
-А еще лучше использовать `twist::util::SpinWait` из заголовочного файла `<twist/util/spin_wait.hpp>`.
+#### `yield`
 
-### `SpinWait`
+Вместо `std::this_thread::yield` нужно использовать `twist::ed::stdlike::this_thread::yield`.
 
-Нужен для адаптивного активного ожидания.
+А еще лучше использовать `twist::ed::SpinWait` из заголовочного файла `<twist/ed/wait/spin.hpp>`.
 
-Заголовочный файл: `<twist/util/spin_wait.hpp>`
+#### `sleep_for`
+
+Вместо `std::this_thread::sleep_for` нужно использовать `twist::ed::stdlike::this_thread::sleep_for`.
+
+### Ожидание
+
+#### `SpinWait`
+
+Заголовочный файл: `<twist/ed/wait/spin.hpp>`
+
+Предназначен для активного ожидания в спинлоках.
 
 ```cpp
 SpinLock::Lock() {
   // Одноразовый!
   // Для каждого нового цикла ожидания в каждом потоке 
-  // нужно заводить новый экземпляр SpinWait
-  twist::util::SpinWait spin_wait;
+  // нужно заводить отдельный экземпляр SpinWait
+  twist::ed::SpinWait spin_wait;
   while (locked_.exchange(1) == 1) {
+    // У SpinWait определен operator()
     spin_wait();  // <- backoff
   }
 }
 ```
 
+#### `Wait`
+
+Заголовочный файл: `twist/ed/wait/sys.hpp`
+
+Для блокирующего ожидания вместо методов `wait` / `notify` у `std::atomic` нужно использовать
+свободные функции `twist::ed::Wait` / `twist::ed::Wake{One,All}`
+
+```cpp
+class Event {
+ public:
+  void Wait() {
+    twist::ed::Wait(&fired_, 0);
+  }
+
+  void Fire() {
+    twist::ed::WakeAll(&fired_);
+  }
+
+ private:
+  // Функции `Wait/Wake` требуют типа uint32_t
+  twist::ed::stdlike::atomic<uint32_t> fired_{0};
+};
+```
+
+
 ### `thread_local`
 
-Вместо `thread_local` нужно использовать `twist::util::ThreadLocalPtr<T>` из заголовочного файла `<twist/util/thread_local.hpp>`.
+Заголовочный файл: `<twist/ed/lang/thread_local.hpp>`
+
+Вместо `thread_local` нужно использовать `twist::ed::ThreadLocalPtr<T>`:
 
 ```cpp
 // ThreadLocalPtr<T> - замена thread_local T*
 // - Для каждого потока хранит собственное значение указателя
 // - Повторяет интерфейс указателя
 // - Инициализируется nullptr-ом
-ThreadLocalPtr<Fiber> this_fiber;
+twist::ed::ThreadLocalPtr<Fiber> this_fiber;
 ```
-
-### Futex
-
-В `twist` метод `wait` у `atomic` доступен только для `T` = `uint32_t`.
-
-Кроме того, `atomic` в `twist` дополнительно имеет методы `FutexWait` / `FutexWake`, которых
-нет в "стандартном" атомике.
-
-```cpp
-// https://eel.is/c++draft/atomics.types.generic#lib:atomic,wait
-void wait(T old) {
-  while (load() == old) {
-    FutexWait(old);
-  }   
-}
-```
-
-### Пространства имен
-
-Публичная часть библиотеки – директории / пространства имен `stdlike` и `util`: 
-
-- `stdlike` – замена для примитивов синхронизации из `std` 
-- `util` – `SpinWait` и `ThreadLocalPtr`
-
-Директория `test` содержит макросы и утилиты для написания стресс-тестов.
-
-Все остальные директории являются внутренними, использовать их напрямую нельзя.
 
 ## Пример
 
@@ -110,16 +133,15 @@ void wait(T old) {
 
 ```cpp
 // Вместо #include <atomic>
-#include <twist/stdlike/atomic.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
+#include <twist/ed/wait/spin.hpp>
 
 class SpinLock {
  public:
   void Lock() {
-    // "Твистовый" атомик повторяет API атомика из std, 
-    // так что можно пользоваться стандартной документацией:
-    // https://en.cppreference.com/w/cpp/atomic/atomic
+    twist::ed::SpinWait spin_wait;
     while (locked_.exchange(true)) {
-      ;
+      spin_wait();
     }
   }
   
@@ -130,6 +152,32 @@ class SpinLock {
   }
  private:
   // Вместо std::atomic<bool>
-  twist::stdlike::atomic<bool> locked_{false};
+  // "Твистовый" атомик повторяет API атомика из std, 
+  // так что можно пользоваться стандартной документацией:
+  // https://en.cppreference.com/w/cpp/atomic/atomic
+  
+  twist::ed::stdlike::atomic<bool> locked_{false};
 };
+```
+
+## Запуск кода
+
+```cpp
+#include <twist/ed/stdlike/thread.hpp>
+
+#include <twist/rt/run.hpp>
+
+int main() {
+  twist::rt::Run([] {
+    twist::ed::thread thread t([] {
+      for (size_t i = 0; i < 7; ++i) {
+        twist::ed::this_thread::yield();
+      }
+    });
+  
+    t.join();
+  });
+  
+  return 0;
+}
 ```
