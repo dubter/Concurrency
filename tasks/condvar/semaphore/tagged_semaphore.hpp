@@ -6,7 +6,7 @@
 
 namespace solutions {
 
-template <typename Tag>
+template <class Tag>
 class TaggedSemaphore {
  public:
   // No affine types in C++ =(
@@ -28,7 +28,7 @@ class TaggedSemaphore {
       that.Invalidate();
     }
 
-    Token& operator=(Token&& that) = delete;
+    Token& operator=(Token&&) = delete;
 
    private:
     Token() = default;
