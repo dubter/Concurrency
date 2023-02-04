@@ -35,5 +35,6 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 - [Wheels](https://gitlab.com/Lipovsky/wheels) – библиотека общих компонент
 
 ### Внешние
+
 - [Fmt](https://github.com/fmtlib/fmt) – форматированный вывод
 - [Function2](https://github.com/Naios/function2) – замена для `std::function`
