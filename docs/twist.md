@@ -112,7 +112,6 @@ class Event {
 };
 ```
 
-
 ### `thread_local`
 
 Заголовочный файл: `<twist/ed/lang/thread_local.hpp>`
