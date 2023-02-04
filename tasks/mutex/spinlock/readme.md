@@ -14,11 +14,11 @@
 
 ## Asm
 
-Реализовать атомики непосредственно на языке C++ невозможно, придется писать на ассемблере. Реализация получится платформо-зависимой, в нашем случае это x86-64.
+Реализовать атомики непосредственно на языке C++ невозможно, придется писать код на ассемблере. Реализация получится платформо-зависимой, в нашем случае это x86-64 + Linux.
 
 Заготовки для функций вы найдете в файле [atomic_ops.S](atomic_ops.S).
 
-### Asm 101
+### 101
 
 Вспомните / изучите calling conventions – [System V AMD64 ABI](https://en.wikipedia.org/wiki/X86_calling_conventions#System_V_AMD64_ABI):
 - Функции получают первые два аргумента через регистры `%rdi` и `%rsi`.
@@ -26,13 +26,13 @@
 
 Для справки по ассемблеру см. [Introduction to X86-64 Assembly for Compiler Writers](https://web.archive.org/web/20160714182232/https://www3.nd.edu/~dthain/courses/cse40243/fall2015/intel-intro.html)
 
-## `AtomicStore` против `atomic<T>::store`
+## Memory Ordering
 
-У методов атомиков в стандартной библиотеке есть дополнительный параметр: [`std::memory_order`](https://en.cppreference.com/w/cpp/atomic/memory_order).
+У методов атомиков в стандартной библиотеке есть дополнительный параметр: `enum class` [`std::memory_order`](https://en.cppreference.com/w/cpp/atomic/memory_order).
 
-В `store` разумно передавать лишь некоторые из них: `relaxed`, `release` и `seq_cst`.
+В `store` разумно передавать лишь некоторые из его значений: `relaxed`, `release` и `seq_cst`.
 
-Каждому из этих вариантов в общем случае соответствует своя собственная реализация метода `store`.
+Каждому из этих значений в общем случае может соответствовать собственная реализация метода `store`.
 
 ### Вопросы
 
