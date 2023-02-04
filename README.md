@@ -31,5 +31,9 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 ## Библиотеки
 
 - [Twist](https://gitlab.com/Lipovsky/twist) – фреймворк для тестирования конкурентного кода
+- [Sure](https://gitlab.com/Lipovsky/sure) – механизм переключение контекста исполнения
 - [Wheels](https://gitlab.com/Lipovsky/wheels) – библиотека общих компонент
 
+### Внешние
+- [Fmt](https://github.com/fmtlib/fmt) – форматированный вывод
+- [Function2](https://github.com/Naios/function2) – замена для `std::function`
