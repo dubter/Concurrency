@@ -91,3 +91,5 @@ cmake-*
 # Python
 __pycache__
 
+# Build dir
+build/
