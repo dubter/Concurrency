@@ -64,24 +64,29 @@
 ```
 
 Теперь запустить CMake можно из нижнего меню, выбрав профиль сборки `Debug`.
+
 ![Run CMake](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-run-cmake.png)
 
 Также из этого меню можно собирать и запускать цели, соответствующие задаче.
 
 Сначала выберите цель для сборки и соберите её.
+
 ![Build targets](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-build.png)
 
 Далее можно выбрать цель для запуска и запустить её.
+
 ![Run targets](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-run.png)
 
 ### Шаг 7 
 
 Отключите `Intelli Sense Engine`. Для этого в настройках расширения `C/C++` во вкладке `Workspace` поменяйте значение настройки `C_cpp: Intelli Sense Engine` на `disabled`.
+
 ![Change cpp setting](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-disable-intelli.png)
 
 ### Шаг 8
 
 Настройте индексацию проекта `clangd`. Для этого в настройках расширения `clangd` во вкладке `Workspace` поменяйте значение настройки `Clangd: Arguments` на `-compile-commands-dir=/tmp/vscode-build`. 
+
 ![Change clangd setting](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-change-clang-setting.png)
 
 Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит строки
@@ -98,13 +103,16 @@
 В течение курса может понадобиться дебаггер. Для его настройки откройте сначала любой `.cpp` файл. 
 
 В левом меню откройте `Run and Debug` и нажмите `create a launch.json file`
+
 ![Create launch file](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-create-launch-file.png)
 
 Теперь нажмите `Show all automatic debug configurations` > `Add Configuration...` > `C/C++: (gdb) Launch`. 
+
 ![Add launch configuration](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-add-configuration.png)
 
 
 В файле `.vscode/launch.json` будет создан шаблон, который нужно заполнить. 
+
 ![Launch template](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-launch-template.png)
 
 В этом файле нас интересуют следующие поля:
@@ -112,9 +120,11 @@
 - `args` — аргументы командной строки для бинарного файла. Для установки breakpoint'ов нужно выключить запуск тестов в подпроцессе. Для этого добавьте флаг `--disable-forks`. Подробнее можно прочитать в [faq](faq.md).
 
 Должен получится такой файл. Не забудьте его сохранить!
+
 ![Launch file](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-launch-file.png)
 
 Теперь можно запускать дебаггер из меню слева `Run and Debug`.
+
 ![Debug](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-debug.png)
 
 ## Полезные советы
