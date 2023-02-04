@@ -63,8 +63,6 @@
 "cmake.buildDirectory": "/tmp/vscode-build"
 ```
 
-**Внимание:** после этого шага удалите директорию `build/` в корне проекта, если она существует.
-
 Теперь запустить CMake можно из нижнего меню, выбрав профиль сборки `Debug`.
 ![Run CMake](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-run-cmake.png)
 
@@ -76,10 +74,14 @@
 Далее можно выбрать цель для запуска и запустить её.
 ![Run targets](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-run.png)
 
-### Шаг 7
+### Шаг 7 
+
+Отключите `Intelli Sense Engine`. Для этого в настройках расширения `C/C++` во вкладке `Workspace` поменяйте значение настройки `C_cpp: Intelli Sense Engine` на `disabled`.
+![Change cpp setting](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-disable-intelli.png)
+
+### Шаг 8
 
 Настройте индексацию проекта `clangd`. Для этого в настройках расширения `clangd` во вкладке `Workspace` поменяйте значение настройки `Clangd: Arguments` на `-compile-commands-dir=/tmp/vscode-build`. 
-
 ![Change clangd setting](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-change-clang-setting.png)
 
 Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит строки
@@ -91,7 +93,7 @@
 
 Теперь при открытии файлов проекта у вас должна работать навигация по коду.
 
-### Шаг 8
+### Шаг 9
 
 В течение курса может понадобиться дебаггер. Для его настройки откройте сначала любой `.cpp` файл. 
 
