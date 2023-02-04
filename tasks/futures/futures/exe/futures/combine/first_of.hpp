@@ -37,7 +37,7 @@ Future<T> FirstOf(std::vector<Future<T>> inputs) {
 // auto first_of = futures::FirstOf(std::move(f1), std::move(f2));
 
 template <typename T, typename... Fs>
-auto FirstOf(Future<T>&& first, Fs&&... rest) {
+Future<T> FirstOf(Future<T>&& first, Fs&&... rest) {
   return FirstOf(wheels::ToVector(std::move(first), std::forward<Fs>(rest)...));
 }
 
