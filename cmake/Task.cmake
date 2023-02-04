@@ -76,7 +76,7 @@ function(add_task_library DIR_NAME)
     set(LIB_DIR ${TASK_DIR}/${DIR_NAME})
 
     get_task_target(LIB_TARGET ${LIB_NAME})
-    course_log("Add task library target = ${LIB_TARGET}")
+    course_log("Add task library: ${LIB_TARGET}")
 
     # Library
     file(GLOB_RECURSE LIB_CXX_SOURCES ${LIB_DIR}/*.cpp)
@@ -113,6 +113,9 @@ endfunction()
 # Playground
 
 function(add_task_playground DIR_NAME)
+    get_task_target(PLAY_TARGET_NAME ${DIR_NAME})
+    course_log("Add task playground: ${PLAY_TARGET_NAME}")
+
     add_task_dir_target(playground ${DIR_NAME})
 endfunction()
 
