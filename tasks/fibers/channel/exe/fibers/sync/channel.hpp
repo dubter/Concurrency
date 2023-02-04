@@ -53,7 +53,7 @@ class ChannelImpl {
 // https://tour.golang.org/concurrency/3
 
 // Does not support void type
-// Use wheels::Unit instead (from <wheels/support/unit.hpp>)
+// Use wheels::Unit instead (from <wheels/core/unit.hpp>)
 
 template <typename T>
 class Channel {

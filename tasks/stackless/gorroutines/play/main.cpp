@@ -7,7 +7,7 @@
 #include <exe/tasks/sync/mutex.hpp>
 #include <exe/tasks/sync/wait_group.hpp>
 
-#include <wheels/support/defer.hpp>
+#include <wheels/core/defer.hpp>
 
 #include <iostream>
 

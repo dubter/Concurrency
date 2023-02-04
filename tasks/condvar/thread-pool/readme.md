@@ -154,7 +154,7 @@ pool.WaitIdle();
 
 Задача тестируется под файберами, поэтому реализовать функцию `tp::Current` через [`thread_local`](https://en.cppreference.com/w/cpp/keyword/thread_local) указатель на пул мы не можем.
 
-Вместо `thread_local` мы будем использовать `twist::util::ThreadLocalPtr`:
+Вместо `thread_local` мы будем использовать `twist::ed::ThreadLocalPtr`:
 
 ```cpp
 // ThreadLocalPtr<T> - замена thread_local T*

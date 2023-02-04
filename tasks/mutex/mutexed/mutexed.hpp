@@ -1,6 +1,6 @@
 #pragma once
 
-#include <twist/stdlike/mutex.hpp>
+#include <twist/ed/stdlike/mutex.hpp>
 
 namespace util {
 
@@ -10,7 +10,7 @@ namespace util {
 
 template <typename T>
 class Mutexed {
-  using MutexImpl = twist::stdlike::mutex;
+  using Mutex = twist::ed::stdlike::mutex;
 
   class UniqueRef {
     // Your code goes here
@@ -38,7 +38,7 @@ class Mutexed {
 
  private:
   T object_;
-  MutexImpl mutex_;  // Guards access to object_
+  Mutex mutex_;  // Guards access to object_
 };
 
 //////////////////////////////////////////////////////////////////////

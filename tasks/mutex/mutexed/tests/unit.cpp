@@ -1,14 +1,11 @@
 #include "mutexed.hpp"
 
-#include <twist/test/test.hpp>
-
-#include <twist/stdlike/thread.hpp>
-
-#include <twist/strand/stdlike.hpp>
+#include <wheels/test/test_framework.hpp>
 
 #include <chrono>
 #include <set>
 #include <string>
+#include <thread>
 #include <vector>
 
 using namespace std::chrono_literals;
@@ -17,7 +14,7 @@ using util::Mutexed;
 using util::Locked;
 
 TEST_SUITE(Mutexed) {
-  SIMPLE_TWIST_TEST(Vector) {
+  SIMPLE_TEST(Vector) {
     Mutexed<std::vector<int>> ints;
 
     {
@@ -41,7 +38,7 @@ TEST_SUITE(Mutexed) {
     }
   }
 
-  SIMPLE_TWIST_TEST(Set) {
+  SIMPLE_TEST(Set) {
     Mutexed<std::set<std::string>> strings;
 
     {
@@ -54,7 +51,7 @@ TEST_SUITE(Mutexed) {
     ASSERT_EQ(Locked(strings)->size(), 3);
   }
 
-  SIMPLE_TWIST_TEST(Ctor) {
+  SIMPLE_TEST(Ctor) {
     Mutexed<std::string> str(5, '!');
     ASSERT_EQ(Locked(str)->length(), 5);
   }
@@ -63,7 +60,7 @@ TEST_SUITE(Mutexed) {
    public:
     void Increment() {
       size_t value = value_;
-      twist::strand::stdlike::this_thread::sleep_for(1s);
+      std::this_thread::sleep_for(1s);
       value_ = value + 1;
     }
 
@@ -75,13 +72,13 @@ TEST_SUITE(Mutexed) {
     size_t value_{0};
   };
 
-  SIMPLE_TWIST_TEST(Counter) {
+  SIMPLE_TEST(Counter) {
     Mutexed<Counter> counter;
 
-    twist::stdlike::thread t1([&]() {
+    std::thread t1([&]() {
       Locked(counter)->Increment();
     });
-    twist::stdlike::thread t2([&]() {
+    std::thread t2([&]() {
       Locked(counter)->Increment();
     });
 

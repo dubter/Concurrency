@@ -1,6 +1,6 @@
 #include <exe/executors/tp/fast/thread_pool.hpp>
 
-#include <twist/util/thread_local.hpp>
+#include <twist/ed/lang/thread_local.hpp>
 
 namespace exe::executors::tp::fast {
 

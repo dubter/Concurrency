@@ -2,7 +2,7 @@
 
 #include <exe/tasks/sync/one_shot_event.hpp>
 
-#include <twist/stdlike/atomic.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
 
 namespace exe::tasks {
 

@@ -269,7 +269,7 @@ void FibersExample() {
 
 ### `ExecutionContext`
 
-Корутина (в виде `CoroutineImpl`) – исполняемая сущность, а значит у нее должен быть собственный контекст исполнения, который представлен классом [`ExecutionContext`](https://gitlab.com/Lipovsky/context/-/blob/master/context/context.hpp).
+Корутина (в виде `CoroutineImpl`) – исполняемая сущность, а значит у нее должен быть собственный контекст исполнения, который представлен классом [`ExecutionContext`](https://gitlab.com/Lipovsky/sure/-/blob/master/sure/context.hpp).
 
 `ExecutionContext` поддерживает две операции:
 - _установка_ (`Setup`) и 
@@ -288,7 +288,7 @@ void FibersExample() {
 
 Метод `ExecutionContext::Setup` принимает два аргумента:
 - `stack` – диапазон памяти для стека, на котором будет работать новое исполнение, в виде `MutableMemView`
-- `trampoline` – указатель на реализацию интерфейса [`ITrampoline`](https://gitlab.com/Lipovsky/context/-/blob/master/context/trampoline.hpp) с единственным методом `Run`.
+- `trampoline` – указатель на реализацию интерфейса [`ITrampoline`](https://gitlab.com/Lipovsky/sure/-/blob/master/sure/trampoline.hpp) с единственным методом `Run`.
 
 После переключения через `SwitchTo` в установленный через `Setup` контекст исполнение начнется с вызова `trampoline->Run()` на стеке `stack`.
 
@@ -296,7 +296,7 @@ void FibersExample() {
 
 #### `ExitTo`
 
-При последнем переключении из контекста корутины / файбера (т.е. в конце трамплина) используйте [`ExitTo`](https://gitlab.com/Lipovsky/context/-/blob/f51d01b54a529b445f1be51eae515629ba8c8001/context/context.hpp#L43) вместо `SwitchTo`.
+При последнем переключении из контекста корутины / файбера (т.е. в конце трамплина) используйте [`ExitTo`](https://gitlab.com/Lipovsky/sure/-/blob/f51d01b54a529b445f1be51eae515629ba8c8001/sure/context.hpp#L43) вместо `SwitchTo`.
  
 Этот граничный случай необходим для корректной работы проверок в [AddressSanitizer](https://clang.llvm.org/docs/AddressSanitizer.html).
 

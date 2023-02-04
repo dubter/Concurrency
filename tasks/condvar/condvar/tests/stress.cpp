@@ -6,7 +6,7 @@
 
 #include <twist/test/util/race.hpp>
 
-#include <twist/stdlike/mutex.hpp>
+#include <twist/ed/stdlike/mutex.hpp>
 
 #include <wheels/test/util.hpp>
 
@@ -53,14 +53,14 @@ class Robot {
 
  private:
   Step step_{Step::Left};
-  twist::stdlike::mutex mutex_;
+  twist::ed::stdlike::mutex mutex_;
   stdlike::CondVar switched_;
 };
 
 void Test(size_t steps) {
   Robot robot;
 
-  twist::test::util::Race race{2};
+  twist::test::util::Race race;
 
   race.Add([&]() {
     for (size_t i = 0; i < steps; ++i) {
@@ -134,7 +134,7 @@ class BlockingQueue {
  private:
   std::deque<int> buffer_;
   size_t capacity_;
-  twist::stdlike::mutex mutex_;
+  twist::ed::stdlike::mutex mutex_;
   stdlike::CondVar not_empty_;
   stdlike::CondVar not_full_;
 };
@@ -147,7 +147,7 @@ void Test(size_t producers, size_t consumers) {
 
   std::atomic<size_t> producers_left{producers};
 
-  twist::test::util::Race race{producers + consumers};
+  twist::test::util::Race race;
 
   // Producers
 

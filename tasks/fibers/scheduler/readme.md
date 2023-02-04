@@ -149,7 +149,7 @@
 
 Рандомизируйте порядок обхода "жертв" с помощью [`mt19937_64`](https://en.cppreference.com/w/cpp/numeric/random).
 
-Для инициализации вихря Мерсенна в воркере используйте [`random_device` из `twist`](https://gitlab.com/Lipovsky/twist/-/blob/master/twist/stdlike/random.hpp): он обеспечит детерминизм исполнения при запуске тестов под файберами.
+Для инициализации вихря Мерсенна в воркере используйте [`random_device` из `twist`](https://gitlab.com/Lipovsky/twist/-/blob/master/twist/ed/stdlike/random.hpp): он обеспечит детерминизм исполнения при запуске тестов под файберами.
 
 ### LIFO-слот и честность
 

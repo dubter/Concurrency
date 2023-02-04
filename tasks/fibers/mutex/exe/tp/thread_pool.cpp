@@ -1,12 +1,12 @@
 #include <exe/tp/thread_pool.hpp>
 
-#include <twist/util/thread_local.hpp>
+#include <twist/ed/lang/thread_local.hpp>
 
 namespace exe::tp {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static twist::util::ThreadLocalPtr<ThreadPool> pool;
+static twist::ed::ThreadLocalPtr<ThreadPool> pool;
 
 ////////////////////////////////////////////////////////////////////////////////
 

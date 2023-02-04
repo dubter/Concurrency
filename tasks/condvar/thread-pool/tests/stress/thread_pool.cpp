@@ -6,8 +6,8 @@
 
 #include <wheels/test/util.hpp>
 
-#include <twist/stdlike/atomic.hpp>
-#include <twist/stdlike/thread.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
+#include <twist/ed/stdlike/thread.hpp>
 
 #include <atomic>
 
@@ -24,7 +24,7 @@ void KeepAlive() {
 }
 
 void Backoff() {
-  twist::strand::stdlike::this_thread::yield();
+  twist::rt::strand::stdlike::this_thread::yield();
 }
 
 void Test(size_t threads, size_t clients, size_t limit) {
@@ -36,7 +36,7 @@ void Test(size_t threads, size_t clients, size_t limit) {
 
   std::atomic<size_t> completed{0};
 
-  twist::stdlike::atomic<size_t> queue{0};
+  twist::ed::stdlike::atomic<size_t> queue{0};
 
   twist::test::util::Race race;
 
@@ -148,13 +148,13 @@ void TestConcurrent() {
 
   std::atomic<size_t> tasks = 0;
 
-  twist::stdlike::thread t1([&]() {
+  twist::ed::stdlike::thread t1([&]() {
     pool.Submit([&]() {
       ++tasks;
     });
   });
 
-  twist::stdlike::thread t2([&]() {
+  twist::ed::stdlike::thread t2([&]() {
     pool.WaitIdle();
   });
 

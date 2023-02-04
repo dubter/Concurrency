@@ -1,10 +1,10 @@
 #pragma once
 
-#include <context/stack.hpp>
+#include <sure/stack.hpp>
 
 namespace exe::fibers {
 
-context::Stack AllocateStack();
-void ReleaseStack(context::Stack stack);
+sure::Stack AllocateStack();
+void ReleaseStack(sure::Stack stack);
 
 }  // namespace exe::fibers

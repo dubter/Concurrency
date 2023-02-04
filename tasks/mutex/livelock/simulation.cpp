@@ -1,14 +1,16 @@
 #include <wheels/test/test_framework.hpp>
 
-#include <tinyfibers/api.hpp>
-#include <tinyfibers/runtime/scheduler.hpp>
+#include <tinyfibers/sched/spawn.hpp>
+#include <tinyfibers/sched/yield.hpp>
 #include <tinyfibers/sync/wait_group.hpp>
 
-#include <wheels/support/quick_exit.hpp>
+#include <tinyfibers/rt/scheduler.hpp>
 
-using tinyfibers::Scheduler;
+#include <wheels/system/quick_exit.hpp>
+
 using tinyfibers::WaitGroup;
 using tinyfibers::self::Yield;
+using tinyfibers::rt::Scheduler;
 
 TEST_SUITE(TrickyLock) {
   // TrickyLock example for cooperative fibers

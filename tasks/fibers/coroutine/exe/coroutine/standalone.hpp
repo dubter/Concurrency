@@ -1,6 +1,6 @@
 #include <exe/coroutine/impl.hpp>
 
-#include <context/stack.hpp>
+#include <sure/stack.hpp>
 
 namespace exe::coroutine {
 
@@ -20,10 +20,10 @@ class Coroutine {
   }
 
  private:
-  static context::Stack AllocateStack();
+  static sure::Stack AllocateStack();
 
  private:
-  context::Stack stack_;
+  sure::Stack stack_;
   CoroutineImpl impl_;
 };
 

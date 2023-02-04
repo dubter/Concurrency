@@ -2,7 +2,7 @@
 
 #include "shared_ptr.hpp"
 
-#include <twist/stdlike/atomic.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
 
 #include <optional>
 

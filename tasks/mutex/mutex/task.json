@@ -1,7 +1,18 @@
 {
-  "test_profiles": ["FaultyFibers", "Debug", "FaultyThreadsASan", "FaultyThreadsTSan"],
-  "test_targets": ["unit_tests", "stress_tests"],
+  "tests": [
+    {
+      "targets": ["unit_tests"],
+      "profiles": ["Debug"]
+    },
+    {
+      "targets": ["stress_tests"],
+      "profiles": ["FaultyFibers", "Debug", "FaultyThreadsASan", "FaultyThreadsTSan"]
+    }
+  ],
   "submit_files": ["mutex.hpp"],
   "lint_files": ["mutex.hpp"],
-  "forbidden_patterns": ["std::mutex", "sleep"]
+  "forbidden_patterns": [
+    "std::mutex",
+    "sleep"
+  ]
 }

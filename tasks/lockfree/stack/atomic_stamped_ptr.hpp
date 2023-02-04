@@ -1,8 +1,8 @@
 #pragma once
 
-#include <twist/stdlike/atomic.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
 
-#include <wheels/support/assert.hpp>
+#include <wheels/core/assert.hpp>
 
 #include <cstdlib>
 
@@ -161,5 +161,5 @@ class AtomicStampedPtr {
   }
 
  private:
-  twist::stdlike::atomic<PackedPtr> packed_ptr_;
+  twist::ed::stdlike::atomic<PackedPtr> packed_ptr_;
 };

@@ -1,7 +1,7 @@
 #include <exe/coroutine/impl.hpp>
 
-#include <wheels/support/assert.hpp>
-#include <wheels/support/compiler.hpp>
+#include <wheels/core/assert.hpp>
+#include <wheels/core/compiler.hpp>
 
 namespace exe::coroutine {
 

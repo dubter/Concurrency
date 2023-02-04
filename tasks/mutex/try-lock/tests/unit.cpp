@@ -1,18 +1,18 @@
 #include "../ticket_lock.hpp"
 
-#include <twist/test/test.hpp>
+#include <wheels/test/test_framework.hpp>
 
 using solutions::TicketLock;
 
 TEST_SUITE(TicketTryLock) {
-  SIMPLE_TWIST_TEST(LockUnlock) {
+  SIMPLE_TEST(LockUnlock) {
     TicketLock ticket_lock;
 
     ticket_lock.Lock();
     ticket_lock.Unlock();
   }
 
-  SIMPLE_TWIST_TEST(SequentialLockUnlock) {
+  SIMPLE_TEST(SequentialLockUnlock) {
     TicketLock ticket_lock;
 
     ticket_lock.Lock();
@@ -21,7 +21,7 @@ TEST_SUITE(TicketTryLock) {
     ticket_lock.Unlock();
   }
 
-  SIMPLE_TWIST_TEST(TryLock) {
+  SIMPLE_TEST(TryLock) {
     TicketLock ticket_lock;
 
     ASSERT_TRUE(ticket_lock.TryLock());

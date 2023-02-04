@@ -1,13 +1,13 @@
 #pragma once
 
-#include <twist/stdlike/mutex.hpp>
+#include <twist/ed/stdlike/mutex.hpp>
 #include <twist/test/util/plate.hpp>
 
 #include <vector>
 
 namespace dining {
 
-using Fork = twist::stdlike::mutex;
+using Fork = twist::ed::stdlike::mutex;
 
 class Plate {
  public:

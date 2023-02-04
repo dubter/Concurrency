@@ -1,7 +1,7 @@
 #pragma once
 
-#include <twist/stdlike/atomic.hpp>
-#include <twist/util/spin_wait.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
+#include <twist/ed/wait/spin.hpp>
 
 namespace spinlocks {
 

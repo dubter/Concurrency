@@ -1,25 +1,21 @@
 #include "../semaphore.hpp"
-#include "blocking_queue.hpp"
+#include "../blocking_queue.hpp"
 
-#include <twist/test/test.hpp>
-#include <twist/test/random.hpp>
-
-#include <twist/strand/stdlike.hpp>
+#include <wheels/test/test_framework.hpp>
 
 #include <atomic>
-#include <deque>
 #include <chrono>
+#include <deque>
+#include <random>
 #include <string>
+#include <thread>
 
-////////////////////////////////////////////////////////////////////////////////
-
-using twist::strand::stdlike::thread;
-using twist::strand::stdlike::this_thread::sleep_for;
+using namespace std::chrono_literals;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(Semaphore) {
-  SIMPLE_TWIST_TEST(NonBlocking) {
+  SIMPLE_TEST(NonBlocking) {
     solutions::Semaphore semaphore(2);
 
     semaphore.Acquire();  // -1
@@ -31,17 +27,17 @@ TEST_SUITE(Semaphore) {
     semaphore.Release();  // +1
   }
 
-  SIMPLE_TWIST_TEST(Blocking) {
+  SIMPLE_TEST(Blocking) {
     solutions::Semaphore semaphore(0);
 
     bool touched = false;
 
-    thread touch([&]() {
+    std::thread touch([&]() {
       semaphore.Acquire();
       touched = true;
     });
 
-    sleep_for(250ms);
+    std::this_thread::sleep_for(250ms);
 
     ASSERT_FALSE(touched);
 
@@ -51,13 +47,13 @@ TEST_SUITE(Semaphore) {
     ASSERT_TRUE(touched);
   }
 
-  SIMPLE_TWIST_TEST(PingPong) {
+  SIMPLE_TEST(PingPong) {
     solutions::Semaphore my{1};
     solutions::Semaphore that{0};
 
     int step = 0;
 
-    thread opponent([&]() {
+    std::thread opponent([&]() {
       that.Acquire();
       ASSERT_EQ(step, 1);
       step = 0;
@@ -79,7 +75,7 @@ TEST_SUITE(Semaphore) {
 ////////////////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(BlockingQueue) {
-  SIMPLE_TWIST_TEST(PutThenTake) {
+  SIMPLE_TEST(PutThenTake) {
     solutions::BlockingQueue<int> queue{1};
     queue.Put(42);
     ASSERT_EQ(queue.Take(), 42);
@@ -95,14 +91,14 @@ TEST_SUITE(BlockingQueue) {
     MoveOnly& operator=(MoveOnly&& that) = default;
   };
 
-  SIMPLE_TWIST_TEST(MoveOnly) {
+  SIMPLE_TEST(MoveOnly) {
     solutions::BlockingQueue<MoveOnly> queue{1};
 
     queue.Put(MoveOnly{});
     queue.Take();
   }
 
-  SIMPLE_TWIST_TEST(Buffer) {
+  SIMPLE_TEST(Buffer) {
     solutions::BlockingQueue<std::string> queue{2};
 
     queue.Put("hello");
@@ -112,10 +108,10 @@ TEST_SUITE(BlockingQueue) {
     ASSERT_EQ(queue.Take(), "world");
   }
 
-  SIMPLE_TWIST_TEST(FifoSmall) {
+  SIMPLE_TEST(FifoSmall) {
     solutions::BlockingQueue<std::string> queue{2};
 
-    thread producer([&queue]() {
+    std::thread producer([&queue]() {
       queue.Put("hello");
       queue.Put("world");
       queue.Put("!");
@@ -128,12 +124,12 @@ TEST_SUITE(BlockingQueue) {
     producer.join();
   }
 
-  SIMPLE_TWIST_TEST(Fifo) {
+  SIMPLE_TEST(Fifo) {
     solutions::BlockingQueue<int> queue{3};
 
     static const int kItems = 1024;
 
-    thread producer([&]() {
+    std::thread producer([&]() {
       for (int i = 0; i < kItems; ++i) {
         queue.Put(i);
       }
@@ -150,11 +146,11 @@ TEST_SUITE(BlockingQueue) {
     producer.join();
   }
 
-  SIMPLE_TWIST_TEST(Capacity) {
+  SIMPLE_TEST(Capacity) {
     solutions::BlockingQueue<int> queue{3};
     std::atomic<size_t> send_count{0};
 
-    thread producer([&]() {
+    std::thread producer([&]() {
       for (size_t i = 0; i < 100; ++i) {
         queue.Put(i);
         send_count.store(i);
@@ -162,7 +158,7 @@ TEST_SUITE(BlockingQueue) {
       queue.Put(-1);
     });
 
-    sleep_for(100ms);
+    std::this_thread::sleep_for(100ms);
 
     ASSERT_TRUE(send_count.load() <= 3);
 
@@ -170,7 +166,7 @@ TEST_SUITE(BlockingQueue) {
       (void)queue.Take();
     }
 
-    sleep_for(100ms);
+    std::this_thread::sleep_for(100ms);
 
     ASSERT_TRUE(send_count.load() <= 17);
 
@@ -181,16 +177,17 @@ TEST_SUITE(BlockingQueue) {
     producer.join();
   }
 
-  SIMPLE_TWIST_TEST(Pill) {
+  SIMPLE_TEST(Pill) {
     static const size_t kThreads = 10;
     solutions::BlockingQueue<int> queue{1};
 
-    std::vector<thread> threads;
+    std::vector<std::thread> threads;
+
+    std::mt19937 twister;
 
     for (size_t i = 0; i < kThreads; ++i) {
       threads.emplace_back([&]() {
-        sleep_for(std::chrono::milliseconds(
-            twist::test::RandomUInteger(1000)));
+        std::this_thread::sleep_for(1ms * (twister() % 1000));
 
         ASSERT_EQ(queue.Take(), -1);
         queue.Put(-1);

@@ -16,7 +16,7 @@ void Test(const size_t threads, size_t iterations) {
   solutions::CyclicBarrier barrier{threads};
   size_t leader = 0;
 
-  twist::test::util::Race race{threads};
+  twist::test::util::Race race;
 
   for (size_t i = 0; i < threads; ++i) {
     race.Add([&, i]() {
@@ -27,7 +27,7 @@ void Test(const size_t threads, size_t iterations) {
         if (k % threads == i) {
           leader = k;
         } else {
-          twist::strand::stdlike::this_thread::yield();
+          twist::rt::strand::stdlike::this_thread::yield();
         }
 
         barrier.Arrive();
@@ -66,7 +66,7 @@ void Test(size_t threads, size_t iterations) {
   solutions::CyclicBarrier barrier_{threads};
   std::vector<size_t> vector_(threads);
 
-  twist::test::util::Race race{threads};
+  twist::test::util::Race race;
 
   for (size_t t = 0; t < threads; ++t) {
     race.Add([&, t]() {

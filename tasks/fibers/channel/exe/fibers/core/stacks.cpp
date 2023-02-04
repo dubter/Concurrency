@@ -1,6 +1,6 @@
 #include <exe/fibers/core/stacks.hpp>
 
-using context::Stack;
+using sure::Stack;
 
 namespace exe::fibers {
 
@@ -30,11 +30,11 @@ class StackAllocator {
 
 StackAllocator allocator;
 
-context::Stack AllocateStack() {
+sure::Stack AllocateStack() {
   return allocator.Allocate();
 }
 
-void ReleaseStack(context::Stack stack) {
+void ReleaseStack(sure::Stack stack) {
   allocator.Release(std::move(stack));
 }
 

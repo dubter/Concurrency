@@ -19,7 +19,7 @@ TEST_SUITE(Mutex) {
     twist::test::util::Plate plate;  // Guarded by mutex
     QueueSpinLock qspinlock;
 
-    twist::test::util::Race race{threads};
+    twist::test::util::Race race;
 
     for (size_t i = 0; i < threads; ++i) {
       race.Add([&]() {
@@ -53,7 +53,7 @@ TEST_SUITE(MissedWakeup) {
   void Test(size_t threads) {
     QueueSpinLock qspinlock;
 
-    twist::test::util::Race race{threads};
+    twist::test::util::Race race;
 
     for (size_t i = 0; i < threads; ++i) {
       race.Add([&]() {

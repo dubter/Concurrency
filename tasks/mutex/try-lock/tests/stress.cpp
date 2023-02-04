@@ -1,6 +1,6 @@
 #include "../ticket_lock.hpp"
 
-#include <twist/strand/stdlike/thread.hpp>
+#include <twist/rt/strand/stdlike/thread.hpp>
 
 #include <twist/test/test.hpp>
 #include <twist/test/inject_fault.hpp>
@@ -9,7 +9,7 @@
 #include <twist/test/util/race.hpp>
 #include <twist/test/util/plate.hpp>
 
-#include <twist/util/spin_wait.hpp>
+#include <twist/ed/wait/spin.hpp>
 
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/util.hpp>
@@ -29,7 +29,7 @@ TEST_SUITE(TicketLock) {
     twist::test::util::Plate plate;  // Guarded by ticket_lock
     solutions::TicketLock ticket_lock;
 
-    twist::test::util::Race race{lockers + try_lockers};
+    twist::test::util::Race race;
 
     for (size_t i = 0; i < lockers; ++i) {
       race.Add([&]() {
@@ -49,7 +49,7 @@ TEST_SUITE(TicketLock) {
         while (wheels::test::KeepRunning()) {
           {
             // Lock
-            twist::util::SpinWait spin_wait;
+            twist::ed::SpinWait spin_wait;
             while (!ticket_lock.TryLock()) {
               spin_wait();
             }
@@ -176,7 +176,7 @@ namespace forks {
   void Test(size_t seats) {
     Table table{seats};
 
-    twist::test::util::Race race{seats};
+    twist::test::util::Race race;
 
     for (size_t i = 0; i < seats; ++i) {
       race.Add([&, i]() {
@@ -213,13 +213,13 @@ TEST_SUITE(TicketLock2) {
 
     auto contender = [&]() {
       if (ticket_lock.TryLock()) {
-        twist::strand::stdlike::this_thread::sleep_for(50ms);
+        twist::rt::strand::stdlike::this_thread::sleep_for(50ms);
         ++cs;
         ticket_lock.Unlock();
       }
     };
 
-    twist::test::util::Race race{2};
+    twist::test::util::Race race;
     race.Add(contender);
     race.Add(contender);
     race.Run();

@@ -1,7 +1,7 @@
 #include "../spinlock.hpp"
 #include "../atomic_ops.hpp"
 
-#include <twist/test/test.hpp>
+#include <wheels/test/test_framework.hpp>
 
 TEST_SUITE(Atomics) {
   SIMPLE_TEST(LoadStore) {
@@ -25,14 +25,14 @@ TEST_SUITE(Atomics) {
 using solutions::TASSpinLock;
 
 TEST_SUITE(SpinLock) {
-  SIMPLE_TWIST_TEST(LockUnlock) {
+  SIMPLE_TEST(LockUnlock) {
     TASSpinLock spinlock;
 
     spinlock.Lock();
     spinlock.Unlock();
   }
 
-  SIMPLE_TWIST_TEST(SequentialLockUnlock) {
+  SIMPLE_TEST(SequentialLockUnlock) {
     TASSpinLock spinlock;
 
     spinlock.Lock();
@@ -42,7 +42,7 @@ TEST_SUITE(SpinLock) {
     spinlock.Unlock();
   }
 
-  SIMPLE_TWIST_TEST(TryLock) {
+  SIMPLE_TEST(TryLock) {
     TASSpinLock spinlock;
 
     ASSERT_TRUE(spinlock.TryLock());

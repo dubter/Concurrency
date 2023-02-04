@@ -1,13 +1,13 @@
 #include <exe/coroutine/standalone.hpp>
 
-#include <twist/util/thread_local.hpp>
+#include <twist/ed/lang/thread_local.hpp>
 
-#include <wheels/support/assert.hpp>
-#include <wheels/support/defer.hpp>
+#include <wheels/core/assert.hpp>
+#include <wheels/core/defer.hpp>
 
 namespace exe::coroutine {
 
-static twist::util::ThreadLocalPtr<Coroutine> current;
+static twist::ed::ThreadLocalPtr<Coroutine> current;
 
 Coroutine::Coroutine(Routine routine)
     : stack_(AllocateStack()), impl_(std::move(routine), stack_.View()) {
@@ -28,9 +28,9 @@ void Coroutine::Suspend() {
   current->impl_.Suspend();
 }
 
-context::Stack Coroutine::AllocateStack() {
+sure::Stack Coroutine::AllocateStack() {
   static const size_t kStackPages = 16;  // 16 * 4KB = 64KB
-  return context::Stack::AllocatePages(kStackPages);
+  return sure::Stack::AllocatePages(kStackPages);
 }
 
 }  // namespace exe::coroutine

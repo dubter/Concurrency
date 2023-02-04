@@ -13,7 +13,7 @@
 #include <wheels/test/test_framework.hpp>
 #include <wheels/test/cpu_time.hpp>
 
-#include <wheels/support/unit.hpp>
+#include <wheels/core/unit.hpp>
 
 #include <thread>
 

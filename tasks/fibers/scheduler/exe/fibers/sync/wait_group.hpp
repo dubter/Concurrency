@@ -2,7 +2,7 @@
 
 #include <exe/fibers/sync/futex.hpp>
 
-#include <twist/stdlike/atomic.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
 
 namespace exe::fibers {
 

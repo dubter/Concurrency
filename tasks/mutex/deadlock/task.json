@@ -1,6 +1,10 @@
 {
-  "test_profiles": ["Debug"],
-  "test_targets": ["simulation"],
+  "tests": [
+    {
+      "targets": ["simulation"],
+      "profiles": ["Debug"]
+    }
+  ],
   "submit_files": ["simulation.cpp"],
   "lint_files": ["simulation.cpp"]
 }

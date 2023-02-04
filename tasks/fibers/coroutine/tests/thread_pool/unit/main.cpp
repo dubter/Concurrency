@@ -3,7 +3,8 @@
 
 #include <wheels/test/test_framework.hpp>
 
-#include <wheels/support/cpu_time.hpp>
+#include <wheels/core/stop_watch.hpp>
+#include <wheels/test/util/cpu_timer.hpp>
 
 #include <atomic>
 #include <chrono>

@@ -2,7 +2,7 @@
 
 #include <exe/fibers/core/api.hpp>
 #include <exe/coroutine/impl.hpp>
-#include <context/stack.hpp>
+#include <sure/stack.hpp>
 
 namespace exe::fibers {
 

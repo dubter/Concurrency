@@ -1,6 +1,6 @@
 #pragma once
 
-#include <twist/stdlike/atomic.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
 
 namespace util {
 
@@ -20,7 +20,7 @@ class WaitQueue {
   }
 
  private:
-  twist::stdlike::atomic<uint32_t> queue_{0};
+  twist::ed::stdlike::atomic<uint32_t> queue_{0};
 };
 
 }  // namespace util

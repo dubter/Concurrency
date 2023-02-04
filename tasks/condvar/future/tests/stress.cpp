@@ -2,7 +2,7 @@
 
 #include <wheels/test/test_framework.hpp>
 
-#include <twist/stdlike/thread.hpp>
+#include <twist/ed/stdlike/thread.hpp>
 
 #include <twist/test/test.hpp>
 #include <twist/test/util/race.hpp>

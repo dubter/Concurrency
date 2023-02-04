@@ -1,7 +1,7 @@
 #pragma once
 
-#include <twist/stdlike/atomic.hpp>
-#include <twist/util/spin_wait.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
+#include <twist/ed/wait/spin.hpp>
 
 #include <cstdlib>
 
@@ -15,7 +15,7 @@ class TicketLock {
   void Lock() {
     const Ticket this_thread_ticket = next_free_ticket_.fetch_add(1);
 
-    twist::util::SpinWait spin_wait;
+    twist::ed::SpinWait spin_wait;
     while (this_thread_ticket != owner_ticket_.load()) {
       spin_wait();
     }
@@ -32,8 +32,8 @@ class TicketLock {
   }
 
  private:
-  twist::stdlike::atomic<Ticket> next_free_ticket_{0};
-  twist::stdlike::atomic<Ticket> owner_ticket_{0};
+  twist::ed::stdlike::atomic<Ticket> next_free_ticket_{0};
+  twist::ed::stdlike::atomic<Ticket> owner_ticket_{0};
 };
 
 }  // namespace solutions

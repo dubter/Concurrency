@@ -5,7 +5,7 @@
 #include <twist/test/util/race.hpp>
 #include <twist/test/util/plate.hpp>
 
-#include <twist/util/spin_wait.hpp>
+#include <twist/ed/wait/spin.hpp>
 
 #include <wheels/test/util.hpp>
 
@@ -22,7 +22,7 @@ TEST_SUITE(SpinLock) {
     twist::test::util::Plate plate;  // Guarded by spinlock
     solutions::TASSpinLock spinlock;
 
-    twist::test::util::Race race{lockers + try_lockers};
+    twist::test::util::Race race;
 
     std::cout << "Lockers: " << lockers
       << ", try_lockers: " << try_lockers << std::endl;
@@ -40,7 +40,7 @@ TEST_SUITE(SpinLock) {
     for (size_t j = 0; j < try_lockers; ++j) {
       race.Add([&]() {
         while (wheels::test::KeepRunning()) {
-          twist::util::SpinWait spin_wait;
+          twist::ed::SpinWait spin_wait;
           while (!spinlock.TryLock()) {
             spin_wait();
           }

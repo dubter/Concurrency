@@ -1,9 +1,9 @@
 #include <exe/fibers/core/api.hpp>
 #include <exe/tp/thread_pool.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/core/stop_watch.hpp>
 
-#include <twist/test/test.hpp>
+#include <wheels/test/test_framework.hpp>
 
 using exe::tp::ThreadPool;
 using exe::fibers::Go;

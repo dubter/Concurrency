@@ -1,6 +1,6 @@
 #include "../../work_stealing_queue.hpp"
 
-#include <twist/fault/adversary/lockfree.hpp>
+#include <twist/rt/fault/adversary/lockfree.hpp>
 
 #include <twist/test/test.hpp>
 #include <twist/test/util/race.hpp>
@@ -16,7 +16,7 @@
 
 void SetupAdversary() {
 #if !__has_feature(thread_sanitizer)
-  twist::fault::SetAdversary(twist::fault::CreateLockFreeAdversary());
+  twist::rt::fault::SetAdversary(twist::rt::fault::CreateLockFreeAdversary());
 #endif
 }
 
@@ -66,7 +66,7 @@ void StressTest() {
 
   for (size_t i = 0; i < Queues; ++i) {
     race.Add([&, i]() {
-      twist::fault::GetAdversary()->EnablePark();
+      twist::rt::fault::GetAdversary()->EnablePark();
 
       size_t random = i;  // Seed
 

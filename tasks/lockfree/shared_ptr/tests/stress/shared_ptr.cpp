@@ -1,7 +1,7 @@
 #include "../../shared_ptr.hpp"
 
-#include <twist/stdlike/atomic.hpp>
-#include <twist/stdlike/thread.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
+#include <twist/ed/stdlike/thread.hpp>
 
 #include <wheels/test/test_framework.hpp>
 #include <twist/test/test.hpp>
@@ -11,12 +11,12 @@ void Race() {
 
   asp.Store(MakeShared<std::string>("Initial"));
 
-  twist::stdlike::thread reader([&]() {
+  twist::ed::stdlike::thread reader([&]() {
     auto sp = asp.Load();
     ASSERT_TRUE(sp);
   });
 
-  twist::stdlike::thread writer([&]() {
+  twist::ed::stdlike::thread writer([&]() {
     asp.Store(MakeShared<std::string>("Writer"));
   });
 

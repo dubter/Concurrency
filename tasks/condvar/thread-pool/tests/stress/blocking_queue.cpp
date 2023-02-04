@@ -4,7 +4,7 @@
 #include <twist/test/runs.hpp>
 #include <twist/test/util/race.hpp>
 
-#include <twist/stdlike/atomic.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
 
 #include <atomic>
 
@@ -45,7 +45,7 @@ class TestedQueue {
  private:
   const size_t limit_;
   tp::UnboundedBlockingQueue<T> impl_;
-  twist::stdlike::atomic<size_t> size_{0};
+  twist::ed::stdlike::atomic<size_t> size_{0};
 };
 
 void Test(size_t producers, size_t consumers) {

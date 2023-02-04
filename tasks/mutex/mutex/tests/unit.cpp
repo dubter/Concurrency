@@ -1,28 +1,23 @@
 #include "../mutex.hpp"
 
-#include <twist/stdlike/thread.hpp>
-
-#include <twist/test/test.hpp>
-
-#include <twist/test/util/cpu_timer.hpp>
+#include <wheels/test/test_framework.hpp>
+#include <wheels/test/util/cpu_timer.hpp>
 
 #include <chrono>
+#include <thread>
 
 using namespace std::chrono_literals;
 
 using stdlike::Mutex;
 
-using twist::strand::stdlike::thread;
-using twist::strand::stdlike::this_thread::sleep_for;
-
 TEST_SUITE(UnitTest) {
-  SIMPLE_TWIST_TEST(LockUnlock) {
+  SIMPLE_TEST(LockUnlock) {
     Mutex mutex;
     mutex.Lock();
     mutex.Unlock();
   }
 
-SIMPLE_TWIST_TEST(SequentialLockUnlock) {
+  SIMPLE_TEST(SequentialLockUnlock) {
     Mutex mutex;
     mutex.Lock();
     mutex.Unlock();
@@ -30,7 +25,7 @@ SIMPLE_TWIST_TEST(SequentialLockUnlock) {
     mutex.Unlock();
   }
 
-  SIMPLE_TWIST_TEST(NoSharedLocations) {
+  SIMPLE_TEST(NoSharedLocations) {
     Mutex mutex;
     mutex.Lock();
 
@@ -41,19 +36,19 @@ SIMPLE_TWIST_TEST(SequentialLockUnlock) {
     mutex.Unlock();
   }
 
-  SIMPLE_TWIST_TEST(MutualExclusion) {
+  SIMPLE_TEST(MutualExclusion) {
     Mutex mutex;
     bool cs = false;
 
-    thread locker([&]() {
+    std::thread locker([&]() {
       mutex.Lock();
       cs = true;
-      sleep_for(3s);
+      std::this_thread::sleep_for(3s);
       cs = false;
       mutex.Unlock();
     });
 
-    sleep_for(1s);
+    std::this_thread::sleep_for(1s);
     mutex.Lock();
     ASSERT_FALSE(cs);
     mutex.Unlock();
@@ -61,25 +56,23 @@ SIMPLE_TWIST_TEST(SequentialLockUnlock) {
     locker.join();
   }
 
-#if !defined(TWIST_FIBER) && !defined(TWIST_FAULTY)
-
-  SIMPLE_TWIST_TEST(Blocking) {
+  SIMPLE_TEST(Blocking) {
     Mutex mutex;
 
     // Warmup
     mutex.Lock();
     mutex.Unlock();
 
-    thread sleeper([&]() {
+    std::thread sleeper([&]() {
       mutex.Lock();
-      sleep_for(3s);
+      std::this_thread::sleep_for(3s);
       mutex.Unlock();
     });
 
-    thread waiter([&]() {
-      sleep_for(1s);
+    std::thread waiter([&]() {
+      std::this_thread::sleep_for(1s);
 
-      twist::test::util::ThreadCPUTimer cpu_timer;
+      wheels::ThreadCPUTimer cpu_timer;
 
       mutex.Lock();
       mutex.Unlock();
@@ -92,8 +85,6 @@ SIMPLE_TWIST_TEST(SequentialLockUnlock) {
     sleeper.join();
     waiter.join();
   }
-
-#endif
 }
 
 RUN_ALL_TESTS()

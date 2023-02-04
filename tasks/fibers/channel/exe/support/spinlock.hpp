@@ -1,6 +1,6 @@
 #pragma once
 
-#include <twist/stdlike/atomic.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
 
 #include <cstdlib>
 

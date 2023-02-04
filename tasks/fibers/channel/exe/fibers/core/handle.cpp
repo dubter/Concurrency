@@ -2,7 +2,7 @@
 
 #include <exe/fibers/core/fiber.hpp>
 
-#include <wheels/support/assert.hpp>
+#include <wheels/core/assert.hpp>
 
 #include <utility>
 

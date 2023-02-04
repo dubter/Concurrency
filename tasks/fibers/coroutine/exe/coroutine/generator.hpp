@@ -1,7 +1,7 @@
 #pragma once
 
 #include <exe/coroutine/impl.hpp>
-#include <context/stack.hpp>
+#include <sure/stack.hpp>
 
 #include <optional>
 
@@ -25,9 +25,9 @@ class Generator {
 
  private:
   // Intentionally naive and inefficient
-  static context::Stack AllocateStack() {
+  static sure::Stack AllocateStack() {
     static const size_t kStackPages = 16;  // 16 * 4KB = 64KB
-    return context::Stack::AllocatePages(kStackPages);
+    return sure::Stack::AllocatePages(kStackPages);
   }
 
  private:

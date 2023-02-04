@@ -1,19 +1,15 @@
 #include "../condvar.hpp"
 
-#include <twist/test/test.hpp>
+#include <wheels/test/test_framework.hpp>
 
 #include <twist/test/util/cpu_timer.hpp>
 
-#include <twist/strand/stdlike.hpp>
-
 #include <atomic>
+#include <mutex>
+#include <thread>
 #include <chrono>
 
 using namespace std::chrono_literals;
-
-using twist::strand::stdlike::thread;
-using twist::strand::stdlike::mutex;
-using twist::strand::stdlike::this_thread::sleep_for;
 
 TEST_SUITE(CondVar) {
 
@@ -39,11 +35,11 @@ TEST_SUITE(CondVar) {
 
    private:
     bool set_{false};
-    mutex mutex_;
+    std::mutex mutex_;
     stdlike::CondVar set_cond_;
   };
 
-  SIMPLE_TWIST_TEST(NotifyOne) {
+  SIMPLE_TEST(NotifyOne) {
     Event pass;
 
     for (size_t i = 0; i < 3; ++i) {
@@ -51,7 +47,7 @@ TEST_SUITE(CondVar) {
 
       bool passed = false;
 
-      thread waiter([&]() {
+      std::thread waiter([&]() {
           {
             twist::test::util::ThreadCPUTimer cpu_timer;
             pass.Await();
@@ -60,7 +56,7 @@ TEST_SUITE(CondVar) {
           passed = true;
       });
 
-      sleep_for(1s);
+      std::this_thread::sleep_for(1s);
 
       ASSERT_FALSE(passed);
 
@@ -93,11 +89,11 @@ TEST_SUITE(CondVar) {
 
    private:
     bool released_{false};
-    mutex mutex_;
+    std::mutex mutex_;
     stdlike::CondVar released_cond_;
   };
 
-  SIMPLE_TWIST_TEST(NotifyAll) {
+  SIMPLE_TEST(NotifyAll) {
     Latch latch;
 
     for (size_t i = 0; i < 3; ++i) {
@@ -110,10 +106,10 @@ TEST_SUITE(CondVar) {
         ++passed;
       };
 
-      thread t1(wait_routine);
-      thread t2(wait_routine);
+      std::thread t1(wait_routine);
+      std::thread t2(wait_routine);
 
-      sleep_for(1s);
+      std::this_thread::sleep_for(1s);
 
       ASSERT_EQ(passed.load(), 0);
 
@@ -126,7 +122,7 @@ TEST_SUITE(CondVar) {
     }
   }
 
-  SIMPLE_TWIST_TEST(NotifyManyTimes) {
+  SIMPLE_TEST(NotifyManyTimes) {
     static const size_t kIterations = 1000'000;
 
     stdlike::CondVar cv;

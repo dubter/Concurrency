@@ -1,10 +1,14 @@
 {
-  "test_profiles": [
-    "FaultyFibers",
-    "Debug",
-    "FaultyThreadsTSan"
+  "tests": [
+    {
+      "targets": ["stress_tests"],
+      "profiles": [
+        "FaultyFibers",
+        "Debug",
+        "FaultyThreadsTSan"
+      ]
+    }
   ],
-  "test_targets": ["stress_tests"],
   "lint_files": [
     "table.cpp",
     "table.hpp",

@@ -3,7 +3,7 @@
 #include <tp/blocking_queue.hpp>
 #include <tp/task.hpp>
 
-#include <twist/stdlike/thread.hpp>
+#include <twist/ed/stdlike/thread.hpp>
 
 namespace tp {
 

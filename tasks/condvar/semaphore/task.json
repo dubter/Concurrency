@@ -1,6 +1,14 @@
 {
-  "test_profiles": ["Debug", "FaultyFibers", "FaultyThreadsASan", "FaultyThreadsTSan"],
-  "test_targets": ["unit_tests", "stress_tests"],
+  "tests": [
+    {
+      "targets": ["unit_tests"],
+      "profiles": ["Debug"]
+    },
+    {
+      "targets": ["stress_tests"],
+      "profiles": ["Debug", "FaultyFibers", "FaultyThreadsASan", "FaultyThreadsTSan"]
+    }
+  ],
   "lint_files": ["semaphore.hpp", "blocking_queue.hpp"],
   "submit_files": ["semaphore.hpp", "blocking_queue.hpp"],
   "forbidden_patterns": [

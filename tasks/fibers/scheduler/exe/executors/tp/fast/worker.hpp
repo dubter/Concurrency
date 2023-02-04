@@ -5,8 +5,8 @@
 #include <exe/executors/tp/fast/metrics.hpp>
 #include <exe/executors/tp/fast/queues/work_stealing_queue.hpp>
 
-#include <twist/stdlike/atomic.hpp>
-#include <twist/stdlike/thread.hpp>
+#include <twist/ed/stdlike/atomic.hpp>
+#include <twist/ed/stdlike/thread.hpp>
 
 #include <cstdlib>
 #include <optional>
@@ -66,7 +66,7 @@ class Worker {
   const size_t index_;
 
   // Worker thread
-  std::optional<twist::stdlike::thread> thread_;
+  std::optional<twist::ed::stdlike::thread> thread_;
 
   // Local queue
   WorkStealingQueue<kLocalQueueCapacity> local_tasks_;
@@ -78,7 +78,7 @@ class Worker {
   TaskBase* lifo_slot_;
 
   // Parking lot
-  twist::stdlike::atomic<uint32_t> wakeups_{0};
+  twist::ed::stdlike::atomic<uint32_t> wakeups_{0};
 
   WorkerMetrics metrics_;
 };

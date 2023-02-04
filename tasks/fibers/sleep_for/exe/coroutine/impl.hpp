@@ -2,7 +2,7 @@
 
 #include <exe/coroutine/routine.hpp>
 
-#include <context/context.hpp>
+#include <sure/context.hpp>
 
 #include <wheels/memory/view.hpp>
 
@@ -15,7 +15,7 @@ namespace exe::coroutine {
 // - Unsafe Suspend
 // Base for standalone coroutines, processors, fibers
 
-class CoroutineImpl : public ::context::ITrampoline {
+class CoroutineImpl : public ::sure::ITrampoline {
  public:
   CoroutineImpl(Routine routine, wheels::MutableMemView stack);
 
@@ -29,8 +29,8 @@ class CoroutineImpl : public ::context::ITrampoline {
   bool IsCompleted() const;
 
  private:
-  // context::ITrampoline
-  [[noreturn]] void Run() override;
+  // sure::ITrampoline
+  [[noreturn]] void Run() noexcept override;
 
  private:
   // ???
