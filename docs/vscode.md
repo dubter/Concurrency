@@ -83,6 +83,11 @@
 
 ![Change cpp setting](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-disable-intelli.png)
 
+Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит строки
+```
+"C_Cpp.intelliSenseEngine": "disabled"
+```
+
 ### Шаг 8
 
 Настройте индексацию проекта `clangd`. Для этого в настройках расширения `clangd` во вкладке `Workspace` поменяйте значение настройки `Clangd: Arguments` на `-compile-commands-dir=/tmp/vscode-build`. 
