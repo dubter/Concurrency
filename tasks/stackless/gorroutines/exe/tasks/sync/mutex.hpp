@@ -46,6 +46,11 @@ class Mutex {
     return false;  // Not implemented
   }
 
+  // For TryLock
+  void Unlock() {
+    // Not implemented
+  }
+
   // For std::unique_lock
   // Do not use directly
   void unlock() {  // NOLINT
@@ -56,10 +61,6 @@ class Mutex {
   // Returns true if lock acquired
   bool TryLockOrEnqueue(Locker* /*locker*/) {
     return false;  // Not implemented
-  }
-
-  void Unlock() {
-    // Not implemented
   }
 
  private:
