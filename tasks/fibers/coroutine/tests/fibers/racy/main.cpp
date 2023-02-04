@@ -1,7 +1,7 @@
 #include <exe/fibers/core/api.hpp>
 #include <exe/tp/thread_pool.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 using exe::tp::ThreadPool;
 using exe::fibers::Go;

@@ -5,7 +5,7 @@
 #include <exe/executors/thread_pool.hpp>
 #include <exe/executors/manual.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 #include <chrono>
 #include <thread>

@@ -3,7 +3,7 @@
 #include <exe/executors/manual.hpp>
 #include <exe/executors/execute.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 #include <wheels/support/stop_watch.hpp>
 
 #include <thread>

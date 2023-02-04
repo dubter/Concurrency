@@ -1,4 +1,4 @@
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 #include <exe/tp/thread_pool.hpp>
 #include <exe/fibers/sync/wait_group.hpp>

@@ -4,7 +4,7 @@
 #include <exe/fibers/sync/channel.hpp>
 #include <exe/fibers/sync/select.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 #include <wheels/test/util.hpp>
 
 #include <twist/test/test.hpp>

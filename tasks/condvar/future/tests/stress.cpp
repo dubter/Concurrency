@@ -1,6 +1,6 @@
 #include <futures/promise.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 #include <twist/ed/stdlike/thread.hpp>
 

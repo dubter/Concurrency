@@ -1,6 +1,6 @@
 #include "../../shared_ptr.hpp"
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 struct TestObject {
   TestObject(int v) : value(v) {}

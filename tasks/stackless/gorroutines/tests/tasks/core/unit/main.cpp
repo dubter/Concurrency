@@ -6,7 +6,7 @@
 #include <exe/tasks/run/teleport.hpp>
 #include <exe/tasks/run/yield.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 #include <iostream>
 

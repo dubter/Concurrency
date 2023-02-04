@@ -1,6 +1,6 @@
 #include "mutexed.hpp"
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 #include <chrono>
 #include <set>

@@ -10,7 +10,7 @@
 #include <exe/executors/thread_pool.hpp>
 #include <exe/executors/strand.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 #include <wheels/test/cpu_time.hpp>
 
 #include <wheels/core/unit.hpp>

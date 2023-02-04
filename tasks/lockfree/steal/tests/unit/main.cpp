@@ -1,6 +1,6 @@
 #include "../../work_stealing_queue.hpp"
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 using lockfree::WorkStealingQueue;
 

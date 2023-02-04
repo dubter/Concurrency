@@ -8,7 +8,7 @@
 
 #include <exe/tasks/sync/wait_group.hpp>
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 
 #include <wheels/support/cpu_time.hpp>
 

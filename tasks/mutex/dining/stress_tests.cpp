@@ -1,7 +1,7 @@
 #include "table.hpp"
 #include "philosopher.hpp"
 
-#include <wheels/test/test_framework.hpp>
+#include <wheels/test/framework.hpp>
 #include <wheels/test/util.hpp>
 
 #include <twist/test/test.hpp>
