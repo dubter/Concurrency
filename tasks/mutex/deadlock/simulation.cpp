@@ -25,16 +25,16 @@ TEST_SUITE(Deadlock) {
   TEST(OneFiber, wheels::test::TestOptions().ForceFork()) {
     Scheduler scheduler;
 
-    scheduler.SetDeadlockHandler([]() {
+    scheduler.SetDeadlockHandler([] {
       std::cout << "Fiber deadlocked!" << std::endl;
       // World is broken, leave it ASAP
       wheels::QuickExit(0);
     });
 
-    scheduler.Run([]() {
+    scheduler.Run([] {
       Mutex mutex;
 
-      auto locker = [&]() {
+      auto locker = [&] {
         // Your code goes here
         // use mutex.Lock() / mutex.Unlock() to lock/unlock mutex
       };
@@ -56,7 +56,7 @@ TEST_SUITE(Deadlock) {
       wheels::QuickExit(0);
     });
 
-    scheduler.Run([]() {
+    scheduler.Run([] {
       // Mutexes
 
       Mutex a;
@@ -64,12 +64,12 @@ TEST_SUITE(Deadlock) {
 
       // Fiber routines
 
-      auto first = [&]() {
+      auto first = [&] {
         // Your code goes here
         // Use Yield() to reschedule current fiber
       };
 
-      auto second = [&]() {
+      auto second = [&] {
         // Your code goes here
       };
 

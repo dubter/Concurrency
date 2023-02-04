@@ -17,7 +17,7 @@ TEST_SUITE(TrickyLock) {
   TEST(LiveLock, wheels::test::TestOptions().ForceFork()) {
     Scheduler scheduler;
 
-    auto test = []() {
+    auto sim = [] {
       static const size_t kIterations = 100;
 
       size_t cs_count = 0;
@@ -25,7 +25,7 @@ TEST_SUITE(TrickyLock) {
       // TrickyLock state
       size_t thread_count = 0;
 
-      auto contender = [&]() {
+      auto contender = [&] {
         // Put Yield-s to produce livelock
 
         for (size_t i = 0; i < kIterations; ++i) {
@@ -54,7 +54,7 @@ TEST_SUITE(TrickyLock) {
     };
 
     // Limit number of scheduler run loop iterations
-    scheduler.Run(test, /*fuel=*/123456);
+    scheduler.Run(sim, /*fuel=*/123456);
 
     // World is broken, leave it ASAP
     wheels::QuickExit(0);
