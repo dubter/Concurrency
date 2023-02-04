@@ -9,7 +9,7 @@ int main() {
     std::cout << "Hi from pool" << std::endl;
   });
 
-  pool.Wait();
+  pool.WaitIdle();
   pool.Stop();
 
   return 0;
