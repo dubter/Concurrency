@@ -22,7 +22,19 @@
     "semaphore.hpp",
     "blocking_queue.hpp"
   ],
-  "forbidden_patterns": [
-    "atomic", "yield", "sleep_for", "SpinWait"
+  "forbidden": [
+    {
+      "patterns": [
+        "yield",
+        "sleep_for",
+        "SpinWait"
+      ],
+      "hint": "Use condition_variable"
+    },
+    {
+      "patterns": [
+        "atomic"
+      ]
+    }
   ]
 }

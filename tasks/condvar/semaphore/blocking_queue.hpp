@@ -25,5 +25,9 @@ class BlockingQueue {
   }
 
  private:
+  // Tags
+  struct SomeTag {};
+
+ private:
   // Buffer
 };

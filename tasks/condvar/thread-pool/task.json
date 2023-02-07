@@ -16,7 +16,19 @@
   ],	  
   "lint_files": ["tp"],
   "submit_files": ["tp"],
-  "forbidden_patterns": [
-    "yield", "sleep_for", "SpinWait", "friend"
+  "forbidden": [
+    {
+      "patterns": [
+        "yield",
+        "sleep_for",
+        "SpinWait"
+      ],
+      "hint": "Use another waiting mechanism"
+    },
+    {
+      "patterns": [
+        "friend"
+      ]
+    }
   ]
 }

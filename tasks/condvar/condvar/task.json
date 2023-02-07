@@ -16,7 +16,21 @@
   ],
   "lint_files": ["condvar.hpp"],
   "submit_files": ["condvar.hpp"],
-  "forbidden_patterns": [
-    "condition_variable", "yield", "sleep_for", "SpinWait"
+  "forbidden": [
+    {
+      "patterns": [
+        "yield",
+        "sleep_for",
+        "SpinWait"
+      ],
+      "files": ["condvar.hpp"],
+      "hint": "Use twist::ed::Wait"
+    },
+    {
+      "patterns": [
+        "twist/ed/stdlike/mutex.hpp"
+      ],
+      "hint": "Implement your own mutex"
+    }
   ]
 }

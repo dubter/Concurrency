@@ -40,13 +40,13 @@ class TaggedSemaphore {
     bool valid_{true};
   };
 
-  class Guard {
+  class ScopeGuard {
    public:
-    explicit Guard(TaggedSemaphore& host)
+    explicit ScopeGuard(TaggedSemaphore& host)
       : host_(host), token_(host_.Acquire()) {
     }
 
-    ~Guard() {
+    ~ScopeGuard() {
       host_.Release(std::move(token_));
     }
 
@@ -70,8 +70,8 @@ class TaggedSemaphore {
     token.Invalidate();
   }
 
-  Guard MakeGuard() {
-    return Guard{*this};
+  ScopeGuard Guard() {
+    return ScopeGuard{*this};
   }
 
  private:
