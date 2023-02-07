@@ -16,15 +16,25 @@
     "tinyfibers-src",
     "asio-src/asio/include"
   ],
-  "forbidden_patterns": [
-    "Your code goes here",
-    "Not implemented",
-    "To be implemented",
-    "std::atomic",
-    "std::mutex",
-    "std::condition_variable",
-    "std::thread",
-    "std::this_thread",
-    "thread_local "
+  "forbidden": [
+    {
+      "patterns": [
+        "Your code goes here",
+        "Not implemented",
+        "To be implemented"
+      ],
+      "hint": "Write code and remove this comment"
+    },
+    {
+      "patterns": [
+        "std::atomic",
+        "std::mutex",
+        "std::condition_variable",
+        "std::thread",
+        "std::this_thread",
+        "thread_local "
+      ],
+      "hint": "Use Twist-ed synchronization primitives (https://gitlab.com/Lipovsky/twist/-/blob/master/docs/guide-ru.md)"
+    }
   ]
 }
