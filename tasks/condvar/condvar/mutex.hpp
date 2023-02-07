@@ -15,10 +15,6 @@ class Mutex {
 
   void Unlock() {
     // Your code goes here
-    locked_.store(false);
-    if (count_.load() > 0) {
-      //locked_.notify_one();
-    }
   }
 
  private:
