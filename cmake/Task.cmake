@@ -15,7 +15,7 @@ endfunction()
 # Helpers
 
 macro(get_task_target VAR NAME)
-    set(${VAR} task_${HW_NAME}_${TASK_NAME}_${NAME})
+    set(${VAR} task_${TOPIC_NAME}_${TASK_NAME}_${NAME})
 endmacro()
 
 function(add_task_executable BINARY_NAME)
@@ -35,10 +35,10 @@ macro(begin_task)
 
     get_filename_component(TASK_NAME ${TASK_DIR} NAME)
 
-    get_filename_component(HW_DIR ${TASK_DIR} DIRECTORY)
-    get_filename_component(HW_NAME ${HW_DIR} NAME)
+    get_filename_component(TOPIC_DIR ${TASK_DIR} DIRECTORY)
+    get_filename_component(TOPIC_NAME ${TOPIC_DIR} NAME)
 
-    course_log("Homework = '${HW_NAME}', task = '${TASK_NAME}'")
+    course_log("Topic = '${TOPIC_NAME}', task = '${TASK_NAME}'")
 
     include_directories(${TASK_DIR})
 
