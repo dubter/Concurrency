@@ -36,7 +36,7 @@ class ResourcePool {
 
 void Test(size_t threads, size_t limit) {
   ResourcePool pool{limit};
-  solutions::Semaphore semaphore{limit};
+  Semaphore semaphore{limit};
 
   twist::test::util::Race race;
 
@@ -67,7 +67,7 @@ TWIST_TEST_RUNS(Pool, pool::Test)
 namespace wakeup {
 
 void Test() {
-  solutions::Semaphore semaphore{0};
+  Semaphore semaphore{0};
 
   twist::test::util::CountDownLatch consumers_latch{2};
   twist::test::util::OnePassBarrier producers_barrier{2};
@@ -106,8 +106,8 @@ TEST_SUITE(LostWakeup) {
 namespace ping_pong {
 
 void Test(const size_t iterations) {
-  solutions::Semaphore left{1};
-  solutions::Semaphore right{0};
+  Semaphore left{1};
+  Semaphore right{0};
 
   twist::test::util::Race race;
 
@@ -145,7 +145,7 @@ namespace queue {
 void Test(size_t producers, size_t consumers, size_t buffer_size) {
   static const std::string kPoisonPill = "";
 
-  solutions::BlockingQueue<std::string> channel{buffer_size};
+  BlockingQueue<std::string> channel{buffer_size};
 
   std::atomic<size_t> produced{0};
   std::atomic<size_t> consumed{0};

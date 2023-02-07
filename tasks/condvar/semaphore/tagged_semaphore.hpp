@@ -4,8 +4,6 @@
 
 #include <cassert>
 
-namespace solutions {
-
 template <class Tag>
 class TaggedSemaphore {
  public:
@@ -79,5 +77,3 @@ class TaggedSemaphore {
  private:
   Semaphore impl_;
 };
-
-}  // namespace solutions

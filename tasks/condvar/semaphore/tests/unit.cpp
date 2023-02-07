@@ -16,7 +16,7 @@ using namespace std::chrono_literals;
 
 TEST_SUITE(Semaphore) {
   SIMPLE_TEST(NonBlocking) {
-    solutions::Semaphore semaphore(2);
+    Semaphore semaphore(2);
 
     semaphore.Acquire();  // -1
     semaphore.Release();  // +1
@@ -28,7 +28,7 @@ TEST_SUITE(Semaphore) {
   }
 
   SIMPLE_TEST(Blocking) {
-    solutions::Semaphore semaphore(0);
+    Semaphore semaphore(0);
 
     bool touched = false;
 
@@ -48,8 +48,8 @@ TEST_SUITE(Semaphore) {
   }
 
   SIMPLE_TEST(PingPong) {
-    solutions::Semaphore my{1};
-    solutions::Semaphore that{0};
+    Semaphore my{1};
+    Semaphore that{0};
 
     int step = 0;
 
@@ -76,7 +76,7 @@ TEST_SUITE(Semaphore) {
 
 TEST_SUITE(BlockingQueue) {
   SIMPLE_TEST(PutThenTake) {
-    solutions::BlockingQueue<int> queue{1};
+    BlockingQueue<int> queue{1};
     queue.Put(42);
     ASSERT_EQ(queue.Take(), 42);
   }
@@ -92,14 +92,14 @@ TEST_SUITE(BlockingQueue) {
   };
 
   SIMPLE_TEST(MoveOnly) {
-    solutions::BlockingQueue<MoveOnly> queue{1};
+    BlockingQueue<MoveOnly> queue{1};
 
     queue.Put(MoveOnly{});
     queue.Take();
   }
 
   SIMPLE_TEST(Buffer) {
-    solutions::BlockingQueue<std::string> queue{2};
+    BlockingQueue<std::string> queue{2};
 
     queue.Put("hello");
     queue.Put("world");
@@ -109,7 +109,7 @@ TEST_SUITE(BlockingQueue) {
   }
 
   SIMPLE_TEST(FifoSmall) {
-    solutions::BlockingQueue<std::string> queue{2};
+    BlockingQueue<std::string> queue{2};
 
     std::thread producer([&queue]() {
       queue.Put("hello");
@@ -125,7 +125,7 @@ TEST_SUITE(BlockingQueue) {
   }
 
   SIMPLE_TEST(Fifo) {
-    solutions::BlockingQueue<int> queue{3};
+    BlockingQueue<int> queue{3};
 
     static const int kItems = 1024;
 
@@ -147,7 +147,7 @@ TEST_SUITE(BlockingQueue) {
   }
 
   SIMPLE_TEST(Capacity) {
-    solutions::BlockingQueue<int> queue{3};
+    BlockingQueue<int> queue{3};
     std::atomic<size_t> send_count{0};
 
     std::thread producer([&]() {
@@ -179,7 +179,7 @@ TEST_SUITE(BlockingQueue) {
 
   SIMPLE_TEST(Pill) {
     static const size_t kThreads = 10;
-    solutions::BlockingQueue<int> queue{1};
+    BlockingQueue<int> queue{1};
 
     std::vector<std::thread> threads;
 

@@ -4,8 +4,6 @@
 
 #include <deque>
 
-namespace solutions {
-
 // Bounded Blocking Multi-Producer/Multi-Consumer (MPMC) Queue
 
 template <typename T>
@@ -29,5 +27,3 @@ class BlockingQueue {
  private:
   // Buffer
 };
-
-}  // namespace solutions

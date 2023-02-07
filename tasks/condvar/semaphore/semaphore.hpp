@@ -7,8 +7,6 @@
 #include <mutex>
 #include <cstdint>
 
-namespace solutions {
-
 // A Counting semaphore
 
 // Semaphores are often used to restrict the number of threads
@@ -35,5 +33,3 @@ class Semaphore {
  private:
   // Permits
 };
-
-}  // namespace solutions
