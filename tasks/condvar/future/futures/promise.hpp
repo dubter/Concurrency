@@ -23,7 +23,7 @@ class Promise {
 
   // One-shot
   Future<T> MakeFuture() {
-    // Not implemented
+    throw std::runtime_error("Not Implemented");  // Not implemented
   }
 
   // One-shot

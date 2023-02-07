@@ -78,17 +78,21 @@ function(add_task_library DIR_NAME)
     get_task_target(LIB_TARGET ${LIB_NAME})
     course_log("Add task library: ${LIB_TARGET}")
 
-    # Library
     file(GLOB_RECURSE LIB_CXX_SOURCES ${LIB_DIR}/*.cpp)
     file(GLOB_RECURSE LIB_HEADERS ${LIB_DIR}/*.hpp ${LIB_DIR}/*.ipp)
-    add_library(${LIB_TARGET} STATIC ${LIB_CXX_SOURCES} ${LIB_HEADERS})
 
-    # Include dir
     get_filename_component(LIB_INCLUDE_DIR "${LIB_DIR}/.." ABSOLUTE)
-    target_include_directories(${LIB_TARGET} PUBLIC ${LIB_INCLUDE_DIR})
 
-    # Dependencies
-    target_link_libraries(${LIB_TARGET} ${LIBS_LIST})
+    if (LIB_CXX_SOURCES)
+        add_library(${LIB_TARGET} STATIC ${LIB_CXX_SOURCES} ${LIB_HEADERS})
+        target_include_directories(${LIB_TARGET} PUBLIC ${LIB_INCLUDE_DIR})
+        target_link_libraries(${LIB_TARGET} ${LIBS_LIST})
+    else()
+        # header-only library
+        add_library(${LIB_TARGET} INTERFACE)
+        target_include_directories(${LIB_TARGET} INTERFACE ${LIB_INCLUDE_DIR})
+        target_link_libraries(${LIB_TARGET} INTERFACE ${LIBS_LIST})
+    endif()
 
     # Append ${LIB_TARGET to LIBS_LIST
     list(APPEND LIBS_LIST ${LIB_TARGET})
