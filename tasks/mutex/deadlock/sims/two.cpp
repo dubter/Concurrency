@@ -18,7 +18,7 @@ void TwoFibersDeadLock() {
   Mutex a;
   Mutex b;
 
-  // Fiber routines
+  // Fibers
 
   auto first = [&] {
     // Your code goes here

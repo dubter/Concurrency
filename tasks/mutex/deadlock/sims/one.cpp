@@ -12,12 +12,12 @@ using tinyfibers::self::Yield;
 void OneFiberDeadLock() {
   Mutex mutex;
 
-  auto locker = [&] {
+  auto fiber = [&] {
     // Your code goes here
     // use mutex.Lock() / mutex.Unlock() to lock/unlock mutex
   };
 
-  Spawn(locker).Join();
+  Spawn(fiber).Join();
 
   // We do not expect to reach this line
   WHEELS_PANIC("No deadlock =(");
