@@ -8,12 +8,8 @@ ENV TZ=Europe/Moscow
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
-ENV CXX="/usr/bin/clang++-12"
-ENV CC="/usr/bin/clang-12"
-
-# User for CLion
-RUN groupadd -g 712342 clion_user_group
-RUN useradd -u 712342 -g 712342 -m clion_user && yes password | passwd clion_user
+ENV CXX="/usr/bin/clang++-14"
+ENV CC="/usr/bin/clang-14"
 
 # SSH
 EXPOSE 22
