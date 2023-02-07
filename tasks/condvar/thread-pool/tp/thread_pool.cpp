@@ -6,7 +6,7 @@ namespace tp {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static twist::ed::ThreadLocalPtr<ThreadPool> pool;
+static twist::ed::ThreadLocalPtr<ThreadPool> this_pool;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -31,7 +31,7 @@ void ThreadPool::Stop() {
 }
 
 ThreadPool* ThreadPool::Current() {
-  return pool;
+  return this_pool;
 }
 
 }  // namespace tp

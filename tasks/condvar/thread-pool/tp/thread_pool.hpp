@@ -35,8 +35,4 @@ class ThreadPool {
   // Worker threads, task queue, etc
 };
 
-inline ThreadPool* Current() {
-  return ThreadPool::Current();
-}
-
 }  // namespace tp
