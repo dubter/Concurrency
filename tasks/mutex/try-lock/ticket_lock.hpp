@@ -6,7 +6,7 @@
 #include <cstdlib>
 
 class TicketLock {
-  using Ticket = size_t;
+  using Ticket = uint64_t;
 
  public:
   // Don't change this method
