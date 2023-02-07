@@ -1,4 +1,4 @@
-#include "../condvar.hpp"
+#include "../../condvar.hpp"
 
 #include <twist/test/test.hpp>
 #include <twist/test/runs.hpp>

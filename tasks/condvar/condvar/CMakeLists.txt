@@ -1,5 +1,6 @@
 begin_task()
 set_task_sources(condvar.hpp mutex.hpp)
-add_task_test(unit_tests tests/unit.cpp)
-add_task_test(stress_tests tests/stress.cpp)
+add_task_test(unit_tests tests/condvar/unit.cpp)
+add_task_test(stress_tests tests/condvar/stress.cpp)
+add_task_test(combo_tests tests/combo/stress.cpp)
 end_task()

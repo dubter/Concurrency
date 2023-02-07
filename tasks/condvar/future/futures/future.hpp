@@ -26,7 +26,7 @@ class Future {
   }
 
  private:
-  Future() {
+  Future(/*???*/) {
   }
 
  private:
