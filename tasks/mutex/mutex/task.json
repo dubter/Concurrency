@@ -16,8 +16,12 @@
   ],
   "submit_files": ["mutex.hpp"],
   "lint_files": ["mutex.hpp"],
-  "forbidden_patterns": [
-    "std::mutex",
-    "sleep"
+  "forbidden": [
+    {
+      "patterns": [
+        "twist::ed::mutex",
+        "sleep"
+      ]
+    }
   ]
 }

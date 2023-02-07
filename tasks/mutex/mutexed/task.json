@@ -11,7 +11,10 @@
   ],
   "submit_files": ["mutexed.hpp"],
   "lint_files": ["mutexed.hpp"],
-  "forbidden_patterns": [
-    "unlock"
+  "forbidden": [
+    {
+      "patterns": ["unlock"],
+      "hint": "Use std::lock_guard"
+    }
   ]
 }

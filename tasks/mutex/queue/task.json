@@ -16,5 +16,12 @@
   ],
   "submit_files": ["queue_spinlock.hpp"],
   "lint_files": ["queue_spinlock.hpp"],
-  "forbidden_patterns": ["std::mutex", "sleep"]
+  "forbidden": [
+    {
+      "patterns": [
+        "twist::ed::mutex",
+        "sleep"
+      ]
+    }
+  ]
 }

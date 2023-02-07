@@ -14,8 +14,13 @@
     "atomic_ops.S",
     "spinlock.hpp"
   ],
-  "forbidden_patterns": [
-    "Your asm code goes here",
-    "Solution starts here"
+  "forbidden": [
+    {
+      "patterns": [
+        "Your asm code goes here",
+        "Solution starts here"
+      ],
+      "hint": "Remove this comment"
+    }
   ]
 }
