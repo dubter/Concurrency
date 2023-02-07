@@ -1,4 +1,3 @@
-// https://gitlab.com/Lipovsky/tinyfibers
 #include <tinyfibers/sched/spawn.hpp>
 #include <tinyfibers/sched/yield.hpp>
 
@@ -11,6 +10,8 @@ using tinyfibers::Mutex;
 using tinyfibers::Spawn;
 using tinyfibers::WaitGroup;
 using tinyfibers::self::Yield;
+
+// https://gitlab.com/Lipovsky/tinyfibers
 
 // Deadlock with two fibers
 void TwoFibersDeadLock() {

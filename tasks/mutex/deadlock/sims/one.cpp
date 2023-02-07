@@ -1,4 +1,3 @@
-// https://gitlab.com/Lipovsky/tinyfibers
 #include <tinyfibers/sched/spawn.hpp>
 #include <tinyfibers/sched/yield.hpp>
 #include <tinyfibers/sync/mutex.hpp>
@@ -8,6 +7,8 @@
 using tinyfibers::Mutex;
 using tinyfibers::Spawn;
 using tinyfibers::self::Yield;
+
+// https://gitlab.com/Lipovsky/tinyfibers
 
 void OneFiberDeadLock() {
   Mutex mutex;
