@@ -7,8 +7,6 @@
 #include <mutex>
 #include <cstdint>
 
-namespace solutions {
-
 // CyclicBarrier allows a set of threads to all wait for each other
 // to reach a common barrier point
 
@@ -22,11 +20,10 @@ class CyclicBarrier {
   }
 
   // Blocks until all participants have invoked Arrive()
-  void Arrive() {
+  void ArriveAndWait() {
     // Not implemented
   }
 
  private:
 };
 
-}  // namespace solutions

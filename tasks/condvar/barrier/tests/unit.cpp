@@ -6,35 +6,35 @@
 
 TEST_SUITE(CyclicBarrier) {
   SIMPLE_TEST(OneThread) {
-    solutions::CyclicBarrier barrier{1};
+    CyclicBarrier barrier{1};
 
     for (size_t i = 0; i < 10; ++i) {
-      barrier.Arrive();
+      barrier.ArriveAndWait();
     }
   }
 
   SIMPLE_TEST(TwoThreads) {
-    solutions::CyclicBarrier barrier{2};
+    CyclicBarrier barrier{2};
 
     int my = 0;
     int that = 0;
 
     std::thread that_thread([&]() {
       that = 1;
-      barrier.Arrive();
+      barrier.ArriveAndWait();
       ASSERT_EQ(my, 1);
-      barrier.Arrive();
+      barrier.ArriveAndWait();
       that = 2;
-      barrier.Arrive();
+      barrier.ArriveAndWait();
       ASSERT_EQ(my, 2);
     });
 
     my = 1;
-    barrier.Arrive();
+    barrier.ArriveAndWait();
     ASSERT_EQ(that, 1);
-    barrier.Arrive();
+    barrier.ArriveAndWait();
     my = 2;
-    barrier.Arrive();
+    barrier.ArriveAndWait();
     ASSERT_EQ(that, 2);
 
     that_thread.join();
@@ -42,7 +42,7 @@ TEST_SUITE(CyclicBarrier) {
 
   SIMPLE_TEST(Runners) {
     static const size_t kThreads = 10;
-    solutions::CyclicBarrier barrier{kThreads};
+    CyclicBarrier barrier{kThreads};
 
     static const size_t kIterations = 256;
 
@@ -51,7 +51,7 @@ TEST_SUITE(CyclicBarrier) {
     for (size_t i = 0; i < kThreads; ++i) {
       runners.emplace_back([&barrier]() {
         for (size_t i = 0; i < kIterations; ++i) {
-          barrier.Arrive();
+          barrier.ArriveAndWait();
         }
       });
     }

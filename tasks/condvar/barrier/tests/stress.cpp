@@ -13,14 +13,14 @@
 namespace leader {
 
 void Test(const size_t threads, size_t iterations) {
-  solutions::CyclicBarrier barrier{threads};
+  CyclicBarrier barrier{threads};
   size_t leader = 0;
 
   twist::test::util::Race race;
 
   for (size_t i = 0; i < threads; ++i) {
     race.Add([&, i]() {
-      barrier.Arrive();
+      barrier.ArriveAndWait();
 
       for (size_t k = 0; k < iterations; ++k) {
         // Rotating leader writes to shared variable
@@ -30,12 +30,12 @@ void Test(const size_t threads, size_t iterations) {
           twist::rt::strand::stdlike::this_thread::yield();
         }
 
-        barrier.Arrive();
+        barrier.ArriveAndWait();
 
         // All threads read from shared variable
         ASSERT_EQ(leader, k);
 
-        barrier.Arrive();
+        barrier.ArriveAndWait();
       }
     });
   };
@@ -63,7 +63,7 @@ TWIST_TEST_RUNS(RotatingLeaderExt, leader::Test)
 
 namespace rotate {
 void Test(size_t threads, size_t iterations) {
-  solutions::CyclicBarrier barrier_{threads};
+  CyclicBarrier barrier_{threads};
   std::vector<size_t> vector_(threads);
 
   twist::test::util::Race race;
@@ -73,7 +73,7 @@ void Test(size_t threads, size_t iterations) {
       // Setup
 
       vector_[t] = t;
-      barrier_.Arrive();
+      barrier_.ArriveAndWait();
 
       // Rotate
 
@@ -84,9 +84,9 @@ void Test(size_t threads, size_t iterations) {
 
         // Move value from slot to prev_slot
         auto value = vector_[slot];
-        barrier_.Arrive();
+        barrier_.ArriveAndWait();
         vector_[prev_slot] = value;
-        barrier_.Arrive();
+        barrier_.ArriveAndWait();
       }
 
       ASSERT_EQ(vector_[t], (t + iterations) % threads);
