@@ -42,25 +42,25 @@ class AtomicCounter {
 
 Для этого свяжем объект, разделяемый между потоками, и мьютекс, который будет его защищать, с помощью класса – `Mutexed<T>`.
 
-У класса `Mutexed` есть единственный метод `Lock`, который возвращает пользователю ссылку на защищаемый объект:
+У класса `Mutexed` есть единственный метод `Acquire`, который возвращает пользователю ссылку на защищаемый объект:
 
 ```cpp
 Mutexed<std::vector<int>> ints; // vector<int> + mutex
 
 {
-  // Получаем эксклюзивную ссылку `ref` на вектор
-  auto ref = ints.Lock();
+  // Получаем эксклюзивную ссылку `owner_ref` на вектор
+  auto onwer_ref = ints.Lock();
   // Две вставки выполняются атомарно!
-  ref->push_back(42);
-  ref->push_back(43);
-}  // ref разрушается -> мьютекс освобождается
+  onwer_ref->push_back(42);
+  owner_ref->push_back(43);
+}  // owner_ref разрушается -> мьютекс освобождается
 ```
 
 Класс `Mutexed` гарантирует, что два потока не могут одновременно иметь в своем распоряжении ссылку на защищаемый объект: существование одной ссылки исключает существование других.
 
-### Unique ref
+### `OwnerRef`
 
-Ссылка, возвращаемая методом `Mutexed<T>::Lock`, поддерживает два способа работы с защищаемым объектом:
+Ссылка, возвращаемая методом `Mutexed<T>::Acquire`, поддерживает два способа работы с защищаемым объектом:
 
 #### Вызов методов
 
@@ -68,9 +68,9 @@ Mutexed<std::vector<int>> ints; // vector<int> + mutex
 Mutexed<std::vector<int>> shared_vector;
 
 {
-  auto ref = shared_vector.Lock();
+  auto owner_ref = shared_vector.Acquire();
   // Вызываем метод вектора через ->
-  ref->push_back(7);
+  owner_ref->push_back(7);
 }
 ```
 
@@ -80,7 +80,7 @@ Mutexed<std::vector<int>> shared_vector;
 Mutexed<int> shared_int{0};
 
 {
-  auto ref = shared_int.Lock();
+  auto ref = shared_int.Acquire();
   *ref = *ref + 1;
 }
 ```
@@ -95,7 +95,7 @@ Mutexed<int> shared_int{0};
 
 Изучите правила перегрузки оператора `->`: https://en.cppreference.com/w/cpp/language/operators
 
-Попробуйте не вызывать методы `lock` и `unlock` у мьютекса голыми руками. Вместо этого используйте [`std::lock_guard`](https://en.cppreference.com/w/cpp/thread/lock_guard).
+Не вызывайте методы `lock` и `unlock` у мьютекса голыми руками. Вместо этого используйте [`std::lock_guard`](https://en.cppreference.com/w/cpp/thread/lock_guard).
 
 ## `Mutexed` in the Wild
 

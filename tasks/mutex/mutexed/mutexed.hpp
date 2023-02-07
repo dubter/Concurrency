@@ -4,20 +4,31 @@
 
 //////////////////////////////////////////////////////////////////////
 
-// Safe API for mutual exclusion
+/*
+ * Safe API for mutual exclusion
+ *
+ * Usage:
+ *
+ * Mutexed<std::vector<Apple>> apples;
+ * auto owner_ref = apples->Acquire();
+ * owner_ref->push_back(Apple{});
+ *
+ */
 
 template <typename T>
 class Mutexed {
   using Mutex = twist::ed::stdlike::mutex;
 
-  class UniqueRef {
+  class OwnerRef {
     // Your code goes here
 
     // Non-copyable
-    UniqueRef(const UniqueRef&) = delete;
+    OwnerRef(const OwnerRef&) = delete;
+    OwnerRef& operator=(const OwnerRef&) = delete;
 
     // Non-movable
-    UniqueRef(UniqueRef&&) = delete;
+    OwnerRef(OwnerRef&&) = delete;
+    OwnerRef& operator=(OwnerRef&) = delete;
 
     // operator*
 
@@ -30,7 +41,7 @@ class Mutexed {
   explicit Mutexed(Args&&... args) : object_(std::forward<Args>(args)...) {
   }
 
-  UniqueRef Lock() {
+  OwnerRef Acquire() {
     return {};
   }
 
@@ -41,17 +52,7 @@ class Mutexed {
 
 //////////////////////////////////////////////////////////////////////
 
-/*
- * Helper function for single operations over shared object:
- *
- * Usage:
- *   Mutexed<vector<int>> ints;
- *   Locked(ints)->push_back(42);
- *
- */
-
 template <typename T>
-auto Locked(Mutexed<T>& object) {
-  return object.Lock();
+auto Acquire(Mutexed<T>& object) {
+  return object.Acquire();
 }
-

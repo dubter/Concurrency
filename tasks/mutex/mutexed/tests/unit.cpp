@@ -45,12 +45,12 @@ TEST_SUITE(Mutexed) {
       ref->insert("!");
     }
 
-    ASSERT_EQ(Locked(strings)->size(), 3);
+    ASSERT_EQ(Acquire(strings)->size(), 3);
   }
 
   SIMPLE_TEST(Ctor) {
     Mutexed<std::string> str(5, '!');
-    ASSERT_EQ(Locked(str)->length(), 5);
+    ASSERT_EQ(Acquire(str)->length(), 5);
   }
 
   class Counter {
@@ -73,16 +73,16 @@ TEST_SUITE(Mutexed) {
     Mutexed<Counter> counter;
 
     std::thread t1([&]() {
-      Locked(counter)->Increment();
+      Acquire(counter)->Increment();
     });
     std::thread t2([&]() {
-      Locked(counter)->Increment();
+      Acquire(counter)->Increment();
     });
 
     t1.join();
     t2.join();
 
-    ASSERT_EQ(Locked(counter)->Value(), 2);
+    ASSERT_EQ(Acquire(counter)->Value(), 2);
   }
 }
 

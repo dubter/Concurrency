@@ -19,7 +19,7 @@ TEST_SUITE(Mutexed) {
     for (size_t i = 0; i < kThreads; ++i) {
       race.Add([&]() {
         while (wheels::test::KeepRunning()) {
-          Locked(plate)->Access();
+          Acquire(plate)->Access();
         }
       });
     }
