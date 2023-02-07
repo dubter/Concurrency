@@ -1,12 +1,12 @@
 {
   "tests": [
     {
-      "targets": ["simulation"],
+      "targets": ["test"],
       "profiles": ["Debug"]
     }
   ],
-  "lint_files": ["simulation.cpp"],
-  "submit_files": ["simulation.cpp"],
+  "lint_files": ["sim.cpp"],
+  "submit_files": ["sim.cpp"],
   "forbidden_patterns": [
     "Put Yield-s to produce livelock"
   ]

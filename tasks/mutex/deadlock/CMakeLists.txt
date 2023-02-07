@@ -1,4 +1,5 @@
 begin_task()
+set_task_sources(sims/one.cpp sims/two.cpp sims.hpp)
 task_link_libraries(tinyfibers)
-add_task_test(simulation simulation.cpp)
+add_task_test(tests tests.cpp)
 end_task()

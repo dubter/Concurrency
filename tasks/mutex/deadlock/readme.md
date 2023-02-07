@@ -40,7 +40,7 @@
 
 Для начала разберитесь, как ведут себя файберы из [_TinyFibers_](https://gitlab.com/Lipovsky/tinyfibers): изучите примеры, API, напишите собственный код в [`play/main.cpp`](https://gitlab.com/Lipovsky/tinyfibers/-/blob/master/play/main.cpp).
 
-Затем научитесь заводить файберы в дэдлок. Для этого заполните в [`simulation.cpp`](simulation.cpp) лямбды с комментарием
+Затем научитесь заводить файберы в дэдлок. Для этого заполните в [симуляциях](sims) лямбды с комментарием
 ```cpp
 // Your code goes here
 ```

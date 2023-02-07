@@ -1,10 +1,10 @@
 {
   "tests": [
     {
-      "targets": ["simulation"],
+      "targets": ["tests"],
       "profiles": ["Debug"]
     }
   ],
-  "submit_files": ["simulation.cpp"],
-  "lint_files": ["simulation.cpp"]
+  "submit_files": ["sims"],
+  "lint_files": ["sims"]
 }
