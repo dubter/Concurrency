@@ -15,23 +15,23 @@ TEST_SUITE(Mutexed) {
     Mutexed<std::vector<int>> ints;
 
     {
-      auto ref = ints.Lock();
-      ASSERT_TRUE(ref->empty());
+      auto owner_ref = ints.Acquire();
+      ASSERT_TRUE(owner_ref->empty());
     }
 
     {
-      auto ref = ints.Lock();
+      auto owner_ref = ints.Acquire();
 
-      ref->push_back(42);
-      ASSERT_EQ(ref->front(), 42);
-      ASSERT_EQ(ref->at(0), 42);
-      ASSERT_EQ(ref->size(), 1);
+      owner_ref->push_back(42);
+      ASSERT_EQ(owner_ref->front(), 42);
+      ASSERT_EQ(owner_ref->at(0), 42);
+      ASSERT_EQ(owner_ref->size(), 1);
     }
 
     {
-      auto ref = ints.Lock();
-      ref->push_back(99);
-      ASSERT_EQ(ref->size(), 2);
+      auto owner_ref = ints.Acquire();
+      owner_ref->push_back(99);
+      ASSERT_EQ(owner_ref->size(), 2);
     }
   }
 
@@ -39,10 +39,10 @@ TEST_SUITE(Mutexed) {
     Mutexed<std::set<std::string>> strings;
 
     {
-      auto ref = strings.Lock();
-      ref->insert("Hello");
-      ref->insert("World");
-      ref->insert("!");
+      auto owner_ref = strings.Acquire();
+      owner_ref->insert("Hello");
+      owner_ref->insert("World");
+      owner_ref->insert("!");
     }
 
     ASSERT_EQ(Acquire(strings)->size(), 3);
@@ -72,10 +72,10 @@ TEST_SUITE(Mutexed) {
   SIMPLE_TEST(Counter) {
     Mutexed<Counter> counter;
 
-    std::thread t1([&]() {
+    std::thread t1([&] {
       Acquire(counter)->Increment();
     });
-    std::thread t2([&]() {
+    std::thread t2([&] {
       Acquire(counter)->Increment();
     });
 
