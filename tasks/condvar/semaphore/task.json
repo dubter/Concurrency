@@ -14,8 +14,14 @@
       ]
     }
   ],
-  "lint_files": ["semaphore.hpp", "blocking_queue.hpp"],
-  "submit_files": ["semaphore.hpp", "blocking_queue.hpp"],
+  "lint_files": [
+    "semaphore.hpp",
+    "blocking_queue.hpp"
+  ],
+  "submit_files": [
+    "semaphore.hpp",
+    "blocking_queue.hpp"
+  ],
   "forbidden_patterns": [
     "atomic", "yield", "sleep_for", "SpinWait"
   ]

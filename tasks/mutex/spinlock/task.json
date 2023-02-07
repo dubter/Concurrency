@@ -10,7 +10,10 @@
     }
   ],
   "lint_files": ["spinlock.hpp"],
-  "submit_files": ["atomic_ops.S", "spinlock.hpp"],
+  "submit_files": [
+    "atomic_ops.S",
+    "spinlock.hpp"
+  ],
   "forbidden_patterns": [
     "Your asm code goes here",
     "Solution starts here"
