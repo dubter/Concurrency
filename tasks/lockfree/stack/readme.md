@@ -27,4 +27,4 @@ bool succeeded = asp.CompareExchangeWeak(stamped_ptr, stamped_ptr.IncrementCount
 
 ### `AtomicSharedPtr`
 
-В этой задаче инкременты счетчика узла могут переполнить выделенные для него биты указателя. Эту проблему мы решим в задаче [lockfree/shared_ptr](/tasks/lockfree/shared_ptr).
+В этой задаче инкременты могут переполнить выделенные для счетчика биты указателя. Эту проблему мы решим в задаче [lockfree/shared_ptr](/tasks/lockfree/shared_ptr).
