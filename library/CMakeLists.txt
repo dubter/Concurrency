@@ -13,16 +13,16 @@ include(FetchContent)
 
 # --------------------------------------------------------------------
 
-# fmtlib with println
+# fmt with println
 
-message(STATUS "FetchContent: fmtlib")
+message(STATUS "FetchContent: fmt")
 
 FetchContent_Declare(
-        fmtlib
+        fmt
         GIT_REPOSITORY https://github.com/fmtlib/fmt.git
         GIT_TAG 87c066a35b7cc70bb7d438a543c8b49b577e61f4
 )
-FetchContent_MakeAvailable(fmtlib)
+FetchContent_MakeAvailable(fmt)
 
 # --------------------------------------------------------------------
 
