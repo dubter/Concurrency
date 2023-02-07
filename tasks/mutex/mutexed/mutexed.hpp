@@ -2,8 +2,6 @@
 
 #include <twist/ed/stdlike/mutex.hpp>
 
-namespace util {
-
 //////////////////////////////////////////////////////////////////////
 
 // Safe API for mutual exclusion
@@ -43,14 +41,17 @@ class Mutexed {
 
 //////////////////////////////////////////////////////////////////////
 
-// Helper function for single operations over shared object:
-// Usage:
-//   Mutexed<vector<int>> ints;
-//   Locked(ints)->push_back(42);
+/*
+ * Helper function for single operations over shared object:
+ *
+ * Usage:
+ *   Mutexed<vector<int>> ints;
+ *   Locked(ints)->push_back(42);
+ *
+ */
 
 template <typename T>
 auto Locked(Mutexed<T>& object) {
   return object.Lock();
 }
 
-}  // namespace util

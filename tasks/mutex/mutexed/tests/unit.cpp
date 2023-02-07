@@ -10,9 +10,6 @@
 
 using namespace std::chrono_literals;
 
-using util::Mutexed;
-using util::Locked;
-
 TEST_SUITE(Mutexed) {
   SIMPLE_TEST(Vector) {
     Mutexed<std::vector<int>> ints;

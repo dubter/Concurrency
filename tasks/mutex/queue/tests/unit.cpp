@@ -5,8 +5,6 @@
 #include <thread>
 #include <iostream>
 
-using spinlocks::QueueSpinLock;
-
 TEST_SUITE(QueueSpinLock) {
   SIMPLE_TEST(LockUnlock) {
     QueueSpinLock qspinlock;

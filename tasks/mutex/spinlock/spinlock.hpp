@@ -4,8 +4,6 @@
 
 #include <twist/ed/wait/spin.hpp>
 
-namespace solutions {
-
 // Naive Test-and-Set (TAS) spinlock
 
 class TASSpinLock {
@@ -28,4 +26,3 @@ class TASSpinLock {
   stdlike::Atomic locked_{0};
 };
 
-}  // namespace solutions

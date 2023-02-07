@@ -27,7 +27,7 @@ using namespace std::chrono_literals;
 TEST_SUITE(TicketLock) {
   void Test(size_t lockers, size_t try_lockers) {
     twist::test::util::Plate plate;  // Guarded by ticket_lock
-    solutions::TicketLock ticket_lock;
+    TicketLock ticket_lock;
 
     twist::test::util::Race race;
 
@@ -82,7 +82,7 @@ TEST_SUITE(TicketLock) {
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace forks {
-  using Fork = solutions::TicketLock;
+  using Fork = TicketLock;
 
   class Table {
    public:

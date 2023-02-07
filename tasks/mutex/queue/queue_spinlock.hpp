@@ -3,8 +3,6 @@
 #include <twist/ed/stdlike/atomic.hpp>
 #include <twist/ed/wait/spin.hpp>
 
-namespace spinlocks {
-
 /*  Scalable Queue SpinLock
  *
  *  Usage:
@@ -47,5 +45,3 @@ class QueueSpinLock {
  private:
   // ???
 };
-
-}  // namespace spinlocks

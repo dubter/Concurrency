@@ -5,8 +5,6 @@
 
 #include <cstdlib>
 
-namespace solutions {
-
 class TicketLock {
   using Ticket = size_t;
 
@@ -35,5 +33,3 @@ class TicketLock {
   twist::ed::stdlike::atomic<Ticket> next_free_ticket_{0};
   twist::ed::stdlike::atomic<Ticket> owner_ticket_{0};
 };
-
-}  // namespace solutions

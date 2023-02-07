@@ -22,8 +22,6 @@ TEST_SUITE(Atomics) {
   }
 }
 
-using solutions::TASSpinLock;
-
 TEST_SUITE(SpinLock) {
   SIMPLE_TEST(LockUnlock) {
     TASSpinLock spinlock;

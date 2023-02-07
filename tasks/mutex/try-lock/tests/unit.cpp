@@ -2,8 +2,6 @@
 
 #include <wheels/test/framework.hpp>
 
-using solutions::TicketLock;
-
 TEST_SUITE(TicketTryLock) {
   SIMPLE_TEST(LockUnlock) {
     TicketLock ticket_lock;

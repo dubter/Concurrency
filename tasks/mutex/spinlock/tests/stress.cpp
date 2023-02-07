@@ -20,7 +20,7 @@ using namespace std::chrono_literals;
 TEST_SUITE(SpinLock) {
   void Test(size_t lockers, size_t try_lockers) {
     twist::test::util::Plate plate;  // Guarded by spinlock
-    solutions::TASSpinLock spinlock;
+    TASSpinLock spinlock;
 
     twist::test::util::Race race;
 
