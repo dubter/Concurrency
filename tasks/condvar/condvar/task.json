@@ -6,7 +6,12 @@
     },
     {
       "targets": ["stress_tests"],
-      "profiles": ["Debug", "FaultyFibers", "FaultyThreadsASan", "FaultyThreadsTSan"]
+      "profiles": [
+        "FaultyFibers",
+        "Debug",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
     }
   ],
   "lint_files": ["condvar.hpp"],

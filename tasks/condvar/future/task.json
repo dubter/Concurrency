@@ -6,7 +6,12 @@
     },
     {
       "targets": ["stress_tests"],
-      "profiles": ["Debug", "FaultyFibers", "FaultyThreadsASan", "FaultyThreadsTSan"]
+      "profiles": [
+        "FaultyFibers",
+        "Debug",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
     },
     {
       "targets": ["traits_tests"],
