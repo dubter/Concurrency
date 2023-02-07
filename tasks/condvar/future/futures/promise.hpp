@@ -10,6 +10,7 @@ template <typename T>
 class Promise {
  public:
   Promise() {
+    // Not implemented
   }
 
   // Non-copyable
@@ -22,7 +23,7 @@ class Promise {
 
   // One-shot
   Future<T> MakeFuture() {
-    throw std::runtime_error("Not implemented");
+    // Not implemented
   }
 
   // One-shot
