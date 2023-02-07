@@ -25,4 +25,3 @@ class TASSpinLock {
  private:
   stdlike::Atomic locked_{0};
 };
-

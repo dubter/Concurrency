@@ -3,15 +3,18 @@
 #include <twist/ed/stdlike/atomic.hpp>
 #include <twist/ed/wait/spin.hpp>
 
-/*  Scalable Queue SpinLock
+/*
+ * Scalable Queue SpinLock
  *
- *  Usage:
+ * Usage:
  *
- *  QueueSpinLock qspinlock;
- *  {
- *    QueueSpinLock::Guard guard(qspinlock);  // <-- Acquire
- *    // Critical section
- *  }  // <-- Release
+ * QueueSpinLock qspinlock;
+ *
+ * {
+ *   QueueSpinLock::Guard guard(qspinlock);  // <-- Acquire
+ *   // Critical section
+ * }  // <-- Release
+ *
  */
 
 class QueueSpinLock {

@@ -38,7 +38,8 @@ class Mutexed {
  public:
   // https://eli.thegreenplace.net/2014/perfect-forwarding-and-universal-references-in-c/
   template <typename... Args>
-  explicit Mutexed(Args&&... args) : object_(std::forward<Args>(args)...) {
+  explicit Mutexed(Args&&... args)
+      : object_(std::forward<Args>(args)...) {
   }
 
   OwnerRef Acquire() {
