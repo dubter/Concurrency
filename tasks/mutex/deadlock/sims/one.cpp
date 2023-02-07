@@ -6,7 +6,7 @@
 
 using tinyfibers::Mutex;
 using tinyfibers::Spawn;
-using tinyfibers::self::Yield;
+using tinyfibers::Yield;
 
 // https://gitlab.com/Lipovsky/tinyfibers
 

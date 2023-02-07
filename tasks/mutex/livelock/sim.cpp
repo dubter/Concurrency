@@ -5,7 +5,7 @@
 #include <tinyfibers/sync/wait_group.hpp>
 
 using tinyfibers::WaitGroup;
-using tinyfibers::self::Yield;
+using tinyfibers::Yield;
 
 void LiveLock() {
   static const size_t kIterations = 100;
