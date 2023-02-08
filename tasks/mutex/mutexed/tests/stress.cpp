@@ -12,9 +12,9 @@ TEST_SUITE(Mutexed) {
     static const size_t kThreads = 3;
 
     // Set of hungry threads
-    twist::test::util::Race race;
+    twist::test::Race race;
     // Plate shared between threads
-    Mutexed<twist::test::util::Plate> plate;
+    Mutexed<twist::test::Plate> plate;
 
     for (size_t i = 0; i < kThreads; ++i) {
       race.Add([&]() {

@@ -38,7 +38,7 @@ void Test(size_t threads, size_t limit) {
   ResourcePool pool{limit};
   Semaphore semaphore{limit};
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   for (size_t t = 0; t < threads; ++t) {
     race.Add([&]() {
@@ -69,8 +69,8 @@ namespace wakeup {
 void Test() {
   Semaphore semaphore{0};
 
-  twist::test::util::CountDownLatch consumers_latch{2};
-  twist::test::util::OnePassBarrier producers_barrier{2};
+  twist::test::CountDownLatch consumers_latch{2};
+  twist::test::OnePassBarrier producers_barrier{2};
 
   auto consumer = [&]() {
     consumers_latch.CountDown();
@@ -82,7 +82,7 @@ void Test() {
     semaphore.Release();
   };
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   race.Add(consumer);
   race.Add(consumer);
@@ -109,7 +109,7 @@ void Test(const size_t iterations) {
   Semaphore left{1};
   Semaphore right{0};
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   race.Add([&]() {
     for (size_t i = 0; i < iterations; ++i) {
@@ -152,7 +152,7 @@ void Test(size_t producers, size_t consumers, size_t buffer_size) {
 
   std::atomic<size_t> producers_left{producers};
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   // Producers
 

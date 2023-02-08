@@ -16,7 +16,7 @@ void Test(const size_t threads, size_t iterations) {
   CyclicBarrier barrier{threads};
   size_t leader = 0;
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   for (size_t i = 0; i < threads; ++i) {
     race.Add([&, i]() {
@@ -66,7 +66,7 @@ void Test(size_t threads, size_t iterations) {
   CyclicBarrier barrier_{threads};
   std::vector<size_t> vector_(threads);
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   for (size_t t = 0; t < threads; ++t) {
     race.Add([&, t]() {

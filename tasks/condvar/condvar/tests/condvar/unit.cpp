@@ -49,7 +49,7 @@ TEST_SUITE(CondVar) {
 
       std::thread waiter([&]() {
           {
-            twist::test::util::ThreadCPUTimer cpu_timer;
+            twist::test::ThreadCPUTimer cpu_timer;
             pass.Await();
             ASSERT_TRUE(cpu_timer.Elapsed() < 200ms);
           }

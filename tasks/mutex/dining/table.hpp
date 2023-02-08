@@ -9,7 +9,7 @@ namespace dining {
 
 using Fork = twist::ed::stdlike::mutex;
 
-using Plate = twist::test::util::Plate;
+using Plate = twist::test::Plate;
 
 class Table {
  public:

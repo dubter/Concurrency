@@ -60,7 +60,7 @@ class Robot {
 void Test(size_t steps) {
   Robot robot;
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   race.Add([&]() {
     for (size_t i = 0; i < steps; ++i) {
@@ -147,7 +147,7 @@ void Test(size_t producers, size_t consumers) {
 
   std::atomic<size_t> producers_left{producers};
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   // Producers
 

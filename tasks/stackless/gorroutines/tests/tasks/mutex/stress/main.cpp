@@ -24,7 +24,7 @@ void StressTest1(size_t fibers) {
   executors::ThreadPool scheduler{4};
 
   tasks::Mutex mutex;
-  twist::test::util::Plate plate;
+  twist::test::Plate plate;
 
   auto contender = [&]() -> tasks::Task<> {
     co_await tasks::TeleportTo(scheduler);

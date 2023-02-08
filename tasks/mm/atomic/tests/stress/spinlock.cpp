@@ -43,7 +43,7 @@ class SpinLock {
 
 void MutualExlusionTest(size_t threads) {
   SpinLock spinlock;
-  twist::test::util::Plate plate;  // guarded by `spinlock`
+  twist::test::Plate plate;  // guarded by `spinlock`
 
 
   auto contender_routine = [&]() {

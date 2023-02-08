@@ -45,7 +45,7 @@ void Test(size_t threads, size_t clients, size_t limit) {
 
   twist::ed::stdlike::atomic<size_t> queue{0};
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   for (size_t i = 0; i < clients; ++i) {
     race.Add([&]() {

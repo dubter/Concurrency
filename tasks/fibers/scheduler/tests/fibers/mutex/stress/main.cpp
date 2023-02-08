@@ -22,7 +22,7 @@ void StressTest1(size_t fibers) {
   executors::ThreadPool scheduler{4};
 
   fibers::Mutex mutex;
-  twist::test::util::Plate plate;
+  twist::test::Plate plate;
 
   for (size_t i = 0; i < fibers; ++i) {
     fibers::Go(scheduler, [&]() {

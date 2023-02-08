@@ -51,7 +51,7 @@ class PetersonMutex {
 
 void MutualExlusionTest() {
   PetersonMutex mutex;
-  twist::test::util::Plate plate;  // guarded by `mutex`
+  twist::test::Plate plate;  // guarded by `mutex`
 
   auto make_contender = [&](size_t thread_index) {
     return [&, thread_index]() {

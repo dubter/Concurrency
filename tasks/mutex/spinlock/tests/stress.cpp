@@ -19,10 +19,10 @@ using namespace std::chrono_literals;
 
 TEST_SUITE(SpinLock) {
   void Test(size_t lockers, size_t try_lockers) {
-    twist::test::util::Plate plate;  // Guarded by spinlock
+    twist::test::Plate plate;  // Guarded by spinlock
     TASSpinLock spinlock;
 
-    twist::test::util::Race race;
+    twist::test::Race race;
 
     std::cout << "Lockers: " << lockers
       << ", try_lockers: " << try_lockers << std::endl;

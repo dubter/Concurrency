@@ -23,7 +23,7 @@ TEST_SUITE(Future) {
 
     // Run concurrent producer & consumer
 
-    twist::test::util::Race race;
+    twist::test::Race race;
 
     race.Add([&p]() {
       p.SetValue(17);
@@ -47,7 +47,7 @@ TEST_SUITE(Future) {
 
     // Race
 
-    twist::test::util::Race race;
+    twist::test::Race race;
 
     // Producers
 
@@ -85,7 +85,7 @@ TEST_SUITE(Future) {
 
     // Run concurrent producer & consumer
 
-    twist::test::util::Race race;
+    twist::test::Race race;
 
     race.Add([f = std::move(f)]() mutable {
       if (wheels::test::TestIteration() % 2 == 1) {

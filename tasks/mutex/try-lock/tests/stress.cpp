@@ -26,10 +26,10 @@ using namespace std::chrono_literals;
 
 TEST_SUITE(TicketLock) {
   void Test(size_t lockers, size_t try_lockers) {
-    twist::test::util::Plate plate;  // Guarded by ticket_lock
+    twist::test::Plate plate;  // Guarded by ticket_lock
     TicketLock ticket_lock;
 
-    twist::test::util::Race race;
+    twist::test::Race race;
 
     for (size_t i = 0; i < lockers; ++i) {
       race.Add([&]() {
@@ -110,7 +110,7 @@ namespace forks {
 
    private:
     size_t seats_;
-    std::vector<twist::test::util::Plate> plates_;
+    std::vector<twist::test::Plate> plates_;
     std::vector<Fork> forks_;
   };
 
@@ -176,7 +176,7 @@ namespace forks {
   void Test(size_t seats) {
     Table table{seats};
 
-    twist::test::util::Race race;
+    twist::test::Race race;
 
     for (size_t i = 0; i < seats; ++i) {
       race.Add([&, i]() {
@@ -219,7 +219,7 @@ TEST_SUITE(TicketLock2) {
       }
     };
 
-    twist::test::util::Race race;
+    twist::test::Race race;
     race.Add(contender);
     race.Add(contender);
     race.Run();

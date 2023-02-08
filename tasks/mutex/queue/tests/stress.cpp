@@ -15,10 +15,10 @@ using namespace std::chrono_literals;
 
 TEST_SUITE(Mutex) {
   void Test(size_t threads) {
-    twist::test::util::Plate plate;  // Guarded by mutex
+    twist::test::Plate plate;  // Guarded by mutex
     QueueSpinLock qspinlock;
 
-    twist::test::util::Race race;
+    twist::test::Race race;
 
     for (size_t i = 0; i < threads; ++i) {
       race.Add([&]() {
@@ -52,7 +52,7 @@ TEST_SUITE(MissedWakeup) {
   void Test(size_t threads) {
     QueueSpinLock qspinlock;
 
-    twist::test::util::Race race;
+    twist::test::Race race;
 
     for (size_t i = 0; i < threads; ++i) {
       race.Add([&]() {

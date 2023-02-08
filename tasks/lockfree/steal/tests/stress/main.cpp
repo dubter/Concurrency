@@ -55,14 +55,14 @@ template <size_t Queues, size_t Capacity>
 void StressTest() {
   SetupAdversary();
 
-  std::array<twist::test::util::ReportProgressFor<lockfree::WorkStealingQueue<TestObject, Capacity>>, Queues> queues_;
+  std::array<twist::test::ReportProgressFor<lockfree::WorkStealingQueue<TestObject, Capacity>>, Queues> queues_;
 
   // Checksums
   std::atomic<size_t> produced_cs{0};
   std::atomic<size_t> consumed_cs{0};
   std::atomic<size_t> stolen_cs{0};
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   for (size_t i = 0; i < Queues; ++i) {
     race.Add([&, i]() {

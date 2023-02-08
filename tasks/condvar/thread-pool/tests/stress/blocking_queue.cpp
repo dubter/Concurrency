@@ -56,7 +56,7 @@ void Test(size_t producers, size_t consumers) {
 
   std::atomic<size_t> producers_left{producers};
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   // Producers
 
@@ -112,7 +112,7 @@ namespace close {
 void Test1() {
   tp::UnboundedBlockingQueue<int> queue;
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   race.Add([&]() {
     queue.Put(1);
@@ -132,7 +132,7 @@ void Test1() {
 void Test2() {
   tp::UnboundedBlockingQueue<int> queue;
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   // Producers
 

@@ -84,7 +84,7 @@ struct TestObject: public Counted<TestObject> {
 //////////////////////////////////////////////////////////////////////
 
 void StressTest(size_t threads, size_t batch_size_limit) {
-  twist::test::util::ReportProgressFor<LockFreeStack<TestObject>> stack;
+  twist::test::ReportProgressFor<LockFreeStack<TestObject>> stack;
 
   std::atomic<size_t> ops{0};
   std::atomic<size_t> pushed{0};
@@ -92,11 +92,11 @@ void StressTest(size_t threads, size_t batch_size_limit) {
 
   TestObject::SetLiveLimit(1024);
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   for (size_t i = 0; i < threads; ++i) {
     race.Add([&]() {
-      twist::test::util::EnablePark guard;
+      twist::test::EnablePark guard;
 
       while (wheels::test::KeepRunning()) {
         size_t batch_size = twist::test::RandomUInteger(1, batch_size_limit);

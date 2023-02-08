@@ -20,7 +20,7 @@ void Dining(size_t seats) {
     philosophers_.emplace_back(table_, seat);
   }
 
-  twist::test::util::Race race;
+  twist::test::Race race;
 
   for (size_t seat = 0; seat < seats; ++seat) {
     race.Add([&, seat]() {
