@@ -2,7 +2,7 @@
   "tests": [
     {
       "targets": ["unit_tests"],
-      "profiles": ["Debug"]
+      "profiles": ["DebugASan"]
     },
     {
       "targets": ["stress_tests"],

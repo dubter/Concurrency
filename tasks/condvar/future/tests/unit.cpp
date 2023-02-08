@@ -45,7 +45,7 @@ TEST_SUITE(Futures) {
     auto f = p.MakeFuture();
 
     std::thread producer([p = std::move(p)]() mutable {
-      std::this_thread::sleep_for(2s);
+      std::this_thread::sleep_for(1s);
       p.SetValue("Hi");
     });
 
@@ -59,7 +59,7 @@ TEST_SUITE(Futures) {
     auto f = p.MakeFuture();
 
     std::thread producer([p = std::move(p)]() mutable {
-      std::this_thread::sleep_for(2s);
+      std::this_thread::sleep_for(1s);
       try {
         throw TestException();
       } catch (...) {
@@ -73,8 +73,7 @@ TEST_SUITE(Futures) {
   }
 
   template <typename T>
-  void Drop(T value) {
-    (void)value;
+  void Drop(T /*value*/) {
   }
 
   SIMPLE_TEST(DropFuture) {
