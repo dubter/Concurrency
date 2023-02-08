@@ -22,4 +22,3 @@ class Mutex {
 };
 
 }  // namespace stdlike
-

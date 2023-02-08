@@ -14,22 +14,22 @@
 
 class Semaphore {
  public:
-  // Creates a Semaphore with the given number of permits
+  // Creates a Semaphore with the given number of tokens
   explicit Semaphore(size_t /*initial*/) {
     // Not implemented
   }
 
-  // Acquires a permit from this semaphore,
+  // Acquires a token from this semaphore,
   // blocking until one is available
   void Acquire() {
     // Not implemented
   }
 
-  // Releases a permit, returning it to the semaphore
+  // Releases a token, returning it to the semaphore
   void Release() {
     // Not implemented
   }
 
  private:
-  // Permits
+  // Tokens
 };

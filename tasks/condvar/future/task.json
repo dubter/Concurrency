@@ -20,11 +20,15 @@
   ],	  
   "lint_files": ["futures"],
   "submit_files": ["futures"],
-  "forbidden_patterns": [
-    "std::future",
-    "new",
-    "yield",
-    "sleep_for",
-    "SpinWait"
+  "forbidden": [
+    {
+      "patterns": [
+        "std::future",
+        "new",
+        "yield",
+        "sleep_for",
+        "SpinWait"
+      ]
+    }
   ]
 }
