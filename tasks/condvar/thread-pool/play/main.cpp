@@ -7,7 +7,7 @@ int main() {
   tp::ThreadPool pool{/*workers=*/4};
 
   pool.Submit([] {
-    fmt::println("Hi from thread pool");
+    fmt::println("Running in thread pool");
   });
 
   pool.WaitIdle();
