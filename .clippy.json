@@ -34,7 +34,7 @@
         "std::this_thread",
         "thread_local "
       ],
-      "hint": "Use Twist-ed synchronization primitives (https://gitlab.com/Lipovsky/twist/-/blob/master/docs/guide-ru.md)"
+      "hint": "Use Twist-ed synchronization primitives (https://gitlab.com/Lipovsky/twist/-/blob/master/docs/ru/guide.md)"
     }
   ]
 }
