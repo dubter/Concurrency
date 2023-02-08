@@ -9,7 +9,7 @@ class TicketLock {
   using Ticket = uint64_t;
 
  public:
-  // Don't change this method
+  // Do not change this method
   void Lock() {
     const Ticket this_thread_ticket = next_free_ticket_.fetch_add(1);
 
@@ -23,7 +23,7 @@ class TicketLock {
     return false;  // To be implemented
   }
 
-  // Don't change this method
+  // Do not change this method
   void Unlock() {
     // Do we actually need atomic increment here?
     owner_ticket_.fetch_add(1);

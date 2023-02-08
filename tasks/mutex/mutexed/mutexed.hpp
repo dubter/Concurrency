@@ -33,6 +33,9 @@ class Mutexed {
     // operator*
 
     // operator->
+
+   private:
+    // ???
   };
 
  public:

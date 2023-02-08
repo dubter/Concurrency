@@ -1,8 +1,8 @@
+#include <wheels/test/framework.hpp>
+
 #include <tinyfibers/sched/spawn.hpp>
 #include <tinyfibers/sched/yield.hpp>
 #include <tinyfibers/sync/mutex.hpp>
-
-#include <wheels/core/panic.hpp>
 
 using tinyfibers::Mutex;
 using tinyfibers::Spawn;
@@ -14,12 +14,11 @@ void OneFiberDeadLock() {
   Mutex mutex;
 
   auto fiber = [&] {
-    // Your code goes here
-    // use mutex.Lock() / mutex.Unlock() to lock/unlock mutex
+    // I am a Fiber
   };
 
   Spawn(fiber).Join();
 
   // We do not expect to reach this line
-  WHEELS_PANIC("No deadlock =(");
+  FAIL_TEST("No deadlock =(");
 }

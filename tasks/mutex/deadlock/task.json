@@ -6,5 +6,11 @@
     }
   ],
   "submit_files": ["sims"],
-  "lint_files": ["sims"]
+  "lint_files": ["sims"],
+  "forbidden": [
+    {
+      "patterns": ["I am a Fiber"],
+      "hint": "Remove this comment"
+    }
+  ]
 }

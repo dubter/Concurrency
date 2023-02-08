@@ -1,10 +1,9 @@
+#include <wheels/test/framework.hpp>
+
 #include <tinyfibers/sched/spawn.hpp>
 #include <tinyfibers/sched/yield.hpp>
-
 #include <tinyfibers/sync/mutex.hpp>
 #include <tinyfibers/sync/wait_group.hpp>
-
-#include <wheels/core/panic.hpp>
 
 using tinyfibers::Mutex;
 using tinyfibers::Spawn;
@@ -22,12 +21,11 @@ void TwoFibersDeadLock() {
   // Fibers
 
   auto first = [&] {
-    // Your code goes here
-    // Use Yield() to reschedule current fiber
+    // I am a Fiber
   };
 
   auto second = [&] {
-    // Your code goes here
+    // I am a Fiber
   };
 
   // No deadlock with one fiber
@@ -48,5 +46,5 @@ void TwoFibersDeadLock() {
   wg.Spawn(first).Spawn(second).Wait();
 
   // We do not expect to reach this line
-  WHEELS_PANIC("No deadlock =(");
+  FAIL_TEST("No deadlock =(");
 }

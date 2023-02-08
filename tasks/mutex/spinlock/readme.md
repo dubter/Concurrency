@@ -28,7 +28,7 @@
 
 ## Memory Ordering
 
-У методов атомиков в стандартной библиотеке есть дополнительный параметр: `enum class` [`std::memory_order`](https://en.cppreference.com/w/cpp/atomic/memory_order).
+Обратите внимание: у методов [`std::atomic`](https://en.cppreference.com/w/cpp/atomic/atomic) из стандартной библиотеки есть дополнительный параметр: `enum class` [`std::memory_order`](https://en.cppreference.com/w/cpp/atomic/memory_order).
 
 В `store` разумно передавать лишь некоторые из его значений: `relaxed`, `release` и `seq_cst`.
 

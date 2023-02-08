@@ -9,13 +9,7 @@ namespace dining {
 
 using Fork = twist::ed::stdlike::mutex;
 
-class Plate {
- public:
-  void Access();
-
- private:
-  twist::test::util::Plate plate_;
-};
+using Plate = twist::test::util::Plate;
 
 class Table {
  public:

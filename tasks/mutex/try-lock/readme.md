@@ -17,6 +17,6 @@
 
 ---
 
-В решении вы можете использовать любые атомарные RMW-операции, которые умеет [std::atomic](https://en.cppreference.com/w/cpp/atomic/atomic).
+В решении вы можете использовать любые атомарные RMW-операции, которые есть у [std::atomic](https://en.cppreference.com/w/cpp/atomic/atomic).
 
 Реализацию методов `Lock` и `Unlock` менять нельзя.
