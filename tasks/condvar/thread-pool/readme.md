@@ -26,8 +26,8 @@ tp::ThreadPool pool{/*workers=*/4};
 ```cpp
 tp::ThreadPool pool{4};
 
-pool.Submit([]() {
-  fmt::println("Hello from pool");
+pool.Submit([] {
+  fmt::println("Running in thread pool");
 });
 ```
 
@@ -47,9 +47,9 @@ pool.Submit([]() {
 ```cpp
 tp::ThreadPool pool{4};
 
-pool.Submit([]() {
+pool.Submit([] {
   // Планируем задачу из задачи
-  tp::Current()->Submit([]() {
+  tp::Current()->Submit([] {
     fmt::println("Child");
   });
 });
@@ -67,17 +67,17 @@ pool.Submit([]() {
 ```cpp
 tp::ThreadPool pool{4};
 
-pool.Submit([]() {
+pool.Submit([] {
   std::this_thread::sleep_for(1s);
-  tp::Current()->Submit([]() {
-    fmt::println("Hey");
+  tp::Current()->Submit([] {
+    fmt::println("Not late");
   });
 });
 
 // К моменту вызова WaitIdle вложенная задача скорее всего еще не запланирована.
 // Но вызов WaitIdle дождется ее завершения.
 pool.WaitIdle();
-// <-- На экране напечатано "Hi"
+// <-- На экране напечатано "Not late"
 ```
 
 ## Остановка
