@@ -1,13 +1,13 @@
 - group:    Tutorial
   start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
+  deadline: 01-01-2031 23:59
   tasks:
     - task: tutorial/aplusb
       score: 100
 
 - group:    Mutual Exclusion / Part I
   start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
+  deadline: 01-01-2031 23:59
   tasks:
     - task: mutex/deadlock
       score: 100
@@ -18,7 +18,7 @@
 
 - group:    Mutual Exclusion / Part II
   start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
+  deadline: 01-01-2031 23:59
   tasks:
     - task: mutex/livelock
       score: 200
@@ -28,92 +28,3 @@
       score: 200
     - task: mutex/try-lock
       score: 200
-
-- group:    Mutual Exclusion / Part III
-  start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
-  tasks:
-    - task: mutex/queue
-      score: 200
-
-- group:    Condition Variables / Thread Pool / Futures
-  start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
-  tasks:
-    - task: condvar/barrier
-      score: 200
-    - task: condvar/semaphore
-      score: 200
-    - task: condvar/condvar
-      score: 200
-    - task: condvar/future
-      score: 200
-    - task: condvar/thread-pool
-      score: 400
-
-- group:    Fibers / Part I
-  start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
-  tasks:
-    - task: fibers/coroutine
-      score: 500
-
-- group:    Fibers / Part II
-  start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
-  tasks:
-    - task: fibers/sleep_for
-      score: 300
-
-- group:    Fibers / Part III
-  start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
-  tasks:
-    - task: fibers/mutex
-      score: 500
-
-- group:    Futures / Part I
-  start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
-  tasks:
-    - task: futures/executors
-      score: 400
-
-- group:    Fibers / Part IV
-  start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
-  tasks:
-    - task: lockfree/steal
-      score: 200
-    - task: fibers/scheduler
-      score: 600
-
-- group:    Stackless Coroutines
-  start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
-  tasks:
-    - task: stackless/gorroutines
-      score: 400
-
-- group:    Lock-Free Stack
-  start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
-  tasks:
-    - task: lockfree/stack
-      score: 200
-    - task: lockfree/shared_ptr
-      score: 400
-
-- group:    Futures / Part II
-  start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
-  tasks:
-    - task: futures/futures
-      score: 500
-
-- group:    Fibers / Part V
-  start:    01-01-2021 12:00
-  deadline: 01-01-2025 23:59
-  tasks:
-    - task: fibers/channel
-      score: 600
