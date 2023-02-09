@@ -9,7 +9,6 @@ using tf::Mutex;
 using tf::Spawn;
 using tf::Yield;
 
-
 void OneFiberDeadLock() {
   Mutex mutex;
 

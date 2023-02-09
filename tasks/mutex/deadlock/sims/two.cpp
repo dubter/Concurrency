@@ -11,7 +11,6 @@ using tf::Spawn;
 using tf::WaitGroup;
 using tf::Yield;
 
-// Deadlock with two fibers
 void TwoFibersDeadLock() {
   // Mutexes
   Mutex a;
