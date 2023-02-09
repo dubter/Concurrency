@@ -4,11 +4,11 @@
 
 Метод должен вычислять [ответ на главный вопрос жизни, Вселенной и всего остального](https://en.wikipedia.org/wiki/42_(number)#The_Hitchhiker's_Guide_to_the_Galaxy). 
 
-## Как работать с задачей
+## Работа с задачей 
 
 Для запуска тестов выполните в директории с задачей команду `clippy test`.
 
-Для запуска конкретной тестовой цели CMake выполните команду `clippy target {target-name} {build-profile-name}`.
+Для запуска конкретной тестовой цели CMake выполните в директории с задачей команду `clippy target {target-name} {build-profile-name}`.
 
 Для автоматического форматирования кода задачи с помощью [`clang-format`](https://clang.llvm.org/docs/ClangFormat.html) выполните команду `clippy format`. Конфиг для `clang-format` находится в корне репозитория в файле [`.clang-format`](/.clang-format).
 
