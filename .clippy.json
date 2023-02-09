@@ -11,9 +11,11 @@
   "tidy_includes_path": "/tmp/clippy-build/Debug/_deps",
   "tidy_common_includes": [
     "wheels-src",
-    "context-src",
+    "sure-src",
     "twist-src",
     "tinyfibers-src",
+    "fmt-src/include",
+    "function2-src/include",
     "asio-src/asio/include"
   ],
   "forbidden": [
