@@ -8,11 +8,5 @@
   "lint_files": ["sim.cpp"],
   "submit_files": ["sim.cpp"],
   "forbidden": [
-    {
-      "patterns": [
-        "Put Yield-s to produce livelock"
-      ],
-      "hint": "Remove this comment"
-    }
   ]
 }
