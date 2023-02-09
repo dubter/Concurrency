@@ -3,7 +3,7 @@
 
 #include <twist/test/test.hpp>
 #include <twist/test/runs.hpp>
-#include <twist/test/util/race.hpp>
+#include <twist/test/race.hpp>
 
 #include <wheels/test/util.hpp>
 

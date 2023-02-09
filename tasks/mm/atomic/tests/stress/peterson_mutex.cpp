@@ -6,7 +6,7 @@
 // SpinLockPause
 #include <wheels/support/cpu.hpp>
 
-#include <twist/test/util/plate.hpp>
+#include <twist/test/plate.hpp>
 
 #include <thread>
 

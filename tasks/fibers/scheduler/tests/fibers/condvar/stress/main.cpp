@@ -2,7 +2,7 @@
 #include <wheels/test/util.hpp>
 
 #include <twist/test/test.hpp>
-#include <twist/test/util/plate.hpp>
+#include <twist/test/plate.hpp>
 
 #include <exe/executors/thread_pool.hpp>
 

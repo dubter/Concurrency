@@ -4,8 +4,8 @@
 
 #include <twist/fault/adversary/adversary.hpp>
 
-#include <twist/test/util/race.hpp>
-#include <twist/test/util/lockfree.hpp>
+#include <twist/test/race.hpp>
+#include <twist/test/lockfree.hpp>
 #include <twist/test/random.hpp>
 
 #include <wheels/test/util.hpp>

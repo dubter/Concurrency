@@ -4,7 +4,7 @@
 #include <twist/test/runs.hpp>
 #include <twist/test/random.hpp>
 
-#include <twist/test/util/race.hpp>
+#include <twist/test/race.hpp>
 
 #include <twist/ed/stdlike/mutex.hpp>
 

@@ -5,9 +5,9 @@
 #include <twist/test/runs.hpp>
 #include <twist/test/inject_fault.hpp>
 
-#include <twist/test/util/race.hpp>
-#include <twist/test/util/latch.hpp>
-#include <twist/test/util/barrier.hpp>
+#include <twist/test/race.hpp>
+#include <twist/test/latch.hpp>
+#include <twist/test/barrier.hpp>
 
 #include <wheels/test/util.hpp>
 

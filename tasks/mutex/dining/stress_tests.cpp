@@ -6,7 +6,7 @@
 
 #include <twist/test/test.hpp>
 #include <twist/test/inject_fault.hpp>
-#include <twist/test/util/race.hpp>
+#include <twist/test/race.hpp>
 
 #include <vector>
 

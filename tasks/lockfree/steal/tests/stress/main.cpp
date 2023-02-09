@@ -3,8 +3,8 @@
 #include <twist/rt/fault/adversary/lockfree.hpp>
 
 #include <twist/test/test.hpp>
-#include <twist/test/util/race.hpp>
-#include <twist/test/util/lockfree.hpp>
+#include <twist/test/race.hpp>
+#include <twist/test/lockfree.hpp>
 
 #include <wheels/test/framework.hpp>
 #include <wheels/test/util.hpp>

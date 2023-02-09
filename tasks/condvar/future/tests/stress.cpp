@@ -5,7 +5,7 @@
 #include <twist/ed/stdlike/thread.hpp>
 
 #include <twist/test/test.hpp>
-#include <twist/test/util/race.hpp>
+#include <twist/test/race.hpp>
 
 #include <string>
 

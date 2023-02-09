@@ -2,8 +2,8 @@
 
 #include <twist/test/test.hpp>
 
-#include <twist/test/util/race.hpp>
-#include <twist/test/util/plate.hpp>
+#include <twist/test/race.hpp>
+#include <twist/test/plate.hpp>
 
 #include <twist/ed/wait/spin.hpp>
 

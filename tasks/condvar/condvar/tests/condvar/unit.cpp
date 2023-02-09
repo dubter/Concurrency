@@ -2,7 +2,7 @@
 
 #include <wheels/test/framework.hpp>
 
-#include <twist/test/util/cpu_timer.hpp>
+#include <twist/test/cpu_timer.hpp>
 
 #include <atomic>
 #include <mutex>

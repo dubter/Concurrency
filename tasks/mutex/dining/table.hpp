@@ -1,7 +1,7 @@
 #pragma once
 
 #include <twist/ed/stdlike/mutex.hpp>
-#include <twist/test/util/plate.hpp>
+#include <twist/test/plate.hpp>
 
 #include <vector>
 

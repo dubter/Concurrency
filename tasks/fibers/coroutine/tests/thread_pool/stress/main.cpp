@@ -6,7 +6,7 @@
 
 #include <twist/test/test.hpp>
 #include <twist/test/runs.hpp>
-#include <twist/test/util/race.hpp>
+#include <twist/test/race.hpp>
 
 #include <twist/ed/stdlike/atomic.hpp>
 #include <twist/ed/stdlike/thread.hpp>
