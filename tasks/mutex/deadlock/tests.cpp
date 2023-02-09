@@ -2,17 +2,15 @@
 
 #include <wheels/test/framework.hpp>
 
-#include <tinyfibers/rt/scheduler.hpp>
+#include <tf/rt/scheduler.hpp>
 
 #include <wheels/system/quick_exit.hpp>
-
-using tinyfibers::rt::Scheduler;
 
 // Deadlock with one fiber and one mutex
 
 TEST_SUITE(DeadLock) {
   TEST(SimOneFiber, wheels::test::TestOptions().ForceFork()) {
-    Scheduler scheduler;
+    tf::rt::Scheduler scheduler;
 
     scheduler.SetDeadlockHandler([] {
       std::cout << "DeadLock detected" << std::endl;
@@ -25,7 +23,7 @@ TEST_SUITE(DeadLock) {
   }
 
   TEST(SimTwoFibers, wheels::test::TestOptions().ForceFork()) {
-    Scheduler scheduler;
+    tf::rt::Scheduler scheduler;
 
     scheduler.SetDeadlockHandler([] {
       std::cout << "DeadLock detected" << std::endl;

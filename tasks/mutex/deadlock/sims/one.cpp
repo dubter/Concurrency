@@ -1,14 +1,14 @@
 #include <wheels/test/framework.hpp>
 
-#include <tinyfibers/sched/spawn.hpp>
-#include <tinyfibers/sched/yield.hpp>
-#include <tinyfibers/sync/mutex.hpp>
-
-using tinyfibers::Mutex;
-using tinyfibers::Spawn;
-using tinyfibers::Yield;
-
 // https://gitlab.com/Lipovsky/tinyfibers
+#include <tf/sched/spawn.hpp>
+#include <tf/sched/yield.hpp>
+#include <tf/sync/mutex.hpp>
+
+using tf::Mutex;
+using tf::Spawn;
+using tf::Yield;
+
 
 void OneFiberDeadLock() {
   Mutex mutex;

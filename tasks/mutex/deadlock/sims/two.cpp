@@ -1,16 +1,15 @@
 #include <wheels/test/framework.hpp>
 
-#include <tinyfibers/sched/spawn.hpp>
-#include <tinyfibers/sched/yield.hpp>
-#include <tinyfibers/sync/mutex.hpp>
-#include <tinyfibers/sync/wait_group.hpp>
-
-using tinyfibers::Mutex;
-using tinyfibers::Spawn;
-using tinyfibers::WaitGroup;
-using tinyfibers::Yield;
-
 // https://gitlab.com/Lipovsky/tinyfibers
+#include <tf/sched/spawn.hpp>
+#include <tf/sched/yield.hpp>
+#include <tf/sync/mutex.hpp>
+#include <tf/sync/wait_group.hpp>
+
+using tf::Mutex;
+using tf::Spawn;
+using tf::WaitGroup;
+using tf::Yield;
 
 // Deadlock with two fibers
 void TwoFibersDeadLock() {

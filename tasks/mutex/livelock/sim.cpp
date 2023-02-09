@@ -1,11 +1,12 @@
 #include <wheels/test/framework.hpp>
 
-#include <tinyfibers/sched/spawn.hpp>
-#include <tinyfibers/sched/yield.hpp>
-#include <tinyfibers/sync/wait_group.hpp>
+// https://gitlab.com/Lipovsky/tinyfibers
+#include <tf/sched/spawn.hpp>
+#include <tf/sched/yield.hpp>
+#include <tf/sync/wait_group.hpp>
 
-using tinyfibers::WaitGroup;
-using tinyfibers::Yield;
+using tf::WaitGroup;
+using tf::Yield;
 
 void LiveLock() {
   static const size_t kIterations = 100;
