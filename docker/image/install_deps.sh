@@ -37,6 +37,7 @@ apt-get install -y \
         clang-14 \
         clang-format-14 \
         clang-tidy-14 \
+        libclang-rt-14-dev \
         libc++-14-dev \
         libc++abi-14-dev \
         lldb-14 \
