@@ -22,7 +22,7 @@ docker run hello-world
 
 ### OS X
 
-Скачайте, установите и запустите (в тулбаре появится значок с китом) [Docker Desktop](https://download.docker.com/mac/stable/Docker.dmg).
+Скачайте, установите и запустите (в тулбаре появится значок с китом) [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/).
 
 ## Создание контейнера
 
