@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 
 project(concurrency_course)
 
+include(cmake/Logging.cmake)
 include(cmake/Ccache.cmake)
 include(cmake/Helpers.cmake)
 include(cmake/CheckCompiler.cmake)

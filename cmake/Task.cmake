@@ -6,12 +6,6 @@ set(LIBS_LIST "wheels;twist;fmt;function2")
 
 # --------------------------------------------------------------------
 
-function(course_log message)
-    message(STATUS "[${PROJECT_NAME}] ${message}")
-endfunction()
-
-# --------------------------------------------------------------------
-
 # Helpers
 
 macro(get_task_target VAR NAME)
@@ -38,7 +32,7 @@ macro(begin_task)
     get_filename_component(TOPIC_DIR ${TASK_DIR} DIRECTORY)
     get_filename_component(TOPIC_NAME ${TOPIC_DIR} NAME)
 
-    course_log("Topic = '${TOPIC_NAME}', task = '${TASK_NAME}'")
+    project_log("Topic = '${TOPIC_NAME}', task = '${TASK_NAME}'")
 
     include_directories(${TASK_DIR})
 
@@ -76,7 +70,7 @@ function(add_task_library DIR_NAME)
     set(LIB_DIR ${TASK_DIR}/${DIR_NAME})
 
     get_task_target(LIB_TARGET ${LIB_NAME})
-    course_log("Add task library: ${LIB_TARGET}")
+    project_log("Add task library: ${LIB_TARGET}")
 
     file(GLOB_RECURSE LIB_CXX_SOURCES ${LIB_DIR}/*.cpp)
     file(GLOB_RECURSE LIB_HEADERS ${LIB_DIR}/*.hpp ${LIB_DIR}/*.ipp)
@@ -118,7 +112,7 @@ endfunction()
 
 function(add_task_playground DIR_NAME)
     get_task_target(PLAY_TARGET_NAME ${DIR_NAME})
-    course_log("Add task playground: ${PLAY_TARGET_NAME}")
+    project_log("Add task playground: ${PLAY_TARGET_NAME}")
 
     add_task_dir_target(playground ${DIR_NAME})
 endfunction()

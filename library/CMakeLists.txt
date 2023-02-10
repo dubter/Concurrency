@@ -15,7 +15,7 @@ include(FetchContent)
 
 # fmt with println
 
-message(STATUS "FetchContent: fmt")
+project_log("FetchContent: fmt")
 
 FetchContent_Declare(
         fmt
@@ -28,6 +28,8 @@ FetchContent_MakeAvailable(fmt)
 
 # Unique Function
 
+project_log("FetchContent: function2")
+
 FetchContent_Declare(
         function2
         GIT_REPOSITORY https://github.com/Naios/function2.git
@@ -37,7 +39,7 @@ FetchContent_MakeAvailable(function2)
 
 # --------------------------------------------------------------------
 
-message(STATUS "FetchContent: wheels")
+project_log("FetchContent: wheels")
 
 FetchContent_Declare(
         wheels
@@ -48,7 +50,7 @@ FetchContent_MakeAvailable(wheels)
 
 # --------------------------------------------------------------------
 
-message(STATUS "FetchContent: sure")
+project_log("FetchContent: sure")
 
 FetchContent_Declare(
         sure
@@ -59,7 +61,7 @@ FetchContent_MakeAvailable(sure)
 
 # --------------------------------------------------------------------
 
-message(STATUS "FetchContent: twist")
+project_log("FetchContent: twist")
 
 FetchContent_Declare(
         twist
@@ -70,7 +72,7 @@ FetchContent_MakeAvailable(twist)
 
 # --------------------------------------------------------------------
 
-message(STATUS "FetchContent: tinyfibers")
+project_log("FetchContent: tinyfibers")
 
 FetchContent_Declare(
         tinyfibers
@@ -81,7 +83,7 @@ FetchContent_MakeAvailable(tinyfibers)
 
 # --------------------------------------------------------------------
 
-message(STATUS "FetchContent: asio")
+project_log("FetchContent: asio")
 
 FetchContent_Declare(
         asio
