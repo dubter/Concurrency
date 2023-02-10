@@ -14,13 +14,13 @@
 
 Создаём [Docker Toolchain](https://www.jetbrains.com/help/clion/clion-toolchains-in-docker.html#create-docker-toolchain):
 
-В `Preferences` > `Build, Execution, Deployment` > `Toolchains` создайте тулчейн Docker и убедитесь, что поля соотвествуют следующим значениям:
+В `Preferences` → `Build, Execution, Deployment` → `Toolchains` создайте тулчейн Docker и убедитесь, что поля соотвествуют следующим значениям:
 
-| Поле | Значение |
-|---|---|
-| _Make_ | `/usr/bin/make` |
-| _C Compiler_ | `/usr/bin/clang-12`
-| _C++ Compiler_ | `/usr/bin/clang++-12` |
+| Поле | Значение              |
+|---|-----------------------|
+| _Make_ | `/usr/bin/make`       |
+| _C Compiler_ | `/usr/bin/clang-14`   |
+| _C++ Compiler_ | `/usr/bin/clang++-14` |
 
 ![Toolchain](images/toolchain.png)
 
@@ -28,11 +28,11 @@
 
 ### Шаг 3
 
-В `Preferences` > `Build, Execution, Deployment` > `CMake` добавьте новый профиль сборки и установите в нем созданный шагом ранее тулчейн. 
+В `Preferences` → `Build, Execution, Deployment` → `CMake` добавьте новый профиль сборки и установите в нем созданный шагом ранее тулчейн. 
 
 ![Setup remote host](images/profile.png)
 
-Загрузка проекта CMake может занять около полминуты.
+Загрузка проекта CMake может занять около минуты.
 
 ### Шаг 4
 
