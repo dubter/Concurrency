@@ -40,6 +40,7 @@ apt-get install -y \
         libclang-rt-14-dev \
         libc++-14-dev \
         libc++abi-14-dev \
+        clangd-14 \
         lldb-14 \
         gdb \
         binutils-dev \
