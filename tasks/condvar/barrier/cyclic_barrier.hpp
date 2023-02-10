@@ -19,7 +19,7 @@ class CyclicBarrier {
     // Not implemented
   }
 
-  // Blocks until all participants have invoked Arrive()
+  // Blocks until all participants have invoked ArriveAndWait()
   void ArriveAndWait() {
     // Not implemented
   }
