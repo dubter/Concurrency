@@ -44,7 +44,7 @@
 
 ### Шаг 5
 
-После установки расширения для работы с CMake выберите kit - `Clang 12.0.0 x86-64-pc-linux-gnu`. Это можно сделать сразу после установки расширения либо в нижней панели.
+После установки расширения для работы с CMake выберите kit - `Clang 14.0.6 x86-64-pc-linux-gnu`. Это можно сделать сразу после установки расширения либо в нижней панели.
 
 ![Setup kit](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-choose-kit.png)
 
