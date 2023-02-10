@@ -15,6 +15,12 @@
     {
       "patterns": ["unlock"],
       "hint": "Use std::lock_guard"
+    },
+    {
+      "patterns": [
+        "Define your own OwnerRef"
+      ],
+      "hint": "Remove this comment"
     }
   ]
 }

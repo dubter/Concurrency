@@ -18,28 +18,10 @@
  *
  */
 
-template <typename T>
+template <typename T, class Mutex = twist::ed::stdlike::mutex>
 class Mutexed {
-  using Mutex = twist::ed::stdlike::mutex;
-
-  class OwnerRef {
-    // Your code goes here
-
-    // Non-copyable
-    OwnerRef(const OwnerRef&) = delete;
-    OwnerRef& operator=(const OwnerRef&) = delete;
-
-    // Non-movable
-    OwnerRef(OwnerRef&&) = delete;
-    OwnerRef& operator=(OwnerRef&) = delete;
-
-    // operator*
-
-    // operator->
-
-   private:
-    // ???
-  };
+  // Define your own OwnerRef
+  using OwnerRef = T*;
 
  public:
   // https://eli.thegreenplace.net/2014/perfect-forwarding-and-universal-references-in-c/
@@ -49,7 +31,7 @@ class Mutexed {
   }
 
   OwnerRef Acquire() {
-    return {};
+    return &object_;  // Your code goes here
   }
 
  private:
