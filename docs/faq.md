@@ -88,6 +88,8 @@
 
 В CLion добавьте опцию в поле `CMake Options` в нужный профиль сборки в `Preferences` > `Build, Execution, Deployment` > `CMake`.
 
+В VScode добавьте опцию в поле `Configure Args` в меню настройки расширения `CMake Tools` (вкладка левого меню `Extensions` > значок шестерёнки у `CMake Tools` > `Extension Settings` > `Configure Args` > `Add item`)
+
 Для Clippy используйте файл `.clippy-build-profiles.json` в корне репозитория.
 
 ---
@@ -113,3 +115,9 @@
 #### У меня MacBook с процессором ARM M1, код не собирается, что делать?
 
 Нужно добавить в [`docker-compose.yml`](/docker/docker-compose.yml) в секцию `wrapper` настройку `platform: linux/x86_64`.
+
+---
+
+### В VScode не работает навигация по коду!
+
+Может помочь перезапуск `clangd` сервера. Для этого есть команда `clangd: Restart language server` (`Ctrl+Shift+P` > `clangd: Restart language server`). Если остались красные подчёркивания от `clangd`, то может помочь перезапуск VScode.
