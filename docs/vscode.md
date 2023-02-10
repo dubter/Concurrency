@@ -10,7 +10,7 @@
 
 Откройте VScode и установите расширение [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) в левом меню `Extensions`.
 
-![Install Dev Containers](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-install-extension.png)
+[<img src=https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-install-extension.png)
 
 ### Шаг 2
 

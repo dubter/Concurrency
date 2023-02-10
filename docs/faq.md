@@ -118,6 +118,8 @@
 
 ---
 
-### В VScode не работает навигация по коду!
+#### В VScode не работает навигация по коду, как починить?
 
-Может помочь перезапуск `clangd` сервера. Для этого есть команда `clangd: Restart language server` (`Ctrl+Shift+P` > `clangd: Restart language server`). Если остались красные подчёркивания от `clangd`, то может помочь перезапуск VScode.
+Перезапустите `clangd`: `Ctrl+Shift+P` → `clangd: Restart language server` 
+
+Если красные подчёркивания остались, то попробуйте перезапустить VScode.
