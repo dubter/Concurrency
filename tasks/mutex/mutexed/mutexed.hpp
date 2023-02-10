@@ -10,8 +10,11 @@
  * Usage:
  *
  * Mutexed<std::vector<Apple>> apples;
- * auto owner_ref = apples->Acquire();
- * owner_ref->push_back(Apple{});
+ *
+ * {
+ *   auto owner_ref = apples->Acquire();
+ *   owner_ref->push_back(Apple{});
+ * }  // <- release ownership
  *
  */
 
