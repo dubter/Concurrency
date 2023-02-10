@@ -4,29 +4,29 @@
 
 ### Шаг 0
 
-Установите самую свежую версию [VScode](https://code.visualstudio.com/download). Обратите внимание, что сторонние сборки, установленные с помощью пакетных менеджеров не подходят. Работоспособность протестирована с версии 1.60. 
+Установите самую свежую версию [VSCode](https://code.visualstudio.com/download). Cторонние сборки, установленные с помощью пакетных менеджеров, не подходят. Работоспособность протестирована с версии 1.60. 
 
 ### Шаг 1
 
-Откройте VScode и установите расширение [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) в левом меню `Extensions`.
+Откройте VSCode и установите расширение [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) в левом меню `Extensions`.
 
-[<img src=https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-install-extension.png)
+![Dev Container](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-install-extension.png)
 
 ### Шаг 2
 
-После установки расширения откройте вкладку `Remote Explorer`. Проверьте, что в списке контейнеров присутствует контейнер с курсом, который был создан и запущен на [шаге настройки Docker](docker.md). Он должен называться `concurrency-course`. 
+После установки расширения откройте вкладку `Remote Explorer` и убедитесь, что в списке контейнеров присутствует контейнер с курсом, который был создан и запущен на [шаге настройки Docker](docker.md) (он должен называться `concurrency-course`). 
 
-Подключитесь к контейнеру с помощью кнопки `Attach to Container` и дождитесь настройки контейнера для работы с VScode.
+Подключитесь к контейнеру с помощью кнопки `Attach to Container` и дождитесь настройки контейнера для работы с VSCode.
 
 ![Check container](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-check-container.png)
 
-На этом шаге у вас должно открыться дополнительное окно с VScode, подключенным к контейнеру.
+На этом шаге у вас должно открыться дополнительное окно с VSCode, который будет подключен к контейнеру.
 
 Проверьте, что подключение успешно: в левом нижнем углу должно отображаться имя контейнера.
 
 ### Шаг 3
 
-Курс – это CMake-проект, так что просто откройте его в VScode с подключенным контейнером: вкладка `Explorer` > `Open Folder` > выбрать директорию курса в контейнере (`/workspace/concurrency-course`).
+Курс – это CMake-проект, так что просто откройте его в VSCode с подключенным контейнером: вкладка `Explorer` → `Open Folder` → выбрать директорию курса в контейнере (`/workspace/concurrency-course`).
 
 ![Open folder](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-open-folder.png)
 
@@ -40,7 +40,7 @@
 | _[C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)_ | Запуск и дебаг кода
 | _[clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)_ | Навигация и автодополнение |
 
-После установки расширения `clangd` и начала работы с кодом VScode предложит установить `clangd`. С установкой нужно согласиться.
+После установки расширения `clangd` и начала работы с кодом VSCode предложит установить `clangd`. С установкой нужно согласиться.
 
 ### Шаг 5
 
@@ -58,7 +58,7 @@
 
 ![Choose build directory](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-choose-build-dir.png)
 
-Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит строку
+Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит
 ```
 "cmake.buildDirectory": "/tmp/vscode-build"
 ```
@@ -83,7 +83,7 @@
 
 ![Change cpp setting](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-disable-intelli.png)
 
-Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит строки
+Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит
 ```
 "C_Cpp.intelliSenseEngine": "disabled"
 ```
@@ -94,7 +94,7 @@
 
 ![Change clangd setting](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-change-clang-setting.png)
 
-Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит строки
+Убедитесь, что настройка задана верно: проверьте, что файл `.vscode/settings.json` содержит
 ```
 "clangd.arguments": [
     "-compile-commands-dir=/tmp/vscode-build"
@@ -105,13 +105,15 @@
 
 ### Шаг 9
 
-В течение курса может понадобиться дебаггер. Для его настройки откройте сначала любой `.cpp` файл. 
+Для отладки кода вам потребуется дебаггер. 
+
+Для его настройки откройте любой `.cpp` файл. 
 
 В левом меню откройте `Run and Debug` и нажмите `create a launch.json file`
 
 ![Create launch file](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-create-launch-file.png)
 
-Теперь нажмите `Show all automatic debug configurations` > `Add Configuration...` > `C/C++: (gdb) Launch`. 
+Теперь нажмите `Show all automatic debug configurations` → `Add Configuration...` → `C/C++: (gdb) Launch`. 
 
 ![Add launch configuration](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-add-configuration.png)
 
@@ -134,4 +136,4 @@
 
 ## Полезные советы
 
-- Если вы зайдете в терминал с помощью `Terminal` > `New Terminal`, то попадете в контейнер в `root` пользователя. Работайте с `clippy` из отдельного терминала.
+- Если вы зайдете в терминал с помощью `Terminal` → `New Terminal`, то попадете в контейнер в `root` пользователя. Работайте с `clippy` из отдельного терминала.
