@@ -1,5 +1,7 @@
 #include <wheels/test/framework.hpp>
 
+#include "../barrier.hpp"
+
 // https://gitlab.com/Lipovsky/tinyfibers
 #include <tf/sched/spawn.hpp>
 #include <tf/sched/yield.hpp>
@@ -38,8 +40,9 @@ void TwoFibersDeadLock() {
   Spawn(second).Join();
   Spawn(second).Join();
 
-  // Deadlock with two fibers
+  ReadyToDeadLock();
 
+  // Deadlock with two fibers
   WaitGroup wg;
   wg.Spawn(first).Spawn(second).Wait();
 
