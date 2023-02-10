@@ -126,7 +126,7 @@
 - `program` — путь до бинарного файла тестов задачи. Например, `/workspace/concurrency-course/build/tasks/tutorial/aplusb/bin/task_tutorial_aplusb_tests`
 - `args` — аргументы командной строки для бинарного файла. Для установки breakpoint'ов нужно выключить запуск тестов в подпроцессе. Для этого добавьте флаг `--disable-forks`. Подробнее можно прочитать в [faq](faq.md).
 
-Должен получится такой файл. Не забудьте его сохранить!
+Должен получиться такой файл. Не забудьте его сохранить!
 
 ![Launch file](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-launch-file.png)
 
