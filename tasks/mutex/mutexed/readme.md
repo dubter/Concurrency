@@ -38,7 +38,7 @@ class AtomicCounter {
 ## Причина
 
 По замыслу мьютекс `mutex_` в классе `AtomicCounter` должен защищать доступ к полю `value_`. 
-Но этот замысел существует только в голове автора этого класса, а в коде этот замысел явно не выражен, так что компилятор не знает про связь полей `mutex_` и `value_`, а значит не может обнаружить ошибку.
+Но этот замысел существовал только в голове автора этого класса, а в коде остался не выражен, так что компилятор ничего не знает про связь полей `mutex_` и `value_`, а значит не может обнаружить ошибку.
 
 ## Решение – `Mutexed<T>`
 
@@ -99,7 +99,7 @@ Mutexed<int> shared_int{0};
 
 ## `Mutexed` in the Wild
 
-- [`Synchronized`](https://github.com/facebook/folly/blob/master/folly/docs/Synchronized.md) из библиотеки `facebook/folly`
+- [`Synchronized`](https://github.com/facebook/folly/blob/main/folly/docs/Synchronized.md) из библиотеки `facebook/folly`
 - [`Mutex`](https://doc.rust-lang.org/std/sync/struct.Mutex.html) из стандартной библиотеки языка [Rust](https://www.rust-lang.org/)
 
 ## Альтернативное решение
