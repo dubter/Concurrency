@@ -41,14 +41,16 @@ apt-get install -y \
         libc++-14-dev \
         libc++abi-14-dev \
         lldb-14 \
+        gdb \
+        binutils-dev \
+        libdwarf-dev \
+        libdw-dev \
         python3 \
         python3-pip \
         python3-venv \
         ca-certificates \
         openssh-server \
         vim \
-        gdb \
-        binutils-dev \
         autoconf
 
 pip3 install \
