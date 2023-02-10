@@ -4,29 +4,29 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 
 ---
 
-## Правила
+## Просьба
 
 При форке репозитория для решения задач делайте его приватным! Не выкладывайте решения задач в открытом доступе!
 
 Спасибо ❤️
 
-## Ссылки
-
-- [Awesome Concurrency](https://gitlab.com/Lipovsky/awesome-concurrency)
-- [Репозитории с примерами](https://gitlab.com/l2288)
-
 ## Инструкции
 
-1) [Начало работы](docs/setup.md)
-2) [Как сдавать задачи](docs/ci.md)
-3) [Twist](https://gitlab.com/Lipovsky/twist/-/blob/master/docs/guide-ru.md)
+1) 🏃 [Начало работы](docs/setup.md)
+2) 🤖 [Как сдавать задачи (CI)](docs/ci.md)
+3) 🧵 [Twist](https://gitlab.com/Lipovsky/twist/-/blob/master/docs/guide-ru.md)
 
 ## Навигация
 
 - [Задачи](/tasks)
 - [Дедлайны](/deadlines)
-- [Manytask](http://concurrency-course.cc/)
-- [Результаты](https://docs.google.com/spreadsheets/d/1jwIqnhV3L_q186vciDA0MwO9iam-swf7KnUgaf28aRk/edit?usp=sharing)
+- [Manytask](https://en.wikipedia.org/wiki/HTTP_404)
+- [Результаты](https://en.wikipedia.org/wiki/HTTP_404)
+
+## Ссылки
+
+- [Awesome Concurrency](https://gitlab.com/Lipovsky/awesome-concurrency)
+- [Репозитории с примерами](https://gitlab.com/l2288)
 
 ## Библиотеки
 
