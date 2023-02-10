@@ -10,7 +10,7 @@
 
 Откройте VSCode и установите расширение [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) в левом меню `Extensions`.
 
-![Dev Container](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-install-extension.png)
+![Dev Container](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-install-extension.png)
 
 ### Шаг 2
 
@@ -18,7 +18,7 @@
 
 Подключитесь к контейнеру с помощью кнопки `Attach to Container` и дождитесь настройки контейнера для работы с VSCode.
 
-![Check container](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-check-container.png)
+![Check container](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-check-container.png)
 
 На этом шаге у вас должно открыться дополнительное окно с VSCode, который будет подключен к контейнеру.
 
@@ -28,7 +28,7 @@
 
 Курс – это CMake-проект, так что просто откройте его в VSCode с подключенным контейнером: вкладка `Explorer` → `Open Folder` → выбрать директорию курса в контейнере (`/workspace/concurrency-course`).
 
-![Open folder](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-open-folder.png)
+![Open folder](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-open-folder.png)
 
 ### Шаг 4
 
@@ -46,17 +46,17 @@
 
 После установки расширения для работы с CMake выберите kit - `Clang 14.0.6 x86-64-pc-linux-gnu`. Это можно сделать сразу после установки расширения либо в нижней панели.
 
-![Setup kit](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-choose-kit.png)
+![Setup kit](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-choose-kit.png)
 
 ### Шаг 6
 
 Смените директорию для сборки проекта. Для этого откройте настройки расширения `CMake Tools` в меню слева под названием `Extensions`.
 
-![Open CMake settings](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-open-cmake-settings.png)
+![Open CMake settings](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-open-cmake-settings.png)
 
 Теперь переключитесь на настройки в группе `Workspace` и найдите настройку `Cmake: Build Directory`. Установите её значение на `/tmp/vscode-build`.
 
-![Choose build directory](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-choose-build-dir.png)
+![Choose build directory](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-choose-build-dir.png)
 
 Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит
 ```
@@ -65,23 +65,23 @@
 
 Теперь запустить CMake можно из нижнего меню, выбрав профиль сборки `Debug`.
 
-![Run CMake](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-run-cmake.png)
+![Run CMake](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-run-cmake.png)
 
 Также из этого меню можно собирать и запускать цели, соответствующие задаче.
 
 Сначала выберите цель для сборки и соберите её.
 
-![Build targets](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-build.png)
+![Build targets](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-build.png)
 
 Далее можно выбрать цель для запуска и запустить её.
 
-![Run targets](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-run.png)
+![Run targets](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-run.png)
 
 ### Шаг 7 
 
 Отключите `Intelli Sense Engine`. Для этого в настройках расширения `C/C++` во вкладке `Workspace` поменяйте значение настройки `C_cpp: Intelli Sense Engine` на `disabled`.
 
-![Change cpp setting](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-disable-intelli.png)
+![Change cpp setting](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-disable-intelli.png)
 
 Убедитесь, что настройка задана верно. Для этого проверьте, что файл `.vscode/settings.json` содержит
 ```
@@ -92,7 +92,7 @@
 
 Настройте индексацию проекта `clangd`. Для этого в настройках расширения `clangd` во вкладке `Workspace` поменяйте значение настройки `Clangd: Arguments` на `-compile-commands-dir=/tmp/vscode-build`. 
 
-![Change clangd setting](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-change-clang-setting.png)
+![Change clangd setting](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-change-clang-setting.png)
 
 Убедитесь, что настройка задана верно: проверьте, что файл `.vscode/settings.json` содержит
 ```
@@ -111,16 +111,16 @@
 
 В левом меню откройте `Run and Debug` и нажмите `create a launch.json file`
 
-![Create launch file](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-create-launch-file.png)
+![Create launch file](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-create-launch-file.png)
 
 Теперь нажмите `Show all automatic debug configurations` → `Add Configuration...` → `C/C++: (gdb) Launch`. 
 
-![Add launch configuration](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-add-configuration.png)
+![Add launch configuration](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-add-configuration.png)
 
 
 В файле `.vscode/launch.json` будет создан шаблон, который нужно заполнить. 
 
-![Launch template](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-launch-template.png)
+![Launch template](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-launch-template.png)
 
 В этом файле нас интересуют следующие поля:
 - `program` — путь до бинарного файла тестов задачи. Например, `/workspace/concurrency-course/build/tasks/tutorial/aplusb/bin/task_tutorial_aplusb_tests`
@@ -128,11 +128,11 @@
 
 Должен получится такой файл. Не забудьте его сохранить!
 
-![Launch file](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-launch-file.png)
+![Launch file](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-launch-file.png)
 
 Теперь можно запускать дебаггер из меню слева `Run and Debug`.
 
-![Debug](https://gitlab.com/concurrency-course-2022-ta/concurrency-course-media/-/raw/main/docs-images/vscode-debug.png)
+![Debug](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-debug.png)
 
 ## Полезные советы
 
