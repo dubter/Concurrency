@@ -1,12 +1,9 @@
 #include "sims.hpp"
 
-#include <wheels/test/framework.hpp>
-
 #include <tf/rt/scheduler.hpp>
 
+#include <wheels/test/framework.hpp>
 #include <wheels/system/quick_exit.hpp>
-
-// Deadlock with one fiber and one mutex
 
 TEST_SUITE(DeadLock) {
   TEST(SimOneFiber, wheels::test::TestOptions().ForceFork()) {
