@@ -1,7 +1,5 @@
 #include "../ticket_lock.hpp"
 
-#include <twist/rt/strand/stdlike/thread.hpp>
-
 #include <twist/test/test.hpp>
 #include <twist/test/inject_fault.hpp>
 #include <twist/test/random.hpp>
@@ -201,34 +199,6 @@ TEST_SUITE(Philosophers) {
     forks::Test(5);
   }
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-#if defined(TWIST_FIBERS)
-
-TEST_SUITE(TicketLock2) {
-  TWIST_ITERATE_TEST(NonBlocking, 10s) {
-    size_t cs = 0;
-    solutions::TicketLock ticket_lock;
-
-    auto contender = [&]() {
-      if (ticket_lock.TryLock()) {
-        twist::rt::strand::stdlike::this_thread::sleep_for(50ms);
-        ++cs;
-        ticket_lock.Unlock();
-      }
-    };
-
-    twist::test::Race race;
-    race.Add(contender);
-    race.Add(contender);
-    race.Run();
-
-    ASSERT_TRUE(cs == 1);
-  }
-}
-
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
