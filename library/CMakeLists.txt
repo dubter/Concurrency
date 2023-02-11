@@ -33,7 +33,7 @@ project_log("FetchContent: function2")
 FetchContent_Declare(
         function2
         GIT_REPOSITORY https://github.com/Naios/function2.git
-        GIT_TAG master
+        GIT_TAG 4.2.2
 )
 FetchContent_MakeAvailable(function2)
 
@@ -44,7 +44,7 @@ project_log("FetchContent: wheels")
 FetchContent_Declare(
         wheels
         GIT_REPOSITORY https://gitlab.com/Lipovsky/wheels.git
-        GIT_TAG master
+        GIT_TAG 56f914288a5515d523aea621a0b455148b885e49
 )
 FetchContent_MakeAvailable(wheels)
 
@@ -55,7 +55,7 @@ project_log("FetchContent: sure")
 FetchContent_Declare(
         sure
         GIT_REPOSITORY https://gitlab.com/Lipovsky/sure.git
-        GIT_TAG master
+        GIT_TAG 35304c98d1dc099ef43d4e5a95a043c970be1497
 )
 FetchContent_MakeAvailable(sure)
 
@@ -66,7 +66,7 @@ project_log("FetchContent: twist")
 FetchContent_Declare(
         twist
         GIT_REPOSITORY https://gitlab.com/Lipovsky/twist.git
-        GIT_TAG master
+        GIT_TAG 901b0c31d96ad208383f555f4d35efc7798a1df7
 )
 FetchContent_MakeAvailable(twist)
 
