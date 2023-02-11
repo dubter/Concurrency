@@ -1,5 +1,11 @@
 # Livelock
 
+## Пререквизиты
+
+- [mutex/deadlock](/tasks/mutex/deadlock)
+
+---
+
 Изучите реализацию [`TrickyLock`](tricky_lock.hpp).
 
 Реализация использует RMW (_read_-_modify_-_write_) операции [fetch_add](https://en.cppreference.com/w/cpp/atomic/atomic/fetch_add) и [fetch_sub](https://en.cppreference.com/w/cpp/atomic/atomic/fetch_sub). 
