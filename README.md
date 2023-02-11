@@ -13,7 +13,7 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 ## Инструкции
 
 1) 🏃 [Начало работы](docs/setup.md)
-2) 🤖 [Как сдавать задачи (CI)](docs/ci.md)
+2) 🤖 [Как сдавать задачи (CI)](https://en.wikipedia.org/wiki/HTTP_404)
 3) 🧵 [Twist](https://gitlab.com/Lipovsky/twist/-/blob/master/docs/ru/guide.md)
 
 ## Навигация
