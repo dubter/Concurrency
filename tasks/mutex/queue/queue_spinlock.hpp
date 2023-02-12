@@ -8,10 +8,10 @@
  *
  * Usage:
  *
- * QueueSpinLock qspinlock;
+ * QueueSpinLock spinlock;
  *
  * {
- *   QueueSpinLock::Guard guard(qspinlock);  // <-- Acquire
+ *   QueueSpinLock::Guard guard(spinlock);  // <-- Acquire
  *   // Critical section
  * }  // <-- Release
  *

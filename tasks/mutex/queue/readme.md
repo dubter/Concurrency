@@ -83,8 +83,8 @@ QueueSpinLock qspinlock;
 ### Материалы
 
 * [Memory Barriers: a Hardware View for Software Hackers](http://www.cs.otago.ac.nz/cosc440/readings/HWMB.pdf) – подробный разбор устройства кэшей, протокола MESI, примеры оптимизаций, которые влияют на упорядочивние обращений к памяти
-
 * [Симулятор протокола когерентности MESI](https://www.scss.tcd.ie/~jones/vivio/caches/ALL%20protocols.htm)
+* [Measuring CPU core-to-core latency](https://github.com/nviennot/core-to-core-latency)
 
 ### Linux
 

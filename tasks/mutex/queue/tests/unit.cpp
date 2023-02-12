@@ -7,34 +7,37 @@
 
 TEST_SUITE(QueueSpinLock) {
   SIMPLE_TEST(LockUnlock) {
-    QueueSpinLock qspinlock;
+    QueueSpinLock spinlock;
 
     {
-      QueueSpinLock::Guard guard(qspinlock);  // <-- Acquired
+      QueueSpinLock::Guard guard(spinlock);  // <-- Acquired
       // Critical section
     }  // <-- Released
   }
 
   SIMPLE_TEST(SequentialLockUnlock) {
-    QueueSpinLock qspinlock;
+    QueueSpinLock spinlock;
 
     {
-      QueueSpinLock::Guard guard(qspinlock);
+      QueueSpinLock::Guard guard(spinlock);
+      // Critical section
     }
+
     {
-      QueueSpinLock::Guard guard(qspinlock);
+      QueueSpinLock::Guard guard(spinlock);
+      // Critical section
     }
   }
 
   SIMPLE_TEST(ConcurrentIncrements) {
-    QueueSpinLock qspinlock;
+    QueueSpinLock spinlock;
     size_t shared_counter = 0;
 
     const size_t kIncrementsPerThread = 1000;
 
     auto contender = [&]() {
       for (size_t i = 0; i < kIncrementsPerThread; ++i) {
-        QueueSpinLock::Guard guard(qspinlock);
+        QueueSpinLock::Guard guard(spinlock);
 
         size_t current = shared_counter;
         std::this_thread::yield();

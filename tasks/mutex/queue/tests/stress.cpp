@@ -16,14 +16,14 @@ using namespace std::chrono_literals;
 TEST_SUITE(Mutex) {
   void Test(size_t threads) {
     twist::test::Plate plate;  // Guarded by mutex
-    QueueSpinLock qspinlock;
+    QueueSpinLock spinlock;
 
     twist::test::Race race;
 
     for (size_t i = 0; i < threads; ++i) {
       race.Add([&]() {
         while (wheels::test::KeepRunning()) {
-          QueueSpinLock::Guard guard(qspinlock);
+          QueueSpinLock::Guard guard(spinlock);
           {
             // Critical section
             plate.Access();
@@ -50,13 +50,13 @@ TEST_SUITE(Mutex) {
 
 TEST_SUITE(MissedWakeup) {
   void Test(size_t threads) {
-    QueueSpinLock qspinlock;
+    QueueSpinLock spinlock;
 
     twist::test::Race race;
 
     for (size_t i = 0; i < threads; ++i) {
       race.Add([&]() {
-        QueueSpinLock::Guard guard(qspinlock);
+        QueueSpinLock::Guard guard(spinlock);
         // Critical section
       });
     };
