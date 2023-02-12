@@ -87,7 +87,7 @@ Mutexed<int> shared_int{0};
 }
 ```
 
-## Задача
+## Задание
 
 Реализуйте [`Mutexed<T>`](mutexed.hpp).
 
