@@ -190,6 +190,7 @@ clippy push
 
 Создаем [_merge request_](https://docs.gitlab.com/ee/user/project/merge_requests/) ветки с решением в _master_:
 ```shell
+# Или короче: clippy mr
 clippy merge-request
 ```
 После ее выполнения вы получите ссылку на созданный MR. На созданном MR будет запускаться CI.
