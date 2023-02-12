@@ -21,10 +21,10 @@
   deadline: 01-01-2031 23:59
   tasks:
     - task: mutex/livelock
-      score: 200
+      score: 100
     - task: mutex/mutex
-      score: 200
+      score: 100
     - task: mutex/spinlock
-      score: 200
+      score: 100
     - task: mutex/try-lock
-      score: 200
+      score: 100
