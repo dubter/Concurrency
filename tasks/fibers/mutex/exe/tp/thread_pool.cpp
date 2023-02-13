@@ -1,6 +1,6 @@
 #include <exe/tp/thread_pool.hpp>
 
-#include <twist/ed/lang/thread_local.hpp>
+#include <twist/ed/local/ptr.hpp>
 
 namespace exe::tp {
 

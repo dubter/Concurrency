@@ -1,7 +1,7 @@
 #include <exe/executors/tp/fast/worker.hpp>
 #include <exe/executors/tp/fast/thread_pool.hpp>
 
-#include <twist/ed/lang/thread_local.hpp>
+#include <twist/ed/local/ptr.hpp>
 
 namespace exe::executors::tp::fast {
 

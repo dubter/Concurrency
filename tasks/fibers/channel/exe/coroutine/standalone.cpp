@@ -1,6 +1,6 @@
 #include <exe/coroutine/standalone.hpp>
 
-#include <twist/ed/lang/thread_local.hpp>
+#include <twist/ed/local/ptr.hpp>
 
 #include <wheels/core/assert.hpp>
 #include <wheels/core/defer.hpp>

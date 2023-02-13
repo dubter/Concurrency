@@ -1,6 +1,6 @@
 #include <exe/executors/tp/compute/thread_pool.hpp>
 
-#include <twist/ed/lang/thread_local.hpp>
+#include <twist/ed/local/ptr.hpp>
 
 namespace exe::executors::tp::compute {
 
