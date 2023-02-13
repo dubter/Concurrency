@@ -25,13 +25,12 @@ Futex – ядерная очередь спящих потоков, котор�
 
 Пользователь работает с фьютексом через одноименный системный вызов – [futex(2)](http://man7.org/linux/man-pages/man2/futex.2.html).
 
-Обратите внимание: `futex` работает только с 32-битными словами.
+Обратите внимание: `futex` работает только с 32-битными ячейками памяти.
 
 ### References
 
 - [futex(2)](http://man7.org/linux/man-pages/man2/futex.2.html)
 - [kernel/futex/waitwake.c](https://github.com/torvalds/linux/blob/master/kernel/futex/waitwake.c)
-- [Basics of Futexes](https://eli.thegreenplace.net/2018/basics-of-futexes/)
 
 ### Гарантии
 
