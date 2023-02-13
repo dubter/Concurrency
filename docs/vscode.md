@@ -57,9 +57,9 @@
 
 ![Set terminal setting](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-set-terminal-setting.png)
 
-Если вы зайдете в терминал с помощью `Terminal` → `New Terminal`, то попадете в контейнер в вашего пользователя. Вы можете работать с `clippy` прямо из VScode.
-
 Перезапустите VScode: Ctrl+Shift+p -> Reload Window
+
+Если вы зайдете в терминал с помощью `Terminal` → `New Terminal`, то попадете в контейнер в вашего пользователя. Вы можете работать с `clippy` прямо из VScode.
 
 ### Шаг 6
 
