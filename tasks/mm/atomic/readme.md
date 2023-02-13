@@ -12,13 +12,13 @@
 using stdlike::Atomic;
 using stdlike::MemoryOrder;
 
-Atomic test{0};
+Atomic atom{0};
 
-test.Store(1, MemoryOrder::Release);
+atom.Store(1, MemoryOrder::Release);
 
-test.Load(MemoryOrder::SeqCst);
+atom.Load(MemoryOrder::SeqCst);
 // Упорядочивание по умолчанию - MemoryOrder::SeqCst
-test.Load();
+atom.Load();
 ```
 
 ## Полезные ссылки
