@@ -21,7 +21,7 @@
   deadline: 02-03-2023 23:59
   tasks:
     - task: mutex/livelock
-      score: 200
+      score: 100
     - task: mutex/mutex
       score: 200
     - task: mutex/spinlock
