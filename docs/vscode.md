@@ -12,7 +12,18 @@
 
 ![Dev Container](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-install-extension.png)
 
-### Шаг 2
+### Шаг 2 
+После установки расширения отключите `Git Credential Helper Config Location`. Для этого зайдите в настройки VScode (`File > Preferences > Settings`) и измените значение настройки `Git Credential Helper Config Location` на `none`.
+
+![Disable Git Credential Helper Config](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-set-credentials-helper-setting.png)
+
+
+Также в настройках VScode выключите настройку `Copy Git Config`.
+
+![Disable Copy Git Config](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-disable-copy-git-config.png)
+
+
+### Шаг 3
 
 После установки расширения откройте вкладку `Remote Explorer` и убедитесь, что в списке контейнеров присутствует контейнер с курсом, который был создан и запущен на [шаге настройки Docker](docker.md) (он должен называться `concurrency-course`). 
 
@@ -24,13 +35,31 @@
 
 Проверьте, что подключение успешно: в левом нижнем углу должно отображаться имя контейнера.
 
-### Шаг 3
+### Шаг 4
 
 Курс – это CMake-проект, так что просто откройте его в VSCode с подключенным контейнером: вкладка `Explorer` → `Open Folder` → выбрать директорию курса в контейнере (`/workspace/concurrency-course`).
 
 ![Open folder](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-open-folder.png)
 
-### Шаг 4
+### Шаг 5
+
+Настройте пользователя контейнера. Для этого откройте настройки подключенного контейнера с помощью команды `Open Attached Container Configuration File` (`Ctrl+Shift+P` → `Open Attached Container Configuration File` → `concurrency-course`). 
+
+Добавьте следующую строчку в файл:
+```
+"remoteUser": "<user-name>"
+```
+где `<user-name>` имя вашего пользователя (можно узнать, набрав в терминале `whoami`). Не забудьте сохранить файл!
+
+![Set username](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-set-username.png)
+
+Измените настройку терминала. Для этого зайдите в настройки VScode и измените в группе `Workspace` настройку `Terminal Integrated Default Profile: Linux` на `bash`.
+
+![Set terminal setting](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-set-terminal-setting.png)
+
+Если вы зайдете в терминал с помощью `Terminal` → `New Terminal`, то попадете в контейнер в вашего пользователя. Вы можете работать с `clippy` прямо из VScode.
+
+### Шаг 6
 
 Для работы с курсом нужно установить в контейнер следующие расширения аналогично тому, как было установлено расширение Dev Containers:
 
@@ -42,13 +71,13 @@
 
 После установки расширения `clangd` и начала работы с кодом VSCode предложит установить `clangd`. С установкой нужно согласиться.
 
-### Шаг 5
+### Шаг 7
 
 После установки расширения для работы с CMake выберите kit - `Clang 14.0.6 x86-64-pc-linux-gnu`. Это можно сделать сразу после установки расширения либо в нижней панели.
 
 ![Setup kit](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-choose-kit.png)
 
-### Шаг 6
+### Шаг 8
 
 Смените директорию для сборки проекта. Для этого откройте настройки расширения `CMake Tools` в меню слева под названием `Extensions`.
 
@@ -77,7 +106,7 @@
 
 ![Run targets](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-run.png)
 
-### Шаг 7 
+### Шаг 9
 
 Отключите `Intelli Sense Engine`. Для этого в настройках расширения `C/C++` во вкладке `Workspace` поменяйте значение настройки `C_cpp: Intelli Sense Engine` на `disabled`.
 
@@ -88,7 +117,7 @@
 "C_Cpp.intelliSenseEngine": "disabled"
 ```
 
-### Шаг 8
+### Шаг 10
 
 Настройте индексацию проекта `clangd`. Для этого в настройках расширения `clangd` во вкладке `Workspace` поменяйте значение настройки `Clangd: Arguments` на `-compile-commands-dir=/tmp/vscode-build`. 
 
@@ -103,7 +132,7 @@
 
 Теперь при открытии файлов проекта у вас должна работать навигация по коду.
 
-### Шаг 9
+### Шаг 11
 
 Для отладки кода вам потребуется дебаггер. 
 
@@ -123,7 +152,7 @@
 ![Launch template](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-launch-template.png)
 
 В этом файле нас интересуют следующие поля:
-- `program` — путь до бинарного файла тестов задачи. Например, `/workspace/concurrency-course/build/tasks/tutorial/aplusb/bin/task_tutorial_aplusb_tests`
+- `program` — путь до бинарного файла тестов задачи. Например, `/tmp/vscode-build/tasks/tutorial/aplusb/bin/task_tutorial_aplusb_tests`
 - `args` — аргументы командной строки для бинарного файла. Для установки breakpoint'ов нужно выключить запуск тестов в подпроцессе. Для этого добавьте флаг `--disable-forks`. Подробнее можно прочитать в [faq](faq.md).
 
 Должен получиться такой файл. Не забудьте его сохранить!
@@ -133,7 +162,3 @@
 Теперь можно запускать дебаггер из меню слева `Run and Debug`.
 
 ![Debug](https://gitlab.com/Lipovsky/concurrency-course-media/-/raw/main/docs-images/vscode-debug.png)
-
-## Полезные советы
-
-- Если вы зайдете в терминал с помощью `Terminal` → `New Terminal`, то попадете в контейнер в `root` пользователя. Работайте с `clippy` из отдельного терминала.
