@@ -6,7 +6,7 @@
 
 Но этому атомику не хватает реализации атомарных операций – `AtomicLoad`, `AtomicStore` и `Exchange`.
 
-Семантика этих операций точно такая же, как у `load`, `store` и `exchange` в атомиках из стандартной библиотеки.
+Семантика этих операций точно такая же, как у `load`, `store` и `exchange` в [`std::atomic`]((https://en.cppreference.com/w/cpp/atomic/atomic)).
 
 Реализуйте их!
 
