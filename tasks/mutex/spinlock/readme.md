@@ -4,7 +4,7 @@
 
 Вам дана [реализация простейшего Test-and-Set спинлока](spinlock.hpp), которая использует крафтовый [`Atomic`](atomic.hpp).
 
-Но этому атомику не хватает реализации атомарных операций – `AtomicLoad`, `AtomicStore` и `Exchange`.
+Но этому атомику не хватает реализации атомарных операций – `AtomicLoad`, `AtomicStore` и `AtomicExchange`.
 
 Семантика этих операций точно такая же, как у `load`, `store` и `exchange` в [`std::atomic`]((https://en.cppreference.com/w/cpp/atomic/atomic)).
 
