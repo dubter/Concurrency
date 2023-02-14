@@ -3,7 +3,10 @@
   "task_ci_config": ".grade.gitlab-ci.yml",
   "repo_master": "master",
   "solutions_master": "master",
-  "warmup_targets": ["wheels", "twist"],
+  "warmup_targets": [
+    "wheels",
+    "twist"
+  ],
   "format_binaries": [
     "clang-format-15",
     "clang-format-14",
