@@ -7,7 +7,7 @@
 
 - group:    Mutual Exclusion / Part I
   start:    13-02-2023 12:00
-  deadline: 20-02-2023 23:59
+  deadline: 21-02-2023 23:59
   tasks:
     - task: mutex/deadlock
       score: 100
@@ -18,7 +18,7 @@
 
 - group:    Mutual Exclusion / Part II
   start:    18-02-2023 12:00
-  deadline: 27-02-2023 23:59
+  deadline: 28-02-2023 23:59
   tasks:
     - task: mutex/livelock
       score: 100
