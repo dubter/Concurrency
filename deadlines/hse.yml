@@ -17,7 +17,7 @@
       score: 100
 
 - group:    Mutual Exclusion / Part II
-  start:    18-02-2023 12:00
+  start:    21-02-2023 12:00
   deadline: 28-02-2023 23:59
   tasks:
     - task: mutex/livelock
