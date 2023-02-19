@@ -116,7 +116,7 @@ clippy show-config
 
 На этом шаге вам нужно получить токен для работы с API https://gitlab.com/
 
-Для этого на https://gitlab.com/ зайдите в `Preferences` своего профиля, затем в `Access Tokens`, выберите произвольное имя для вашего токена, поставьте галку напротив `api` и нажмите `Create personal access token`.
+Для этого на https://gitlab.com/ зайдите в `Preferences` своего профиля, затем в `Access Tokens`, выберите произвольное имя для вашего токена, поставьте галку напротив `api`, установите expiration date и нажмите `Create personal access token`.
 
 См. [Personal Access Tokens](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html)
 
