@@ -44,7 +44,7 @@ project_log("FetchContent: wheels")
 FetchContent_Declare(
         wheels
         GIT_REPOSITORY https://gitlab.com/Lipovsky/wheels.git
-        GIT_TAG 56f914288a5515d523aea621a0b455148b885e49
+        GIT_TAG 33b9402354439202e8b5cfea7dc40d861c0c7efe
 )
 FetchContent_MakeAvailable(wheels)
 
@@ -66,7 +66,7 @@ project_log("FetchContent: twist")
 FetchContent_Declare(
         twist
         GIT_REPOSITORY https://gitlab.com/Lipovsky/twist.git
-        GIT_TAG 901b0c31d96ad208383f555f4d35efc7798a1df7
+        GIT_TAG c9c2e4433fc47194c7593b5e2e6910c647b120b1
 )
 FetchContent_MakeAvailable(twist)
 
@@ -77,7 +77,7 @@ project_log("FetchContent: tinyfibers")
 FetchContent_Declare(
         tinyfibers
         GIT_REPOSITORY https://gitlab.com/Lipovsky/tinyfibers.git
-        GIT_TAG 3bf48f6e8277a0ad14608e3ebd70b615d7f7e47f
+        GIT_TAG f51e497872b8577b32a163f96d1ff93e47dd745e
 )
 FetchContent_MakeAvailable(tinyfibers)
 
