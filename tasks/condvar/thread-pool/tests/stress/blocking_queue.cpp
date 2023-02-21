@@ -1,8 +1,9 @@
 #include <tp/blocking_queue.hpp>
 
-#include <twist/test/test.hpp>
-#include <twist/test/runs.hpp>
+#include <twist/test/with/wheels/stress.hpp>
+
 #include <twist/test/race.hpp>
+#include <twist/test/budget.hpp>
 
 #include <twist/ed/stdlike/atomic.hpp>
 
@@ -98,7 +99,7 @@ void Test(size_t producers, size_t consumers) {
 
 }  // namespace queue
 
-TWIST_TEST_RUNS(ProducersConsumers, queue::Test)
+TWIST_TEST_TEMPLATE(ProducersConsumers, queue::Test)
   ->TimeLimit(3s)
   ->Run(5, 1)
   ->Run(1, 5)
@@ -159,10 +160,10 @@ void Test2() {
 }  // namespace close
 
 TEST_SUITE(Close) {
-  TWIST_ITERATE_TEST(OneConsumer, 5s) {
+  TWIST_TEST_REPEAT(OneConsumer, 5s) {
     close::Test1();
   }
-  TWIST_ITERATE_TEST(TwoConsumers, 5s) {
+  TWIST_TEST_REPEAT(TwoConsumers, 5s) {
     close::Test2();
   }
 }

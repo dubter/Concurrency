@@ -2,10 +2,10 @@
 #include <exe/executors/strand.hpp>
 #include <exe/executors/execute.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
 #include <thread>
 
@@ -34,7 +34,7 @@ class OnePassBarrier {
 void ScheduleExecuteRace() {
   ThreadPool pool{1};
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     Strand strand(pool);
     OnePassBarrier barrier{2};
 
@@ -62,7 +62,7 @@ void ScheduleExecuteRace() {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(StrandMemoryOrderings) {
-  TWIST_TEST_TL(ScheduleExecuteRace, 5s) {
+  TWIST_TEST(ScheduleExecuteRace, 5s) {
     ScheduleExecuteRace();
   }
 }

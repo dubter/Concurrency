@@ -1,12 +1,11 @@
 #include "table.hpp"
 #include "philosopher.hpp"
 
-#include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
-#include <twist/test/test.hpp>
 #include <twist/test/inject_fault.hpp>
 #include <twist/test/race.hpp>
+#include <twist/test/budget.hpp>
 
 #include <vector>
 
@@ -25,7 +24,7 @@ void Dining(size_t seats) {
   for (size_t seat = 0; seat < seats; ++seat) {
     race.Add([&, seat]() {
       auto& plato = philosophers_.at(seat);
-      while (wheels::test::KeepRunning()) {
+      while (twist::test::KeepRunning()) {
         plato.Eat();
         plato.Think();
       }
@@ -51,19 +50,19 @@ void Dining(size_t seats) {
 }
 
 TEST_SUITE(DiningPhilosophers) {
-  TWIST_TEST_TL(Stress1, 3s) {
+  TWIST_TEST(Stress1, 3s) {
     Dining(/*seats=*/2);
   }
 
-  TWIST_TEST_TL(Stress2, 3s) {
+  TWIST_TEST(Stress2, 3s) {
     Dining(/*seats=*/3);
   }
 
-  TWIST_TEST_TL(Stress3, 5s) {
+  TWIST_TEST(Stress3, 5s) {
     Dining(/*seats=*/5);
   }
 
-  TWIST_TEST_TL(Stress4, 10s) {
+  TWIST_TEST(Stress4, 10s) {
     Dining(/*seats=*/10);
   }
 }

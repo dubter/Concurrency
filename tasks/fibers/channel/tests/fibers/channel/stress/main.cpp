@@ -4,9 +4,9 @@
 #include <exe/fibers/sync/channel.hpp>
 
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 #include <random>
 
@@ -88,7 +88,7 @@ class ChannelTester {
 
     size_t iter = 0;
 
-    while (wheels::test::KeepRunning()) {
+    while (twist::test::KeepRunning()) {
       ++iter;
 
       uint32_t value = twister();
@@ -172,27 +172,27 @@ void StressTest(size_t buffer, size_t producers, size_t consumers) {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(Channel) {
-  TWIST_TEST_TL(Stress1, 5s) {
+  TWIST_TEST(Stress1, 5s) {
     StressTest(1, 2, 5);
   }
 
-  TWIST_TEST_TL(Stress2, 5s) {
+  TWIST_TEST(Stress2, 5s) {
     StressTest(1, 5, 2);
   }
 
-  TWIST_TEST_TL(Stress3, 5s) {
+  TWIST_TEST(Stress3, 5s) {
     StressTest(3, 5, 7);
   }
 
-  TWIST_TEST_TL(Stress4, 5s) {
+  TWIST_TEST(Stress4, 5s) {
     StressTest(3, 8, 6);
   }
 
-  TWIST_TEST_TL(Stress5, 5s) {
+  TWIST_TEST(Stress5, 5s) {
     StressTest(11, 15, 12);
   }
 
-  TWIST_TEST_TL(Stress6, 5s) {
+  TWIST_TEST(Stress6, 5s) {
     StressTest(11, 14, 18);
   }
 }

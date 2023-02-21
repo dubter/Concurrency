@@ -1,14 +1,12 @@
 #include "../../condvar.hpp"
 
-#include <twist/test/test.hpp>
-#include <twist/test/runs.hpp>
-#include <twist/test/random.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
+#include <twist/test/random.hpp>
 #include <twist/test/race.hpp>
+#include <twist/test/budget.hpp>
 
 #include <twist/ed/stdlike/mutex.hpp>
-
-#include <wheels/test/util.hpp>
 
 #include <iostream>
 #include <atomic>
@@ -77,7 +75,7 @@ void Test(size_t steps) {
 }
 }  // namespace robot
 
-TWIST_TEST_RUNS(Robot, robot::Test)
+TWIST_TEST_TEMPLATE(Robot, robot::Test)
     ->TimeLimit(10s)
     ->Run(10'000)
     ->TimeLimit(30s)
@@ -85,7 +83,7 @@ TWIST_TEST_RUNS(Robot, robot::Test)
 
 #if defined(TWIST_FIBERS)
 
-TWIST_TEST_RUNS(RobotExt, robot::Test)->TimeLimit(10s)->Run(1000'000);
+TWIST_TEST_TEMPLATE(RobotExt, robot::Test)->TimeLimit(10s)->Run(1000'000);
 
 #endif
 
@@ -154,7 +152,7 @@ void Test(size_t producers, size_t consumers) {
   for (size_t i = 0; i < producers; ++i) {
     race.Add([&, i]() {
       int value = i;
-      while (wheels::test::KeepRunning()) {
+      while (twist::test::KeepRunning()) {
         queue_.Put(value);
         produced.fetch_add(value);
         value += producers;
@@ -190,7 +188,7 @@ void Test(size_t producers, size_t consumers) {
 }
 }  // namespace queue
 
-TWIST_TEST_RUNS(ProducersConsumers, queue::Test)
+TWIST_TEST_TEMPLATE(ProducersConsumers, queue::Test)
     ->TimeLimit(10s)
     ->Run(5, 1)
     ->Run(1, 5)

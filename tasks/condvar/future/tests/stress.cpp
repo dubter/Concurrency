@@ -1,10 +1,8 @@
 #include <futures/promise.hpp>
 
-#include <wheels/test/framework.hpp>
-
 #include <twist/ed/stdlike/thread.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 #include <twist/test/race.hpp>
 
 #include <string>
@@ -15,7 +13,7 @@ using stdlike::Promise;
 using stdlike::Future;
 
 TEST_SUITE(Future) {
-  TWIST_ITERATE_TEST(WaitForValue, 10s) {
+  TWIST_TEST_REPEAT(WaitForValue, 10s) {
     // Make contract
 
     Promise<int> p;
@@ -36,7 +34,7 @@ TEST_SUITE(Future) {
     race.Run();
   }
 
-  TWIST_ITERATE_TEST(WaitForValue2, 10s) {
+  TWIST_TEST_REPEAT(WaitForValue2, 10s) {
     // Contracts
 
     Promise<std::string> p0;
@@ -77,7 +75,7 @@ TEST_SUITE(Future) {
     (void)value;
   }
 
-  TWIST_ITERATE_TEST(SharedState, 5s) {
+  TWIST_TEST_REPEAT(SharedState, 5s) {
     // Make contract
 
     Promise<std::string> p;

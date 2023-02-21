@@ -2,9 +2,9 @@
 #include <exe/tp/submit.hpp>
 
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 #include <twist/test/runs.hpp>
 #include <twist/test/race.hpp>
 
@@ -77,7 +77,7 @@ void Test(size_t threads, size_t clients, size_t limit) {
 
 }  // namespace tasks
 
-TWIST_TEST_RUNS(Submits, tasks::Test)
+TWIST_TEST_TEMPLATE(Submits, tasks::Test)
 ->TimeLimit(4s)
 ->Run(3, 5, 111)
 ->Run(4, 3, 13)
@@ -91,7 +91,7 @@ namespace wait_idle {
 void TestOneTask() {
   ThreadPool pool{4};
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     size_t tasks = 0;
 
     Submit(pool, [&]() {
@@ -111,7 +111,7 @@ void TestSeries() {
 
   size_t iter = 0;
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     ++iter;
     const size_t tasks = 1 + iter % 3;
 
@@ -133,7 +133,7 @@ void TestSeries() {
 void TestCurrent() {
   ThreadPool pool{2};
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     bool done = false;
 
     Submit(pool, [&]() {
@@ -176,19 +176,19 @@ void TestConcurrent() {
 }  // namespace wait_idle
 
 TEST_SUITE(WaitIdle) {
-  TWIST_TEST_TL(OneTask, 5s) {
+  TWIST_TEST(OneTask, 5s) {
     wait_idle::TestOneTask();
   }
 
-  TWIST_TEST_TL(Series, 5s) {
+  TWIST_TEST(Series, 5s) {
     wait_idle::TestSeries();
   }
 
-  TWIST_TEST_TL(Current, 5s) {
+  TWIST_TEST(Current, 5s) {
     wait_idle::TestCurrent();
   }
 
-  TWIST_ITERATE_TEST(Concurrent, 5s) {
+  TWIST_TEST_REPEAT(Concurrent, 5s) {
     wait_idle::TestConcurrent();
   }
 }

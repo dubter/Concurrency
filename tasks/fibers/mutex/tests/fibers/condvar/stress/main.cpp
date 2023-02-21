@@ -1,7 +1,7 @@
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 #include <twist/test/plate.hpp>
 
 #include <exe/tp/thread_pool.hpp>
@@ -42,7 +42,7 @@ class Event {
 void EventStressTest() {
   tp::ThreadPool scheduler{/*threads=*/4};
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     Event event;
     std::atomic<size_t> oks{0};
 
@@ -101,7 +101,7 @@ class Semaphore {
 void SemaphoreStressTest(size_t permits, size_t fibers) {
   tp::ThreadPool scheduler{/*threads=*/4};
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     Semaphore sema{/*init=*/permits};
 
     std::atomic<size_t> access_count{0};
@@ -137,23 +137,23 @@ void SemaphoreStressTest(size_t permits, size_t fibers) {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(CondVar) {
-  TWIST_TEST_TL(EventStress, 5s) {
+  TWIST_TEST(EventStress, 5s) {
     EventStressTest();
   }
 
-  TWIST_TEST_TL(SemaphoreStress_1, 5s) {
+  TWIST_TEST(SemaphoreStress_1, 5s) {
     SemaphoreStressTest(/*permits=*/1, /*fibers=*/2);
   }
 
-  TWIST_TEST_TL(SemaphoreStress_2, 5s) {
+  TWIST_TEST(SemaphoreStress_2, 5s) {
     SemaphoreStressTest(/*permits=*/2, /*fibers=*/4);
   }
 
-  TWIST_TEST_TL(SemaphoreStress_3, 5s) {
+  TWIST_TEST(SemaphoreStress_3, 5s) {
     SemaphoreStressTest(/*permits=*/2, /*fibers=*/10);
   }
 
-  TWIST_TEST_TL(SemaphoreStress_4, 5s) {
+  TWIST_TEST(SemaphoreStress_4, 5s) {
     SemaphoreStressTest(/*permits=*/5, /*fibers=*/16);
   }
 }

@@ -1,14 +1,13 @@
 #include "mutexed.hpp"
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 #include <twist/test/race.hpp>
 #include <twist/test/plate.hpp>
-
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
 TEST_SUITE(Mutexed) {
-  TWIST_TEST_TL(Stress, 3s) {
+  TWIST_TEST(Stress, 3s) {
     static const size_t kThreads = 3;
 
     // Set of hungry threads
@@ -18,7 +17,7 @@ TEST_SUITE(Mutexed) {
 
     for (size_t i = 0; i < kThreads; ++i) {
       race.Add([&]() {
-        while (wheels::test::KeepRunning()) {
+        while (twist::test::KeepRunning()) {
           Acquire(plate)->Access();
         }
       });

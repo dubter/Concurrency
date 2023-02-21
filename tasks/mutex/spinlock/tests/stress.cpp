@@ -1,13 +1,12 @@
 #include "../spinlock.hpp"
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 #include <twist/test/race.hpp>
 #include <twist/test/plate.hpp>
+#include <twist/test/budget.hpp>
 
 #include <twist/ed/wait/spin.hpp>
-
-#include <wheels/test/util.hpp>
 
 #include <chrono>
 
@@ -29,7 +28,7 @@ TEST_SUITE(SpinLock) {
 
     for (size_t i = 0; i < lockers; ++i) {
       race.Add([&]() {
-        while (wheels::test::KeepRunning()) {
+        while (twist::test::KeepRunning()) {
           spinlock.Lock();
           plate.Access();
           spinlock.Unlock();
@@ -39,7 +38,7 @@ TEST_SUITE(SpinLock) {
 
     for (size_t j = 0; j < try_lockers; ++j) {
       race.Add([&]() {
-        while (wheels::test::KeepRunning()) {
+        while (twist::test::KeepRunning()) {
           twist::ed::SpinWait spin_wait;
           while (!spinlock.TryLock()) {
             spin_wait();
@@ -55,23 +54,23 @@ TEST_SUITE(SpinLock) {
     std::cout << "Critical sections: " << plate.AccessCount() << std::endl;
   }
 
-  TWIST_TEST_TL(Stress1, 5s) {
+  TWIST_TEST(Stress1, 5s) {
     Test(3, 0);
   }
 
-  TWIST_TEST_TL(Stress2, 5s) {
+  TWIST_TEST(Stress2, 5s) {
     Test(0, 3);
   }
 
-  TWIST_TEST_TL(Stress3, 5s) {
+  TWIST_TEST(Stress3, 5s) {
     Test(3, 3);
   }
 
-  TWIST_TEST_TL(Stress4, 10s) {
+  TWIST_TEST(Stress4, 10s) {
     Test(5, 5);
   }
 
-  TWIST_TEST_TL(Stress5, 10s) {
+  TWIST_TEST(Stress5, 10s) {
     Test(10, 10);
   }
 }

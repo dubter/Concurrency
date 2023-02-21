@@ -1,7 +1,7 @@
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 #include <exe/executors/thread_pool.hpp>
 
@@ -25,7 +25,7 @@ using Scheduler = executors::ThreadPool;
 void StressTest1(size_t workers, size_t waiters) {
   Scheduler scheduler{/*threads=*/4};
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     tasks::WaitGroup wg;
 
     // Number of completed waiters
@@ -120,7 +120,7 @@ void StressTest2() {
 
   size_t iter = 0;
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     ++iter;
 
     bool done = false;
@@ -158,19 +158,19 @@ void StressTest2() {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(GorrWaitGroup) {
-  TWIST_TEST_TL(Stress1_1_1, 5s) {
+  TWIST_TEST(Stress1_1_1, 5s) {
     StressTest1(/*workers=*/1, /*waiters=*/1);
   }
 
-  TWIST_TEST_TL(Stress1_2_2, 5s) {
+  TWIST_TEST(Stress1_2_2, 5s) {
     StressTest1(/*workers=*/2, /*waiters=*/2);
   }
 
-  TWIST_TEST_TL(Stress1_3_3, 5s) {
+  TWIST_TEST(Stress1_3_3, 5s) {
     StressTest1(/*workers=*/3, /*waiters=*/3);
   }
 
-  TWIST_TEST_TL(Stress2, 5s) {
+  TWIST_TEST(Stress2, 5s) {
     StressTest2();
   }
 }

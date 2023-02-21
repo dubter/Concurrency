@@ -3,7 +3,7 @@
 
 #include <wheels/test/framework.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 using exe::tp::ThreadPool;
 using exe::fibers::Go;

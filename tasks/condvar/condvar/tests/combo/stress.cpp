@@ -1,4 +1,4 @@
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 #include <twist/ed/stdlike/thread.hpp>
 
@@ -43,7 +43,7 @@ void StorageTest() {
 }
 
 TEST_SUITE(Combo) {
-  TWIST_ITERATE_TEST(Event, 5s) {
+  TWIST_TEST_REPEAT(Event, 5s) {
     StorageTest();
   }
 }

@@ -1,7 +1,7 @@
 #include "../../atomic.hpp"
 
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
 // SpinLockPause
 #include <wheels/support/cpu.hpp>
@@ -47,7 +47,7 @@ void MutualExlusionTest(size_t threads) {
 
 
   auto contender_routine = [&]() {
-    while (wheels::test::KeepRunning()) {
+    while (twist::test::KeepRunning()) {
       spinlock.Lock();
 
       // Cs

@@ -1,10 +1,9 @@
 #include "../cyclic_barrier.hpp"
 
-#include <twist/test/test.hpp>
-#include <twist/test/runs.hpp>
-#include <twist/test/race.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
-#include <wheels/test/util.hpp>
+#include <twist/test/race.hpp>
+#include <twist/test/budget.hpp>
 
 #include <vector>
 
@@ -45,7 +44,7 @@ void Test(const size_t threads, size_t iterations) {
 
 }  // namespace leader
 
-TWIST_TEST_RUNS(RotatingLeader, leader::Test)
+TWIST_TEST_TEMPLATE(RotatingLeader, leader::Test)
     ->TimeLimit(30s)
     ->Run(2, 50'000)
     ->Run(5, 25'000)
@@ -53,7 +52,7 @@ TWIST_TEST_RUNS(RotatingLeader, leader::Test)
 
 #if defined(TWIST_FIBERS)
 
-TWIST_TEST_RUNS(RotatingLeaderExt, leader::Test)
+TWIST_TEST_TEMPLATE(RotatingLeaderExt, leader::Test)
     ->TimeLimit(30s)
     ->Run(10, 100'000);
 
@@ -97,7 +96,7 @@ void Test(size_t threads, size_t iterations) {
 }
 }  // namespace rotate
 
-TWIST_TEST_RUNS(RotateVector, rotate::Test)
+TWIST_TEST_TEMPLATE(RotateVector, rotate::Test)
     ->TimeLimit(30s)
     ->Run(2, 50'001)
     ->Run(5, 50'007)

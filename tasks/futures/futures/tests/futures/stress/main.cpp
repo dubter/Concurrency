@@ -1,7 +1,7 @@
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 #include <exe/executors/thread_pool.hpp>
 #include <exe/executors/strand.hpp>
@@ -26,7 +26,7 @@ using wheels::Unit;
 void StressTestSubscribe() {
   executors::ThreadPool pool{4};
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     auto [f, p] = futures::MakeContract<std::string>();
 
     bool done = false;
@@ -58,7 +58,7 @@ void StressTestPipeline() {
 
   size_t iter = 0;
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     ++iter;
 
     size_t pipelines = 1 + iter % 3;
@@ -96,7 +96,7 @@ void StressTestAll() {
 
   size_t iter = 0;
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     ++iter;
 
     size_t inputs = 1 + iter % 4;
@@ -129,7 +129,7 @@ void StressTestFirstOf() {
 
   size_t iter = 0;
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     ++iter;
 
     size_t inputs = 1 + iter % 4;
@@ -157,19 +157,19 @@ void StressTestFirstOf() {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(Futures) {
-  TWIST_TEST_TL(StressSubscribe, 5s) {
+  TWIST_TEST(StressSubscribe, 5s) {
     StressTestSubscribe();
   }
 
-  TWIST_TEST_TL(StressPipeline, 5s) {
+  TWIST_TEST(StressPipeline, 5s) {
     StressTestPipeline();
   }
 
-  TWIST_TEST_TL(StressAll, 5s) {
+  TWIST_TEST(StressAll, 5s) {
     StressTestAll();
   }
 
-  TWIST_TEST_TL(StressFirstOf, 5s) {
+  TWIST_TEST(StressFirstOf, 5s) {
     StressTestFirstOf();
   }
 }
