@@ -1,16 +1,14 @@
 #include "../ticket_lock.hpp"
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
+
 #include <twist/test/inject_fault.hpp>
 #include <twist/test/random.hpp>
-
 #include <twist/test/race.hpp>
 #include <twist/test/plate.hpp>
+#include <twist/test/budget.hpp>
 
 #include <twist/ed/wait/spin.hpp>
-
-#include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
 
 #include <cstdlib>
 #include <vector>
@@ -31,7 +29,7 @@ TEST_SUITE(TicketLock) {
 
     for (size_t i = 0; i < lockers; ++i) {
       race.Add([&]() {
-        while (wheels::test::KeepRunning()) {
+        while (twist::test::KeepRunning()) {
           ticket_lock.Lock();
           {
             // Critical section
@@ -44,7 +42,7 @@ TEST_SUITE(TicketLock) {
 
     for (size_t j = 0; j < try_lockers; ++j) {
       race.Add([&]() {
-        while (wheels::test::KeepRunning()) {
+        while (twist::test::KeepRunning()) {
           {
             // Lock
             twist::ed::SpinWait spin_wait;
@@ -64,15 +62,15 @@ TEST_SUITE(TicketLock) {
     race.Run();
   }
 
-  TWIST_TEST_TL(Stress1, 10s) {
+  TWIST_TEST(Stress1, 10s) {
     Test(2, 2);
   }
 
-  TWIST_TEST_TL(Stress2, 10s) {
+  TWIST_TEST(Stress2, 10s) {
     Test(5, 5);
   }
 
-  TWIST_TEST_TL(Stress3, 10s) {
+  TWIST_TEST(Stress3, 10s) {
     Test(10, 10);
   }
 }
@@ -179,7 +177,7 @@ namespace forks {
     for (size_t i = 0; i < seats; ++i) {
       race.Add([&, i]() {
         Philosopher plato(table, i);
-        while (wheels::test::KeepRunning()) {
+        while (twist::test::KeepRunning()) {
           plato.EatThenThink();
         }
       });
@@ -191,11 +189,11 @@ namespace forks {
 }  // namespace philosophers
 
 TEST_SUITE(Philosophers) {
-  TWIST_TEST_TL(Stress1, 10s) {
+  TWIST_TEST(Stress1, 10s) {
     forks::Test(2);
   }
 
-  TWIST_TEST_TL(Stress2, 10s) {
+  TWIST_TEST(Stress2, 10s) {
     forks::Test(5);
   }
 }

@@ -1,7 +1,7 @@
 #include "../../atomic.hpp"
 
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
 // SpinLockPause
 #include <wheels/support/cpu.hpp>
@@ -55,7 +55,7 @@ void MutualExlusionTest() {
 
   auto make_contender = [&](size_t thread_index) {
     return [&, thread_index]() {
-      while (wheels::test::KeepRunning()) {
+      while (twist::test::KeepRunning()) {
         mutex.Lock(thread_index);
 
         // Cs

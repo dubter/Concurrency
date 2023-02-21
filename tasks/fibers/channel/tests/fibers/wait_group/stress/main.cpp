@@ -4,9 +4,9 @@
 #include <exe/fibers/sync/wait_group.hpp>
 
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 #include <atomic>
 #include <chrono>
@@ -20,7 +20,7 @@ using namespace std::chrono_literals;
 void StressTest1(size_t workers, size_t waiters) {
   executors::ThreadPool scheduler{/*threads=*/4};
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     fibers::WaitGroup wg;
 
     std::atomic<size_t> waiters_done{0};
@@ -99,7 +99,7 @@ void StressTest2() {
 
   size_t iter = 0;
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     ++iter;
 
     bool done = false;
@@ -134,19 +134,19 @@ void StressTest2() {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(WaitGroup) {
-  TWIST_TEST_TL(Stress_1_1, 5s) {
+  TWIST_TEST(Stress_1_1, 5s) {
     StressTest1(/*workers=*/1, /*waiters=*/1);
   }
 
-  TWIST_TEST_TL(Stress_1_2, 5s) {
+  TWIST_TEST(Stress_1_2, 5s) {
     StressTest1(/*workers=*/2, /*waiters=*/2);
   }
 
-  TWIST_TEST_TL(Stress_1_3, 5s) {
+  TWIST_TEST(Stress_1_3, 5s) {
     StressTest1(/*workers=*/3, /*waiters=*/1);
   }
 
-  TWIST_TEST_TL(Stress_2, 5s) {
+  TWIST_TEST(Stress_2, 5s) {
     StressTest2();
   }
 }

@@ -1,11 +1,10 @@
 #include "../queue_spinlock.hpp"
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 #include <twist/test/race.hpp>
 #include <twist/test/plate.hpp>
-
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
 #include <chrono>
 
@@ -22,7 +21,7 @@ TEST_SUITE(Mutex) {
 
     for (size_t i = 0; i < threads; ++i) {
       race.Add([&]() {
-        while (wheels::test::KeepRunning()) {
+        while (twist::test::KeepRunning()) {
           QueueSpinLock::Guard guard(spinlock);
           {
             // Critical section
@@ -37,11 +36,11 @@ TEST_SUITE(Mutex) {
     std::cout << "Critical sections: " << plate.AccessCount() << std::endl;
   }
 
-  TWIST_TEST_TL(Stress1, 5s) {
+  TWIST_TEST(Stress1, 5s) {
     Test(2);
   }
 
-  TWIST_TEST_TL(Stress2, 5s) {
+  TWIST_TEST(Stress2, 5s) {
     Test(5);
   }
 }
@@ -64,11 +63,11 @@ TEST_SUITE(MissedWakeup) {
     race.Run();
   }
 
-  TWIST_ITERATE_TEST(Stress1, 5s) {
+  TWIST_TEST_REPEAT(Stress1, 5s) {
     Test(2);
   }
 
-  TWIST_ITERATE_TEST(Stress2, 5s) {
+  TWIST_TEST_REPEAT(Stress2, 5s) {
     Test(3);
   }
 }

@@ -5,9 +5,9 @@
 #include <exe/fibers/sync/select.hpp>
 
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 #include <twist/fault/adversary/adversary.hpp>
 
 #include <map>
@@ -237,7 +237,7 @@ class SelectTester {
 
     auto channel = channels_[i];
 
-    while (wheels::test::KeepRunning()) {
+    while (twist::test::KeepRunning()) {
       int64_t value = twister();
 
       channel.Send(value);
@@ -276,7 +276,7 @@ void AtomicityStressTest() {
   fibers::Go(pool_, []() {
     size_t iter = 0;
 
-    while (wheels::test::KeepRunning()) {
+    while (twist::test::KeepRunning()) {
       ++iter;
 
       fibers::Channel<int> xs{1};

@@ -1,15 +1,13 @@
 #include "../semaphore.hpp"
 #include "../blocking_queue.hpp"
 
-#include <twist/test/test.hpp>
-#include <twist/test/runs.hpp>
-#include <twist/test/inject_fault.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
+#include <twist/test/inject_fault.hpp>
 #include <twist/test/race.hpp>
 #include <twist/test/latch.hpp>
 #include <twist/test/barrier.hpp>
-
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
 #include <string>
 #include <vector>
@@ -42,7 +40,7 @@ void Test(size_t threads, size_t limit) {
 
   for (size_t t = 0; t < threads; ++t) {
     race.Add([&]() {
-      while (wheels::test::KeepRunning()) {
+      while (twist::test::KeepRunning()) {
         semaphore.Acquire();
         pool.Access();
         semaphore.Release();
@@ -55,7 +53,7 @@ void Test(size_t threads, size_t limit) {
 
 }  // namespace pool
 
-TWIST_TEST_RUNS(Pool, pool::Test)
+TWIST_TEST_TEMPLATE(Pool, pool::Test)
     ->TimeLimit(7s)
     ->Run(5, 1)
     ->Run(5, 3)
@@ -96,7 +94,7 @@ void Test() {
 }  // namespace wakeup
 
 TEST_SUITE(LostWakeup) {
-  TWIST_ITERATE_TEST(Stress, 10s) {
+  TWIST_TEST_REPEAT(Stress, 10s) {
     wakeup::Test();
   }
 }
@@ -133,7 +131,7 @@ void Test(const size_t iterations) {
 }  // namespace ping_pong
 
 TEST_SUITE(PingPong) {
-  TWIST_TEST_TL(Stress, 10s) {
+  TWIST_TEST(Stress, 10s) {
     ping_pong::Test(10000);
   }
 }
@@ -159,7 +157,7 @@ void Test(size_t producers, size_t consumers, size_t buffer_size) {
   for (size_t p = 0; p < producers; ++p) {
     race.Add([&, p]() {
       int value = p;
-      while (wheels::test::KeepRunning()) {
+      while (twist::test::KeepRunning()) {
         channel.Put(std::to_string(value));
         produced.fetch_add(value);
         value += producers;
@@ -196,7 +194,7 @@ void Test(size_t producers, size_t consumers, size_t buffer_size) {
 
 }  // namespace queue
 
-TWIST_TEST_RUNS(BlockingQueue, queue::Test)
+TWIST_TEST_TEMPLATE(BlockingQueue, queue::Test)
     ->TimeLimit(10s)
     ->Run(1, 1, 1)
     ->Run(5, 5, 16)

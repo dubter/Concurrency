@@ -2,10 +2,10 @@
 #include <exe/executors/strand.hpp>
 #include <exe/executors/execute.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
 #include <deque>
 
@@ -52,7 +52,7 @@ void Robots(size_t strands, size_t load) {
 
   size_t iters = 0;
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     ++iters;
 
     for (auto& robot : robots) {
@@ -82,7 +82,7 @@ void MissingTasks() {
 
   size_t iter = 0;
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     Strand strand(pool);
 
     size_t todo = 2 + (iter++) % 5;
@@ -106,15 +106,15 @@ void MissingTasks() {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(Strand) {
-  TWIST_TEST_TL(Robots_1, 5s) {
+  TWIST_TEST(Robots_1, 5s) {
     Robots(30, 30);
   }
 
-  TWIST_TEST_TL(Robots_2, 5s) {
+  TWIST_TEST(Robots_2, 5s) {
     Robots(50, 20);
   }
 
-  TWIST_TEST_TL(MissingTasks, 5s) {
+  TWIST_TEST(MissingTasks, 5s) {
     MissingTasks();
   }
 }

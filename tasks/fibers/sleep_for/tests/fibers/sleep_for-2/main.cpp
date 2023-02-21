@@ -1,5 +1,5 @@
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
 #include <wheels/support/cpu_time.hpp>
 
@@ -28,7 +28,7 @@ TEST_SUITE(SleepFor) {
         fibers::Go([i]() {
           size_t j = 0;
 
-          while (wheels::test::KeepRunning()) {
+          while (twist::test::KeepRunning()) {
             fibers::self::SleepFor(((i + j) % 5) * 1ms);
 
             if (j % 11 == 0) {
@@ -55,7 +55,7 @@ TEST_SUITE(SleepFor) {
   }
 
   void StressTest2(size_t fibers) {
-    while (wheels::test::KeepRunning()) {
+    while (twist::test::KeepRunning()) {
       RunScheduler(/*threads=*/4, [fibers]() {
         for (size_t i = 0; i < fibers; ++i) {
           fibers::Go([i] {

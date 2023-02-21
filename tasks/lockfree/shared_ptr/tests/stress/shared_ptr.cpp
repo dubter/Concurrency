@@ -4,7 +4,7 @@
 #include <twist/ed/stdlike/thread.hpp>
 
 #include <wheels/test/framework.hpp>
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 void Race() {
   AtomicSharedPtr<std::string> asp;
@@ -25,7 +25,7 @@ void Race() {
 }
 
 TEST_SUITE(AtomicSharedPtr) {
-  TWIST_ITERATE_TEST(Race, 5s) {
+  TWIST_TEST_REPEAT(Race, 5s) {
     Race();
   }
 }

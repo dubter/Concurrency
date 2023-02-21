@@ -1,7 +1,7 @@
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 #include <twist/test/plate.hpp>
 
 #include <exe/executors/thread_pool.hpp>
@@ -30,7 +30,7 @@ void StressTest1(size_t fibers) {
     co_await tasks::TeleportTo(scheduler);
 
     size_t iter = 0;
-    while (wheels::test::KeepRunning()) {
+    while (twist::test::KeepRunning()) {
       auto lock = co_await mutex.ScopedLock();
 
       plate.Access();
@@ -57,7 +57,7 @@ void StressTest1(size_t fibers) {
 void StressTest2(size_t gorroutines) {
   executors::ThreadPool scheduler{4};
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     tasks::Mutex mutex;
     size_t cs = 0;
 
@@ -85,23 +85,23 @@ void StressTest2(size_t gorroutines) {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(GorrMutex) {
-  TWIST_TEST_TL(Stress_1_1, 10s) {
+  TWIST_TEST(Stress_1_1, 10s) {
     StressTest1(/*fibers=*/4);
   }
 
-  TWIST_TEST_TL(Stress_1_2, 5s) {
+  TWIST_TEST(Stress_1_2, 5s) {
     StressTest1(/*fibers=*/16);
   }
 
-  TWIST_TEST_TL(Stress_1_3, 5s) {
+  TWIST_TEST(Stress_1_3, 5s) {
     StressTest1(/*fibers=*/100);
   }
 
-  TWIST_TEST_TL(Stress_2_1, 10s) {
+  TWIST_TEST(Stress_2_1, 10s) {
     StressTest2(/*fibers=*/2);
   }
 
-  TWIST_TEST_TL(Stress_2_2, 10s) {
+  TWIST_TEST(Stress_2_2, 10s) {
     StressTest2(/*fibers=*/3);
   }
 }

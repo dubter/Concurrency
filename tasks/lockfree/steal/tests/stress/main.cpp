@@ -2,12 +2,12 @@
 
 #include <twist/rt/fault/adversary/lockfree.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 #include <twist/test/race.hpp>
 #include <twist/test/lockfree.hpp>
 
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
 #include <array>
 #include <iostream>
@@ -72,7 +72,7 @@ void StressTest() {
 
       TestObjectMaker obj_maker;
 
-      for (size_t iter = 0; wheels::test::KeepRunning(); ++iter) {
+      for (size_t iter = 0; twist::test::KeepRunning(); ++iter) {
         // TryPush
 
         for (size_t j = 0; j < iter % 3; ++j) {
@@ -136,19 +136,19 @@ void StressTest() {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(WorkStealingQueue) {
-  TWIST_TEST_TL(Stress_1, 5s) {
+  TWIST_TEST(Stress_1, 5s) {
     StressTest</*Queues=*/2,  /*Capacity=*/5>();
   }
 
-  TWIST_TEST_TL(Stress_2, 5s) {
+  TWIST_TEST(Stress_2, 5s) {
     StressTest</*Queues=*/4, /*Capacity=*/16>();
   }
 
-  TWIST_TEST_TL(Stress_3, 5s) {
+  TWIST_TEST(Stress_3, 5s) {
     StressTest</*Queues=*/4, /*Capacity=*/33>();
   }
 
-  TWIST_TEST_TL(Stress_4, 5s) {
+  TWIST_TEST(Stress_4, 5s) {
     StressTest</*Queues=*/4, /*Capacity=*/128>();
   }
 }

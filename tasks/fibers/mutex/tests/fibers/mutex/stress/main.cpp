@@ -1,7 +1,7 @@
 #include <wheels/test/framework.hpp>
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 #include <twist/test/plate.hpp>
 
 #include <exe/tp/thread_pool.hpp>
@@ -23,7 +23,7 @@ void StressTest1(size_t fibers) {
 
   for (size_t i = 0; i < fibers; ++i) {
     fibers::Go(scheduler, [&]() {
-      while (wheels::test::KeepRunning()) {
+      while (twist::test::KeepRunning()) {
         mutex.Lock();
         plate.Access();
         mutex.Unlock();
@@ -44,7 +44,7 @@ void StressTest1(size_t fibers) {
 void StressTest2(size_t fibers) {
   tp::ThreadPool scheduler{4};
 
-  while (wheels::test::KeepRunning()) {
+  while (twist::test::KeepRunning()) {
     fibers::Mutex mutex;
     std::atomic<size_t> cs{0};
 
@@ -67,23 +67,23 @@ void StressTest2(size_t fibers) {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(Mutex) {
-  TWIST_TEST_TL(Stress_1_1, 5s) {
+  TWIST_TEST(Stress_1_1, 5s) {
     StressTest1(/*fibers=*/4);
   }
 
-  TWIST_TEST_TL(Stress_1_2, 5s) {
+  TWIST_TEST(Stress_1_2, 5s) {
     StressTest1(/*fibers=*/16);
   }
 
-  TWIST_TEST_TL(Stress_1_3, 5s) {
+  TWIST_TEST(Stress_1_3, 5s) {
     StressTest1(/*fibers=*/100);
   }
 
-  TWIST_TEST_TL(Stress_2_1, 5s) {
+  TWIST_TEST(Stress_2_1, 5s) {
     StressTest2(/*fibers=*/2);
   }
 
-  TWIST_TEST_TL(Stress_2_2, 5s) {
+  TWIST_TEST(Stress_2_2, 5s) {
     StressTest2(/*fibers=*/3);
   }
 }

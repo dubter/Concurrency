@@ -1,6 +1,6 @@
 #include "../../lock_free_stack.hpp"
 
-#include <twist/test/test.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 
 #include <twist/fault/adversary/adversary.hpp>
 
@@ -8,7 +8,7 @@
 #include <twist/test/lockfree.hpp>
 #include <twist/test/random.hpp>
 
-#include <wheels/test/util.hpp>
+#include <twist/test/budget.hpp>
 
 #include <limits>
 #include <vector>
@@ -98,7 +98,7 @@ void StressTest(size_t threads, size_t batch_size_limit) {
     race.Add([&]() {
       twist::test::EnablePark guard;
 
-      while (wheels::test::KeepRunning()) {
+      while (twist::test::KeepRunning()) {
         size_t batch_size = twist::test::RandomUInteger(1, batch_size_limit);
 
         // Push
@@ -139,19 +139,19 @@ void StressTest(size_t threads, size_t batch_size_limit) {
 }
 
 TEST_SUITE(LockFreeStack) {
-  TWIST_TEST_TL(Stress1, 5s) {
+  TWIST_TEST(Stress1, 5s) {
     StressTest(/*threads=*/2, /*batch_size_limit=*/2);
   }
 
-  TWIST_TEST_TL(Stress2, 5s) {
+  TWIST_TEST(Stress2, 5s) {
     StressTest(/*threads=*/5, /*batch_size_limit=*/1);
   }
 
-  TWIST_TEST_TL(Stress3, 5s) {
+  TWIST_TEST(Stress3, 5s) {
     StressTest(/*threads=*/5, /*batch_size_limit=*/3);
   }
 
-  TWIST_TEST_TL(Stress4, 5s) {
+  TWIST_TEST(Stress4, 5s) {
     StressTest(/*threads=*/5, /*batch_size_limit=*/5);
   }
 }
