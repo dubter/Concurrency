@@ -77,7 +77,7 @@ project_log("FetchContent: tinyfibers")
 FetchContent_Declare(
         tinyfibers
         GIT_REPOSITORY https://gitlab.com/Lipovsky/tinyfibers.git
-        GIT_TAG tasks
+        GIT_TAG 3bf48f6e8277a0ad14608e3ebd70b615d7f7e47f
 )
 FetchContent_MakeAvailable(tinyfibers)
 
