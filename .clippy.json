@@ -50,6 +50,12 @@
         "thread_local "
       ],
       "hint": "Use Twist-ed synchronization primitives (https://gitlab.com/Lipovsky/twist/-/blob/master/docs/ru/guide.md)"
+    },
+    {
+      "patterns": [
+        "<twist/rt/"
+      ],
+      "hint": "Do not include Twist runtime (twist/rt/)"
     }
   ]
 }
