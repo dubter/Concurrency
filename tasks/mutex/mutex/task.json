@@ -12,6 +12,10 @@
         "FaultyThreadsASan",
         "FaultyThreadsTSan"
       ]
+    },
+    {
+      "targets": ["futex_tests"],
+      "profiles": ["FaultyFibers"]
     }
   ],
   "submit_files": ["mutex.hpp"],
