@@ -1,4 +1,4 @@
-# Homeworks
+# Topics
 
 add_subdirectory(tutorial)
 add_subdirectory(mutex)
