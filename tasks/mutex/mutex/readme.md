@@ -7,7 +7,7 @@
 
 ## Задание
 
-В этой задаче вы должны реализовать [std::mutex](https://ru.cppreference.com/w/cpp/thread/mutex).
+Напишите [std::mutex](https://ru.cppreference.com/w/cpp/thread/mutex).
 
 ### Требования к реализации
 
