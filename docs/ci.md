@@ -67,7 +67,7 @@ cd /workspace/concurrency-course
 ```shell
 clippy attach {solutions-repo-url}
 ```
-В `{solutions-repo-url}` подставьте url созданного при регистрации репозитория.
+Вместо `{solutions-repo-url}` подставьте url созданного при регистрации репозитория.
 
 Команда будет выглядеть примерно так:
 ```shell
