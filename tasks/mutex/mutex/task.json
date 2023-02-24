@@ -25,7 +25,14 @@
       "patterns": [
         "twist::ed::mutex",
         "sleep"
-      ]
+      ],
+      "hint": "Use atomic + Wait / WakeOne"
+    },
+    {
+      "patterns": [
+        "WakeAll"
+      ],
+      "hint": "Use WakeOne instead, WakeAll can mask synchronization issues and does not match ownership transfer semantics for Mutex"
     }
   ]
 }
