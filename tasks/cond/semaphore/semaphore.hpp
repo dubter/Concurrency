@@ -3,7 +3,7 @@
 #include <twist/ed/stdlike/mutex.hpp>
 #include <twist/ed/stdlike/condition_variable.hpp>
 
-#include <cstdint>
+#include <cstdlib>
 
 class Semaphore {
  public:
