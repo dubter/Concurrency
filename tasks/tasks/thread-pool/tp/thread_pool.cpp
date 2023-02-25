@@ -6,7 +6,7 @@ namespace tp {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static twist::ed::ThreadLocalPtr<ThreadPool> this_pool;
+static twist::ed::ThreadLocalPtr<ThreadPool> pool;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -18,8 +18,12 @@ ThreadPool::~ThreadPool() {
   // Not implemented
 }
 
-void ThreadPool::Submit(Task) {
+void ThreadPool::Submit(Task /*task*/) {
   // Not implemented
+}
+
+ThreadPool* ThreadPool::Current() {
+  return pool;
 }
 
 void ThreadPool::WaitIdle() {
@@ -28,10 +32,6 @@ void ThreadPool::WaitIdle() {
 
 void ThreadPool::Stop() {
   // Not implemented
-}
-
-ThreadPool* ThreadPool::Current() {
-  return this_pool;
 }
 
 }  // namespace tp

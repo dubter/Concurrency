@@ -1,4 +1,4 @@
-#include <tp/queue.hpp>
+#include <tp/blocking_queue.hpp>
 
 #include <wheels/test/framework.hpp>
 

@@ -39,9 +39,9 @@ pool.Submit([] {
 
 ### `Current`
 
-Исполняемая в пуле потоков задача может получить указатель на текущий пул с помощью свободной функции `tp::Current`.
+Исполняемая в пуле потоков задача может получить указатель на текущий пул с помощью статического метода `Current`.
 
-Вызов `tp::Current()` возвращает
+Вызов `Current()` возвращает
 - указатель на текущий пул, если ее вызвали из потока-воркера, и
 - `nullptr` в противном случае.
 
@@ -51,7 +51,7 @@ tp::ThreadPool pool{4};
 
 pool.Submit([] {
   // Планируем задачу из задачи
-  tp::Current()->Submit([] {
+  tp::ThreadPool::Current()->Submit([] {
     fmt::println("Continue");
   });
 });
@@ -71,7 +71,7 @@ tp::ThreadPool pool{4};
 
 pool.Submit([] {
   std::this_thread::sleep_for(1s);
-  tp::Current()->Submit([] {
+  tp::ThreadPool::Current()->Submit([] {
     fmt::println("Executed");
   });
 });
@@ -135,7 +135,7 @@ pool.WaitIdle();
 
 ## Задание
 
-1) Реализуйте блокирующую очередь – [`UnboundedBlockingQueue`](tp/queue.hpp)
+1) Реализуйте блокирующую очередь – [`UnboundedBlockingQueue`](tp/blocking_queue.hpp)
 2) Реализуйте пул потоков – [`ThreadPool`](tp/thread_pool.hpp)
 
 Изучите [юнит-тесты](tests/unit) очереди и пула потоков чтобы разобраться с их поведением.

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <tp/queue.hpp>
+#include <tp/blocking_queue.hpp>
 #include <tp/task.hpp>
 
 #include <twist/ed/stdlike/thread.hpp>
@@ -25,14 +25,14 @@ class ThreadPool {
   // Schedules task for execution in one of the worker threads
   void Submit(Task);
 
-  // Waits until outstanding work count has reached zero
+  // Locates current thread pool from worker thread
+  static ThreadPool* Current();
+
+  // Waits until outstanding work count reaches zero
   void WaitIdle();
 
   // Stops the worker threads as soon as possible
   void Stop();
-
-  // Locates current thread pool from worker thread
-  static ThreadPool* Current();
 
  private:
   // Worker threads, task queue, etc

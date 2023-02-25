@@ -1,4 +1,4 @@
-#include <tp/queue.hpp>
+#include <tp/blocking_queue.hpp>
 
 #include <twist/test/with/wheels/stress.hpp>
 
