@@ -1,6 +1,6 @@
 # Замечания по использованию кондваров
 
-- Не захватывайте и не освобождайте мьютексы голыми руками, используйте *scope-based resource management* – [`std::unique_lock`](https://en.cppreference.com/w/cpp/thread/unique_lock) и [`std::lock_guard`](https://en.cppreference.com/w/cpp/thread/lock_guard).
+- Не захватывайте и не освобождайте мьютексы голыми руками, используйте [RAII](https://en.cppreference.com/w/cpp/language/raii): [`std::unique_lock`](https://en.cppreference.com/w/cpp/thread/unique_lock) и [`std::lock_guard`](https://en.cppreference.com/w/cpp/thread/lock_guard).
 
 - Выбирайте `std::lock_guard`, если вам нужно просто захватить блокировку в текущем скоупе, но не нужно ожидать на условной переменной.
 
