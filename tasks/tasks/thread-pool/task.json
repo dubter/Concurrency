@@ -5,7 +5,7 @@
       "profiles": ["Debug"]
     },
     {
-      "targets": ["stress_tests"],
+      "targets": ["queue_stress_tests"],
       "profiles": [
         "FaultyFibers",
         "Debug",
