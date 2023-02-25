@@ -3,7 +3,7 @@
 #include <twist/ed/stdlike/atomic.hpp>
 #include <twist/ed/wait/sys.hpp>
 
-#include <cstdlib>
+#include <cstdint>
 
 namespace stdlike {
 

@@ -2,10 +2,10 @@
 
 #include <twist/ed/stdlike/thread.hpp>
 
-#include <../../mutex.hpp>
-#include <../../condvar.hpp>
+#include "../../mutex.hpp"
+#include "../../condvar.hpp"
 
-#include <mutex>
+//////////////////////////////////////////////////////////////////////
 
 class OneShotEvent {
  public:
@@ -28,22 +28,28 @@ class OneShotEvent {
   stdlike::CondVar fired_cond_;
 };
 
+//////////////////////////////////////////////////////////////////////
+
 void StorageTest() {
-  // For AddressSanitizer
+  // Help AddressSanitizer
   auto event = std::make_unique<OneShotEvent>();
 
-  twist::ed::stdlike::thread fire([&event] {
+  twist::ed::stdlike::thread t([&event] {
     event->Fire();
   });
 
   event->Wait();
   event.reset();
 
-  fire.join();
+  t.join();
 }
 
-TEST_SUITE(Combo) {
+//////////////////////////////////////////////////////////////////////
+
+TEST_SUITE(Event) {
   TWIST_TEST_REPEAT(Event, 5s) {
     StorageTest();
   }
 }
+
+RUN_ALL_TESTS()

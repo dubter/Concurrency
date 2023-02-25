@@ -12,7 +12,7 @@ class CondVar {
   // Mutex - BasicLockable
   // https://en.cppreference.com/w/cpp/named_req/BasicLockable
   template <class Mutex>
-  void Wait(Mutex& /*mutex*/) {
+  void Wait(Mutex&) {
     // Not implemented
   }
 

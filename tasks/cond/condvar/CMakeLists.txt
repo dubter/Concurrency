@@ -1,6 +1,16 @@
 begin_task()
 set_task_sources(condvar.hpp mutex.hpp)
-add_task_test(unit_tests tests/condvar/unit.cpp)
-add_task_test(stress_tests tests/condvar/stress.cpp)
-add_task_test(combo_tests tests/combo/stress.cpp)
+
+# Condition Variable
+add_task_test(cv_unit_tests tests/condvar/unit.cpp)
+add_task_test(cv_stress_tests tests/condvar/stress.cpp)
+
+# Mutex
+add_task_test(mutex_unit_tests tests/unit.cpp)
+add_task_test(mutex_stress_tests tests/stress.cpp)
+add_task_test(mutex_futex_tests tests/futex.cpp)
+
+# Event
+add_task_test(event_stress_tests tests/stress.cpp)
+
 end_task()
