@@ -20,11 +20,7 @@ TEST_SUITE(Futures) {
     ASSERT_EQ(f.Get(), 42);
   }
 
-  class TestException : public std::runtime_error {
-   public:
-    TestException()
-      : std::runtime_error("Test") {
-    }
+  struct TestException {
   };
 
   SIMPLE_TEST(ThrowException) {
