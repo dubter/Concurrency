@@ -40,7 +40,7 @@
       "patterns": [
         "SomeTag"
       ],
-      "hint": "Consider better name for tag"
+      "hint": "Consider better naming"
     },
     {
       "files": ["queue.hpp"],
