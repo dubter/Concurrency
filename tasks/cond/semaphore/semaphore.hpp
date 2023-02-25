@@ -3,8 +3,6 @@
 #include <twist/ed/stdlike/mutex.hpp>
 #include <twist/ed/stdlike/condition_variable.hpp>
 
-// std::lock_guard, std::unique_lock
-#include <mutex>
 #include <cstdint>
 
 class Semaphore {
