@@ -1,8 +1,8 @@
-# Future
+# (std) Future
 
 В этой задаче мы напишем [`std::future`](https://en.cppreference.com/w/cpp/thread/future).
 
-⚠️ Данная задача – только первый шаг к хорошим функциональным фьючам. Сама `std::future` к ним не относится.
+⚠️ Эта задача – только первый шаг к хорошим функциональным фьючам. Сама `std::future` к ним не относится.
 
 ## Sync / Async
 
@@ -79,4 +79,4 @@ int value = f.Get();  // <-- Дожидаемся значения
 - метод `void SetValue(T)` у `Promise` нужно заменить на `void Set()`, 
 - а `T Get()` у `Future` – на `void Wait()`. 
 
-Мы проигнорируем эту сложность и в качестве альтернативы будем использовать `T` = [`std::monostate`](https://en.cppreference.com/w/cpp/utility/variant/monostate) (_unit_-тип, тип с единственным значением). 
+Мы не будем вслед за `std::future` поддерживать такую нерегулярность API и вместо `void` будем использовать `T` = [`std::monostate`](https://en.cppreference.com/w/cpp/utility/variant/monostate) (_unit_-тип, тип с единственным значением). 
