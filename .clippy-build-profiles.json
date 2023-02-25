@@ -24,12 +24,14 @@
     "CMAKE_BUILD_TYPE=Release",
     "TWIST_FAULTY=ON",
     "TWIST_FIBERS=ON",
+    "TWIST_FAST_FIBER_QUEUES=ON",
     "TWIST_PRINT_STACKS=ON"
   ],
   "FaultyFibersASan": [
     "CMAKE_BUILD_TYPE=Release",
     "TWIST_FAULTY=ON",
     "TWIST_FIBERS=ON",
+    "TWIST_FAST_FIBER_QUEUES=ON",
     "ASAN=ON",
     "TWIST_PRINT_STACKS=ON"
   ]
