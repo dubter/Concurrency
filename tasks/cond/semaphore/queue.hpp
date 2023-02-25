@@ -7,9 +7,9 @@
 // Bounded Blocking Multi-Producer/Multi-Consumer (MPMC) Queue
 
 template <typename T>
-class BlockingQueue {
+class BoundedBlockingQueue {
  public:
-  explicit BlockingQueue(size_t /*capacity*/) {
+  explicit BoundedBlockingQueue(size_t /*capacity*/) {
   }
 
   void Put(T /*value*/) {

@@ -143,7 +143,7 @@ namespace queue {
 void Test(size_t producers, size_t consumers, size_t buffer_size) {
   static const std::string kPoisonPill = "";
 
-  BlockingQueue<std::string> channel{buffer_size};
+  BoundedBlockingQueue<std::string> channel{buffer_size};
 
   std::atomic<size_t> produced{0};
   std::atomic<size_t> consumed{0};
