@@ -38,8 +38,14 @@
       ]
     }
   ],
-  "lint_files": ["condvar.hpp"],
-  "submit_files": ["condvar.hpp"],
+  "lint_files": [
+    "mutex.hpp",
+    "condvar.hpp"
+  ],
+  "submit_files": [
+    "mutex.hpp",
+    "condvar.hpp"
+  ],
   "forbidden": [
     {
       "files": ["condvar.hpp"],
