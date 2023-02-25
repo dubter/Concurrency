@@ -13,7 +13,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace tasks {
+namespace submit {
 
 void KeepAlive() {
   if (twist::test::KeepRunning()) {
@@ -23,8 +23,10 @@ void KeepAlive() {
   }
 }
 
-void Test(size_t threads, size_t clients, size_t limit) {
+void StressTest(size_t threads, size_t clients, size_t limit) {
   tp::ThreadPool pool{threads};
+
+  pool.Start();
 
   pool.Submit([]() {
     KeepAlive();
@@ -64,9 +66,9 @@ void Test(size_t threads, size_t clients, size_t limit) {
   ASSERT_GT(completed.load(), 8888);
 }
 
-}  // namespace tasks
+}  // namespace submit
 
-TWIST_TEST_TEMPLATE(Submits, tasks::Test)
+TWIST_TEST_TEMPLATE(Submit, submit::StressTest)
   ->TimeLimit(4s)
   ->Run(3, 5, 111)
   ->Run(4, 3, 13)
@@ -79,6 +81,8 @@ namespace wait_idle {
 
 void TestOneTask() {
   tp::ThreadPool pool{4};
+
+  pool.Start();
 
   while (twist::test::KeepRunning()) {
     size_t completed = 0;
@@ -97,6 +101,8 @@ void TestOneTask() {
 
 void TestSeries() {
   tp::ThreadPool pool{1};
+
+  pool.Start();
 
   size_t iter = 0;
 
@@ -122,6 +128,8 @@ void TestSeries() {
 void TestCurrent() {
   tp::ThreadPool pool{2};
 
+  pool.Start();
+
   while (twist::test::KeepRunning()) {
     bool done = false;
 
@@ -141,6 +149,8 @@ void TestCurrent() {
 
 void TestConcurrent() {
   tp::ThreadPool pool{2};
+
+  pool.Start();
 
   std::atomic<size_t> completed = 0;
 
