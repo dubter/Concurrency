@@ -1,5 +1,5 @@
 #include "../semaphore.hpp"
-#include "../blocking_queue.hpp"
+#include "../queue.hpp"
 
 #include <wheels/test/framework.hpp>
 

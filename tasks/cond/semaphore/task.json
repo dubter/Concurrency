@@ -16,11 +16,11 @@
   ],
   "lint_files": [
     "semaphore.hpp",
-    "blocking_queue.hpp"
+    "queue.hpp"
   ],
   "submit_files": [
     "semaphore.hpp",
-    "blocking_queue.hpp"
+    "queue.hpp"
   ],
   "forbidden": [
     {
@@ -41,6 +41,11 @@
         "SomeTag"
       ],
       "hint": "Consider better name for tag"
+    },
+    {
+      "files": ["queue.hpp"],
+      "patterns": ["\"semaphore.hpp\""],
+      "hint": "Use TaggedSemaphore"
     }
   ]
 }
