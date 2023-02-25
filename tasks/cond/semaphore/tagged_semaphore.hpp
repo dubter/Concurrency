@@ -9,8 +9,6 @@ class TaggedSemaphore {
  public:
   // ~ Linear
   class Token {
-    friend class TaggedSemaphore;
-
    public:
     ~Token() {
       assert(!valid_);
