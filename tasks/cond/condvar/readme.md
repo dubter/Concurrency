@@ -59,7 +59,7 @@
 
 ## Задание
 
-Перенесите реализацию `Mutex` в [`mutex.hpp`](mutex.hpp), мьютекс и кондвар будут тестироваться вместе.
+Перенесите реализацию `Mutex` из задачи [mutex/mutex](/tasks/mutex/mutex) в [`mutex.hpp`](mutex.hpp), мьютекс и кондвар будут тестироваться вместе.
 
 Реализуйте `CondVar` из [`condvar.hpp`](condvar.hpp).
  
