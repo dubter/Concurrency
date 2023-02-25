@@ -74,9 +74,9 @@ TEST_SUITE(Semaphore) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_SUITE(BlockingQueue) {
+TEST_SUITE(BoundedBlockingQueue) {
   SIMPLE_TEST(PutThenTake) {
-    BlockingQueue<int> queue{1};
+    BoundedBlockingQueue<int> queue{1};
     queue.Put(42);
     ASSERT_EQ(queue.Take(), 42);
   }
@@ -92,14 +92,14 @@ TEST_SUITE(BlockingQueue) {
   };
 
   SIMPLE_TEST(MoveOnly) {
-    BlockingQueue<MoveOnly> queue{1};
+    BoundedBlockingQueue<MoveOnly> queue{1};
 
     queue.Put(MoveOnly{});
     queue.Take();
   }
 
   SIMPLE_TEST(Buffer) {
-    BlockingQueue<std::string> queue{2};
+    BoundedBlockingQueue<std::string> queue{2};
 
     queue.Put("hello");
     queue.Put("world");
@@ -109,7 +109,7 @@ TEST_SUITE(BlockingQueue) {
   }
 
   SIMPLE_TEST(FifoSmall) {
-    BlockingQueue<std::string> queue{2};
+    BoundedBlockingQueue<std::string> queue{2};
 
     std::thread producer([&queue]() {
       queue.Put("hello");
@@ -125,7 +125,7 @@ TEST_SUITE(BlockingQueue) {
   }
 
   SIMPLE_TEST(Fifo) {
-    BlockingQueue<int> queue{3};
+    BoundedBlockingQueue<int> queue{3};
 
     static const int kItems = 1024;
 
@@ -147,7 +147,7 @@ TEST_SUITE(BlockingQueue) {
   }
 
   SIMPLE_TEST(Capacity) {
-    BlockingQueue<int> queue{3};
+    BoundedBlockingQueue<int> queue{3};
     std::atomic<size_t> send_count{0};
 
     std::thread producer([&]() {
@@ -179,7 +179,7 @@ TEST_SUITE(BlockingQueue) {
 
   SIMPLE_TEST(Pill) {
     static const size_t kThreads = 10;
-    BlockingQueue<int> queue{1};
+    BoundedBlockingQueue<int> queue{1};
 
     std::vector<std::thread> threads;
 
