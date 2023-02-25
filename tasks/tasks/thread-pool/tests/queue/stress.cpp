@@ -1,4 +1,4 @@
-#include <tp/blocking_queue.hpp>
+#include <tp/queue.hpp>
 
 #include <twist/test/with/wheels/stress.hpp>
 
@@ -167,3 +167,5 @@ TEST_SUITE(Close) {
     close::Test2();
   }
 }
+
+RUN_ALL_TESTS()

@@ -1,10 +1,10 @@
 #include <tp/thread_pool.hpp>
-#include <tp/current.hpp>
 
 #include <twist/test/with/wheels/stress.hpp>
 
 #include <twist/test/race.hpp>
 #include <twist/test/budget.hpp>
+#include <twist/test/yield.hpp>
 
 #include <twist/ed/stdlike/atomic.hpp>
 #include <twist/ed/stdlike/thread.hpp>
@@ -17,14 +17,10 @@ namespace tasks {
 
 void KeepAlive() {
   if (twist::test::KeepRunning()) {
-    tp::Current()->Submit([]() {
+    tp::ThreadPool::Current()->Submit([]() {
       KeepAlive();
     });
   }
-}
-
-void Backoff() {
-  twist::rt::strand::stdlike::this_thread::yield();
 }
 
 void Test(size_t threads, size_t clients, size_t limit) {
@@ -51,7 +47,7 @@ void Test(size_t threads, size_t clients, size_t limit) {
           });
         } else {
           --queue;
-          Backoff();
+          twist::test::Yield();
         }
       }
     });
@@ -85,15 +81,15 @@ void TestOneTask() {
   tp::ThreadPool pool{4};
 
   while (twist::test::KeepRunning()) {
-    size_t tasks = 0;
+    size_t completed = 0;
 
     pool.Submit([&]() {
-      ++tasks;
+      ++completed;
     });
 
     pool.WaitIdle();
 
-    ASSERT_EQ(tasks, 1);
+    ASSERT_EQ(completed, 1);
   }
 
   pool.Stop();
@@ -108,16 +104,16 @@ void TestSeries() {
     ++iter;
     const size_t tasks = 1 + iter % 3;
 
-    size_t tasks_completed = 0;
+    size_t completed = 0;
     for (size_t i = 0; i < tasks; ++i) {
       pool.Submit([&](){
-        ++tasks_completed;
+        ++completed;
       });
     }
 
     pool.WaitIdle();
 
-    ASSERT_EQ(tasks_completed, tasks);
+    ASSERT_EQ(completed, tasks);
   }
 
   pool.Stop();
@@ -146,11 +142,11 @@ void TestCurrent() {
 void TestConcurrent() {
   tp::ThreadPool pool{2};
 
-  std::atomic<size_t> tasks = 0;
+  std::atomic<size_t> completed = 0;
 
   twist::ed::stdlike::thread t1([&]() {
     pool.Submit([&]() {
-      ++tasks;
+      ++completed;
     });
   });
 
@@ -161,7 +157,7 @@ void TestConcurrent() {
   t1.join();
   t2.join();
 
-  ASSERT_TRUE(tasks <= 1);
+  ASSERT_TRUE(completed.load() <= 1);
 
   pool.Stop();
 }
@@ -185,3 +181,5 @@ TEST_SUITE(WaitIdle) {
     wait_idle::TestConcurrent();
   }
 }
+
+RUN_ALL_TESTS()

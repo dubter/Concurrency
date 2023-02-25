@@ -1,7 +1,7 @@
 {
   "tests": [
     {
-      "targets": ["unit_tests"],
+      "targets": ["queue_unit_tests"],
       "profiles": ["Debug"]
     },
     {
@@ -12,20 +12,40 @@
         "FaultyThreadsASan",
         "FaultyThreadsTSan"
       ]
+    },
+    {
+      "targets": ["tp_unit_tests"],
+      "profiles": ["Debug"]
+    },
+    {
+      "targets": ["tp_stress_tests"],
+      "profiles": [
+        "FaultyFibers",
+        "Debug",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
     }
   ],	  
-  "lint_files": ["tp"],
-  "submit_files": ["tp"],
+  "lint_files": [
+    "stdlike",
+    "tp"
+  ],
+  "submit_files": [
+    "stdlike",
+    "tp"
+  ],
   "forbidden": [
     {
+      "files": ["tp"],
       "patterns": [
         "yield",
         "sleep_for",
         "SpinWait"
-      ],
-      "hint": "Use another waiting mechanism"
+      ]
     },
     {
+      "files": ["tp"],
       "patterns": [
         "friend"
       ]

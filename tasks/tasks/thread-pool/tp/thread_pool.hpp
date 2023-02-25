@@ -1,6 +1,6 @@
 #pragma once
 
-#include <tp/blocking_queue.hpp>
+#include <tp/queue.hpp>
 #include <tp/task.hpp>
 
 #include <twist/ed/stdlike/thread.hpp>
@@ -21,6 +21,9 @@ class ThreadPool {
   // Non-movable
   ThreadPool(ThreadPool&&) = delete;
   ThreadPool& operator=(ThreadPool&&) = delete;
+
+  // Launches worker threads
+  void Start();
 
   // Schedules task for execution in one of the worker threads
   void Submit(Task);

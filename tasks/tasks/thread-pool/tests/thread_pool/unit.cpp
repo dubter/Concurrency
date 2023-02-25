@@ -1,5 +1,4 @@
 #include <tp/thread_pool.hpp>
-#include <tp/current.hpp>
 
 #include <wheels/test/framework.hpp>
 
@@ -16,6 +15,8 @@ TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(JustWorks) {
     tp::ThreadPool pool{4};
 
+    pool.Start();
+
     pool.Submit([]() {
       std::cout << "Hello from thread pool!" << std::endl;
     });
@@ -26,6 +27,8 @@ TEST_SUITE(ThreadPool) {
 
   SIMPLE_TEST(Wait) {
     tp::ThreadPool pool{4};
+
+    pool.Start();
 
     bool done = false;
 
@@ -43,6 +46,8 @@ TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(MultiWait) {
     tp::ThreadPool pool{1};
 
+    pool.Start();
+
     for (size_t i = 0; i < 3; ++i) {
       bool done = false;
 
@@ -52,6 +57,7 @@ TEST_SUITE(ThreadPool) {
       });
 
       pool.WaitIdle();
+
       ASSERT_TRUE(done);
     }
 
@@ -60,6 +66,8 @@ TEST_SUITE(ThreadPool) {
 
   SIMPLE_TEST(Exceptions) {
     tp::ThreadPool pool{1};
+
+    pool.Start();
 
     pool.Submit([]() {
       throw std::runtime_error("Task failed");
@@ -71,6 +79,8 @@ TEST_SUITE(ThreadPool) {
 
   SIMPLE_TEST(ManyTasks) {
     tp::ThreadPool pool{4};
+
+    pool.Start();
 
     static const size_t kTasks = 17;
 
@@ -90,6 +100,8 @@ TEST_SUITE(ThreadPool) {
 
   SIMPLE_TEST(Parallel) {
     tp::ThreadPool pool{4};
+
+    pool.Start();
 
     std::atomic<size_t> tasks{0};
 
@@ -116,6 +128,9 @@ TEST_SUITE(ThreadPool) {
     tp::ThreadPool pool1{1};
     tp::ThreadPool pool2{1};
 
+    pool1.Start();
+    pool2.Start();
+
     std::atomic<size_t> tasks{0};
 
     wheels::StopWatch stop_watch;
@@ -140,18 +155,17 @@ TEST_SUITE(ThreadPool) {
     ASSERT_EQ(tasks.load(), 2);
   }
 
-  SIMPLE_TEST(Shutdown) {
-    tp::ThreadPool pool{3};
+  SIMPLE_TEST(Stop) {
+    tp::ThreadPool pool{1};
+
+    pool.Start();
 
     for (size_t i = 0; i < 3; ++i) {
       pool.Submit([]() {
         std::this_thread::sleep_for(1s);
-      });
-    }
-
-    for (size_t i = 0; i < 10; ++i) {
-      pool.Submit([]() {
-        std::this_thread::sleep_for(100s);
+        tp::ThreadPool::Current()->Submit([] {
+          std::this_thread::sleep_for(100s);
+        });
       });
     }
 
@@ -162,6 +176,8 @@ TEST_SUITE(ThreadPool) {
 
   SIMPLE_TEST(DoNotBurnCPU) {
     tp::ThreadPool pool{4};
+
+    pool.Start();
 
     // Warmup
     for (size_t i = 0; i < 4; ++i) {
@@ -183,10 +199,12 @@ TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(Current) {
     tp::ThreadPool pool{1};
 
-    ASSERT_EQ(tp::Current(), nullptr);
+    pool.Start();
+
+    ASSERT_EQ(tp::ThreadPool::Current(), nullptr);
 
     pool.Submit([&]() {
-      ASSERT_EQ(tp::Current(), &pool);
+      ASSERT_EQ(tp::ThreadPool::Current(), &pool);
     });
 
     pool.WaitIdle();
@@ -196,11 +214,13 @@ TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(SubmitAfterWait) {
     tp::ThreadPool pool{4};
 
+    pool.Start();
+
     bool done = false;
 
     pool.Submit([&]() {
       std::this_thread::sleep_for(500ms);
-      tp::Current()->Submit([&]() {
+      tp::ThreadPool::Current()->Submit([&]() {
         std::this_thread::sleep_for(500ms);
         done = true;
       });
@@ -212,14 +232,16 @@ TEST_SUITE(ThreadPool) {
     ASSERT_TRUE(done);
   }
 
-  SIMPLE_TEST(SubmitAfterShutdown) {
+  SIMPLE_TEST(SubmitAfterStop) {
     tp::ThreadPool pool{4};
+
+    pool.Start();
 
     bool done = false;
 
     pool.Submit([&]() {
       std::this_thread::sleep_for(500ms);
-      tp::Current()->Submit([&]() {
+      tp::ThreadPool::Current()->Submit([&]() {
         std::this_thread::sleep_for(500ms);
         done = true;
       });
@@ -232,6 +254,8 @@ TEST_SUITE(ThreadPool) {
 
   TEST(UseThreads, wheels::test::TestOptions().TimeLimit(1s)) {
     tp::ThreadPool pool{4};
+
+    pool.Start();
 
     std::atomic<size_t> tasks{0};
 
@@ -250,6 +274,8 @@ TEST_SUITE(ThreadPool) {
 
   TEST(TooManyThreads, wheels::test::TestOptions().TimeLimit(2s)) {
     tp::ThreadPool pool{3};
+
+    pool.Start();
 
     std::atomic<size_t> tasks{0};
 
@@ -271,7 +297,7 @@ TEST_SUITE(ThreadPool) {
 
   void KeepAlive() {
     if (wheels::test::TestTimeLeft() > 300ms) {
-      tp::Current()->Submit([]() {
+      tp::ThreadPool::Current()->Submit([]() {
         KeepAlive();
       });
     }
@@ -279,6 +305,8 @@ TEST_SUITE(ThreadPool) {
 
   TEST(KeepAlive, wheels::test::TestOptions().TimeLimit(4s)) {
     tp::ThreadPool pool{3};
+
+    pool.Start();
 
     for (size_t i = 0; i < 5; ++i) {
       pool.Submit([]() {
@@ -296,6 +324,8 @@ TEST_SUITE(ThreadPool) {
 
   SIMPLE_TEST(TaskLifetime) {
     tp::ThreadPool pool{4};
+
+    pool.Start();
 
     std::atomic<int> dead{0};
 
@@ -335,6 +365,8 @@ TEST_SUITE(ThreadPool) {
   SIMPLE_TEST(Racy) {
     tp::ThreadPool pool{4};
 
+    pool.Start();
+
     std::atomic<int> shared_counter{0};
     std::atomic<int> tasks{0};
 
@@ -356,3 +388,5 @@ TEST_SUITE(ThreadPool) {
     ASSERT_LE(shared_counter.load(), 100500);
   }
 }
+
+RUN_ALL_TESTS()

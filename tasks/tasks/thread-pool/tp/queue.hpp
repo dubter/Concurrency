@@ -7,7 +7,7 @@
 
 namespace tp {
 
-// Unbounded blocking multi-producers/multi-consumers queue
+// Unbounded blocking multi-producers/multi-consumers (MPMC) queue
 
 template <typename T>
 class UnboundedBlockingQueue {

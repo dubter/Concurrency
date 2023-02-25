@@ -1,4 +1,4 @@
-#include <tp/blocking_queue.hpp>
+#include <tp/queue.hpp>
 
 #include <wheels/test/framework.hpp>
 
@@ -52,25 +52,6 @@ TEST_SUITE(BlockingQueue) {
     ASSERT_EQ(*queue.Take(), "Hello");
     ASSERT_EQ(*queue.Take(), ",");
     ASSERT_EQ(*queue.Take(), "World");
-    ASSERT_FALSE(queue.Take());
-  }
-
-  SIMPLE_TEST(Cancel) {
-    Queue<std::string> queue;
-
-    queue.Put("Hello");
-
-    auto value = queue.Take();
-    ASSERT_TRUE(value);
-    ASSERT_EQ(*value, "Hello");
-
-    queue.Put(",");
-    queue.Put("World");
-
-    queue.Cancel();
-
-    ASSERT_FALSE(queue.Put("!"));
-
     ASSERT_FALSE(queue.Take());
   }
 
@@ -132,28 +113,7 @@ TEST_SUITE(BlockingQueue) {
     producer.join();
   }
 
-  SIMPLE_TEST(UnblockConsumers1) {
-    Queue<int> queue;
-
-    // Consumers
-
-    std::thread consumer1([&]() {
-      queue.Take();
-    });
-
-    std::thread consumer2([&]() {
-      queue.Take();
-    });
-
-    // Producer
-    std::this_thread::sleep_for(100ms);
-    queue.Cancel();
-
-    consumer1.join();
-    consumer2.join();
-  }
-
-  SIMPLE_TEST(UnblockConsumers2) {
+  SIMPLE_TEST(UnblockConsumers) {
     Queue<int> queue;
 
     // Consumers
@@ -203,3 +163,5 @@ TEST_SUITE(BlockingQueue) {
     ASSERT_TRUE(process_cpu_timer.Elapsed() < 100ms);
   }
 }
+
+RUN_ALL_TESTS()

@@ -2,15 +2,15 @@
 
 #include <twist/ed/local/ptr.hpp>
 
+#include <wheels/core/panic.hpp>
+
 namespace tp {
 
-////////////////////////////////////////////////////////////////////////////////
-
-static twist::ed::ThreadLocalPtr<ThreadPool> pool;
-
-////////////////////////////////////////////////////////////////////////////////
-
 ThreadPool::ThreadPool(size_t /*threads*/) {
+  // Not implemented
+}
+
+void ThreadPool::Start() {
   // Not implemented
 }
 
@@ -23,7 +23,7 @@ void ThreadPool::Submit(Task /*task*/) {
 }
 
 ThreadPool* ThreadPool::Current() {
-  return pool;
+  return nullptr;  // Not implemented
 }
 
 void ThreadPool::WaitIdle() {
