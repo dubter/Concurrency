@@ -53,9 +53,10 @@
     },
     {
       "patterns": [
-        "<twist/rt/"
+        "<twist/rt/",
+        "twist::rt::"
       ],
-      "hint": "Do not include Twist runtime (twist/rt/)"
+      "hint": "Do not include / use Twist runtime (twist/rt/)"
     }
   ]
 }
