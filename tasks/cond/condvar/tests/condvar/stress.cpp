@@ -189,7 +189,7 @@ void Test(size_t producers, size_t consumers) {
 }  // namespace queue
 
 TWIST_TEST_TEMPLATE(ProducersConsumers, queue::Test)
-    ->TimeLimit(10s)
+    ->TimeLimit(5s)
     ->Run(5, 1)
     ->Run(1, 5)
     ->Run(5, 5)
