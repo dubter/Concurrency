@@ -1,6 +1,8 @@
 # Future
 
-Напишите [`std::future`](https://en.cppreference.com/w/cpp/thread/future).
+В этой задаче мы напишем [`std::future`](https://en.cppreference.com/w/cpp/thread/future).
+
+⚠️ Данная задача – только первый шаг к хорошим функциональным фьючам. Сама `std::future` к ним не относится.
 
 ## Sync / Async
 

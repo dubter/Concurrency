@@ -6,7 +6,7 @@
 
 ---
 
-В этой задаче мы реализуем [`std::condition_variable`](https://en.cppreference.com/w/cpp/thread/condition_variable).
+В этой задаче мы напишем [`std::condition_variable`](https://en.cppreference.com/w/cpp/thread/condition_variable).
 
 ## Кондвары
 
