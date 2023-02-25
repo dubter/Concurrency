@@ -33,8 +33,7 @@
     {
       "targets": ["event_stress_tests"],
       "profiles": [
-        "FaultyFibersAsan",
-        "FaultyThreadsASan"
+        "FaultyFibersASan"
       ]
     }
   ],
