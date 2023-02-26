@@ -29,6 +29,8 @@ tp::ThreadPool pool{/*threads=*/4};
 pool.Start();
 ```
 
+Обратите внимание на функцию [`std::hardware_concurrency`](https://en.cppreference.com/w/cpp/thread/thread/hardware_concurrency).
+
 ## `Submit`
 
 Пул потоков исполняет [задачи](tp/task.hpp) – функции без аргументов и возвращаемого значения.
