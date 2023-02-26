@@ -1,9 +1,12 @@
+#include "../../mutex.hpp"
+#include "../../condvar.hpp"
+
 #include <twist/test/with/wheels/stress.hpp>
 
 #include <twist/ed/stdlike/thread.hpp>
 
-#include "../../mutex.hpp"
-#include "../../condvar.hpp"
+// std::unique_lock / std::lock_guard
+#include <mutex>
 
 //////////////////////////////////////////////////////////////////////
 
