@@ -19,7 +19,8 @@ TEST_SUITE(Futex) {
         mutex.Unlock();
       }
 
-      // No contention => no system calls
+      // Optimize Mutex for uncontended scenario
+      // No contention => no futex system calls
       ASSERT_EQ(scheduler->FutexCount(), 0);
     });
   }
