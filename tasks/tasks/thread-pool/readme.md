@@ -40,6 +40,8 @@ pool.Start();
 ```cpp
 tp::ThreadPool pool{4};
 
+pool.Start();
+
 pool.Submit([] {
   fmt::println("Running in thread pool");
 });
@@ -53,13 +55,15 @@ pool.Submit([] {
 
 Исполняемая в пуле потоков задача может получить указатель на текущий пул с помощью статического метода `Current`.
 
-Вызов `Current()` возвращает
-- указатель на текущий пул, если ее вызвали из потока-воркера, и
+Метод `Current` возвращает
+- указатель на текущий пул, если его вызвали из потока-воркера, и
 - `nullptr` в противном случае.
 
 ### Пример
 ```cpp
 tp::ThreadPool pool{4};
+
+pool.Start();
 
 pool.Submit([] {
   // Планируем задачу из задачи
@@ -80,6 +84,8 @@ pool.Submit([] {
 ### Пример
 ```cpp
 tp::ThreadPool pool{4};
+
+pool.Start();
 
 pool.Submit([] {
   std::this_thread::sleep_for(1s);
