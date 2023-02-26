@@ -30,7 +30,7 @@ _"You don't have to be an engineer to be a racing driver, but you do have to hav
 
 ## Библиотеки
 
-- [Twist](https://gitlab.com/Lipovsky/twist) – фреймворк для тестирования конкурентного кода
+- [Twist](https://gitlab.com/Lipovsky/twist) – фреймворк для тестирования многопоточного кода
 - [Sure](https://gitlab.com/Lipovsky/sure) – механизм переключения контекста исполнения
 - [Wheels](https://gitlab.com/Lipovsky/wheels) – библиотека общих компонент
 
