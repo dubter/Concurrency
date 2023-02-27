@@ -26,7 +26,7 @@ class OneShotEvent {
   }
 
  private:
-  bool fired_;
+  bool fired_{false};
   stdlike::Mutex mutex_;
   stdlike::CondVar fired_cond_;
 };
