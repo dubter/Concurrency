@@ -1,7 +1,7 @@
 #include <wheels/test/framework.hpp>
 
 #include <twist/rt/run.hpp>
-#include <twist/rt/fiber/runtime/scheduler.hpp>
+#include <twist/rt/layer/fiber/runtime/scheduler.hpp>
 
 #include "../mutex.hpp"
 
