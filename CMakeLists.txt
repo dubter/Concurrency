@@ -12,8 +12,10 @@ include(cmake/Platform.cmake)
 include(cmake/Development.cmake)
 
 add_subdirectory(library)
+
 # This must be included after library so that
 # third party code is not affected
 include(cmake/Werror.cmake)
 include(cmake/Task.cmake)
+
 add_subdirectory(tasks)
