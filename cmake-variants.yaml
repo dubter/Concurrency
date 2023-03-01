@@ -32,12 +32,13 @@ execution:
   choices:
     threads:
       short: Threads
-      long: Run programs via threads
+      long: Multi-threaded execution
     fibers:
       short: Fibers
-      long: Run programs via fibers
+      long: Deterministic simulation with fibers
       settings:
         TWIST_FIBERS: ON
+        TWIST_FAST_FIBER_QUEUES: ON
         TWIST_PRINT_STACKS: ON
 
 faultInjection:
