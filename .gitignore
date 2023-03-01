@@ -81,6 +81,7 @@ atlassian-ide-plugin.xml
 cmake-build-debug/
 cmake-build-release/
 cmake-*
+!cmake-variants.yaml
 
 # VS code
 .vscode/
