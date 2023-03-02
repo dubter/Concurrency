@@ -28,3 +28,28 @@
       score: 200
     - task: mutex/try-lock
       score: 200
+
+- group:    Condition Variables
+  start:    02-03-2023 21:00
+  deadline: 09-03-2023 23:59
+  tasks:
+    - task: cond/condvar
+      score: 200
+    - task: cond/semaphore
+      score: 100
+    - task: cond/barrier
+      score: 100
+
+- group:    Futures / Std
+  start:    02-03-2023 21:00
+  deadline: 16-03-2023 23:59
+  tasks:
+    - task: futures/std
+      score: 200
+
+- group:    Tasks / Thread Pool
+  start:    02-03-2023 21:00
+  deadline: 16-03-2023 23:59
+  tasks:
+    - task: tasks/thread-pool
+      score: 300
