@@ -4,6 +4,7 @@
 #include <wheels/test/util/cpu_timer.hpp>
 
 #include <chrono>
+#include <mutex>
 #include <thread>
 
 using namespace std::chrono_literals;
@@ -13,27 +14,40 @@ using stdlike::Mutex;
 TEST_SUITE(UnitTest) {
   SIMPLE_TEST(LockUnlock) {
     Mutex mutex;
+
     mutex.Lock();
     mutex.Unlock();
   }
 
+  SIMPLE_TEST(LockGuard) {
+    Mutex mutex;
+
+    {
+      std::lock_guard guard(mutex);
+    }
+  }
+
   SIMPLE_TEST(SequentialLockUnlock) {
     Mutex mutex;
+
     mutex.Lock();
     mutex.Unlock();
+
     mutex.Lock();
     mutex.Unlock();
   }
 
   SIMPLE_TEST(NoSharedLocations) {
-    Mutex mutex;
-    mutex.Lock();
+    Mutex mutex1;
+
+    mutex1.Lock();
 
     Mutex mutex2;
+
     mutex2.Lock();
     mutex2.Unlock();
 
-    mutex.Unlock();
+    mutex1.Unlock();
   }
 
   SIMPLE_TEST(MutualExclusion) {
