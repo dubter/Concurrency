@@ -61,10 +61,7 @@ TEST_SUITE(Futures) {
     producer.join();
   }
 
-  class TestException : public std::runtime_error {
-   public:
-    TestException() : std::runtime_error("Test") {
-    }
+  struct TestException {
   };
 
   SIMPLE_TEST(ExceptionPtr) {
