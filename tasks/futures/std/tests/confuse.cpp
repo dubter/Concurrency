@@ -36,12 +36,12 @@ TEST_SUITE(Futures) {
     producer.join();
   }
 
-  SIMPLE_TEST(NonDefaultConstructable) {
-    struct NonDefaultConstructable {
-      explicit NonDefaultConstructable(int) {
+  SIMPLE_TEST(NonDefaultConstructible) {
+    struct NonDefaultConstructible {
+      explicit NonDefaultConstructible(int) {
       }
     };
-    Promise<NonDefaultConstructable> p;
+    Promise<NonDefaultConstructible> p;
   }
 
   SIMPLE_TEST(MonoState) {
