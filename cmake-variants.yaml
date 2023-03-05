@@ -16,16 +16,21 @@ sanitizers:
     off:
       short: SanitizersOff
       long: Instrumentation disabled
+      settings:
+        ASAN: ""
+        TSAN: ""
     asan:
       short: ASan
       long: Instrument with Address Sanitizer
       settings:
         ASAN: ON
+        TSAN: ""
     tsan:
       short: TSan
       long: Instrument with Thread Sanitizer
       settings:
         TSAN: ON
+        ASAN: ""
 
 execution:
   default: threads
@@ -33,6 +38,10 @@ execution:
     threads:
       short: Threads
       long: Multi-threaded execution
+      settings:
+        TWIST_FIBERS: ""
+        TWIST_FAST_FIBER_QUEUES: ""
+        TWIST_PRINT_STACKS: ""
     fibers:
       short: Fibers
       long: Deterministic simulation with fibers
@@ -47,6 +56,8 @@ faultInjection:
     off:
       short: FaultInjectionOff
       long: Fault injection disabled
+      settings:
+        TWIST_FAULTY: ""
     on:
       short: FaultInjectionOn
       long: Fault injection enabled
