@@ -5,6 +5,8 @@
 #include <twist/test/race.hpp>
 #include <twist/test/budget.hpp>
 
+#include <twist/ed/stdlike/thread.hpp>
+
 #include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +28,7 @@ void Test(const size_t threads, size_t iterations) {
         if (k % threads == i) {
           leader = k;
         } else {
-          twist::rt::strand::stdlike::this_thread::yield();
+          twist::ed::stdlike::this_thread::yield();
         }
 
         barrier.ArriveAndWait();
