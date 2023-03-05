@@ -42,14 +42,14 @@
 
 - group:    Futures / Std
   start:    28-02-2023 15:00
-  deadline: 14-03-2023 23:59
+  deadline: 13-03-2023 23:59
   tasks:
     - task: futures/std
       score: 200
 
 - group:    Tasks / Thread Pool
   start:    28-02-2023 15:00
-  deadline: 14-03-2023 23:59
+  deadline: 13-03-2023 23:59
   tasks:
     - task: tasks/thread-pool
       score: 400
