@@ -167,6 +167,6 @@
 
 ## Полезные советы
 
-- Для настройки профилей сборки в репозитории используются [CMake Variants](https://github.com/microsoft/vscode-cmake-tools/blob/main/docs/variants.md): `CMake tools` на основе файла `cmake-variants.yaml` строит декартово произведение из всех указанных опций и позволяет среди них выбирать нужный профиль cmake.  
+- Для настройки профилей сборки в репозитории используются [CMake Variants](https://github.com/microsoft/vscode-cmake-tools/blob/main/docs/variants.md): `CMake tools` на основе файла `cmake-variants.yaml` строит декартово произведение из всех указанных опций и позволяет среди них выбирать нужный профиль cmake.\
 **NB**: В репозитории уже создан такой файл для примера, но не все комбинации опций могут быть валидны. Источником истины актуальных конфигураций является файл `.clippy-build-profiles.json`.
 При желании, вы можете добавить в `cmake-variants.yaml` собственные опции для сборки.
