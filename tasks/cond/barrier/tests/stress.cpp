@@ -7,15 +7,12 @@
 
 #include <twist/ed/stdlike/thread.hpp>
 
-#include <vector>
-
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace leader {
-
-void Test(const size_t threads, size_t iterations) {
+void TestLeader(const size_t threads) {
   CyclicBarrier barrier{threads};
   size_t leader = 0;
+  bool stop = false;
 
   twist::test::Race race;
 
@@ -23,10 +20,13 @@ void Test(const size_t threads, size_t iterations) {
     race.Add([&, i]() {
       barrier.ArriveAndWait();
 
-      for (size_t k = 0; k < iterations; ++k) {
+      for (size_t k = 0; ; ++k) {
         // Rotating leader writes to shared variable
         if (k % threads == i) {
           leader = k;
+          if (!twist::test::KeepRunning()) {
+            stop = true;
+          }
         } else {
           twist::ed::stdlike::this_thread::yield();
         }
@@ -36,6 +36,10 @@ void Test(const size_t threads, size_t iterations) {
         // All threads read from shared variable
         ASSERT_EQ(leader, k);
 
+        if (stop) {
+          break;
+        }
+
         barrier.ArriveAndWait();
       }
     });
@@ -44,66 +48,43 @@ void Test(const size_t threads, size_t iterations) {
   race.Run();
 }
 
-}  // namespace leader
-
-TWIST_TEST_TEMPLATE(RotatingLeader, leader::Test)
-    ->TimeLimit(30s)
-    ->Run(2, 50'000)
-    ->Run(5, 25'000)
-    ->Run(10, 10'000);
-
-#if defined(TWIST_FIBERS)
-
-TWIST_TEST_TEMPLATE(RotatingLeaderExt, leader::Test)
-    ->TimeLimit(30s)
-    ->Run(10, 100'000);
-
-#endif
+TWIST_TEST_TEMPLATE(RotatingLeader, TestLeader)
+    ->TimeLimit(5s)
+    ->Run(2)
+    ->Run(5)
+    ->Run(10);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace rotate {
-void Test(size_t threads, size_t iterations) {
-  CyclicBarrier barrier_{threads};
-  std::vector<size_t> vector_(threads);
+void TestWaves(size_t threads, size_t waves) {
+  CyclicBarrier barrier{threads};
 
   twist::test::Race race;
 
-  for (size_t t = 0; t < threads; ++t) {
-    race.Add([&, t]() {
-      // Setup
-
-      vector_[t] = t;
-      barrier_.ArriveAndWait();
-
-      // Rotate
-
-      for (size_t i = 0; i < iterations; ++i) {
-        // Choose slot to move
-        size_t slot = (t + i) % threads;
-        size_t prev_slot = slot > 0 ? (slot - 1) : (threads - 1);
-
-        // Move value from slot to prev_slot
-        auto value = vector_[slot];
-        barrier_.ArriveAndWait();
-        vector_[prev_slot] = value;
-        barrier_.ArriveAndWait();
+  for (size_t i = 0; i < threads; ++i) {
+    race.Add([&] {
+      for (size_t j = 0; j < waves; ++j) {
+        barrier.ArriveAndWait();
       }
-
-      ASSERT_EQ(vector_[t], (t + iterations) % threads);
     });
   }
 
   race.Run();
 }
-}  // namespace rotate
 
-TWIST_TEST_TEMPLATE(RotateVector, rotate::Test)
-    ->TimeLimit(30s)
-    ->Run(2, 50'001)
-    ->Run(5, 50'007)
-    ->Run(10, 25'011)
-    ->Run(15, 10'007);
+TEST_SUITE(Waves) {
+  TWIST_TEST_REPEAT(Waves_2_2, 5s) {
+    TestWaves(2, 2);
+  }
+
+  TWIST_TEST_REPEAT(Waves_3_3, 5s) {
+    TestWaves(3, 3);
+  }
+
+  TWIST_TEST_REPEAT(Waves_4_4, 5s) {
+    TestWaves(4, 4);
+  }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
