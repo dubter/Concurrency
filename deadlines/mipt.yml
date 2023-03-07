@@ -33,12 +33,17 @@
   start:    25-02-2023 12:00
   deadline: 06-03-2023 23:59
   tasks:
-    - task: cond/condvar
-      score: 200
     - task: cond/semaphore
       score: 100
     - task: cond/barrier
       score: 100
+
+- group:    CondVar
+  start:    25-02-2023 12:00
+  deadline: 13-03-2023 23:59
+  tasks:
+    - task: cond/condvar
+      score: 200
 
 - group:    Futures / Std
   start:    25-02-2023 12:00
