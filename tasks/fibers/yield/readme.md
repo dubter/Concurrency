@@ -11,9 +11,15 @@
 
 В этой задаче вы должны написать многопоточные файберы.
 
-Планировщик для файберов вами [уже реализован](tasks/condvar/thread-pool) – это пул потоков, `ThreadPool`.
+Планировщик для файберов вами [уже реализован](tasks/tasks/thread-pool), это пул потоков.
+
+Механизм остановки / возобновления исполнения – [тоже](tasks/fibers/coro), это stackful корутина.
+
+Остается лишь скомбинировать их!
 
 ## Файберы
+
+Так будет выглядеть результат:
 
 ```cpp
 void FibersExample() {
@@ -23,7 +29,6 @@ void FibersExample() {
 
   // Планировщиком для файберов будет служить пул потоков
   tp::ThreadPool scheduler{/*threads=*/4};
-  
   scheduler.Start();
 
   for (size_t i = 0; i < 256; ++i) {
@@ -54,7 +59,7 @@ void FibersExample() {
 
 Пул потоков ничего не знает про природу задач, которые он исполняет.
 
-Корутины ничего не знают про пулы потоков и кооперативную многозадачность, и могут быть использованы для реализации итераторов и генераторов.
+Корутины ничего не знают про пулы потоков и кооперативную многозадачность, это лишь механизм передачи управления.
 
 ### `Task`, `Coroutine`, `Fiber`
 
@@ -112,7 +117,7 @@ void FibersExample() {
 
 [Is it legal (and moral) for a member function to say `delete this`?](https://isocpp.org/wiki/faq/freestore-mgmt#delete-this)
 
-### Интрузивность и `tp::Submit`
+### `Submit`
 
 Будем считать, что все пользователи, запускающие в пуле потоков лямбды, пользуются не методом 
  `Submit`, а свободной функцией `tp::Submit`:
@@ -122,10 +127,9 @@ void SubmitExample() {
   using namespace exe;
   
   tp::ThreadPool pool{4};
-  
   pool.Start();
   
-  tp::Submit(pool, []() {
+  tp::Submit(pool, [] {
     std::println("Hello");
   });
   
