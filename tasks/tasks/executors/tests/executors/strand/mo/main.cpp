@@ -1,10 +1,9 @@
 #include <exe/executors/thread_pool.hpp>
 #include <exe/executors/strand.hpp>
-#include <exe/executors/execute.hpp>
+#include <exe/executors/submit.hpp>
 
 #include <twist/test/with/wheels/stress.hpp>
 
-#include <wheels/test/framework.hpp>
 #include <twist/test/budget.hpp>
 
 #include <thread>
@@ -19,7 +18,7 @@ class OnePassBarrier {
   explicit OnePassBarrier(size_t threads) : total_(threads) {
   }
 
-  void PassThrough() {
+  void Pass() {
     arrived_.fetch_add(1);
     while (arrived_.load() < total_) {
       std::this_thread::yield();
@@ -27,11 +26,11 @@ class OnePassBarrier {
   }
 
  private:
-  size_t total_{0};
+  const size_t total_{0};
   std::atomic<size_t> arrived_{0};
 };
 
-void ScheduleExecuteRace() {
+void MaybeAnomaly() {
   ThreadPool pool{1};
 
   while (twist::test::KeepRunning()) {
@@ -40,14 +39,14 @@ void ScheduleExecuteRace() {
 
     size_t done = 0;
 
-    Execute(strand, [&done, &barrier] {
+    Submit(strand, [&done, &barrier] {
       ++done;
-      barrier.PassThrough();
+      barrier.Pass();
     });
 
-    barrier.PassThrough();
+    barrier.Pass();
 
-    Execute(strand, [&done] {
+    Submit(strand, [&done] {
       ++done;
     });
 
@@ -61,9 +60,9 @@ void ScheduleExecuteRace() {
 
 //////////////////////////////////////////////////////////////////////
 
-TEST_SUITE(StrandMemoryOrderings) {
-  TWIST_TEST(ScheduleExecuteRace, 5s) {
-    ScheduleExecuteRace();
+TEST_SUITE(MemoryOrders) {
+  TWIST_TEST(MaybeAnomaly, 5s) {
+    MaybeAnomaly();
   }
 }
 

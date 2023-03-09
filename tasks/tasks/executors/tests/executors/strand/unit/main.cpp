@@ -1,10 +1,10 @@
 #include <exe/executors/thread_pool.hpp>
 #include <exe/executors/strand.hpp>
 #include <exe/executors/manual.hpp>
-#include <exe/executors/execute.hpp>
+#include <exe/executors/submit.hpp>
 
 #include <wheels/test/framework.hpp>
-#include <wheels/support/stop_watch.hpp>
+#include <wheels/core/stop_watch.hpp>
 
 #include <thread>
 #include <deque>
@@ -13,18 +13,20 @@
 using namespace exe::executors;
 using namespace std::chrono_literals;
 
-void ExpectThreadPool(ThreadPool& pool) {
+void AssertRunningOn(ThreadPool& pool) {
   ASSERT_EQ(ThreadPool::Current(), &pool);
 }
 
 TEST_SUITE(Strand) {
   SIMPLE_TEST(JustWorks) {
     ThreadPool pool{4};
+    pool.Start();
+
     Strand strand{pool};
 
     bool done = false;
 
-    Execute(strand, [&]() {
+    Submit(strand, [&] {
       done = true;
     });
 
@@ -37,13 +39,15 @@ TEST_SUITE(Strand) {
 
   SIMPLE_TEST(Decorator) {
     ThreadPool pool{4};
+    pool.Start();
+
     Strand strand(pool);
 
     bool done{false};
 
     for (size_t i = 0; i < 128; ++i) {
-      Execute(strand, [&]() {
-        ExpectThreadPool(pool);
+      Submit(strand, [&] {
+        AssertRunningOn(pool);
         done = true;
       });
     }
@@ -57,6 +61,7 @@ TEST_SUITE(Strand) {
 
   SIMPLE_TEST(Counter) {
     ThreadPool pool{13};
+    pool.Start();
 
     size_t counter = 0;
 
@@ -65,8 +70,8 @@ TEST_SUITE(Strand) {
     static const size_t kIncrements = 1234;
 
     for (size_t i = 0; i < kIncrements; ++i) {
-      Execute(strand, [&]() {
-        ExpectThreadPool(pool);
+      Submit(strand, [&]() {
+        AssertRunningOn(pool);
         ++counter;
       });
     };
@@ -80,23 +85,24 @@ TEST_SUITE(Strand) {
 
   SIMPLE_TEST(Fifo) {
     ThreadPool pool{13};
+    pool.Start();
+
     Strand strand(pool);
 
-    size_t next_index = 0;
+    size_t done = 0;
 
     static const size_t kTasks = 12345;
 
     for (size_t i = 0; i < kTasks; ++i) {
-      Execute(strand, [&, i]() {
-        ExpectThreadPool(pool);
-        ASSERT_EQ(next_index, i);
-        ++next_index;
+      Submit(strand, [&, i] {
+        AssertRunningOn(pool);
+        ASSERT_EQ(done++, i);
       });
     };
 
     pool.WaitIdle();
 
-    ASSERT_EQ(next_index, kTasks);
+    ASSERT_EQ(done, kTasks);
 
     pool.Stop();
   }
@@ -106,8 +112,8 @@ TEST_SUITE(Strand) {
     explicit Robot(IExecutor& executor) : strand_(executor) {
     }
 
-    void Kick() {
-      Execute(strand_, [this]() {
+    void Push() {
+      Submit(strand_, [this]() {
         ++steps_;
       });
     }
@@ -131,13 +137,13 @@ TEST_SUITE(Strand) {
       robots.emplace_back(pool);
     }
 
-    static const size_t kKicks = 25;
+    static const size_t kPushes = 25;
     static const size_t kIterations = 25;
 
     for (size_t i = 0; i < kIterations; ++i) {
       for (size_t j = 0; j < kStrands; ++j) {
-        for (size_t k = 0; k < kKicks; ++k) {
-          robots[j].Kick();
+        for (size_t k = 0; k < kPushes; ++k) {
+          robots[j].Push();
         }
       }
     }
@@ -145,13 +151,13 @@ TEST_SUITE(Strand) {
     pool.WaitIdle();
 
     for (size_t i = 0; i < kStrands; ++i) {
-      ASSERT_EQ(robots[i].Steps(), kKicks * kIterations);
+      ASSERT_EQ(robots[i].Steps(), kPushes * kIterations);
     }
 
     pool.Stop();
   }
 
-  SIMPLE_TEST(ConcurrentExecutes) {
+  SIMPLE_TEST(ConcurrentSubmits) {
     ThreadPool workers{2};
     Strand strand{workers};
 
@@ -162,9 +168,9 @@ TEST_SUITE(Strand) {
     size_t task_count{0};
 
     for (size_t i = 0; i < kTasks; ++i) {
-      Execute(clients, [&]() {
-        Execute(strand, [&]() {
-          ExpectThreadPool(workers);
+      Submit(clients, [&]() {
+        Submit(strand, [&]() {
+          AssertRunningOn(workers);
           std::cout << "Task executed!" << std::endl;
           ++task_count;
         });
@@ -189,7 +195,7 @@ TEST_SUITE(Strand) {
     size_t tasks = 0;
 
     for (size_t i = 0; i < kTasks; ++i) {
-      Execute(strand, [&]() {
+      Submit(strand, [&] {
         ++tasks;
       });
     }
@@ -207,7 +213,7 @@ TEST_SUITE(Strand) {
 
     size_t completed = 0;
     for (size_t i = 0; i < kTasks; ++i) {
-      Execute(strand, [&completed]() {
+      Submit(strand, [&completed] {
         ++completed;
       });
     };
@@ -218,16 +224,17 @@ TEST_SUITE(Strand) {
 
   SIMPLE_TEST(StrandOverStrand) {
     ThreadPool pool{4};
+    pool.Start();
 
-    Strand strand_1(pool);
-    Strand strand_2((IExecutor&)strand_1);
+    Strand strand_1{pool};
+    Strand strand_2{(IExecutor&)strand_1};
 
     static const size_t kTasks = 17;
 
     size_t tasks = 0;
 
     for (size_t i = 0; i < kTasks; ++i) {
-      Execute(strand_2, [&tasks]() {
+      Submit(strand_2, [&tasks] {
         ++tasks;
       });
     }
@@ -241,9 +248,11 @@ TEST_SUITE(Strand) {
 
   SIMPLE_TEST(DoNotOccupyThread) {
     ThreadPool pool{1};
+    pool.Start();
+
     Strand strand{pool};
 
-    Execute(pool, []() {
+    Submit(pool, []() {
       std::this_thread::sleep_for(1s);
     });
 
@@ -254,15 +263,15 @@ TEST_SUITE(Strand) {
     };
 
     for (size_t i = 0; i < 100; ++i) {
-      Execute(strand, snooze);
+      Submit(strand, snooze);
     }
 
-    Execute(pool, [&stop_requested]() {
+    Submit(pool, [&stop_requested]() {
       stop_requested.store(true);
     });
 
     while (!stop_requested.load()) {
-      Execute(strand, snooze);
+      Submit(strand, snooze);
       std::this_thread::sleep_for(10ms);
     }
 
@@ -270,11 +279,11 @@ TEST_SUITE(Strand) {
     pool.Stop();
   }
 
-  SIMPLE_TEST(NonBlockingExecute) {
+  SIMPLE_TEST(NonBlockingSubmit) {
     ThreadPool pool{1};
     Strand strand{pool};
 
-    Execute(strand, [&]() {
+    Submit(strand, [&]() {
       // Bubble
       std::this_thread::sleep_for(3s);
     });
@@ -283,7 +292,7 @@ TEST_SUITE(Strand) {
 
     {
       wheels::StopWatch stop_watch;
-      Execute(strand, [&]() {
+      Submit(strand, [&]() {
         // Do nothing
       });
 

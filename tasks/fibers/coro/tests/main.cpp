@@ -1,12 +1,13 @@
-#include <exe/coroutine/standalone.hpp>
+#include <exe/coro/coroutine.hpp>
 
 #include <wheels/test/framework.hpp>
 
 #include <memory>
 #include <string>
+#include <sstream>
 #include <thread>
 
-using exe::coroutine::Coroutine;
+using exe::coro::Coroutine;
 
 //////////////////////////////////////////////////////////////////////
 
@@ -20,9 +21,9 @@ struct TreeNode {
   std::string data;
 
   TreeNode(std::string _data, TreeNodePtr _left, TreeNodePtr _right)
-  : left(std::move(_left)),
-  right(std::move(_right)),
-  data(std::move(_data)) {
+      : left(std::move(_left)),
+        right(std::move(_right)),
+        data(std::move(_data)) {
   }
 
   static TreeNodePtr CreateFork(std::string data, TreeNodePtr left, TreeNodePtr right) {
@@ -43,12 +44,12 @@ struct TreeNode {
 class TreeIterator {
  public:
   explicit TreeIterator(TreeNodePtr root)
-  : walker_([this, root]() {
-    TreeWalk(root);
-  }) {
+      : walker_([this, root]() {
+          TreeWalk(root);
+        }) {
   }
 
-  bool MoveToNext() {
+  bool Advance() {
     walker_.Resume();
     return !walker_.IsCompleted();
   }
@@ -80,7 +81,7 @@ class TreeIterator {
 
 TEST_SUITE(Coroutine) {
   SIMPLE_TEST(JustWorks) {
-    Coroutine co([]() {
+    Coroutine co([] {
       Coroutine::Suspend();
     });
 
@@ -94,7 +95,7 @@ TEST_SUITE(Coroutine) {
   SIMPLE_TEST(Interleaving) {
     int step = 0;
 
-    Coroutine a([&]() {
+    Coroutine a([&] {
       ASSERT_EQ(step, 0);
       step = 1;
       Coroutine::Suspend();
@@ -102,7 +103,7 @@ TEST_SUITE(Coroutine) {
       step = 3;
     });
 
-    Coroutine b([&]() {
+    Coroutine b([&] {
       ASSERT_EQ(step, 1);
       step = 2;
       Coroutine::Suspend();
@@ -126,7 +127,7 @@ TEST_SUITE(Coroutine) {
 
   struct Threads {
     template <typename F>
-    void Execute(F task) {
+    void Run(F task) {
       std::thread t([task = std::move(task)]() mutable {
         task();
       });
@@ -137,7 +138,7 @@ TEST_SUITE(Coroutine) {
   SIMPLE_TEST(Threads) {
     size_t steps = 0;
 
-    Coroutine co([&steps]() {
+    Coroutine co([&steps] {
       std::cout << "Step" << std::endl;
       ++steps;
       Coroutine::Suspend();
@@ -148,15 +149,15 @@ TEST_SUITE(Coroutine) {
       ++steps;
     });
 
-    auto resume = [&co]() {
+    auto resume = [&co] {
       co.Resume();
     };
 
     // Simulate fiber running in thread pool
     Threads threads;
-    threads.Execute(resume);
-    threads.Execute(resume);
-    threads.Execute(resume);
+    threads.Run(resume);
+    threads.Run(resume);
+    threads.Run(resume);
 
     ASSERT_EQ(steps, 3);
   }
@@ -171,16 +172,16 @@ TEST_SUITE(Coroutine) {
                 "D",
                 TreeNode::CreateLeaf("C"),
                 TreeNode::CreateLeaf("E")),
-                TreeNode::CreateLeaf("G")));
+            TreeNode::CreateLeaf("G")));
 
-    std::string traversal;
+    std::stringstream traversal;
 
     TreeIterator iter(root);
-    while (iter.MoveToNext()) {
-      traversal += iter.Data();
+    while (iter.Advance()) {
+      traversal << iter.Data();
     }
 
-    ASSERT_EQ(traversal, "ABCDEFG");
+    ASSERT_EQ(traversal.str(), "ABCDEFG");
   }
 
   SIMPLE_TEST(Pipeline) {
@@ -188,8 +189,8 @@ TEST_SUITE(Coroutine) {
 
     size_t step_count = 0;
 
-    Coroutine a([&]() {
-      Coroutine b([&]() {
+    Coroutine a([&] {
+      Coroutine b([&] {
         for (size_t i = 0; i < kSteps; ++i) {
           ++step_count;
           Coroutine::Suspend();
@@ -212,7 +213,7 @@ TEST_SUITE(Coroutine) {
   struct MyException {};
 
   SIMPLE_TEST(Exception) {
-    Coroutine co([&]() {
+    Coroutine co([&] {
       Coroutine::Suspend();
       throw MyException{};
       Coroutine::Suspend();
@@ -225,8 +226,8 @@ TEST_SUITE(Coroutine) {
   }
 
   SIMPLE_TEST(NestedException1) {
-    Coroutine a([&]() {
-      Coroutine b([]() {
+    Coroutine a([&] {
+      Coroutine b([] {
         throw MyException();
       });
       ASSERT_THROW(b.Resume(), MyException);
@@ -236,8 +237,8 @@ TEST_SUITE(Coroutine) {
   }
 
   SIMPLE_TEST(NestedException2) {
-    Coroutine a([&]() {
-      Coroutine b([]() {
+    Coroutine a([&] {
+      Coroutine b([] {
         throw MyException();
       });
       b.Resume();
@@ -251,8 +252,8 @@ TEST_SUITE(Coroutine) {
   SIMPLE_TEST(ExceptionsHard) {
     int score = 0;
 
-    Coroutine a([&]() {
-      Coroutine b([]() {
+    Coroutine a([&] {
+      Coroutine b([] {
         throw 1;
       });
       try {
@@ -267,7 +268,7 @@ TEST_SUITE(Coroutine) {
 
     a.Resume();
 
-    std::thread t([&]() {
+    std::thread t([&] {
       try {
         a.Resume();
       } catch (int) {
@@ -279,7 +280,7 @@ TEST_SUITE(Coroutine) {
     ASSERT_EQ(score, 2);
   }
 
-  SIMPLE_TEST(Leak) {
+  SIMPLE_TEST(MemoryLeak) {
     auto shared_ptr = std::make_shared<int>(42);
     std::weak_ptr<int> weak_ptr = shared_ptr;
 

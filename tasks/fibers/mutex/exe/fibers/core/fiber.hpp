@@ -14,9 +14,7 @@ class Fiber {
 
   void Schedule();
 
-  void Yield();
-
-  void Suspend();
+  void Suspend(/*???*/);
   void Resume();
 
   static Fiber& Self();

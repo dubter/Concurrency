@@ -4,9 +4,8 @@
 
 - [mutex/dining](/tasks/mutex/dining)
 - [fibers/mutex](/tasks/fibers/mutex)
-- [futures/executors](/tasks/futures/executors)
-- Интрузивные задачи
-- [fibers/scheduler](/tasks/fibers/scheduler) – рекомендуется
+- [tasks/executors](/tasks/tasks/executors)
+- [tasks/scheduler](/tasks/fibers/scheduler)
 
 ## Go Proverb
 

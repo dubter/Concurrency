@@ -43,7 +43,7 @@ tp::ThreadPool pool{4};
 pool.Start();
 
 pool.Submit([] {
-  fmt::println("Running in thread pool");
+  fmt::println("Running on thread pool");
 });
 ```
 

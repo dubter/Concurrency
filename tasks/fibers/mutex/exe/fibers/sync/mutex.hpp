@@ -1,8 +1,7 @@
 #pragma once
 
-#include <exe/fibers/sync/futex.hpp>
-
-#include <twist/ed/stdlike/atomic.hpp>
+// std::lock_guard and std::unique_lock
+#include <mutex>
 
 namespace exe::fibers {
 

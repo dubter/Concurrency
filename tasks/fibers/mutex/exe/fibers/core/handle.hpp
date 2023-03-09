@@ -23,7 +23,7 @@ class FiberHandle {
   // Schedule to an associated scheduler
   void Schedule();
 
-  // Resume immediately in the current thread
+  // Resume immediately on the current thread
   void Resume();
 
  private:

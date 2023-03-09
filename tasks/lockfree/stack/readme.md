@@ -7,7 +7,7 @@
 Счетчик ссылок для узла стека разделите на две компоненты:
 
 - Декременты счетчика ссылок храните внутри узла.
-- Инкременты счетчика храните прямо на указателе на узел.
+- Инкременты счетчика храните прямо в указателе на узел.
 
 ### `AtomicStampedPtr`
 
@@ -18,9 +18,9 @@ AtomicStampedPtr<T> asp({nullptr, 0});
 
 asp.Store({raw_ptr, 7});
 auto stamped_ptr = asp.Load();
-// Метод `IncrementCount` возвращает новый `StampedPtr`, 
+// Метод `IncrementStamp` возвращает новый `StampedPtr`, 
 // в котором счетчик увеличен на единицу
-bool succeeded = asp.CompareExchangeWeak(stamped_ptr, stamped_ptr.IncrementCount());
+bool succeeded = asp.CompareExchangeWeak(stamped_ptr, stamped_ptr.IncrementStamp());
 ```
 
 Счетчик в `AtomicStampedPtr` самостоятельного смысла не имеет.

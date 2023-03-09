@@ -8,8 +8,18 @@ namespace exe::executors {
 
 class ManualExecutor : public IExecutor {
  public:
+  ManualExecutor() = default;
+
+  // Non-copyable
+  ManualExecutor(const ManualExecutor&) = delete;
+  ManualExecutor& operator=(const ManualExecutor&) = delete;
+
+  // Non-movable
+  ManualExecutor(ManualExecutor&&) = delete;
+  ManualExecutor& operator=(ManualExecutor&&) = delete;
+
   // IExecutor
-  void Execute(Task task) override;
+  void Submit(Task) override;
 
   // Run tasks
 

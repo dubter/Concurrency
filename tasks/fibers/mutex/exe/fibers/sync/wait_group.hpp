@@ -1,9 +1,5 @@
 #pragma once
 
-#include <exe/fibers/sync/futex.hpp>
-
-#include <twist/ed/stdlike/atomic.hpp>
-
 namespace exe::fibers {
 
 // https://gobyexample.com/waitgroups
@@ -18,6 +14,7 @@ class WaitGroup {
     // Not implemented
   }
 
+  // One-shot
   void Wait() {
     // Not implemented
   }
