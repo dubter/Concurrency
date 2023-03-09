@@ -1,4 +1,4 @@
-#include <exe/coro/coroutine.hpp>
+#include <coro/coroutine.hpp>
 
 #include <wheels/test/framework.hpp>
 
@@ -7,7 +7,7 @@
 #include <sstream>
 #include <thread>
 
-using exe::coro::Coroutine;
+using coro::Coroutine;
 
 //////////////////////////////////////////////////////////////////////
 
@@ -20,20 +20,20 @@ struct TreeNode {
   TreeNodePtr right;
   std::string data;
 
-  TreeNode(std::string _data, TreeNodePtr _left, TreeNodePtr _right)
-      : left(std::move(_left)),
-        right(std::move(_right)),
-        data(std::move(_data)) {
+  TreeNode(std::string d, TreeNodePtr l, TreeNodePtr r)
+      : left(std::move(l)),
+        right(std::move(r)),
+        data(std::move(d)) {
   }
 
-  static TreeNodePtr CreateFork(std::string data, TreeNodePtr left, TreeNodePtr right) {
+  static TreeNodePtr Fork(std::string data, TreeNodePtr left, TreeNodePtr right) {
     return std::make_shared<TreeNode>(
         std::move(data),
         std::move(left),
         std::move(right));
   }
 
-  static TreeNodePtr CreateLeaf(std::string data) {
+  static TreeNodePtr Leaf(std::string data) {
     return std::make_shared<TreeNode>(
         std::move(data), nullptr, nullptr);
   }
@@ -44,7 +44,7 @@ struct TreeNode {
 class TreeIterator {
  public:
   explicit TreeIterator(TreeNodePtr root)
-      : walker_([this, root]() {
+      : walker_([this, root] {
           TreeWalk(root);
         }) {
   }
@@ -163,16 +163,16 @@ TEST_SUITE(Coroutine) {
   }
 
   SIMPLE_TEST(TreeWalk) {
-    auto root = TreeNode::CreateFork(
+    auto root = TreeNode::Fork(
         "B",
-        TreeNode::CreateLeaf("A"),
-        TreeNode::CreateFork(
+        TreeNode::Leaf("A"),
+        TreeNode::Fork(
             "F",
-            TreeNode::CreateFork(
+            TreeNode::Fork(
                 "D",
-                TreeNode::CreateLeaf("C"),
-                TreeNode::CreateLeaf("E")),
-            TreeNode::CreateLeaf("G")));
+                TreeNode::Leaf("C"),
+                TreeNode::Leaf("E")),
+            TreeNode::Leaf("G")));
 
     std::stringstream traversal;
 
@@ -285,7 +285,7 @@ TEST_SUITE(Coroutine) {
     std::weak_ptr<int> weak_ptr = shared_ptr;
 
     {
-      auto routine = [ptr = std::move(shared_ptr)]() {};
+      auto routine = [ptr = std::move(shared_ptr)] {};
       Coroutine co(routine);
       co.Resume();
     }

@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {
+      "targets": ["tests"],
+      "profiles": [
+        "DebugASan"
+      ]
+    }
+  ],
+  "lint_files": ["coro"],
+  "submit_files": ["coro"]
+}

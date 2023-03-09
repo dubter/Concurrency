@@ -7,7 +7,7 @@
 
 namespace coro {
 
-Coroutine::Coroutine(Routine routine) {
+Coroutine::Coroutine(Routine /*routine*/) {
   // Not implemented
 }
 

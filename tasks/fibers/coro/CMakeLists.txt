@@ -7,6 +7,8 @@ add_task_library(coro)
 add_task_playground(play)
 
 # Tests
-add_task_test(tests tests/main.cpp)
+
+# Coroutine
+add_task_test_dir(tests tests)
 
 end_task()
