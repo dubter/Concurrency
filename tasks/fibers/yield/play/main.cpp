@@ -9,7 +9,6 @@ using namespace exe;
 
 int main() {
   tp::ThreadPool scheduler{/*threads=*/4};
-
   scheduler.Start();
 
   for (size_t i = 0; i < 256; ++i) {
