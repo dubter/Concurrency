@@ -14,7 +14,6 @@ class WaitGroup {
     // Not implemented
   }
 
-  // One-shot
   void Wait() {
     // Not implemented
   }
