@@ -88,21 +88,21 @@ void FibersExample() {
 - _корутина_ (`Coroutine`) и
 - _файбер_ (`Fiber`).
 
-### Структура
-
-Декомпозиция отражена в организации фреймворка `exe`, который мы начнем писать в этой задаче:
-- [`coro`](exe/coro) – корутины
-- [`tp`](exe/tp) – пул потоков (планировщик задач)
-- [`fibers`](exe/fibers) – файберы, зависят от `tp` и `coro`
-
 ## References
 
 - Loom
-  - [Project Loom: Fibers and Continuations for the Java Virtual Machine](https://cr.openjdk.java.net/~rpressler/loom/Loom-Proposal.html)
-  - [Ron Pressler and Alan Bateman – Project Loom](https://www.youtube.com/watch?v=J31o0ZMQEnI)
-  - [State of Loom](https://cr.openjdk.java.net/~rpressler/loom/loom/sol1_part1.html)
+    - [Project Loom: Fibers and Continuations for the Java Virtual Machine](https://cr.openjdk.java.net/~rpressler/loom/Loom-Proposal.html)
+    - [Ron Pressler and Alan Bateman – Project Loom](https://www.youtube.com/watch?v=J31o0ZMQEnI)
+    - [State of Loom](https://cr.openjdk.java.net/~rpressler/loom/loom/sol1_part1.html)
 - [Fibers, Oh My!](https://graphitemaster.github.io/fibers/)
 
+## Структура `exe`
+
+- [`coro`](exe/coro) – корутины
+- [`tp`](exe/tp) – пул потоков (планировщик задач)
+- [`fibers`](exe/fibers) – файберы, зависят от `tp` и `coro`
+- [`threads`](exe/threads) – синхронизация для потоков
+- [`support`](exe/support) – полезные мелочи
 
 ## Задание
 
