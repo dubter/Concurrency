@@ -12,11 +12,11 @@ add_task_playground(play)
 # Tests
 
 # Coroutine
-add_task_test_dir(tests/coroutine coroutine_tests)
+add_task_test_dir(tests/coro coro_tests)
 
 # Fibers
-add_task_test_dir(tests/fibers/yield fibers_yield_tests)
-add_task_test_dir(tests/fibers/sleep_for-1 fibers_sleep_for_tests-1)
-add_task_test_dir(tests/fibers/sleep_for-2 fibers_sleep_for_tests-2)
+add_task_test(fibers_yield_tests tests/fibers/yield/main.cpp)
+add_task_test(fibers_sleep_for_tests_1 tests/fibers/sleep_for_1/main.cpp)
+add_task_test(fibers_sleep_for_tests_2 tests/fibers/sleep_for_2/main.cpp)
 
 end_task()

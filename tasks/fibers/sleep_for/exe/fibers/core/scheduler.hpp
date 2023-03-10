@@ -1,9 +1,9 @@
 #pragma once
 
-#include <chrono>
+#include <asio/io_context.hpp>
 
 namespace exe::fibers {
 
-using Millis = std::chrono::milliseconds;
+using Scheduler = asio::io_context;
 
 }  // namespace exe::fibers

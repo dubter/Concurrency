@@ -1,37 +1,34 @@
 #pragma once
 
-#include <exe/fibers/core/api.hpp>
+#include <exe/fibers/sched/go.hpp>
 
-#include <asio.hpp>
+#include <asio/io_context.hpp>
 
 #include <vector>
 #include <thread>
 
 template <typename F>
 void RunScheduler(size_t threads, F init) {
-  // I/O scheduler
   asio::io_context scheduler;
-
-  // Spawn initial fiber
 
   bool done = false;
 
+  // Spawn initial fiber
   exe::fibers::Go(scheduler, [init, &done]() {
     init();
     done = true;
   });
 
-  // Run event loop
-
-  std::vector<std::thread> runners;
+  std::vector<std::thread> workers;
 
   for (size_t i = 0; i < threads; ++i) {
-    runners.emplace_back([&scheduler]() {
+    workers.emplace_back([&scheduler] {
       scheduler.run();
     });
   }
+
   // Join runners
-  for (auto& t : runners) {
+  for (auto& t : workers) {
     t.join();
   }
 

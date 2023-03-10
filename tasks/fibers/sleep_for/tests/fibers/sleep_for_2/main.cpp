@@ -1,11 +1,13 @@
 #include <wheels/test/framework.hpp>
-#include <twist/test/budget.hpp>
 
-#include <wheels/support/cpu_time.hpp>
+#include <wheels/test/current.hpp>
 
-#include <exe/fibers/core/api.hpp>
+#include <exe/fibers/sched/go.hpp>
+#include <exe/fibers/sched/yield.hpp>
+#include <exe/fibers/sched/sleep_for.hpp>
 
 #include "../common/run.hpp"
+#include "../common/test.hpp"
 
 using namespace exe;
 using namespace std::chrono_literals;
@@ -16,7 +18,7 @@ TEST_SUITE(SleepFor) {
   SIMPLE_TEST(JustWorks) {
     RunScheduler(/*threads=*/4, []() {
       for (size_t i = 0; i < 17; ++i) {
-        fibers::self::SleepFor(100ms);
+        fibers::SleepFor(100ms);
         std::cout << i << std::endl;
       }
     });
@@ -28,11 +30,11 @@ TEST_SUITE(SleepFor) {
         fibers::Go([i]() {
           size_t j = 0;
 
-          while (twist::test::KeepRunning()) {
-            fibers::self::SleepFor(((i + j) % 5) * 1ms);
+          while (KeepRunning()) {
+            fibers::SleepFor(((i + j) % 5) * 1ms);
 
             if (j % 11 == 0) {
-              fibers::self::Yield();
+              fibers::Yield();
             }
 
             ++j;
@@ -55,11 +57,11 @@ TEST_SUITE(SleepFor) {
   }
 
   void StressTest2(size_t fibers) {
-    while (twist::test::KeepRunning()) {
+    while (KeepRunning()) {
       RunScheduler(/*threads=*/4, [fibers]() {
         for (size_t i = 0; i < fibers; ++i) {
           fibers::Go([i] {
-            fibers::self::SleepFor((i % 2) * 1ms);
+            fibers::SleepFor((i % 2) * 1ms);
           });
         }
       });

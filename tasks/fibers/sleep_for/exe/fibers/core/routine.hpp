@@ -2,8 +2,8 @@
 
 #include <function2/function2.hpp>
 
-namespace exe::coroutine {
+namespace exe::fibers {
 
 using Routine = fu2::unique_function<void()>;
 
-}  // namespace exe::coroutine
+}  // namespace exe::fibers

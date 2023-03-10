@@ -1,10 +1,13 @@
 #include <wheels/test/framework.hpp>
 
-#include <wheels/support/cpu_time.hpp>
+#include <exe/fibers/sched/go.hpp>
+#include <exe/fibers/sched/yield.hpp>
+#include <exe/fibers/sched/sleep_for.hpp>
 
-#include <exe/fibers/core/api.hpp>
+#include <wheels/core/stop_watch.hpp>
 
 #include "../common/run.hpp"
+#include "../common/test.hpp"
 
 using namespace exe;
 using namespace std::chrono_literals;
@@ -23,7 +26,7 @@ class WaitGroup {
 
   void Wait() {
     while (count_ > 0) {
-      fibers::self::SleepFor(1ms);
+      fibers::SleepFor(1ms);
     }
   }
 
@@ -38,7 +41,7 @@ TEST_SUITE(SleepFor1) {
     RunScheduler(/*threads=*/1, []() {
       wheels::StopWatch stop_watch;
 
-      fibers::self::SleepFor(256ms);
+      fibers::SleepFor(256ms);
 
       ASSERT_TRUE(stop_watch.Elapsed() > 100ms);
     });
@@ -48,8 +51,8 @@ TEST_SUITE(SleepFor1) {
     asio::io_context scheduler;
     bool done = false;
 
-    exe::fibers::Go(scheduler, [&done]() {
-      fibers::self::SleepFor(200ms);
+    fibers::Go(scheduler, [&done] {
+      fibers::SleepFor(200ms);
       done = true;
     });
 
@@ -66,7 +69,7 @@ TEST_SUITE(SleepFor1) {
       wheels::StopWatch stop_watch;
 
       for (size_t i = 0; i < 5; ++i) {
-        fibers::self::SleepFor(1s);
+        fibers::SleepFor(1s);
       }
 
       ASSERT_TRUE(stop_watch.Elapsed() > 4s);
@@ -74,15 +77,15 @@ TEST_SUITE(SleepFor1) {
   }
 
   SIMPLE_TEST(Concurrent) {
-    RunScheduler(/*threads=*/1, []() {
+    RunScheduler(/*threads=*/1, [] {
       size_t sleepers = 0;
       WaitGroup wg;
 
       for (size_t i = 0; i < 17; ++i) {
         wg.Add(1);
 
-        fibers::Go([&]() {
-          fibers::self::SleepFor(2s);
+        fibers::Go([&] {
+          fibers::SleepFor(2s);
           ++sleepers;
           wg.Done();
         });
@@ -95,7 +98,7 @@ TEST_SUITE(SleepFor1) {
   }
 
   SIMPLE_TEST(NonBlocking) {
-    RunScheduler(/*threads=*/1, []() {
+    RunScheduler(/*threads=*/1, [] {
       size_t yields = 0;
       bool released = false;
 
@@ -103,15 +106,15 @@ TEST_SUITE(SleepFor1) {
 
       wg.Add(1);
 
-      fibers::Go([&]() {
+      fibers::Go([&] {
         while (!released) {
           ++yields;
-          fibers::self::Yield();
+          fibers::Yield();
         }
         wg.Done();
       });
 
-      fibers::self::SleepFor(256ms);
+      fibers::SleepFor(256ms);
       released = true;
 
       wg.Wait();
@@ -121,14 +124,14 @@ TEST_SUITE(SleepFor1) {
   }
 
   SIMPLE_TEST(Delays) {
-    RunScheduler(/*threads=*/1, []() {
+    RunScheduler(/*threads=*/1, [] {
       for (size_t i = 1; i <= 3; ++i) {
         fibers::Go([i]() {
           const auto delay = i * 1s;
 
           wheels::StopWatch stop_watch;
           {
-            fibers::self::SleepFor(delay);
+            fibers::SleepFor(delay);
           }
           auto elapsed = stop_watch.Elapsed();
 
@@ -140,7 +143,7 @@ TEST_SUITE(SleepFor1) {
   }
 
   SIMPLE_TEST(Stress) {
-    RunScheduler(/*threads=*/1, []() {
+    RunScheduler(/*threads=*/1, [] {
       WaitGroup wg;
 
       for (size_t i = 0; i < 100; ++i) {
@@ -148,13 +151,13 @@ TEST_SUITE(SleepFor1) {
 
         fibers::Go([&]() {
           for (size_t j = 0; j < 256; ++j) {
-            fibers::self::SleepFor(3ms);
+            fibers::SleepFor(3ms);
           }
           wg.Done();
         });
       }
 
-      fibers::self::SleepFor(2s);
+      fibers::SleepFor(2s);
 
       wg.Wait();
     });
