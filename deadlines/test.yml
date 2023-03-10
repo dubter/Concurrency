@@ -39,6 +39,8 @@
       score: 150
     - task: cond/barrier
       score: 150
+    - task: cond/wait_group
+      score: 100
 
 - group:    Futures / Std
   start:    01-01-2021 12:00
@@ -53,3 +55,16 @@
   tasks:
     - task: tasks/thread-pool
       score: 400
+
+- group:    Fibers
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: fibers/coro
+      score: 200
+    - task: fibers/yield
+      score: 300
+    - task: fibers/sleep_for
+      score: 300
+    - task: fibers/mutex
+      score: 500
