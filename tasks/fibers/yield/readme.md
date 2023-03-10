@@ -71,7 +71,7 @@ void FibersExample() {
 
 Ваша задача: __не меняя<sup>†</sup> эти компоненты__, сохраняя их ортогональность, выразить через них операции `Go` и `Yield` для файберов.
 
-†: Цель, разумеется, не в полном отсутствии изменений, а в том, чтобы детали реализации файберов не проникали в пул / корутину, а сами пул и корутина по-прежнему хорошо подходили для других своих приложений.
+† Цель, разумеется, не в полном отсутствии изменений, а в том, чтобы детали реализации файберов не проникали в пул / корутину, а сами пул и корутина по-прежнему хорошо подходили для других своих приложений.
 
 ### Развитие 
 
@@ -88,7 +88,7 @@ void FibersExample() {
 
 ## References
 
-- Loom
+- [Loom](https://wiki.openjdk.org/display/loom/Main)
     - [Project Loom: Fibers and Continuations for the Java Virtual Machine](https://cr.openjdk.java.net/~rpressler/loom/Loom-Proposal.html)
     - [Ron Pressler and Alan Bateman – Project Loom](https://www.youtube.com/watch?v=J31o0ZMQEnI)
     - [State of Loom](https://cr.openjdk.java.net/~rpressler/loom/loom/sol1_part1.html)
