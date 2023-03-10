@@ -1,11 +1,15 @@
 {
   "tests": [
     {
-      "targets": ["fibers_mutex_unit_tests"],
+      "targets": [
+        "fibers_mutex_unit_tests"
+      ],
       "profiles": ["DebugASan"]
     },
     {
-      "targets": ["fibers_mutex_stress_tests"],
+      "targets": [
+        "fibers_mutex_stress_tests"
+      ],
       "profiles": [
         "FaultyFibers",
         "FaultyThreadsASan",

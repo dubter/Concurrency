@@ -1,11 +1,15 @@
 {
   "tests": [
     {
-      "targets": ["fibers_event_unit_tests"],
+      "targets": [
+        "fibers_event_unit_tests"
+      ],
       "profiles": ["DebugASan"]
     },
     {
-      "targets": ["fibers_event_stress_tests"],
+      "targets": [
+        "fibers_event_stress_tests"
+      ],
       "profiles": [
         "FaultyFibers",
         "FaultyThreadsASan",
@@ -13,7 +17,9 @@
       ]
     },
     {
-      "targets": ["fibers_event_storage_tests"],
+      "targets": [
+        "fibers_event_storage_tests"
+      ],
       "profiles": ["FaultyFibersASan"]
     }
   ]
