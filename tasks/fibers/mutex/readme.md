@@ -26,7 +26,7 @@ void SyncExample() {
   executors::ThreadPool scheduler{/*threads=*/4};
   scheduler.Start();
   
-  fibers::Go(scheduler, []() {
+  fibers::Go(scheduler, [] {
     fibers::Mutex mutex;
     size_t cs = 0;
     
