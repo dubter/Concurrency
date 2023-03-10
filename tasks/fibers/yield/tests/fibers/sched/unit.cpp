@@ -147,9 +147,9 @@ TEST_SUITE(Fibers) {
 
   SIMPLE_TEST(TwoPools1) {
     tp::ThreadPool pool_1{4};
-    pool_1.Start();
-
     tp::ThreadPool pool_2{4};
+
+    pool_1.Start();
     pool_2.Start();
 
     auto make_tester = [](tp::ThreadPool& pool) {

@@ -7,6 +7,8 @@ namespace exe::coro {
 
 class Coroutine {
  public:
+  using Routine = fu
+
   explicit Coroutine(Routine);
 
   void Resume();

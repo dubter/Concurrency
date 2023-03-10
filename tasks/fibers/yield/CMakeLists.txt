@@ -9,14 +9,14 @@ add_task_playground(play)
 # Tests
 
 # Coroutine
-add_task_test_dir(tests/coroutine coroutine_tests)
+add_task_test_dir(tests/coro coro_tests)
 
 # Thread Pool
-add_task_test_dir(tests/thread_pool/unit thread_pool_unit_tests)
-add_task_test_dir(tests/thread_pool/stress thread_pool_stress_tests)
+add_task_test(tp_unit_tests tests/tp/unit.cpp)
+add_task_test(tp_stress_tests tests/tp/stress.cpp)
 
 # Fibers
-add_task_test_dir(tests/fibers/core/ fibers_core_tests)
-add_task_test_dir(tests/fibers/racy fibers_racy_tests)
+add_task_test(fibers_unit_tests tests/fibers/sched/unit.cpp)
+add_task_test(fibers_stress_tests tests/fibers/sched/stress.cpp)
 
 end_task()
