@@ -1,58 +1,45 @@
 #include <wheels/test/framework.hpp>
-
 #include <wheels/test/current.hpp>
 
 #include <exe/fibers/sched/go.hpp>
 #include <exe/fibers/sched/yield.hpp>
 #include <exe/fibers/sched/sleep_for.hpp>
 
-#include "../common/run.hpp"
-#include "../common/test.hpp"
+#include "../../common/run.hpp"
+#include "../../common/test.hpp"
 
 using namespace exe;
 using namespace std::chrono_literals;
 
 //////////////////////////////////////////////////////////////////////
 
-TEST_SUITE(SleepFor) {
-  SIMPLE_TEST(JustWorks) {
-    RunScheduler(/*threads=*/4, []() {
-      for (size_t i = 0; i < 17; ++i) {
-        fibers::SleepFor(100ms);
-        std::cout << i << std::endl;
-      }
-    });
-  }
+TEST_SUITE(SleepForMultiThread) {
 
   void StressTest1(size_t fibers) {
     RunScheduler(/*threads=*/4, [fibers]() {
       for (size_t i = 0; i < fibers; ++i) {
-        fibers::Go([i]() {
-          size_t j = 0;
-
-          while (KeepRunning()) {
+        fibers::Go([i] {
+          for (size_t j = 0; KeepRunning(); ++j) {
             fibers::SleepFor(((i + j) % 5) * 1ms);
 
             if (j % 11 == 0) {
               fibers::Yield();
             }
-
-            ++j;
           }
         });
       }
     });
   }
 
-  SIMPLE_TEST(Stress1_1) {
-    StressTest1(/*fibers=*/5);
-  }
-
-  SIMPLE_TEST(Stress1_2) {
+  TEST(Stress1_1, wheels::test::TestOptions().TimeLimit(5s)) {
     StressTest1(/*fibers=*/2);
   }
 
-  SIMPLE_TEST(Stress1_3) {
+  TEST(Stress1_2, wheels::test::TestOptions().TimeLimit(5s)) {
+    StressTest1(/*fibers=*/5);
+  }
+
+  TEST(Stress1_3, wheels::test::TestOptions().TimeLimit(5s)) {
     StressTest1(/*fibers=*/10);
   }
 
@@ -68,11 +55,11 @@ TEST_SUITE(SleepFor) {
     }
   }
 
-  SIMPLE_TEST(Stress_2_1) {
+  TEST(Stress_2_1, wheels::test::TestOptions().TimeLimit(5s)) {
     StressTest2(/*fibers=*/1);
   }
 
-  SIMPLE_TEST(Stress_2_2) {
+  TEST(Stress_2_2, wheels::test::TestOptions().TimeLimit(5s)) {
     StressTest2(/*fibers=*/2);
   }
 }

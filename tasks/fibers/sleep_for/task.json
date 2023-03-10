@@ -10,7 +10,10 @@
       "targets": [
         "fibers_yield_unit_tests"
       ],
-      "profiles": ["Debug"]
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
     },
     {
       "targets": ["fibers_yield_stress_tests"],
@@ -20,14 +23,29 @@
       ]
     },
     {
-      "targets": ["fibers_sleep_for_tests_1t"],
+      "targets": ["fibers_sleep_for_1t_unit_tests"],
       "profiles": [
         "Debug",
         "DebugASan"
       ]
     },
     {
-      "targets": ["fibers_sleep_for_tests_mt"],
+      "targets": ["fibers_sleep_for_1t_stress_tests"],
+      "profiles": [
+        "Debug",
+        "FaultyThreadsASan",
+        "FaultyThreadsTSan"
+      ]
+    },
+    {
+      "targets": ["fibers_sleep_for_mt_unit_tests"],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": ["fibers_sleep_for_mt_stress_tests"],
       "profiles": [
         "Debug",
         "FaultyThreadsASan",

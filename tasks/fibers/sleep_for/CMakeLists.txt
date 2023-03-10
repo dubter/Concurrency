@@ -12,11 +12,22 @@ add_task_playground(play)
 # Tests
 
 # Coroutine
-add_task_test_dir(tests/coro coro_tests)
+add_task_test(coro_unit_tests tests/coro/unit.cpp)
 
 # Fibers
-add_task_test(fibers_yield_tests tests/fibers/yield/main.cpp)
-add_task_test(fibers_sleep_for_tests_1 tests/fibers/sleep_for_1/main.cpp)
-add_task_test(fibers_sleep_for_tests_2 tests/fibers/sleep_for_2/main.cpp)
+
+# Yield
+add_task_test(fibers_yield_unit_tests tests/fibers/yield/unit.cpp)
+add_task_test(fibers_yield_stress_tests tests/fibers/yield/stress.cpp)
+
+# SleepFor
+
+# One thread
+add_task_test(fibers_sleep_for_1t_unit_tests tests/fibers/sleep_for/1t/unit.cpp)
+add_task_test(fibers_sleep_for_1t_stress_tests tests/fibers/sleep_for/1t/stress.cpp)
+
+# Multi Thread
+add_task_test(fibers_sleep_for_mt_unit_tests tests/fibers/sleep_for/mt/unit.cpp)
+add_task_test(fibers_sleep_for_mt_stress_tests tests/fibers/sleep_for/mt/stress.cpp)
 
 end_task()

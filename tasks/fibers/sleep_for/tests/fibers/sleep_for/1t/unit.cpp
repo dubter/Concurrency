@@ -6,8 +6,8 @@
 
 #include <wheels/core/stop_watch.hpp>
 
-#include "../common/run.hpp"
-#include "../common/test.hpp"
+#include "../../common/run.hpp"
+#include "../../common/test.hpp"
 
 using namespace exe;
 using namespace std::chrono_literals;
@@ -36,7 +36,7 @@ class WaitGroup {
 
 //////////////////////////////////////////////////////////////////////
 
-TEST_SUITE(SleepFor1) {
+TEST_SUITE(SleepForOneThread) {
   SIMPLE_TEST(JustWorks) {
     RunScheduler(/*threads=*/1, []() {
       wheels::StopWatch stop_watch;
