@@ -1,4 +1,5 @@
 #include <exe/tp/thread_pool.hpp>
+#include <exe/tp/submit.hpp>
 
 #include <wheels/test/framework.hpp>
 
@@ -19,7 +20,7 @@ TEST_SUITE(ThreadPool) {
 
     pool.Start();
 
-    pool.Submit([]() {
+    tp::Submit(pool, [] {
       std::cout << "Hello from thread pool!" << std::endl;
     });
 
@@ -34,7 +35,7 @@ TEST_SUITE(ThreadPool) {
 
     bool done = false;
 
-    pool.Submit([&]() {
+    tp::Submit(pool, [&] {
       std::this_thread::sleep_for(1s);
       done = true;
     });
@@ -53,7 +54,7 @@ TEST_SUITE(ThreadPool) {
     for (size_t i = 0; i < 3; ++i) {
       bool done = false;
 
-      pool.Submit([&]() {
+      tp::Submit(pool, [&] {
         std::this_thread::sleep_for(1s);
         done = true;
       });
@@ -76,7 +77,7 @@ TEST_SUITE(ThreadPool) {
     std::atomic<size_t> tasks{0};
 
     for (size_t i = 0; i < kTasks; ++i) {
-      pool.Submit([&]() {
+      tp::Submit(pool, [&] {
         ++tasks;
       });
     }
@@ -94,12 +95,12 @@ TEST_SUITE(ThreadPool) {
 
     std::atomic<size_t> tasks{0};
 
-    pool.Submit([&]() {
+    tp::Submit(pool, [&] {
       std::this_thread::sleep_for(1s);
       ++tasks;
     });
 
-    pool.Submit([&]() {
+    tp::Submit(pool, [&] {
       ++tasks;
     });
 
@@ -124,12 +125,12 @@ TEST_SUITE(ThreadPool) {
 
     wheels::StopWatch stop_watch;
 
-    pool1.Submit([&]() {
+    pool1.Submit([&] {
       std::this_thread::sleep_for(1s);
       ++tasks;
     });
 
-    pool2.Submit([&]() {
+    pool2.Submit([&] {
       std::this_thread::sleep_for(1s);
       ++tasks;
     });
@@ -150,7 +151,7 @@ TEST_SUITE(ThreadPool) {
     pool.Start();
 
     for (size_t i = 0; i < 3; ++i) {
-      pool.Submit([]() {
+      tp::Submit(pool, [] {
         std::this_thread::sleep_for(1s);
         tp::ThreadPool::Current()->Submit([] {
           std::this_thread::sleep_for(100s);
@@ -170,7 +171,7 @@ TEST_SUITE(ThreadPool) {
 
     // Warmup
     for (size_t i = 0; i < 4; ++i) {
-      pool.Submit([&]() {
+      tp::Submit(pool, [&] {
         std::this_thread::sleep_for(100ms);
       });
     }
@@ -192,7 +193,7 @@ TEST_SUITE(ThreadPool) {
 
     ASSERT_EQ(tp::ThreadPool::Current(), nullptr);
 
-    pool.Submit([&]() {
+    tp::Submit(pool, [&] {
       ASSERT_EQ(tp::ThreadPool::Current(), &pool);
     });
 
@@ -207,7 +208,7 @@ TEST_SUITE(ThreadPool) {
 
     bool done = false;
 
-    pool.Submit([&]() {
+    tp::Submit(pool, [&] {
       std::this_thread::sleep_for(500ms);
       tp::ThreadPool::Current()->Submit([&]() {
         std::this_thread::sleep_for(500ms);
@@ -228,7 +229,7 @@ TEST_SUITE(ThreadPool) {
 
     bool done = false;
 
-    pool.Submit([&]() {
+    tp::Submit(pool, [&] {
       std::this_thread::sleep_for(500ms);
       tp::ThreadPool::Current()->Submit([&]() {
         std::this_thread::sleep_for(500ms);
@@ -249,7 +250,7 @@ TEST_SUITE(ThreadPool) {
     std::atomic<size_t> tasks{0};
 
     for (size_t i = 0; i < 4; ++i) {
-      pool.Submit([&]() {
+      tp::Submit(pool, [&] {
         std::this_thread::sleep_for(750ms);
         ++tasks;
       });
@@ -269,7 +270,7 @@ TEST_SUITE(ThreadPool) {
     std::atomic<size_t> tasks{0};
 
     for (size_t i = 0; i < 4; ++i) {
-      pool.Submit([&]() {
+      tp::Submit(pool, [&] {
         std::this_thread::sleep_for(750ms);
         ++tasks;
       });
@@ -298,7 +299,7 @@ TEST_SUITE(ThreadPool) {
     pool.Start();
 
     for (size_t i = 0; i < 5; ++i) {
-      pool.Submit([]() {
+      tp::Submit(pool, [] {
         KeepAlive();
       });
     }
@@ -342,7 +343,7 @@ TEST_SUITE(ThreadPool) {
     };
 
     for (int i = 0; i < 4; ++i) {
-      pool.Submit(Task(dead));
+      tp::Submit(pool, Task(dead));
     }
     std::this_thread::sleep_for(500ms);
     ASSERT_EQ(dead.load(), 4)
@@ -360,7 +361,7 @@ TEST_SUITE(ThreadPool) {
     std::atomic<int> tasks{0};
 
     for (size_t i = 0; i < 100500; ++i) {
-      pool.Submit([&]() {
+      tp::Submit(pool, [&] {
         int old = shared_counter.load();
         shared_counter.store(old + 1);
 
