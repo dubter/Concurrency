@@ -8,8 +8,10 @@ namespace exe::fibers {
 
 class FiberHandle {
   friend class Fiber;
+
  public:
-  FiberHandle() : FiberHandle(nullptr) {
+  FiberHandle()
+      : FiberHandle(nullptr) {
   }
 
   static FiberHandle Invalid() {
@@ -28,7 +30,8 @@ class FiberHandle {
   void Switch();
 
  private:
-  explicit FiberHandle(Fiber* fiber) : fiber_(fiber) {
+  explicit FiberHandle(Fiber* fiber)
+      : fiber_(fiber) {
   }
 
   Fiber* Release();
