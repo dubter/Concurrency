@@ -21,11 +21,13 @@ void RunScheduler(size_t threads, F init) {
 
   std::vector<std::thread> workers;
 
-  for (size_t i = 0; i < threads; ++i) {
+  for (size_t i = 0; i < threads - 1; ++i) {
     workers.emplace_back([&scheduler] {
       scheduler.run();
     });
   }
+
+  scheduler.run();
 
   // Join runners
   for (auto& t : workers) {

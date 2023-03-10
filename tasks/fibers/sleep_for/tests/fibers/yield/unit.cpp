@@ -6,7 +6,6 @@
 #include "../common/run.hpp"
 
 using namespace exe;
-using namespace std::chrono_literals;
 
 //////////////////////////////////////////////////////////////////////
 

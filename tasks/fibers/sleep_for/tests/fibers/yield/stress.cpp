@@ -6,6 +6,8 @@
 #include "../common/run.hpp"
 #include "../common/test.hpp"
 
+#include <chrono>
+
 using namespace exe;
 using namespace std::chrono_literals;
 

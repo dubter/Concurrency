@@ -1,29 +1,33 @@
 {
   "tests": [
     {
-      "targets": ["coroutine_tests"],
+      "targets": ["coro_unit_tests"],
       "profiles": [
-        "Debug",
         "DebugASan"
       ]
     },
     {
-      "targets": ["fibers_yield_tests"],
+      "targets": [
+        "fibers_yield_unit_tests"
+      ],
+      "profiles": ["Debug"]
+    },
+    {
+      "targets": ["fibers_yield_stress_tests"],
       "profiles": [
-        "Debug",
         "FaultyThreadsASan",
         "FaultyThreadsTSan"
       ]
     },
     {
-      "targets": ["fibers_sleep_for_tests-1"],
+      "targets": ["fibers_sleep_for_tests_1t"],
       "profiles": [
         "Debug",
         "DebugASan"
       ]
     },
     {
-      "targets": ["fibers_sleep_for_tests-2"],
+      "targets": ["fibers_sleep_for_tests_mt"],
       "profiles": [
         "Debug",
         "FaultyThreadsASan",
