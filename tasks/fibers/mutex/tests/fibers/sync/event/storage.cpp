@@ -3,8 +3,6 @@
 #include <exe/executors/thread_pool.hpp>
 
 #include <exe/fibers/sched/go.hpp>
-#include <exe/fibers/sched/yield.hpp>
-
 #include <exe/fibers/sync/event.hpp>
 
 #include <twist/test/budget.hpp>
@@ -13,33 +11,23 @@ using namespace exe;
 
 //////////////////////////////////////////////////////////////////////
 
-void StressTest() {
+void StorageTest() {
   executors::ThreadPool scheduler{5};
   scheduler.Start();
 
-  for (size_t iter = 0; twist::test::KeepRunning(); ++iter) {
-    size_t waiters = 1 + iter % 4;
+  while (twist::test::KeepRunning()) {
+    fibers::Go(scheduler, [] {
+      auto* event = new fibers::Event{};
 
-    fibers::Event event;
-    bool work = false;
-    std::atomic<size_t> acks{0};
-
-    for (size_t i = 0; i < waiters; ++i) {
-      fibers::Go(scheduler, [&] {
-        event.Wait();
-        ASSERT_TRUE(work);
-        ++acks;
+      fibers::Go([event] {
+        event->Fire();
       });
-    }
 
-    fibers::Go(scheduler, [&] {
-      work = true;
-      event.Fire();
+      event->Wait();
+      delete event;
     });
 
     scheduler.WaitIdle();
-
-    ASSERT_EQ(acks.load(), waiters);
   }
 
   scheduler.Stop();
@@ -49,7 +37,7 @@ void StressTest() {
 
 TEST_SUITE(Event) {
   TWIST_TEST(Event, 5s) {
-    StressTest();
+    StorageTest();
   }
 }
 

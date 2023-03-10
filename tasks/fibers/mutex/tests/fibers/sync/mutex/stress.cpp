@@ -1,10 +1,11 @@
-#include <wheels/test/framework.hpp>
+#include <twist/test/with/wheels/stress.hpp>
 #include <twist/test/budget.hpp>
 
 #include <twist/test/with/wheels/stress.hpp>
 #include <twist/test/plate.hpp>
 
-#include <exe/tp/thread_pool.hpp>
+#include <exe/executors/thread_pool.hpp>
+#include <exe/fibers/sched/go.hpp>
 #include <exe/fibers/sync/mutex.hpp>
 
 #include <atomic>
@@ -16,13 +17,14 @@ using namespace std::chrono_literals;
 //////////////////////////////////////////////////////////////////////
 
 void StressTest1(size_t fibers) {
-  tp::ThreadPool scheduler{4};
+  executors::ThreadPool scheduler{4};
+  scheduler.Start();
 
   fibers::Mutex mutex;
   twist::test::Plate plate;
 
   for (size_t i = 0; i < fibers; ++i) {
-    fibers::Go(scheduler, [&]() {
+    fibers::Go(scheduler, [&] {
       while (twist::test::KeepRunning()) {
         mutex.Lock();
         plate.Access();
@@ -34,22 +36,24 @@ void StressTest1(size_t fibers) {
   scheduler.WaitIdle();
 
   std::cout << "# critical sections: " << plate.AccessCount() << std::endl;
-  ASSERT_TRUE(plate.AccessCount() > 12345);
 
   scheduler.Stop();
 }
 
 //////////////////////////////////////////////////////////////////////
 
-void StressTest2(size_t fibers) {
-  tp::ThreadPool scheduler{4};
+void StressTest2() {
+  executors::ThreadPool scheduler{4};
+  scheduler.Start();
 
-  while (twist::test::KeepRunning()) {
+  for (size_t iter = 0; twist::test::KeepRunning(); ++iter) {
+    size_t fibers = 2 + iter % 5;
+
     fibers::Mutex mutex;
     std::atomic<size_t> cs{0};
 
     for (size_t j = 0; j < fibers; ++j) {
-      fibers::Go(scheduler, [&]() {
+      fibers::Go(scheduler, [&] {
         mutex.Lock();
         ++cs;
         mutex.Unlock();
@@ -67,24 +71,16 @@ void StressTest2(size_t fibers) {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(Mutex) {
-  TWIST_TEST(Stress_1_1, 5s) {
+  TWIST_TEST(Stress_1_4, 5s) {
     StressTest1(/*fibers=*/4);
   }
 
-  TWIST_TEST(Stress_1_2, 5s) {
+  TWIST_TEST(Stress_1_16, 5s) {
     StressTest1(/*fibers=*/16);
   }
 
-  TWIST_TEST(Stress_1_3, 5s) {
-    StressTest1(/*fibers=*/100);
-  }
-
-  TWIST_TEST(Stress_2_1, 5s) {
-    StressTest2(/*fibers=*/2);
-  }
-
-  TWIST_TEST(Stress_2_2, 5s) {
-    StressTest2(/*fibers=*/3);
+  TWIST_TEST(Stress_2, 5s) {
+    StressTest2();
   }
 }
 

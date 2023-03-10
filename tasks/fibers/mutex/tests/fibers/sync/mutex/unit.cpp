@@ -24,7 +24,7 @@ TEST_SUITE(Mutex) {
     fibers::Mutex mutex;
     size_t cs = 0;
 
-    fibers::Go(scheduler, [&]() {
+    fibers::Go(scheduler, [&] {
       for (size_t j = 0; j < 11; ++j) {
         std::lock_guard guard(mutex);
         ++cs;
@@ -49,7 +49,7 @@ TEST_SUITE(Mutex) {
     static const size_t kSectionsPerFiber = 1024;
 
     for (size_t i = 0; i < kFibers; ++i) {
-      fibers::Go(scheduler, [&]() {
+      fibers::Go(scheduler, [&] {
         for (size_t j = 0; j < kSectionsPerFiber; ++j) {
           std::lock_guard guard(mutex);
           ++cs;
@@ -66,7 +66,7 @@ TEST_SUITE(Mutex) {
     scheduler.Stop();
   }
 
-  SIMPLE_TEST(Blocking) {
+  SIMPLE_TEST(DoNotWasteCpu) {
     executors::ThreadPool scheduler{4};
     scheduler.Start();
 
@@ -74,13 +74,13 @@ TEST_SUITE(Mutex) {
 
     wheels::ProcessCPUTimer timer;
 
-    fibers::Go(scheduler, [&]() {
+    fibers::Go(scheduler, [&] {
       mutex.Lock();
       std::this_thread::sleep_for(1s);
       mutex.Unlock();
     });
 
-    fibers::Go(scheduler, [&]() {
+    fibers::Go(scheduler, [&] {
       mutex.Lock();
       mutex.Unlock();
     });

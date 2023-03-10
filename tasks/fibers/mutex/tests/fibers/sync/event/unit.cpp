@@ -17,7 +17,7 @@ using namespace exe;
 using namespace std::chrono_literals;
 
 TEST_SUITE(Mutex) {
-  SIMPLE_TEST(Wait) {
+  SIMPLE_TEST(OneWaiter) {
     executors::ThreadPool scheduler{4};
     scheduler.Start();
 
@@ -74,7 +74,7 @@ TEST_SUITE(Mutex) {
     scheduler.Stop();
   }
 
-  SIMPLE_TEST(MultiWait) {
+  SIMPLE_TEST(MultipleWaiters) {
     executors::ThreadPool scheduler{1};
     scheduler.Start();
 
