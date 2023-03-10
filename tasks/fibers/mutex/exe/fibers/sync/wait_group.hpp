@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdlib>
+
 namespace exe::fibers {
 
 // https://gobyexample.com/waitgroups
