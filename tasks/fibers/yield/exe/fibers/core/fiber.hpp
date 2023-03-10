@@ -14,9 +14,8 @@ class Fiber {
   // ~ System calls
   void Schedule();
 
-  static Fiber& Self();
+  static Fiber* Self();
 
- private:
   // Task
   void Run();
 

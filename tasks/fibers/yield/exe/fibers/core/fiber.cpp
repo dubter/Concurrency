@@ -12,8 +12,8 @@ void Fiber::Run() {
   // Not implemented
 }
 
-Fiber& Fiber::Self() {
-  std::abort();  // Not implemented
+Fiber* Fiber::Self() {
+  return nullptr;  // Not implemented
 }
 
 }  // namespace exe::fibers

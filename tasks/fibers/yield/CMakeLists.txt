@@ -9,7 +9,7 @@ add_task_playground(play)
 # Tests
 
 # Coroutine
-add_task_test_dir(tests/coro coro_tests)
+add_task_test(coro_unit_tests tests/coro/unit.cpp)
 
 # Thread Pool
 add_task_test(tp_unit_tests tests/tp/unit.cpp)

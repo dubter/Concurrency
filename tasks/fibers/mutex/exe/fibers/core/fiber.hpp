@@ -18,9 +18,8 @@ class Fiber {
   void Schedule();
   void Switch();
 
-  static Fiber& Self();
+  static Fiber* Self();
 
- private:
   // Task
   void Run();
 
