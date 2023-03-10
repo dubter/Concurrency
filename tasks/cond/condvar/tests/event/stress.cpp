@@ -35,14 +35,14 @@ class OneShotEvent {
 
 void StorageTest() {
   // Help AddressSanitizer
-  auto event = std::make_unique<OneShotEvent>();
+  auto event = new OneShotEvent{};
 
-  twist::ed::stdlike::thread t([&event] {
+  twist::ed::stdlike::thread t([event] {
     event->Fire();
   });
 
   event->Wait();
-  event.reset();
+  delete event;
 
   t.join();
 }
@@ -50,7 +50,7 @@ void StorageTest() {
 //////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(Event) {
-  TWIST_TEST_REPEAT(Event, 5s) {
+  TWIST_TEST_REPEAT(Storage, 5s) {
     StorageTest();
   }
 }
