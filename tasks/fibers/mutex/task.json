@@ -1,14 +1,13 @@
 {
   "tests": [
     {
-      "targets": ["thread_pool_unit_tests"],
+      "targets": ["tp_unit_tests"],
       "profiles": [
-        "Debug",
         "DebugASan"
       ]
     },
     {
-      "targets": ["thread_pool_stress_tests"],
+      "targets": ["tp_stress_tests"],
       "profiles": [
         "Debug",
         "FaultyFibers",
@@ -17,27 +16,26 @@
       ]
     },
     {
-      "targets": ["coroutine_tests"],
+      "targets": ["coro_unit_tests"],
       "profiles": [
-        "Debug",
         "DebugASan"
       ]
     },
     {
-      "targets": ["fibers_core_tests"],
+      "targets": ["fibers_unit_tests"],
+      "profiles": ["DebugASan"]
+    },
+    {
+      "targets": ["fibers_stress_tests"],
       "profiles": [
         "Debug",
-        "FaultyThreadsASan",
-        "FaultyThreadsTSan"
+        "FaultyThreadsTSan",
+        "FaultyThreadsASan"
       ]
     },
     {
-      "targets": ["fibers_racy_tests"],
-      "profiles": ["Debug"]
-    },
-    {
       "targets": ["fibers_mutex_unit_tests"],
-      "profiles": ["Debug", "DebugASan"]
+      "profiles": ["DebugASan"]
     },
     {
       "targets": ["fibers_mutex_stress_tests"],
@@ -48,23 +46,11 @@
       ]
     },
     {
-      "targets": ["fibers_condvar_unit_tests"],
-      "profiles": ["Debug", "DebugASan"]
+      "targets": ["fibers_wg_unit_tests"],
+      "profiles": ["DebugASan"]
     },
     {
-      "targets": ["fibers_condvar_stress_tests"],
-      "profiles": [
-        "FaultyFibers",
-        "FaultyThreadsASan",
-        "FaultyThreadsTSan"
-      ]
-    },
-    {
-      "targets": ["fibers_wait_group_unit_tests"],
-      "profiles": ["Debug", "DebugASan"]
-    },
-    {
-      "targets": ["fibers_wait_group_stress_tests"],
+      "targets": ["fibers_wg_stress_tests"],
       "profiles": [
         "FaultyFibers",
         "FaultyFibersASan",

@@ -1,9 +1,12 @@
 #include <wheels/test/framework.hpp>
 
 #include <exe/executors/thread_pool.hpp>
+
+#include <exe/fibers/sched/go.hpp>
+#include <exe/fibers/sched/yield.hpp>
 #include <exe/fibers/sync/mutex.hpp>
 
-#include <wheels/support/cpu_time.hpp>
+#include <wheels/test/util/cpu_timer.hpp>
 
 #include <atomic>
 #include <chrono>

@@ -23,6 +23,10 @@ add_task_test(fibers_stress_tests tests/fibers/sched/stress.cpp)
 
 # Sync
 
+# Event
+add_task_test(fibers_event_unit_tests tests/fibers/sync/event/unit.cpp)
+add_task_test(fibers_event_stress_tests tests/fibers/sync/event/stress.cpp)
+
 # Mutex
 add_task_test(fibers_mutex_unit_tests tests/fibers/sync/mutex/unit.cpp)
 add_task_test(fibers_mutex_unit_extra_tests tests/fibers/sync/mutex/unit_extra.cpp)
