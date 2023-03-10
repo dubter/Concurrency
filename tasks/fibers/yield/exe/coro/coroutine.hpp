@@ -1,19 +1,23 @@
-#include <exe/coro/routine.hpp>
+#pragma once
 
 #include <sure/context.hpp>
 #include <sure/stack.hpp>
+
+#include <function2/function2.hpp>
+
+#include <exception>
 
 namespace exe::coro {
 
 class Coroutine {
  public:
-  using Routine = fu
+  using Routine = fu2::unique_function<void()>;
 
-  explicit Coroutine(Routine);
+  explicit Coroutine(Routine routine);
 
   void Resume();
 
-  // Suspend current coroutine
+  // Suspend running coroutine
   static void Suspend();
 
   bool IsCompleted() const;

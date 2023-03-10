@@ -4,6 +4,8 @@
 
 namespace exe::coro {
 
+// Simple stackful coroutine
+
 using SimpleCoroutine = Coroutine;
 
 }  // namespace exe::coro
