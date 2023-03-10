@@ -1,10 +1,8 @@
-#include <coro/coroutine.hpp>
+#include "../coroutine.hpp"
 
 #include <fmt/core.h>
 
 #include <cassert>
-
-using namespace coro;
 
 int main() {
   Coroutine coro([] {

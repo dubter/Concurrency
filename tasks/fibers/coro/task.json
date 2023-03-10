@@ -1,12 +1,18 @@
 {
   "tests": [
     {
-      "targets": ["tests"],
+      "targets": ["unit_tests"],
       "profiles": [
         "DebugASan"
       ]
     }
   ],
-  "lint_files": ["coro"],
-  "submit_files": ["coro"]
+  "lint_files": [
+    "coroutine.hpp",
+    "coroutine.cpp"
+  ],
+  "submit_files": [
+    "coroutine.hpp",
+    "coroutine.cpp"
+  ]
 }
