@@ -13,7 +13,6 @@ class Fiber {
  public:
   // ~ System calls
   void Schedule();
-  void Yield();
 
   static Fiber& Self();
 

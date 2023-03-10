@@ -8,10 +8,6 @@ void Fiber::Schedule() {
   // Not implemented
 }
 
-void Fiber::Yield() {
-  // Not implemented
-}
-
 void Fiber::Run() {
   // Not implemented
 }
