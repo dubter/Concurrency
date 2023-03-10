@@ -7,7 +7,7 @@ namespace exe::executors {
 /*
  * Usage:
  *
- * Submit(thread_pool, []() {
+ * Submit(thread_pool, [] {
  *   fmt::println("Running on thread pool");
  * });
  *
