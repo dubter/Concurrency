@@ -30,11 +30,22 @@ void StressTest(size_t workers, size_t waiters) {
   race.Run();
 }
 
-TWIST_TEST_TEMPLATE(WaitGroup, StressTest)
-  ->TimeLimit(5s)
-  ->Run(1, 1)
-  ->Run(2, 2)
-  ->Run(3, 2)
-  ->Run(4, 4);
+TEST_SUITE(WaitGroup) {
+  TWIST_TEST_REPEAT(Run_1_1, 5s) {
+    StressTest(1, 1);
+  }
+
+  TWIST_TEST_REPEAT(Run_2_2, 5s) {
+    StressTest(2, 2);
+  }
+
+  TWIST_TEST_REPEAT(Run_3_2, 5s) {
+    StressTest(3, 2);
+  }
+
+  TWIST_TEST_REPEAT(Run_4_4, 5s) {
+    StressTest(4, 4);
+  }
+}
 
 RUN_ALL_TESTS();

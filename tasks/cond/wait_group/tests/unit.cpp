@@ -47,6 +47,8 @@ TEST_SUITE(WaitGroup) {
 
     wg.Wait();
     ASSERT_TRUE(ready);
+
+    producer.join();
   }
 
   SIMPLE_TEST(MultiWait) {
@@ -104,6 +106,10 @@ TEST_SUITE(WaitGroup) {
     wg.Wait();
 
     ASSERT_TRUE(timer.Elapsed() < 100ms);
+
+    for (auto& t : workers) {
+      t.join();
+    }
   }
 }
 
