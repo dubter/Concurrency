@@ -5,6 +5,8 @@
 
 #include <function2/function2.hpp>
 
+#include <exception>
+
 // Simple stackful coroutine
 
 class Coroutine {
