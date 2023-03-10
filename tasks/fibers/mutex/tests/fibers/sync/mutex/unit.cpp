@@ -1,6 +1,6 @@
 #include <wheels/test/framework.hpp>
 
-#include <exe/tp/thread_pool.hpp>
+#include <exe/executors/thread_pool.hpp>
 #include <exe/fibers/sync/mutex.hpp>
 
 #include <wheels/support/cpu_time.hpp>
@@ -15,7 +15,8 @@ using namespace std::chrono_literals;
 
 TEST_SUITE(Mutex) {
   SIMPLE_TEST(JustWorks) {
-    tp::ThreadPool scheduler{4};
+    executors::ThreadPool scheduler{4};
+    scheduler.Start();
 
     fibers::Mutex mutex;
     size_t cs = 0;
@@ -35,7 +36,8 @@ TEST_SUITE(Mutex) {
   }
 
   SIMPLE_TEST(Counter) {
-    tp::ThreadPool scheduler{4};
+    executors::ThreadPool scheduler{4};
+    scheduler.Start();
 
     fibers::Mutex mutex;
     size_t cs = 0;
@@ -62,7 +64,8 @@ TEST_SUITE(Mutex) {
   }
 
   SIMPLE_TEST(Blocking) {
-    tp::ThreadPool scheduler{4};
+    executors::ThreadPool scheduler{4};
+    scheduler.Start();
 
     fibers::Mutex mutex;
 

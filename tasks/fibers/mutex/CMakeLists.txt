@@ -7,26 +7,29 @@ add_task_library(exe)
 add_task_playground(play)
 
 # Tests
+
 # Coroutine
-add_task_test_dir(tests/coroutine/standalone coroutine_tests)
+add_task_test_dir(tests/coro coro_tests)
 
 # Thread Pool
-add_task_test_dir(tests/thread_pool/unit thread_pool_unit_tests)
-add_task_test_dir(tests/thread_pool/stress thread_pool_stress_tests)
+add_task_test(tp_unit_tests tests/executors/tp/unit.cpp)
+add_task_test(tp_stress_tests tests/executors/tp/stress.cpp)
 
 # Fibers
-add_task_test_dir(tests/fibers/core/ fibers_core_tests)
-add_task_test_dir(tests/fibers/racy fibers_racy_tests)
+
+# Sched
+add_task_test(fibers_unit_tests tests/fibers/sched/unit.cpp)
+add_task_test(fibers_stress_tests tests/fibers/sched/stress.cpp)
 
 # Sync
-add_task_test_dir(tests/fibers/mutex/unit fibers_mutex_unit_tests)
-add_task_test_dir(tests/fibers/mutex/stress fibers_mutex_stress_tests)
-add_task_test_dir(tests/fibers/mutex/unit-extra fibers_mutex_unit_extra_tests)
 
-add_task_test_dir(tests/fibers/wait_group/unit fibers_wait_group_unit_tests)
-add_task_test_dir(tests/fibers/wait_group/stress fibers_wait_group_stress_tests)
+# Mutex
+add_task_test(fibers_mutex_unit_tests tests/fibers/sync/mutex/unit.cpp)
+add_task_test(fibers_mutex_unit_extra_tests tests/fibers/sync/mutex/unit_extra.cpp)
+add_task_test(fibers_mutex_stress_tests tests/fibers/sync/mutex/stress.cpp)
 
-add_task_test_dir(tests/fibers/condvar/unit fibers_condvar_unit_tests)
-add_task_test_dir(tests/fibers/condvar/stress fibers_condvar_stress_tests)
+# WaitGroup
+add_task_test(fibers_wg_unit_tests tests/fibers/sync/wait_group/unit.cpp)
+add_task_test(fibers_wg_stress_tests tests/fibers/sync/wait_group/stress.cpp)
 
 end_task()
