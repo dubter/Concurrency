@@ -59,7 +59,9 @@ TEST_SUITE(Mutex) {
 
     scheduler.WaitIdle();
 
-    std::cout << "# cs = " << cs << std::endl;
+    std::cout << "# cs = " << cs
+              << " (expected = " << kFibers * kSectionsPerFiber << ")"
+              << std::endl;
 
     ASSERT_EQ(cs, kFibers * kSectionsPerFiber);
 

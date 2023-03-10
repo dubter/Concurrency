@@ -26,7 +26,7 @@ TEST_SUITE(Fibers) {
     twist::ed::stdlike::atomic<size_t> value_{0};
   };
 
-  TWIST_TEST(RacyCounter, 10s) {
+  TWIST_TEST(RacyCounter, 5s) {
     static const size_t kThreads = 4;
     static const size_t kFibers = 100;
 
