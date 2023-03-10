@@ -16,7 +16,7 @@ class Fiber {
   void Suspend(/*???*/);
 
   void Schedule();
-  void Resume();
+  void Switch();
 
   static Fiber& Self();
 

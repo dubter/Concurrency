@@ -23,8 +23,9 @@ class FiberHandle {
   // Schedule to the associated scheduler
   void Schedule();
 
-  // Resume immediately on the current thread
-  void Resume();
+  // Switch to this fiber immediately
+  // For symmetric transfer
+  void Switch();
 
  private:
   explicit FiberHandle(Fiber* fiber) : fiber_(fiber) {

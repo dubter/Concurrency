@@ -12,7 +12,7 @@ void Fiber::Schedule() {
   // Not implemented
 }
 
-void Fiber::Resume() {
+void Fiber::Switch() {
   // Not implemented
 }
 

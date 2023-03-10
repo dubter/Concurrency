@@ -1,6 +1,6 @@
 #pragma once
 
-namespace exe::support {
+namespace exe::threads {
 
 // Test-and-TAS spinlock
 
@@ -28,4 +28,4 @@ class SpinLock {
   // ???
 };
 
-}  // namespace exe::support
+}  // namespace exe::threads
