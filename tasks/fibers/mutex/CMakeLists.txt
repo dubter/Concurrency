@@ -18,8 +18,8 @@ add_task_test(tp_stress_tests tests/executors/tp/stress.cpp)
 # Fibers
 
 # Sched
-add_task_test(fibers_unit_tests tests/fibers/sched/unit.cpp)
-add_task_test(fibers_stress_tests tests/fibers/sched/stress.cpp)
+add_task_test(fibers_sched_unit_tests tests/fibers/sched/unit.cpp)
+add_task_test(fibers_sched_stress_tests tests/fibers/sched/stress.cpp)
 
 # Sync
 

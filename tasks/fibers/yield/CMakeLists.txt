@@ -16,7 +16,7 @@ add_task_test(tp_unit_tests tests/tp/unit.cpp)
 add_task_test(tp_stress_tests tests/tp/stress.cpp)
 
 # Fibers
-add_task_test(fibers_unit_tests tests/fibers/sched/unit.cpp)
-add_task_test(fibers_stress_tests tests/fibers/sched/stress.cpp)
+add_task_test(fibers_sched_unit_tests tests/fibers/sched/unit.cpp)
+add_task_test(fibers_sched_stress_tests tests/fibers/sched/stress.cpp)
 
 end_task()

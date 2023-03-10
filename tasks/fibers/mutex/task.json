@@ -22,11 +22,11 @@
       ]
     },
     {
-      "targets": ["fibers_unit_tests"],
+      "targets": ["fibers_sched_unit_tests"],
       "profiles": ["DebugASan"]
     },
     {
-      "targets": ["fibers_stress_tests"],
+      "targets": ["fibers_sched_stress_tests"],
       "profiles": [
         "Debug",
         "FaultyThreadsTSan",
