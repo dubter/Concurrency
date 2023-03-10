@@ -2,9 +2,10 @@
 
 namespace exe::fibers {
 
+// One-shot
+
 class Event {
  public:
-  // One-shot
   void Wait() {
     // Not implemented
   }

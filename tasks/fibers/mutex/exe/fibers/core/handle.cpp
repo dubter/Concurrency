@@ -9,7 +9,7 @@
 namespace exe::fibers {
 
 Fiber* FiberHandle::Release() {
-  WHEELS_ASSERT(fiber_ != nullptr, "Invalid fiber handle");
+  WHEELS_ASSERT(IsValid(), "Invalid fiber handle");
   return std::exchange(fiber_, nullptr);
 }
 
@@ -18,7 +18,7 @@ void FiberHandle::Schedule() {
 }
 
 void FiberHandle::Resume() {
-  // Not implemented
+  Release()->Resume();
 }
 
 }  // namespace exe::fibers

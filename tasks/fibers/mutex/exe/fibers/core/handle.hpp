@@ -1,10 +1,10 @@
 #pragma once
 
+#include <exe/fibers/core/fwd.hpp>
+
 namespace exe::fibers {
 
-class Fiber;
-
-// Lightweight non-owning handle to a _suspended_ fiber object
+// Lightweight non-owning handle to a _suspended_ fiber
 
 class FiberHandle {
   friend class Fiber;
@@ -20,7 +20,7 @@ class FiberHandle {
     return fiber_ != nullptr;
   }
 
-  // Schedule to an associated scheduler
+  // Schedule to the associated scheduler
   void Schedule();
 
   // Resume immediately on the current thread

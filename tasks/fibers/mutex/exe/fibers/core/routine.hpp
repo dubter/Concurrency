@@ -1,9 +1,9 @@
 #pragma once
 
-#include <exe/coro/routine.hpp>
+#include <function2/function2.hpp>
 
 namespace exe::fibers {
 
-using coro::Routine;
+using Routine = fu2::unique_function<void()>;
 
 }  // namespace exe::fibers

@@ -1,27 +1,28 @@
 #pragma once
 
-#include <exe/fibers/core/api.hpp>
-#include <exe/coroutine/impl.hpp>
-#include <sure/stack.hpp>
+#include <exe/fibers/core/routine.hpp>
+#include <exe/fibers/core/scheduler.hpp>
+
+#include <exe/coro/coroutine.hpp>
 
 namespace exe::fibers {
 
-// Fiber = Stackful coroutine + Scheduler (Thread pool)
+// Fiber = stackful coroutine + scheduler (executor)
 
 class Fiber {
  public:
   // ~ System calls
 
-  void Schedule();
-
   void Suspend(/*???*/);
+
+  void Schedule();
   void Resume();
 
   static Fiber& Self();
 
  private:
   // Task
-  void Step();
+  void Run();
 
  private:
   // ???
