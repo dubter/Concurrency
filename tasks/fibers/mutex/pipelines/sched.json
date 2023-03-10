@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {
+      "targets": ["fibers_unit_tests"],
+      "profiles": ["DebugASan"]
+    },
+    {
+      "targets": ["fibers_stress_tests"],
+      "profiles": [
+        "Debug",
+        "FaultyThreadsTSan",
+        "FaultyThreadsASan"
+      ]
+    }
+  ]
+}
