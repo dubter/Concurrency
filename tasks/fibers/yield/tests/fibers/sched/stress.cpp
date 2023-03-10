@@ -34,6 +34,7 @@ TEST_SUITE(Fibers) {
     std::atomic<size_t> counter{0};
 
     tp::ThreadPool scheduler{kThreads};
+    scheduler.Start();
 
     for (size_t i = 0; i < kFibers; ++i) {
       fibers::Go(scheduler, [&] {

@@ -1,13 +1,13 @@
 {
   "tests": [
     {
-      "targets": ["thread_pool_unit_tests"],
+      "targets": ["tp_unit_tests"],
       "profiles": [
         "DebugASan"
       ]
     },
     {
-      "targets": ["thread_pool_stress_tests"],
+      "targets": ["tp_stress_tests"],
       "profiles": [
         "Debug",
         "FaultyFibers",
@@ -16,22 +16,22 @@
       ]
     },
     {
-      "targets": ["coroutine_tests"],
+      "targets": ["coro_unit_tests"],
       "profiles": [
         "DebugASan"
       ]
     },
     {
-      "targets": ["fibers_core_tests"],
-      "profiles": [
-        "Debug",
-        "FaultyThreadsASan",
-        "FaultyThreadsTSan"
-      ]
+      "targets": ["fibers_unit_tests"],
+      "profiles": ["DebugASan"]
     },
     {
-      "targets": ["fibers_racy_tests"],
-      "profiles": ["Debug"]
+      "targets": ["fibers_stress_tests"],
+      "profiles": [
+        "Debug",
+        "FaultyThreadsTSan",
+        "FaultyThreadsASan"
+      ]
     }
   ],
   "lint_files": ["exe"],
