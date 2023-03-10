@@ -11,17 +11,15 @@ namespace exe::fibers {
 
 class Fiber {
  public:
-  // ~ System calls
-
   void Suspend(/*???*/);
 
   void Schedule();
   void Switch();
 
-  static Fiber* Self();
-
   // Task
   void Run();
+
+  static Fiber* Self();
 
  private:
   // ???
