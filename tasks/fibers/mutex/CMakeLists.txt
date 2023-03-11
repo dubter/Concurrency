@@ -30,7 +30,7 @@ add_task_test(fibers_event_storage_tests tests/fibers/sync/event/storage.cpp)
 
 # Mutex
 add_task_test(fibers_mutex_unit_tests tests/fibers/sync/mutex/unit.cpp)
-add_task_test(fibers_mutex_unit_extra_tests tests/fibers/sync/mutex/unit_extra.cpp)
+add_task_test(fibers_mutex_symm_transfer_tests tests/fibers/sync/mutex/symm_transfer.cpp)
 add_task_test(fibers_mutex_stress_tests tests/fibers/sync/mutex/stress.cpp)
 
 # WaitGroup
