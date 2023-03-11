@@ -3,7 +3,7 @@
 #include <exe/fibers/core/routine.hpp>
 #include <exe/fibers/core/scheduler.hpp>
 
-#include <exe/coro/coroutine.hpp>
+#include <exe/coro/core.hpp>
 
 namespace exe::fibers {
 

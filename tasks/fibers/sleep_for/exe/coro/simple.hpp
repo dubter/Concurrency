@@ -1,6 +1,6 @@
 #pragma once
 
-#include <exe/coro/coroutine.hpp>
+#include <exe/coro/core.hpp>
 
 namespace exe::coro {
 
