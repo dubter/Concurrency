@@ -59,13 +59,6 @@
     - task: tasks/thread-pool
       score: 400
 
-- group:    Tasks / Thread Pool
-  start:    25-02-2023 12:00
-  deadline: 13-03-2023 23:59
-  tasks:
-    - task: tasks/thread-pool
-      score: 400
-
 - group:    WaitGroup
   start:    11-03-2023 15:00
   deadline: 20-03-2023 23:59
