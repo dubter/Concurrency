@@ -2,14 +2,12 @@
 
 #include <sure/context.hpp>
 #include <sure/stack.hpp>
-
 #include <function2/function2.hpp>
 
 #include <exception>
 
-namespace exe::coro {
-
-class Coroutine {
+// Simple stackful coroutine
+class Coroutine : sure::ITrampoline {
  public:
   using Routine = fu2::unique_function<void()>;
 
@@ -23,7 +21,16 @@ class Coroutine {
   bool IsCompleted() const;
 
  private:
-  // ???
-};
+  void Run() noexcept override;
 
-}  // namespace exe::coro
+ private:
+  const size_t amount_bytes_ = 65536;
+
+  bool is_completed_;
+  Routine routine_;
+  sure::Stack stack_;
+
+  sure::ExecutionContext callee_ctx_;
+  sure::ExecutionContext caller_ctx_;
+  std::exception_ptr exception_ptr_;
+};

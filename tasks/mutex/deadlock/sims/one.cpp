@@ -10,14 +10,13 @@ using tf::Spawn;
 using tf::Yield;
 
 void OneFiberDeadLock() {
-  Mutex mutex;
+    Mutex mutex;
+    auto fiber = [&] {
+        mutex.Lock();
+        mutex.Lock();
+    };
+    Spawn(fiber).Join();
 
-  auto fiber = [&] {
-    // I am a Fiber
-  };
-
-  Spawn(fiber).Join();
-
-  // We do not expect to reach this line
-  FAIL_TEST("No deadlock =(");
+    // We do not expect to reach this line
+    FAIL_TEST("No deadlock =(");
 }

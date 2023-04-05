@@ -20,7 +20,9 @@ class TicketLock {
   }
 
   bool TryLock() {
-    return false;  // To be implemented
+    Ticket owner_value = owner_ticket_.load();
+    return next_free_ticket_.compare_exchange_strong(owner_value,
+                                                     owner_value + 1);
   }
 
   // Do not change this method

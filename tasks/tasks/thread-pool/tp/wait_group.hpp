@@ -5,7 +5,7 @@
 #include <twist/ed/wait/sys.hpp>
 #include <cstdlib>
 
-namespace exe::tp::detail {
+namespace tp::detail {
 class WaitGroup {
  public:
   // += count
@@ -37,4 +37,4 @@ class WaitGroup {
   twist::ed::stdlike::condition_variable waiting_;
   uint32_t counter_{0};
 };
-}  // namespace exe::tp::detail
+}  // namespace tp::detail

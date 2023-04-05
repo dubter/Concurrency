@@ -92,5 +92,5 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(asio)
 
-add_library(asio INTERFACE)
+add_library(asio INTERFACE ../tasks/futures/std/stdlike/channel.hpp ../tasks/fibers/yield/exe/fibers/core/allocator.hpp)
 target_include_directories(asio INTERFACE ${asio_SOURCE_DIR}/asio/include)

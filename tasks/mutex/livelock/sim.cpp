@@ -20,10 +20,11 @@ void LiveLock() {
     for (size_t i = 0; i < kIterations; ++i) {
       // TrickyLock::Lock
       while (thread_count++ > 0) {
+        Yield();
         --thread_count;
       }
       // Spinlock acquired
-
+      Yield();
       {
         // Critical section
         ++cs_count;

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <memory>
-#include <cassert>
+#include <stdlike/channel.hpp>
 
 namespace stdlike {
 
@@ -22,15 +21,16 @@ class Future {
   // One-shot
   // Wait for result (value or exception)
   T Get() {
-    throw std::runtime_error("Not implemented");
+    return std::move(channel_->Get());
   }
 
  private:
-  Future(/*???*/) {
+  explicit Future(std::shared_ptr<detail::Channel<T>> channel)
+      : channel_(channel) {
   }
 
  private:
-  // ???
+  std::shared_ptr<detail::Channel<T>> channel_;
 };
 
 }  // namespace stdlike

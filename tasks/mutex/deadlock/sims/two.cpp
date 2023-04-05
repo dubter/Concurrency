@@ -14,38 +14,46 @@ using tf::WaitGroup;
 using tf::Yield;
 
 void TwoFibersDeadLock() {
-  // Mutexes
-  Mutex a;
-  Mutex b;
+    // Mutexes
+    Mutex a;
+    Mutex b;
 
-  // Fibers
+    // Fibers
 
-  auto first = [&] {
-    // I am a Fiber
-  };
+    auto first = [&] {
+        a.Lock();
+        Yield();
+        b.Lock();
+        a.unlock();
+        b.unlock();
+    };
 
-  auto second = [&] {
-    // I am a Fiber
-  };
+    auto second = [&] {
+        b.Lock();
+        Yield();
+        a.Lock();
+        a.unlock();
+        b.unlock();
+    };
 
-  // No deadlock with one fiber
+    // No deadlock with one fiber
 
-  // No deadlock expected here
-  // Run routine twice to check that
-  // routine leaves mutexes in unlocked state
-  Spawn(first).Join();
-  Spawn(first).Join();
+    // No deadlock expected here
+    // Run routine twice to check that
+    // routine leaves mutexes in unlocked state
+    Spawn(first).Join();
+    Spawn(first).Join();
 
-  // Same for `second`
-  Spawn(second).Join();
-  Spawn(second).Join();
+    // Same for `second`
+    Spawn(second).Join();
+    Spawn(second).Join();
 
-  ReadyToDeadLock();
+    ReadyToDeadLock();
 
-  // Deadlock with two fibers
-  WaitGroup wg;
-  wg.Spawn(first).Spawn(second).Wait();
+    // Deadlock with two fibers
+    WaitGroup wg;
+    wg.Spawn(first).Spawn(second).Wait();
 
-  // We do not expect to reach this line
-  FAIL_TEST("No deadlock =(");
+    // We do not expect to reach this line
+    FAIL_TEST("No deadlock =(");
 }

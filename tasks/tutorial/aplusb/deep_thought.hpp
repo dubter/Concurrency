@@ -2,16 +2,16 @@
 
 namespace galaxy {
 
-struct UltimateQuestion {
-  //
-};
+    struct UltimateQuestion {
+        //
+    };
 
-class DeepThought {
- public:
-  // Computes the answer to life, the universe and everything
-  int ComputeAnswer(UltimateQuestion) {
-    return 0;  // Your code goes here
-  }
-};
+    class DeepThought {
+    public:
+        // Computes the answer to life, the universe and everything
+        int ComputeAnswer(UltimateQuestion) {
+            return 42;
+        }
+    };
 
 }  // namespace galaxy

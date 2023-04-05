@@ -2,8 +2,12 @@
 
 #include <exe/tp/task.hpp>
 
-namespace exe::tp {
+#include <exe/tp/queue.hpp>
+#include <exe/tp/wait_group.hpp>
+#include <list>
+#include <twist/ed/stdlike/thread.hpp>
 
+namespace exe::tp {
 // Fixed-size pool of worker threads
 
 class ThreadPool {
@@ -35,7 +39,13 @@ class ThreadPool {
   void Stop();
 
  private:
-  // ???
+  void Work();
+
+ private:
+  size_t num_threads_{twist::ed::stdlike::thread::hardware_concurrency()};
+  detail::WaitGroup wait_group_;
+  UnboundedBlockingQueue<Task> blocking_queue_;
+  std::list<twist::ed::stdlike::thread> workers_;
 };
 
 }  // namespace exe::tp

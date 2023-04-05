@@ -6,7 +6,7 @@
 #include <optional>
 #include <deque>
 
-namespace tp {
+namespace exe::tp {
 
 // Unbounded blocking multi-producers/multi-consumers (MPMC) queue
 
@@ -50,4 +50,4 @@ class UnboundedBlockingQueue {
   twist::ed::stdlike::mutex mutex_;
 };
 
-}  // namespace tp
+}  // namespace exe::tp

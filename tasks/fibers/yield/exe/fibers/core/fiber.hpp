@@ -14,12 +14,16 @@ class Fiber {
   void Schedule();
 
   // Task
-  void Run();
-
   static Fiber* Self();
+  static Scheduler& GetScheduler();
+  Fiber(Scheduler& scheduler, Routine routine);
+  void Yield();
+  ~Fiber();
 
  private:
-  // ???
+  Scheduler* scheduler_;
+  sure::Stack stack_;
+  Coroutine my_coroutine_;
 };
 
 }  // namespace exe::fibers

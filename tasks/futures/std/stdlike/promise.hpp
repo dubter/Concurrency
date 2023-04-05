@@ -2,15 +2,13 @@
 
 #include <stdlike/future.hpp>
 
-#include <memory>
-
 namespace stdlike {
 
 template <typename T>
 class Promise {
  public:
-  Promise() {
-    // Not implemented
+  Promise()
+      : channel_(std::make_shared<detail::Channel<T>>()) {
   }
 
   // Non-copyable
@@ -23,23 +21,23 @@ class Promise {
 
   // One-shot
   Future<T> MakeFuture() {
-    throw std::runtime_error("Not Implemented");  // Not implemented
+    return Future<T>(channel_);
   }
 
   // One-shot
   // Fulfill promise with value
-  void SetValue(T) {
-    // Not implemented
+  void SetValue(T value) {
+    channel_->PutValue(std::move(value));
   }
 
   // One-shot
   // Fulfill promise with exception
-  void SetException(std::exception_ptr) {
-    // Not implemented
+  void SetException(std::exception_ptr err) {
+    channel_->PutException(std::move(err));
   }
 
  private:
-  // ???
+  std::shared_ptr<detail::Channel<T>> channel_;
 };
 
 }  // namespace stdlike

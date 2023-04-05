@@ -3,7 +3,7 @@
 namespace exe::fibers {
 
 void Yield() {
-  // Not implemented
+  Fiber::Self()->Yield();
 }
 
 }  // namespace exe::fibers

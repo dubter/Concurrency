@@ -2,7 +2,8 @@
 
 #include <tp/queue.hpp>
 #include <tp/task.hpp>
-
+#include <tp/wait_group.hpp>
+#include <list>
 #include <twist/ed/stdlike/thread.hpp>
 
 namespace tp {
@@ -38,7 +39,13 @@ class ThreadPool {
   void Stop();
 
  private:
-  // Worker threads, task queue, etc
+  void Work();
+
+ private:
+  size_t num_threads_{twist::ed::stdlike::thread::hardware_concurrency()};
+  detail::WaitGroup wait_group_;
+  UnboundedBlockingQueue<Task> blocking_queue_;
+  std::list<twist::ed::stdlike::thread> workers_;
 };
 
 }  // namespace tp
